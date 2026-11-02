@@ -1,26 +1,28 @@
 #!/usr/bin/env python3
-"""healing-comic 排版器 v3：复刻模式（xhs）+ 海报模式（poster）。
+"""healing-comic 排版器 v4：复刻模式两代（xhs / xhs2）+ 海报模式（poster）。
 
-xhs 模式按对参考帖《毁掉关系的八种做法》8 张原图的逐像素测量复刻：
-- 画布 1080×1440（原图 1080×1447，差 7px 忽略）
-- 整页满版插画，画到四边（底部无白边）；顶部 ~12% 干净暖纸条放标题
-- 封面：主标题 76px Medium 居中两行 + 钩子句 34px（原帖封面为 63px 居中 + 大字区）
-- 内容页：标题 54px Medium 居中一行 + 副题 30px（原帖 57-66px 居中）
-- 气泡：白色、深棕黑 4px 描边，置于画面中部（原帖对白均画在场景内）
-- 无页眉小标签、无页码、无页脚（原帖均无；署名放正文配文）
-- 色板取自原图：纸 #F5F1E8 / 蜜桃 #F0D1C0 / 棕 #A48476 / 墨 #301412
+xhs2 模式 = 复刻 2.0，依据 ocr_layout.py 对 8 张原图的 OCR + 逐像素测量
+（references/layout-xhs8.json）：
+- 画布 1080×1447（与原图完全一致）
+- 结构：两段式 —— 顶部标签(66px Medium 居中, cy≈0.073) → 上半场场景+气泡
+  → 中幅点题句(56px Medium 居中, cy≈0.568) → 下半场场景+气泡
+- 气泡：白底 + 墨色 3px 描边的微扰椭圆（手绘云朵感），锚点取自原帖
+  对白文字框中心的实测比例坐标，字号 34px 行距 44px
+- 墨色实测 #32150D 附近，纸纹由底图自带（底图 = 原帖去字编辑图）
 
+xhs 模式 = 复刻 1.0（单场景 + 顶部标题/副题 + 中部气泡带），保留作对照。
 poster 模式 = v2（taste-skill 审校版），供竖版知识卡使用。
 
 用法:
-  python3 compose.py spec.json --layout xhs --font r.ttf --font-medium m.ttf \
-      --art-root examples --outdir examples/pages-xhs --html --contact-sheet
+  python3 compose.py spec.json --layout xhs2 --font r.ttf --font-medium m.ttf \
+      --art-root examples --outdir examples/pages-xhs2 --html --contact-sheet
 """
 from __future__ import annotations
 
 import argparse
 import html
 import json
+import math
 import os
 import sys
 from pathlib import Path
@@ -30,14 +32,19 @@ try:
 except ImportError:
     sys.exit("需要 Pillow：python3 -m pip install Pillow")
 
-W, H = 1080, 1440
+W, H = 1080, 1440            # xhs v1 / poster 画布
+XHS2 = (1080, 1447)          # xhs2 画布 = 原图尺寸
 MARGIN = 72
-CREAM = "#F5F1E8"                # 实测暖纸底
-INK = "#301412"                  # 实测墨色（近黑深棕）
+CREAM = "#F5F1E8"            # 实测暖纸底
+INK = "#301412"              # 实测墨色（近黑深棕）
 MUTED = "#7A6A63"
 BUBBLE = "#FFFFFF"
 CLOSERS = "，。！？、；：）」』】…～,.!?;:)]}"
 MAXW = W - 2 * MARGIN
+
+# xhs2 版式常量（references/layout-xhs8.json 实测均值）
+LABEL_CY = 0.073             # 标签中心 y（0.063–0.095）
+REVEAL_CY = 0.568            # 点题句中心 y（0.560–0.606）
 
 
 def load(env: str, explicit: str | None, fallback: str | None = None) -> str:
@@ -69,7 +76,7 @@ def wrap(text: str, font, draw, max_width: int) -> list[str]:
 
 
 def draw_bubble(draw, lines, font, y_top: int = 470) -> None:
-    """复刻原帖气泡：白底 + 深墨 4px 描边，画面中部，尾巴指向下方角色。"""
+    """xhs v1 气泡：白底 + 深墨 4px 描边圆角矩形，画面中部。"""
     pad_x, pad_y, lh = 52, 38, 68
     x0, x1 = 90, W - 90
     body_h = pad_y * 2 + lh * len(lines)
@@ -85,15 +92,43 @@ def draw_bubble(draw, lines, font, y_top: int = 470) -> None:
                   font=font, fill=INK)
 
 
+def _wobble_ellipse(cx: float, cy: float, rx: float, ry: float, seed: int):
+    """微扰椭圆：模拟原帖手绘云朵气泡（实测形状充实率 0.5–0.68）。"""
+    pts = []
+    n = 36
+    for i in range(n):
+        th = 2 * math.pi * i / n
+        w = 1 + 0.035 * math.sin(th * 3 + seed) + 0.018 * math.sin(th * 5 + seed * 2)
+        pts.append((cx + rx * w * math.cos(th), cy + ry * w * math.sin(th)))
+    return pts
+
+
+def draw_bubble2(draw, lines, font, anchor, canvas, seed: int = 3) -> None:
+    """xhs2 气泡：白底 + 墨色 3px 描边微扰椭圆；anchor=文字中心（比例坐标）。"""
+    cx = anchor[0] * canvas[0]
+    cy = anchor[1] * canvas[1]
+    lh = 44
+    wid = max((draw.textlength(t, font=font) for t in lines), default=0)
+    rx = wid / 2 + 28
+    ry = len(lines) * lh / 2 + 22
+    pts = _wobble_ellipse(cx, cy, rx, ry, seed)
+    draw.polygon(pts, fill=BUBBLE)
+    draw.line(pts + [pts[0]], fill=INK, width=3, joint="curve")
+    for i, t in enumerate(lines):
+        yc = cy - len(lines) * lh / 2 + (i + 0.5) * lh
+        draw.text((cx, yc), t, font=font, fill=INK, anchor="mm")
+
+
 def render(item: dict, art_root: Path, outdir: Path, fonts: dict,
            index: int, layout: str) -> Path:
     art = art_root / item["art"]
     if not art.is_file():
         sys.exit(f"缺少底图：{art}")
-    im = ImageOps.fit(Image.open(art).convert("RGB"), (W, H),
+    mode = item.get("layout", layout)
+    canvas = XHS2 if mode.startswith("xhs2") else (W, H)
+    im = ImageOps.fit(Image.open(art).convert("RGB"), canvas,
                       method=Image.LANCZOS, centering=(0.5, 0.5))
     draw = ImageDraw.Draw(im)
-    mode = item.get("layout", layout)
 
     title = item.get("title", "")
     if isinstance(title, list):
@@ -104,25 +139,53 @@ def render(item: dict, art_root: Path, outdir: Path, fonts: dict,
 
     problems: list[str] = []
 
-    if mode == "xhs-cover":
+    if mode in ("xhs-cover", "xhs2-cover"):
         # 封面：76px Medium 居中（可两行）+ 34px 钩子句，全部落在顶部纸条
         y = 64
         for i, line in enumerate(title_lines[:2]):
-            draw.text(((W - draw.textlength(line, font=fonts['cover'])) / 2,
+            draw.text(((canvas[0] - draw.textlength(line, font=fonts['cover'])) / 2,
                        y + i * 100), line, font=fonts['cover'], fill=INK,
                       stroke_width=3, stroke_fill=CREAM)
         y = 64 + len(title_lines[:2]) * 100 + 26
         if subtitle:
-            draw.text(((W - draw.textlength(subtitle, font=fonts['hook'])) / 2, y),
+            draw.text(((canvas[0] - draw.textlength(subtitle, font=fonts['hook'])) / 2, y),
                       subtitle, font=fonts['hook'], fill=MUTED,
                       stroke_width=2, stroke_fill=CREAM)
         if len(title_lines) > 2:
             problems.append("封面标题超过两行")
         for line in title_lines[:2]:
-            if draw.textlength(line, font=fonts['cover']) > W - 120:
+            if draw.textlength(line, font=fonts['cover']) > canvas[0] - 120:
                 problems.append(f"封面标题行超宽：{line}")
+    elif mode == "xhs2":
+        # 两段式复刻：标签 → 上半场气泡 → 点题句 → 下半场气泡（锚点=原帖实测）
+        label = item.get("label", "")
+        draw.text((canvas[0] / 2, LABEL_CY * canvas[1]), label,
+                  font=fonts['label'], fill=INK, anchor="mm",
+                  stroke_width=2, stroke_fill=CREAM)
+        if item.get("reveal"):
+            draw.text((canvas[0] / 2, REVEAL_CY * canvas[1]), item["reveal"],
+                      font=fonts['reveal'], fill=INK, anchor="mm",
+                      stroke_width=2, stroke_fill=CREAM)
+        for bi, b in enumerate(item.get("bubbles", [])):
+            draw_bubble2(draw, b["lines"], fonts['bub'], b["anchor"], canvas,
+                         seed=index * 10 + bi * 3 + 3)
+        # gate
+        if draw.textlength(label, font=fonts['label']) > canvas[0] - 120:
+            problems.append(f"标签超宽：{label}")
+        if item.get("reveal") and \
+                draw.textlength(item["reveal"], font=fonts['reveal']) > canvas[0] - 120:
+            problems.append(f"点题句超宽：{item['reveal']}")
+        for b in item.get("bubbles", []):
+            wpx = max(draw.textlength(t, font=fonts['bub']) for t in b["lines"]) + 56
+            if wpx > 470:
+                problems.append(f"气泡过宽（{int(wpx)}px）：{b['lines']}")
+            if len(b["lines"]) > 3:
+                problems.append(f"气泡超过 3 行：{b['lines']}")
+            cx = b["anchor"][0] * canvas[0]
+            if cx - wpx / 2 < 8 or cx + wpx / 2 > canvas[0] - 8:
+                problems.append(f"气泡出界：{b['lines']}")
     elif mode == "xhs":
-        # 内容页：54px Medium 居中一行 + 30px 副题
+        # v1 内容页：54px Medium 居中一行 + 30px 副题
         draw.text(((W - draw.textlength(title_lines[0], font=fonts['xhs_title'])) / 2, 84),
                   title_lines[0], font=fonts['xhs_title'], fill=INK,
                   stroke_width=3, stroke_fill=CREAM)
@@ -150,8 +213,8 @@ def render(item: dict, art_root: Path, outdir: Path, fonts: dict,
         if draw.textlength(title_lines[0], font=fonts['p_title']) > MAXW:
             problems.append(f"标题超宽：{title_lines[0]}")
 
-    # 气泡（xhs / poster 共用；poster 在底部，xhs 在中部）
-    if item.get("bubble"):
+    # v1/poster 气泡（xhs2 在自己的分支里画）
+    if item.get("bubble") and not mode.startswith("xhs2"):
         bubble_lines: list[str] = []
         bf = fonts['bubble']
         for part in item["bubble"]:
@@ -175,10 +238,15 @@ def write_html(outdir: Path, files: list[Path], items: list[dict],
                heading: str, subheading: str) -> Path:
     cards = []
     for p, it in zip(files, items):
-        t = it.get("title")
-        cap = " ".join(t) if isinstance(t, list) else (t or "")
-        sub = it.get("subtitle", "")
-        line = " ".join(it.get("bubble", []))
+        if it.get("label"):
+            cap = it.get("label", "")
+            sub = it.get("reveal", "")
+            line = " / ".join(" ".join(b["lines"]) for b in it.get("bubbles", []))
+        else:
+            t = it.get("title")
+            cap = " ".join(t) if isinstance(t, list) else (t or "")
+            sub = it.get("subtitle", "")
+            line = " ".join(it.get("bubble", []))
         cards.append(
             f'<figure><img src="{html.escape(p.name)}" alt="{html.escape(cap)}">'
             f"<figcaption><b>{html.escape(cap)}</b>"
@@ -214,7 +282,6 @@ def write_contact_sheet(outdir: Path, files: list[Path]) -> Path:
     cols = min(3, len(files))
     rows = (len(files) + cols - 1) // cols
     sheet = Image.new("RGB", (tw * cols, th * rows), "#FFFFFF")
-    d = ImageDraw.Draw(sheet)
     for i, p in enumerate(files):
         im = ImageOps.fit(Image.open(p).convert("RGB"), (tw, th - 24),
                           method=Image.LANCZOS)
@@ -232,12 +299,12 @@ def main() -> None:
     ap.add_argument("--font-medium")
     ap.add_argument("--art-root", type=Path, default=None)
     ap.add_argument("--outdir", type=Path, default=None)
-    ap.add_argument("--layout", choices=["xhs", "poster"], default="xhs",
+    ap.add_argument("--layout", choices=["xhs", "xhs2", "poster"], default="xhs2",
                     help="spec 未逐页指定 layout 时使用的默认模式")
     ap.add_argument("--html", action="store_true")
     ap.add_argument("--contact-sheet", action="store_true")
     ap.add_argument("--heading", default="引导型恋人，从不做的 8 件事")
-    ap.add_argument("--subheading", default="复刻《毁掉关系的八种做法》版式 · 1080×1440")
+    ap.add_argument("--subheading", default="复刻《毁掉关系的八种做法》版式 · 1080×1447")
     a = ap.parse_args()
 
     spec = a.spec.resolve()
@@ -254,6 +321,9 @@ def main() -> None:
     fonts = {
         'cover': ImageFont.truetype(med, 76),
         'hook': ImageFont.truetype(reg, 34),
+        'label': ImageFont.truetype(med, 66),
+        'reveal': ImageFont.truetype(med, 56),
+        'bub': ImageFont.truetype(med, 34),
         'xhs_title': ImageFont.truetype(med, 54),
         'xhs_sub': ImageFont.truetype(reg, 30),
         'p_title': ImageFont.truetype(med, 80),
