@@ -31,6 +31,15 @@ storyboard  layout.json  art/     pages/       .mp4
 
 ## A. 内容规划（画图之前做完，做成两个文档）
 
+### A0. 连载拆解（系列模式：一本书拆成多批）
+
+单篇讲 4–8 个点（A1）；要吃下整本书（13 章 104 条 / 45 问）就走连载：
+1. **内容地图** `references/guide-map.md`：`## 第NN批 主题 | 源: 章节或 Q 范围 | 状态: ready|skeleton`，ready 批次逐页写 `label/reveal/trigger/guide/scene/source`。原料优先用《核心问答手册》（45 问自带判断/第一句/两种回应/红线），比啃 PDF 原文快。
+2. **拆解器** `python3 scripts/series_plan.py --map references/guide-map.md --plan references/series-plan.md --spec-dir examples/`：gate（每批 ≤10 张对齐生图单轮额度、标签 ≤8 字、点题 ≤14 字、台词行 ≤12 字）+ 自动锚点（触发拍上 y0.15、引导拍下 y0.65、左右 0.22/0.80 随页交替）+ 直出 `spec-seriesNN.json`。
+3. 分镜表里**锚点列即角色方位**：触发气泡在哪侧，布布就画在哪侧；引导句在另一侧下拍。
+4. 每批一个发布文案（A6），封面 title 两行 + 页码钩子（「第 3 页那句话…」）。
+范例：第 01 批《底层逻辑与第一课》＝`guide-map.md` + `spec-series01.json` + `copy-系列01-*.md`。
+
 ### A1. 选题：最小可用主题
 
 不要「把整本书做成漫画」。13 章 104 条 → 一次只讲 **4–8 个点**。先问：**读者看完这一套能记住哪一句？** 写不出这句话就换角度。
@@ -232,6 +241,7 @@ python3 scripts/ocr_layout.py --verify-page pages/复刻02.png --spec spec.json
 | `pages-xhs2/` + `art-xhs2/` | 复刻 2.0 | B1 四步完整流程（原帖场景去字） |
 | `pages-xhs3/` + `art-xhs3/` | **复刻 3.0 ⭐** | A4 触发句→引导句 + 场景换装 + 锚点节奏 + `复刻_轮播视频.mp4`（E 阶段） |
 | `spec-xhs8c.json` | 3.0 的 spec | label/reveal/bubbles+anchor 字段写法 |
+| `guide-map.md` + `spec-series01.json` + `copy-系列01-*.md` | **连载 13 批 ⭐** | A0 连载拆解：内容地图→拆解器→每批 10 张 |
 | `art-original/` | 原创角色 | 商用替代 |
 
 完整调研（14 个 GitHub comic skill）、案例库、转换方案、3.7 与复刻版全套文案设计见 `references/`；测量数据见 `references/layout-xhs8.json`。
