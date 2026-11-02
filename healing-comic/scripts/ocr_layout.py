@@ -27,6 +27,11 @@ PUNCT = "，。！？…·、；：「」『』（）()【】,.!?~～*＊ "
 def norm(s):
     return "".join(ch for ch in s if ch not in PUNCT and not ch.isspace())
 
+
+def similar(a: str, b: str) -> float:
+    import difflib
+    return difflib.SequenceMatcher(None, a, b).ratio()
+
 _OCR = None
 
 def get_ocr():
@@ -222,20 +227,20 @@ def verify_page(path, spec_path):
     ok = True
     expected = []
     if item.get("label"):
-        expected.append(("label", "".join(item["label"]) if isinstance(item["label"], list) else item["label"]))
+        expected.append(("label", "".join(item["label"]) if isinstance(item["label"], list) else item["label"], None))
     if item.get("reveal"):
-        expected.append(("reveal", item["reveal"]))
+        expected.append(("reveal", item["reveal"], None))
     for i, bub in enumerate(item.get("bubbles", [])):
-        expected.append(("bubble%d" % i, "".join(bub["lines"])))
+        expected.append(("bubble%d" % i, "".join(bub["lines"]), bub.get("anchor")))
     t = item.get("title")
     if t:
-        expected.append(("title", "".join(t) if isinstance(t, list) else t))
+        expected.append(("title", "".join(t) if isinstance(t, list) else t, None))
     if item.get("subtitle"):
-        expected.append(("subtitle", item["subtitle"]))
+        expected.append(("subtitle", item["subtitle"], None))
     for i, part in enumerate(item.get("bubble", []) or []):
-        expected.append(("legacy_bubble%d" % i, part))
+        expected.append(("legacy_bubble%d" % i, part, None))
     used = set()
-    for role, text in expected:
+    for role, text, anchor in expected:
         want = norm(text)
         hit = None
         for j, b in enumerate(boxes):
@@ -243,6 +248,10 @@ def verify_page(path, spec_path):
                 continue
             got = norm(b["text"])
             if want in got or got in want:
+                hit = (j, b)
+                break
+            # OCR 形近字误读容忍（于/乎、己/已等）：长度差 ≤2 且相似度 ≥0.8
+            if len(got) >= 3 and abs(len(got) - len(want)) <= 2 and similar(want, got) >= 0.8:
                 hit = (j, b)
                 break
         if hit is None:
@@ -258,10 +267,41 @@ def verify_page(path, spec_path):
         if role == "reveal" and not (0.48 <= cy <= 0.68):
             ok = False
             print("  FAIL [%s] 位置 y=%.2f 应在中幅" % (role, cy))
+        if anchor:
+            bx = (b["x0"] + b["x1"]) / 2.0 / W
+            if abs(bx - anchor[0]) > 0.08 or abs(cy - anchor[1]) > 0.08:
+                ok = False
+                print("  FAIL [%s] 锚点偏离: 实测(%.2f,%.2f) spec(%.2f,%.2f)"
+                      % (role, bx, cy, anchor[0], anchor[1]))
+            else:
+                print("  PASS [%s] 锚点(%.2f,%.2f)" % (role, bx, cy))
+                continue
         print("  PASS [%s] %s @y=%.2f" % (role, text[:14], cy))
+    def _fragment_of(got: str, texts: list) -> bool:
+        """OCR 把一行拆成多框/形近误读时，剩余片段是某预期文本连续窗口的近似。"""
+        for t in texts:
+            tn = norm(t)
+            if 3 <= len(got) <= len(tn):
+                for i in range(len(tn) - len(got) + 1):
+                    if similar(got, tn[i:i + len(got)]) >= 0.6:
+                        return True
+        return False
+
+    exp_texts = [t for _, t, _a in expected]
     for j, b in enumerate(boxes):
         if j not in used and b["score"] >= 0.6 and len(norm(b["text"])) >= 2:
-            frag = any(norm(b["text"]) in norm(t) for _, t in expected)
+            frag = any(norm(b["text"]) in norm(t) for t in exp_texts)
+            if not frag:
+                frag = _fragment_of(norm(b["text"]), exp_texts)
+            if not frag:
+                # 与已匹配框的高度重叠重读也不算多出文字
+                for k in used:
+                    u = boxes[k]
+                    vy = min(b["y1"], u["y1"]) - max(b["y0"], u["y0"])
+                    vx = min(b["x1"], u["x1"]) - max(b["x0"], u["x0"])
+                    if vy > 0.5 * (b["y1"] - b["y0"]) and vx > 0:
+                        frag = True
+                        break
             if not frag:
                 ok = False
                 print("  FAIL 多出文字:", b["text"], "@y=%.2f" % ((b["y0"] + b["y1"]) / 2.0 / H))

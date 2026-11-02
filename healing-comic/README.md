@@ -11,7 +11,7 @@
 1. **GitHub 上有没有漫画制作的 skills** → 有，14 个，逐个读了 `SKILL.md`。结论与推荐组合见 [`references/github-skills.md`](references/github-skills.md)。
 2. **这份 PDF 怎么改成那种简单的可爱治愈漫画** → 不是给 20 张横版文字卡换个画风，而是砍到 6–9 页竖版、一页一个动作一句台词。逐页映射表、文案、发布清单见 [`references/conversion-plan.md`](references/conversion-plan.md)。
 3. **自己找的案例** → 笔记原页拆解 + 8 张原图直链 + 现成生图提示词 + IP 设定 + 同赛道账号 + GitHub 成品 + 平台合规，见 [`references/cases.md`](references/cases.md)。
-4. **复刻版样张 2.0**（用 `scripts/ocr_layout.py` 对《毁掉关系的八种做法》8 张原图做中文 OCR + 逐像素测量，量出「标签→上半场对白→中幅点题句→下半场对白」的两段式结构；底图=原帖图「去字编辑」，文字按实测锚点落位）→ 9 页见 [`examples/pages-xhs2/preview.html`](examples/pages-xhs2/preview.html)，测量数据（[`references/layout-xhs8.json`](references/layout-xhs8.json)）、9 页分镜与发布文案在 [`references/copy-复刻版-8件事.md`](references/copy-复刻版-8件事.md)。1.0 单场景版保留在 [`examples/pages-xhs/`](examples/pages-xhs/) 作对照。
+4. **复刻版样张 3.0**（`scripts/ocr_layout.py` 对《毁掉关系的八种做法》8 张原图做中文 OCR + 逐像素测量，量出「标签→上半场对白→中幅点题句→下半场对白」两段式结构；3.0 在此骨架上把场景换成引导型动作：对白为「触发句→引导句」两拍，8 张底图按引导行为重画，锚点节奏标准化并逐页验收）→ 9 页见 [`examples/pages-xhs3/preview.html`](examples/pages-xhs3/preview.html)，测量数据（[`references/layout-xhs8.json`](references/layout-xhs8.json)）、版本史与发布文案在 [`references/copy-复刻版-8件事.md`](references/copy-复刻版-8件事.md)。2.0（原帖场景复刻）留档 [`examples/pages-xhs2/`](examples/pages-xhs2/)，1.0 在 [`examples/pages-xhs/`](examples/pages-xhs/)。
 
 复刻其它帖子：`ocr_layout.py --refs 原图目录 --out layout.json` 量版式 → 底图做「去字编辑」→ `compose.py --layout xhs2`（spec 抄锚点）→ `ocr_layout.py --verify-page` 逐页验收。
 5. **其它样张** → 四条底线 6 页 [`examples/pages/`](examples/pages/)、3.7 承诺篇 3 页 [`examples/pages-37/`](examples/pages-37/)，文案设计在 [`references/copy-3.7-承诺要小而可兑现.md`](references/copy-3.7-承诺要小而可兑现.md)。
