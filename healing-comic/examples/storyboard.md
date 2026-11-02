@@ -3,7 +3,7 @@
 6 页 · 1080×1440 竖版 · 画风参考「一二布布」（白熊猫 + 奶茶棕熊）；原创替代版在 `art-original/`。
 `art/` 为无字底图，`pages/` 为脚本填字后的成品。全部中文由 `scripts/compose.py` 排版，生图阶段零文字。
 
-| # | 源文出处 | 一个动作（SCENE） | 顶部标题 | 气泡台词 | 底部金句 / 出处 |
+| # | 源文出处 | 一个动作（SCENE） | 大标题 / 副标题 | 气泡台词 | 页脚出处 |
 |---|---|---|---|---|---|
 | 01 | 导言 | 两只熊盖同一条蓝毯子，两只冒热气的杯子，一盏落地灯 | 真正的引导型恋人 / 从来不是当爹当妈 | 把选择权还回去，再在旁边站得稳一点。 | 内容出自《引导型恋人指南》v1.1.0 · 导言 |
 | 02 | 四条底线 1；2.6 | 布布抬手轻轻摇头想独处；一二把手机扣在桌上，笑着点头 | 他说想一个人待着 / 我就把手机扣下 | 好，那我不加安排。/ 下周三你有空再告诉我。 | 2.6 第一句 · 对方可以随时说不想聊、不想被安排 |
@@ -44,6 +44,7 @@ no watermark, no logo.
 cd healing-comic
 python3 scripts/compose.py examples/spec.json \
   --font /path/to/LXGWWenKai-Regular.ttf \
+  --font-medium /path/to/LXGWWenKai-Medium.ttf \
   --art-root examples \
   --outdir examples/pages --html --contact-sheet
 ```

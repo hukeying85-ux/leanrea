@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
-"""healing-comic 排版器：无字底图 + spec.json -> 1080x1440 小红书漫画成品页。
+"""healing-comic 排版器 v2（taste-skill 审校版）：无字底图 + spec.json -> 1080x1440 成品页。
+
+本版按 Leonxlnx/taste-skill 的 house rules 重排：
+- 删页眉小标签（eyebrow/pill 一律禁止）——出处信息并入页脚
+- 删右上角页码（index numbering 禁止；轮播位置由平台显示）
+- 「一个超大 + 一个小」做视觉工作：大标题 80px Medium；支持句 42px；
+  台词是 statement（气泡内左对齐 46px）；页脚 26px
+- 全部左对齐，共享同一条左边线（72px 网格）
+- 无渐变、无阴影、无细线装饰；文字奶油描边光环 = 唯一允许的「图上文字中性纱」
+- --gate：渲染后实测字宽/行数，超限直接报错（inspect 的本地等价物）
 
 只依赖 Pillow，不联网、不调模型、不覆盖 art/ 原图。
-所有中文由这里绘制，生图模型永远不写字。
 
 用法:
-  python3 compose.py spec.json --font /path/to/CJK.ttf \
+  python3 compose.py spec.json --font regular.ttf --font-medium medium.ttf \
       --art-root examples --outdir examples/pages --html --contact-sheet
 """
 from __future__ import annotations
@@ -23,40 +31,25 @@ except ImportError:
     sys.exit("需要 Pillow：python3 -m pip install Pillow")
 
 W, H = 1080, 1440
+MARGIN = 72                      # 唯一外边距，左右共享同一条左边线
 CREAM = "#FFF8EE"
 INK = "#4A3B32"
 MUTED = "#9A8B7E"
-LINE = "#6B5748"
 BUBBLE = "#FFFFFF"
-ACCENT = "#E8B44A"
 CLOSERS = "，。！？、；：）」』】…～,.!?;:)]}"
 
-FONT_CANDIDATES = [
-    os.environ.get("COMIC_FONT", ""),
-    "~/.fonts/LXGWWenKai-Regular.ttf",
-    "~/Library/Fonts/LXGWWenKai-Regular.ttf",
-    "~/Library/Fonts/PingFang.ttc",
-    "/System/Library/Fonts/PingFang.ttc",
-    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
-    "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
-    "C:/Windows/Fonts/msyh.ttc",
-    "C:/Windows/Fonts/simhei.ttf",
-]
+MAXW = W - 2 * MARGIN            # 936：标题/支持句/页脚的统一measure
 
 
-def find_font(explicit: str | None) -> str:
-    for p in [explicit or "", *FONT_CANDIDATES]:
+def load(env: str, explicit: str | None, fallback: str | None = None) -> str:
+    for p in [explicit or "", os.environ.get(env, ""), fallback or ""]:
         if p and Path(os.path.expanduser(p)).is_file():
             return os.path.expanduser(p)
-    sys.exit(
-        "找不到中文字体。请用 --font 指定一个 .ttf/.ttc，或设 COMIC_FONT。\n"
-        "推荐霞鹜文楷（SIL OFL 1.1）：见 scripts/fetch_font.sh"
-    )
+    return ""
 
 
-def wrap(text: str, font: ImageFont.FreeTypeFont, draw: ImageDraw.ImageDraw,
-         max_width: int) -> list[str]:
-    """中文按字折行，行首不出现收尾标点。"""
+def wrap(text: str, font, draw, max_width: int) -> list[str]:
+    """中文按字折行；行首不出现收尾标点。"""
     lines, cur = [], ""
     for ch in text:
         if ch == "\n":
@@ -65,7 +58,7 @@ def wrap(text: str, font: ImageFont.FreeTypeFont, draw: ImageDraw.ImageDraw,
             continue
         trial = cur + ch
         if cur and draw.textlength(trial, font=font) > max_width:
-            if ch in CLOSERS:            # 标点跟着上一行，不落单到行首
+            if ch in CLOSERS:
                 cur = trial
             else:
                 lines.append(cur)
@@ -77,29 +70,28 @@ def wrap(text: str, font: ImageFont.FreeTypeFont, draw: ImageDraw.ImageDraw,
     return lines or [""]
 
 
-def draw_bubble(draw: ImageDraw.ImageDraw, lines: list[str],
-                font: ImageFont.FreeTypeFont, bottom: int = 1348) -> None:
-    pad_x, pad_y, lh = 46, 34, 66
-    box_w = W - 152
+def draw_bubble(draw, lines, font) -> None:
+    """白色对话气泡：comic 媒介自身的语义元素（非 UI 分隔线），
+    ink 描边、文字左对齐、尾巴指向下方角色。"""
+    pad_x, pad_y, lh = 46, 36, 66
+    x0, x1 = MARGIN, W - MARGIN
+    y1 = 1332
     body_h = pad_y * 2 + lh * len(lines)
-    x0, x1 = 76, 76 + box_w
-    y1, y0 = bottom, bottom - body_h
+    y0 = y1 - body_h
 
-    # 小尾巴（先画，气泡盖住底边，只露出尖端）
-    tx = 250
-    draw.polygon([(tx, y0 + 12), (tx + 26, y0 - 34), (tx + 96, y0 + 12)],
-                 fill=BUBBLE, outline=LINE, width=5)
-    draw.rounded_rectangle([x0, y0, x1, y1], radius=42,
-                           fill=BUBBLE, outline=LINE, width=5)
-
+    # 尾巴：先画，气泡矩形盖住其上缘，只露出指向角色的尖端
+    tx = x0 + 96
+    draw.polygon([(tx, y0 + 10), (tx + 30, y0 - 42), (tx + 104, y0 + 10)],
+                 fill=BUBBLE, outline=INK, width=4)
+    draw.rounded_rectangle([x0, y0, x1, y1], radius=36,
+                           fill=BUBBLE, outline=INK, width=4)
     for i, line in enumerate(lines):
-        tw = draw.textlength(line, font=font)
-        draw.text(((W - tw) / 2, y0 + pad_y + i * lh), line,
+        draw.text((x0 + pad_x, y0 + pad_y + i * lh), line,
                   font=font, fill=INK)
 
 
 def render(item: dict, art_root: Path, outdir: Path,
-           font_path: str, index: int, total: int) -> Path:
+           f_title, f_sub, f_bubble, f_footer, index: int) -> Path:
     art = art_root / item["art"]
     if not art.is_file():
         sys.exit(f"缺少底图：{art}")
@@ -107,78 +99,93 @@ def render(item: dict, art_root: Path, outdir: Path,
                       method=Image.LANCZOS, centering=(0.5, 0.5))
     draw = ImageDraw.Draw(im)
 
-    f_kicker = ImageFont.truetype(font_path, 30)
-    f_title = ImageFont.truetype(font_path, 66)
-    f_bubble = ImageFont.truetype(font_path, 46)
-    f_footer = ImageFont.truetype(font_path, 24)
+    title = item.get("title", "")
+    if isinstance(title, list):
+        title = title[0] if title else ""
+    subtitle = item.get("subtitle", "")
 
-    # 左上小标签
-    draw.text((76, 78), item.get("kicker", ""), font=f_kicker, fill=MUTED)
-    # 右上页码
-    badge = f"{index:02d} / {total:02d}"
-    draw.text((W - 76 - draw.textlength(badge, font=f_kicker), 78),
-              badge, font=f_kicker, fill=MUTED)
+    # --- 大标题：一行超大，taste: display leading 0.85–1.05 ---
+    y = 104
+    draw.text((MARGIN, y), title, font=f_title, fill=INK,
+              stroke_width=3, stroke_fill=CREAM)          # 唯一允许的图上文字纱
+    ty = y + (draw.textbbox((MARGIN, y), title, font=f_title)[3]
+              if title else 0)
 
-    # 大标题（最多两行）
-    title = item.get("title", [])
-    y = 140
-    for i, line in enumerate(title[:2]):
-        draw.text((76, y + i * 86), line, font=f_title, fill=INK)
-    underline_y = y + len(title[:2]) * 86 + 6
-    draw.line([(78, underline_y), (150, underline_y - 4),
-               (232, underline_y + 3), (300, underline_y - 2)],
-              fill=ACCENT, width=7, joint="curve")
+    # --- 支持句：直接在大标题下方（taste: one supporting sentence）---
+    if subtitle:
+        draw.text((MARGIN, ty + 34), subtitle, font=f_sub, fill=MUTED,
+                  stroke_width=2, stroke_fill=CREAM)
 
-    # 气泡：数组里的每一项是作者指定的一行，必要时再各自折行
+    # --- 台词气泡 ---
     bubble_lines: list[str] = []
     for part in item.get("bubble", []):
-        bubble_lines.extend(wrap(part, f_bubble, draw, W - 152 - 92))
+        bubble_lines.extend(wrap(part, f_bubble, draw,
+                                 W - 2 * MARGIN - 92))
     draw_bubble(draw, bubble_lines, f_bubble)
 
-    # 页脚出处
-    draw.text((76, H - 48), item.get("footer", ""), font=f_footer, fill=MUTED)
+    # --- 页脚：designed close，含出处（旧版 kicker 并入此处）---
+    footer = item.get("footer", "")
+    if item.get("kicker"):                                  # 向后兼容 v1 spec
+        footer = f"{item['kicker']} · {footer}" if footer else item["kicker"]
+    draw.text((MARGIN, 1364), footer, font=f_footer, fill=MUTED,
+              stroke_width=2, stroke_fill=CREAM)
+
+    # --- gate：taste inspect 的本地等价物，超限即 FAIL ---
+    problems = []
+    if draw.textlength(title, font=f_title) > MAXW:
+        problems.append(f"标题超宽 {int(draw.textlength(title, font=f_title))}px > {MAXW}px：{title}")
+    if draw.textlength(subtitle, font=f_sub) > MAXW:
+        problems.append(f"支持句超宽：{subtitle}")
+    if draw.textlength(footer, font=f_footer) > MAXW:
+        problems.append(f"页脚超宽：{footer}")
+    if len(bubble_lines) > 3:
+        problems.append(f"气泡超过 3 行（{len(bubble_lines)} 行）")
+    if problems:
+        sys.exit(f"[gate FAIL] 第 {index} 页：\n  - " + "\n  - ".join(problems))
 
     out = outdir / item.get("out", f"{index:02d}.png")
     im.save(out, "PNG")
     return out
 
 
-def write_html(outdir: Path, files: list[Path], items: list[dict]) -> Path:
+def write_html(outdir: Path, files: list[Path], items: list[dict],
+               heading: str, subheading: str) -> Path:
     cards = []
     for i, (p, it) in enumerate(zip(files, items), 1):
-        caption = " ".join(it.get("title", []))
+        cap = it.get("title", "")
+        sub = it.get("subtitle", "")
         line = " ".join(it.get("bubble", []))
+        foot = it.get("footer", "")
         cards.append(
-            f'<figure><img src="{html.escape(p.name)}" alt="{html.escape(caption)}">'
-            f'<figcaption><b>{i:02d} · {html.escape(caption)}</b><br>'
-            f'{html.escape(line)}<br><small>{html.escape(it.get("footer", ""))}</small>'
+            f'<figure><img src="{html.escape(p.name)}" alt="{html.escape(cap)}">'
+            f"<figcaption><b>{html.escape(cap)}</b>"
+            f"{'<br>' + html.escape(sub) if sub else ''}"
+            f"<br>{html.escape(line)}<br><small>{html.escape(foot)}</small>"
             f"</figcaption></figure>"
         )
     doc = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>healing-comic 样张 · 引导型恋人指南 四条底线</title>
+<title>{html.escape(heading)}</title>
 <style>
 body{{margin:0;background:#F3EDE3;color:#4A3B32;
  font-family:"LXGW WenKai","PingFang SC","Microsoft YaHei",sans-serif}}
-header{{padding:40px 24px 8px;text-align:center}}
-h1{{font-size:30px;margin:0 0 8px}}
+header{{padding:56px 24px 8px;text-align:left;max-width:1200px;margin:0 auto}}
+h1{{font-size:34px;margin:0 0 10px;font-weight:600}}
 header p{{margin:4px 0;color:#9A8B7E;font-size:15px}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
- gap:24px;max-width:1200px;margin:24px auto 60px;padding:0 24px}}
-figure{{margin:0;background:#fff;border-radius:18px;overflow:hidden;
- box-shadow:0 6px 22px rgba(74,59,50,.10)}}
+ gap:24px;max-width:1200px;margin:24px auto 64px;padding:0 24px}}
+figure{{margin:0;background:#FFFDF8;border:1px solid #E5DCCB}}
 img{{width:100%;display:block}}
-figcaption{{padding:14px 16px 18px;font-size:15px;line-height:1.7}}
+figcaption{{padding:14px 16px 18px;font-size:15px;line-height:1.7;text-align:left}}
 figcaption small{{color:#9A8B7E}}
 </style></head><body>
-<header><h1>把选择权还回去，再在旁边站得稳一点</h1>
-<p>《引导型恋人指南 v1.1.0》四条底线 · 6 页 · 1080×1440 · 画风参考「一二布布」（黄小B）</p>
-<p>中文由 scripts/compose.py 后期合成，生图阶段零文字 · 一二布布为黄小B 的 IP：发布署名并勾选 AI 标识；商用换 examples/art-original/ 原创版</p></header>
+<header><h1>{html.escape(heading)}</h1>
+<p>{html.escape(subheading)}</p></header>
 <div class="grid">{''.join(cards)}</div>
 </body></html>"""
     p = outdir / "preview.html"
     p.write_text(doc, encoding="utf-8")
-    (outdir / "index.html").write_text(doc, encoding="utf-8")  # 静态服务器默认页
+    (outdir / "index.html").write_text(doc, encoding="utf-8")
     return p
 
 
@@ -193,7 +200,7 @@ def write_contact_sheet(outdir: Path, files: list[Path]) -> Path:
                           method=Image.LANCZOS)
         x, y = (i % cols) * tw, (i // cols) * th
         sheet.paste(im, (x, y))
-        d.text((x + 8, y + th - 22), p.name, fill="#4A3B32")
+        d.text((x + 8, y + th - 22), p.name, fill=INK)
     out = outdir / "preview.jpg"
     sheet.save(out, "JPEG", quality=90)
     return out
@@ -201,14 +208,17 @@ def write_contact_sheet(outdir: Path, files: list[Path]) -> Path:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("spec", type=Path, help="spec.json 路径")
-    ap.add_argument("--font", help="中文 .ttf/.ttc 路径（也可用 COMIC_FONT）")
-    ap.add_argument("--art-root", type=Path, default=None,
-                    help="art/ 的根目录，默认 spec.json 所在目录")
-    ap.add_argument("--outdir", type=Path, default=None,
-                    help="输出目录，默认 spec 同级 pages/")
-    ap.add_argument("--html", action="store_true", help="生成 index.html 预览")
-    ap.add_argument("--contact-sheet", action="store_true", help="生成 preview.jpg")
+    ap.add_argument("spec", type=Path)
+    ap.add_argument("--font", help="中文 Regular .ttf/.ttc")
+    ap.add_argument("--font-medium", help="中文 Medium/Bold .ttf（标题与台词）")
+    ap.add_argument("--art-root", type=Path, default=None)
+    ap.add_argument("--outdir", type=Path, default=None)
+    ap.add_argument("--html", action="store_true")
+    ap.add_argument("--contact-sheet", action="store_true")
+    ap.add_argument("--heading", default="把选择权还回去，再在旁边站得稳一点")
+    ap.add_argument("--subheading",
+                    default="《引导型恋人指南 v1.1.0》四条底线 · 1080×1440 · "
+                            "画风参考「一二布布」（黄小B）· 中文由脚本合成")
     a = ap.parse_args()
 
     spec = a.spec.resolve()
@@ -216,13 +226,22 @@ def main() -> None:
     art_root = (a.art_root or spec.parent).resolve()
     outdir = (a.outdir or spec.parent / "pages").resolve()
     outdir.mkdir(parents=True, exist_ok=True)
-    font = find_font(a.font)
 
-    files = [render(it, art_root, outdir, font, i, len(items))
+    reg = load("COMIC_FONT", a.font)
+    med = load("COMIC_FONT_MEDIUM", a.font_medium, reg)
+    if not reg:
+        sys.exit("找不到中文字体：--font 指定 .ttf/.ttc，或设 COMIC_FONT")
+
+    f_title = ImageFont.truetype(med, 80)
+    f_sub = ImageFont.truetype(reg, 42)
+    f_bubble = ImageFont.truetype(med, 46)
+    f_footer = ImageFont.truetype(reg, 26)
+
+    files = [render(it, art_root, outdir, f_title, f_sub, f_bubble, f_footer, i)
              for i, it in enumerate(items, 1)]
-    print(f"[compose] {len(files)} pages -> {outdir}")
+    print(f"[compose] {len(files)} pages -> {outdir}  [gate] all pass")
     if a.html:
-        print(f"[compose] {write_html(outdir, [p for p in files], items)}")
+        print(f"[compose] {write_html(outdir, files, items, a.heading, a.subheading)}")
     if a.contact_sheet:
         print(f"[compose] {write_contact_sheet(outdir, files)}")
 

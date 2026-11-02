@@ -39,9 +39,10 @@ description: 把长文 / PDF / 指南转成小红书式「一二布布」可爱�
 | 角色 B（布布） | 奶茶棕小熊：略大一圈、圆耳、奶白口鼻、黑点眼、小鼻子；原作不戴围巾，别加 |
 | 线条 | 细而干净的近黑描边，无渐层、无阴影、无纹理 |
 | 色板 | 奶油底 #FFF8EE、蜜桃 #F6C9B4、焦糖 #D9A066、雾蓝 #A9C6D9、芥末 #E8B44A、字 #4A3B32 |
-| 构图 | 角色居中偏下，**上 1/3 与下 1/4 必须留白**给标题和气泡 |
-| 字体 | 霞鹜文楷 / 任意中文手写体，正文 44–48px，标题 62–70px |
-| 台词 | 每页 1–2 句，每句 ≤ 18 字，口语，不写术语 |
+| 构图 | 角色居中偏下，**上 1/3 与下 1/4 必须留白**给标题和气泡；文字全部左对齐，共享 72px 左边线 |
+| 版式 | **无页眉小标签、无页码、无装饰下划线**（eyebrow / index numbering / 装饰线，taste-skill 明令删除）；出处信息全部并入页脚 |
+| 字号 | 一个超大 + 一个小：大标题 80px Medium（带奶油描边光环）、支持句 42px、台词 46px Medium（气泡内**左对齐**）、页脚 26px |
+| 标题 | 大标题 ≤8 字一行；副标题 ≤14 字；台词 ≤18 字 × 最多 3 行；页脚一行 ≤36 字 |
 
 > ⚠️ **版权**：「一二和布布」是黄小 B 于 2018 年创作的受保护 IP。本技能提供两种模式：**高相似版**（`examples/art/`，按原作特征重绘，个人笔记可用，注意署名与平台 AI 标识）与**原创版**（`examples/art-original/` 的「白团子 + 阿棕」，商用 / 长期做号请用这套）。
 
@@ -95,7 +96,8 @@ no watermark, no logo.
 ```sh
 python3 scripts/compose.py spec.json \
   --font ~/fonts/LXGWWenKai-Regular.ttf \
-  --outdir pages --html --contact-sheet
+  --font-medium ~/fonts/LXGWWenKai-Medium.ttf \
+  --outdir pages --html --contact-sheet   # 渲染后自动 gate：超宽/超行直接报错
 ```
 脚本画：顶部小标签 + 大标题 + 手绘下划线 + 白色圆角气泡（带小尾巴）+ 页脚出处。自动按中文折行、字号自适应、保留 `art/` 原图。
 没有中文字体时先跑 `scripts/fetch_font.sh`，或设 `COMIC_FONT=/path/to/font.ttf`。
@@ -106,6 +108,10 @@ python3 scripts/compose.py spec.json \
 - **字数查**：台词 ≤18 字、标题 ≤20 字、配文 ≤1000 字、图片 ≤18 张（推荐 6–9 张）。
 - **合规查**：勾选平台「AI 生成合成内容」标识；署名原书 + 许可证；保留原书「不是心理治疗 / 危机先转介」免责句。
   小红书 2026-02 起要求 AI 图文主动标识，未标识会限制分发（见 `references/cases.md`）。
+
+## 版式依据（taste-skill 审校）
+
+排版规则对照 [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)（108k★，anti-slop 设计品味 skill）逐条审过：删 eyebrow 与页码、全左对齐、一个超大一个小、无渐变无阴影无细线、标题两行以内、图片上的文字用中性描边光环（其唯一允许的例外）、渲染后用 gate 实测字宽行数（inspect 的本地等价物）。对网页规则不适用的两条按媒介惯例保留：对话气泡的描边（漫画的语义元素，不是 UI 分隔线）与气泡尾巴。
 
 ## 风格为什么好抄（一二布布类漫画的量化拆解）
 

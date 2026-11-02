@@ -15,9 +15,9 @@
 
 ## 先看成品
 
-- 整套预览：[`examples/pages/preview.html`](examples/pages/preview.html)（浏览器直接打开）
+- 整套预览：[`examples/pages/preview.html`](examples/pages/preview.html)（浏览器直接打开，v2 版式：80px 大标题、左对齐、无页眉标签/页码）
 - 拼版缩略图：[`examples/pages/preview.jpg`](examples/pages/preview.jpg)
-- 单页成品：[`examples/pages/`](examples/pages/)
+- 单页成品：[`examples/pages/`](examples/pages/)；3.7 文案设计样张（3 页）：[`examples/pages-37/`](examples/pages-37/)
 - 无字底图（可换文案重新合成）：[`examples/art/`](examples/art/)
 
 样张内容取自《引导型恋人指南 v1.1.0》的「四条底线」，把 4 条各 200 字的条目压成 4 个动作 + 4 句口语；角色为**一二布布风高相似重绘**（用原版表情包当参考图 + 按原作特征修正）；商用 / 长期做号请换 `examples/art-original/` 的原创版「白团子 + 阿棕」。
