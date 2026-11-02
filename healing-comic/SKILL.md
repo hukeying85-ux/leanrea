@@ -148,4 +148,4 @@ python3 scripts/compose.py spec.json --font "$COMIC_FONT" \
 # 5) 打开 pages/preview.html 做四查
 ```
 
-完整调研、案例与本项目《引导型恋人指南》的逐页改造方案见 `references/`；已做好的 6 页样张见 `examples/`。
+完整调研、案例、逐页改造方案与 3.7 整套文案设计见 `references/`；已做好的样张见 `examples/`。
