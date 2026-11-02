@@ -11,7 +11,8 @@
 1. **GitHub 上有没有漫画制作的 skills** → 有，14 个，逐个读了 `SKILL.md`。结论与推荐组合见 [`references/github-skills.md`](references/github-skills.md)。
 2. **这份 PDF 怎么改成那种简单的可爱治愈漫画** → 不是给 20 张横版文字卡换个画风，而是砍到 6–9 页竖版、一页一个动作一句台词。逐页映射表、文案、发布清单见 [`references/conversion-plan.md`](references/conversion-plan.md)。
 3. **自己找的案例** → 笔记原页拆解 + 8 张原图直链 + 现成生图提示词 + IP 设定 + 同赛道账号 + GitHub 成品 + 平台合规，见 [`references/cases.md`](references/cases.md)。
-4. **还直接做了一套样张** → 6 页 1080×1440 成品 + 3.7「承诺要小而可兑现」文案设计样张 3 页，见 [`examples/pages/preview.html`](examples/pages/preview.html)；整套发布文案在 [`references/copy-3.7-承诺要小而可兑现.md`](references/copy-3.7-承诺要小而可兑现.md)。
+4. **复刻版样张**（按用户提供的《毁掉关系的八种做法》8 张原图逐像素测量后 1:1 复刻版式，文案换成「引导型恋人从不做的 8 件事」）→ 9 页见 [`examples/pages-xhs/preview.html`](examples/pages-xhs/preview.html)，测量数据与发布文案在 [`references/copy-复刻版-8件事.md`](references/copy-复刻版-8件事.md)。
+5. **其它样张** → 四条底线 6 页 [`examples/pages/`](examples/pages/)、3.7 承诺篇 3 页 [`examples/pages-37/`](examples/pages-37/)，文案设计在 [`references/copy-3.7-承诺要小而可兑现.md`](references/copy-3.7-承诺要小而可兑现.md)。
 
 ## 先看成品
 

@@ -1,0 +1,66 @@
+[
+  {
+    "art": "art-xhs/00-cover.png",
+    "layout": "xhs-cover",
+    "title": ["引导型恋人", "从不做的 8 件事"],
+    "subtitle": "第 6 件，很多人天天在做",
+    "bubble": [],
+    "out": "复刻01.png"
+  },
+  {
+    "art": "art-xhs/01.png",
+    "title": "① 替他兜底一切",
+    "subtitle": "那不是爱，是接管",
+    "bubble": ["下次让我自己来，好不好？"],
+    "out": "复刻02.png"
+  },
+  {
+    "art": "art-xhs/02.png",
+    "title": "② 把独处当冷淡",
+    "subtitle": "独处是充电，不是离开",
+    "bubble": ["我想一个人待会儿。", "好，我不安排。"],
+    "out": "复刻03.png"
+  },
+  {
+    "art": "art-xhs/03.png",
+    "title": "③ 一开口就翻旧账",
+    "subtitle": "就事论事，上次翻篇了",
+    "bubble": ["我们只说今天这一件事。"],
+    "out": "复刻04.png"
+  },
+  {
+    "art": "art-xhs/04.png",
+    "title": "④ 逼他改性格",
+    "subtitle": "只谈行为，不改人格",
+    "bubble": ["我不改你，我说这件事。"],
+    "out": "复刻05.png"
+  },
+  {
+    "art": "art-xhs/05.png",
+    "title": "⑤ 用沉默罚他认错",
+    "subtitle": "给时间，不给惩罚",
+    "bubble": ["你可以现在不说，", "但别用沉默罚我。"],
+    "out": "复刻06.png"
+  },
+  {
+    "art": "art-xhs/06.png",
+    "title": "⑥ 查手机、装定位",
+    "subtitle": "信任不看聊天记录",
+    "bubble": ["你的手机，我不看。"],
+    "out": "复刻07.png"
+  },
+  {
+    "art": "art-xhs/07.png",
+    "title": "⑦ 当他的心理医生",
+    "subtitle": "陪伴不等于治疗",
+    "bubble": ["我们一起找人聊聊，", "不是谁有病。"],
+    "out": "复刻08.png"
+  },
+  {
+    "art": "art-xhs/08.png",
+    "title": "⑧ 许「明年一定」的愿",
+    "subtitle": "大承诺给想象，小承诺给证据",
+    "bubble": ["换成这周三吃晚饭，", "我来订位。"],
+    "out": "复刻09.png"
+  }
+]
