@@ -111,3 +111,9 @@ The answer keys in `tasks.json` match the app versions used here and a `gh` buil
 REA is an impressive, well-documented project by the morluto team. Most of the gotchas in this skill came from reading their code and docs. leanrea isn't affiliated with REA. It is just a test of whether a model with plain tools and a short note can do the same work faster.
 
 MIT licensed.
+
+---
+
+## Also in this repo: healing-comic
+
+A second, unrelated skill that applies the same "one small file, no MCP" idea to a different problem: turning a long Chinese guide/PDF into a 6–9 page Xiaohongshu-style cute healing comic (一二布布风样张、3:4 竖版、中文后期合成，另附原创替代角色). It includes a GitHub survey of existing comic skills, a case library, a worked 6-page conversion of《引导型恋人指南》, and a Pillow-only compositor. Start at [healing-comic/README.md](healing-comic/README.md) or open [the sample gallery](healing-comic/examples/pages/preview.html).

@@ -1,0 +1,50 @@
+[
+  {
+    "art": "art/00-cover.png",
+    "kicker": "《引导型恋人指南》· 四条底线",
+    "title": ["真正的引导型恋人", "从来不是当爹当妈"],
+    "bubble": ["把选择权还回去，再在旁边站得稳一点。"],
+    "footer": "内容出自《引导型恋人指南》v1.1.0 · 导言",
+    "out": "01-cover.png"
+  },
+  {
+    "art": "art/01-consent.png",
+    "kicker": "底线 ① / 4 · 同意可撤回",
+    "title": ["他说想一个人待着", "我就把手机扣下"],
+    "bubble": ["好，那我不加安排。", "下周三你有空再告诉我。"],
+    "footer": "2.6 第一句 · 对方可以随时说不想聊、不想被安排",
+    "out": "02-consent.png"
+  },
+  {
+    "art": "art/02-no-remake.png",
+    "kicker": "底线 ② / 4 · 不改造人格",
+    "title": ["揉掉那张", "「改造清单」"],
+    "bubble": ["我不改你，只说这件事让我有点难受。"],
+    "footer": "3 只谈具体行为、具体影响、具体请求",
+    "out": "03-no-remake.png"
+  },
+  {
+    "art": "art/04-professional-help.png",
+    "kicker": "底线 ③ / 4 · 不代替专业帮助",
+    "title": ["不急着修好他", "先陪他坐一会儿"],
+    "bubble": ["我们一起找人聊聊，不是谁有病。"],
+    "footer": "13.8 危机 / 成瘾 / 自伤先转介，不做诊断不治疗",
+    "out": "04-professional-help.png"
+  },
+  {
+    "art": "art/03-no-surveillance.png",
+    "kicker": "底线 ④ / 4 · 不监控、不试探",
+    "title": ["他的手机倒扣着", "我去给花浇水"],
+    "bubble": ["你的手机，我不看。"],
+    "footer": "4 查手机、装定位、冷暴力、试探，一律不做",
+    "out": "05-no-surveillance.png"
+  },
+  {
+    "art": "art/05-ending.png",
+    "kicker": "《引导型恋人指南》· 尾页",
+    "title": ["既能靠近", "也有退路"],
+    "bubble": ["两个人都站在自己的位置上，就很好。"],
+    "footer": "完整 13 章 104 个具体场景 · CC BY 4.0",
+    "out": "06-ending.png"
+  }
+]
