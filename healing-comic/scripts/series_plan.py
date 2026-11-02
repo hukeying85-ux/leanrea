@@ -87,10 +87,10 @@ def build_page(page: dict, idx: int):
     for t in trig + guide:
         if cjk_len(t) > MAX_LINE:
             warns.append(f"台词行超 {MAX_LINE} 字：{t}")
-    # 锚点：上拍 y0.15，下拍 y0.65；左右随页交替（偶数页 触发L/引导R）
+    # 锚点：上拍 y0.15，下拍 y0.65；左右随页交替（封面占 idx=0，内容页 02 起 trig-L，与 3.0 节奏一致）
     lx, rx = 0.22, 0.80
-    left = lx if idx % 2 == 0 else rx
-    right = rx if idx % 2 == 0 else lx
+    left = lx if idx % 2 == 1 else rx
+    right = rx if idx % 2 == 1 else lx
     bubbles = []
     if trig:
         bubbles.append({"lines": trig, "anchor": [left, 0.15]})
