@@ -71,7 +71,35 @@
 
 > 当前状态：单人结构化自测（按上表流程自查 1 次，A 改 4 处、B 改 1 处；A 找"迷思"平均要翻 2–3 份文档）。真人复测未做，不写成"已验证"。
 
-## 六、已经上传的两组（2026-11-03）
+## 六、已经上传的四组（2026-11-03）
+
+| 位置 | 链接 | 内容 |
+|---|---|---|
+| 根目录（先读这份） | https://docs.google.com/document/d/12r5v7Dukp1fMA1jjp2-fRi6GE7OjfnV1oBFPLHy8OjQ/edit | 四个文件夹怎么用 |
+| A · 直传（4 份散件） | https://drive.google.com/drive/folders/10XRi7OX-v-RH5RqOn-7vvtxO-wDYiqLv | 讲解设计 / 指南 / 学案 / 诊断题 |
+| B · 知识库→编译指南（2 份） | https://drive.google.com/drive/folders/1DurEVbotPLQJVmbzQ3SizZxrjXPBqCCe | 编译指南 / 知识库卡片（源） |
+| C · 主动运输（完整流程 6 份） | https://drive.google.com/drive/folders/1tkSVoMDLn1isKOqSVKrS4Oa2Efr9prJ7 | 交接单 / 指南 / 学案 / 诊断题 / 逐字稿 / 板画 |
+| **D · 第4章成组 + 第5章酶（本轮 14 件）** | https://drive.google.com/drive/folders/1nBFYWP0dFWh0fWMjfdYkeN8Bp-AtmQ7r | 4章-0…5（成组 5 份 + 24 页课件）/ 酶-0…6（6 份 + 15 页课件）/ 主动运输课件 16 页 |
+
+D 文件夹的 14 件：
+
+| 件 | 是什么 |
+|---|---|
+| 4章-0 | 成组：4 个知识点怎么排成 3 课时（主线 / 逐表加列 / 钩子 / 重复自查） |
+| 4章-1 | 教学设计（3 课时目标—活动—评价 + 时间预算） |
+| 4章-2 | 习题检验（教师版，12 题，含变式） |
+| 4章-3 | 逐字稿（三课时关键段，2623 字） |
+| 4章-4 | 交接单 |
+| 4章-5 | 课件 24 页 .pptx（页页有备注） |
+| 酶-0…5 | 讲解设计 / 指南 / 学案 / 诊断题 / 逐字稿 / 交接单 |
+| 酶-6 | 课件 15 页 .pptx |
+| 主动运输-课件 | 16 页 .pptx（补上一轮只传文档、未传课件的缺口） |
+
+**这一轮改了上一轮的取舍**：上一轮把 .pptx 留在 git（"二进制放 Drive 会让文件夹变脏"）。实际用下来，教师找不到课件就等于没交付，所以课件改成**两边都放**：git 存源（md）+ 生成物（pptx），Drive 存可直接打开的副本。这条已回填到 `asset-spec.md` 的 03 节。
+
+上传用的是 `scripts/md2html.py`：Markdown → 干净 HTML → Drive 转 Google 文档（标题、表格、列表都变成真结构，不是把 `##` 原样塞进文档）。这一步就是流水线里的"编译"，以后改卡重跑即可。
+
+
 
 | 位置 | 链接 |
 |---|---|

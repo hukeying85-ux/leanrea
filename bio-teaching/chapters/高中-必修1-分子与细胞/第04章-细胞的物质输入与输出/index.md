@@ -55,3 +55,17 @@ check_chapter.py "chapters/.../第04章-细胞的物质输入与输出"  →  PA
 ## 六、线上位置
 
 本轮统一推送，见 `references/drive-vs-kb-experiment.md` 的链接表。
+
+## 七、线上位置
+
+Drive 文件夹：https://drive.google.com/drive/folders/1nBFYWP0dFWh0fWMjfdYkeN8Bp-AtmQ7r（同文件夹内含 第5章 酶 的 6 份 + 课件）
+
+| 件 | 文档 |
+|---|---|
+| 4章-0 | 成组：4 个知识点怎么排成 3 课时 |
+| 4章-1 | 教学设计（3 课时） |
+| 4章-2 | 习题检验（教师版，12 题） |
+| 4章-3 | 逐字稿（三课时关键段） |
+| 4章-4 | 交接单 |
+| 4章-5 | 课件 24 页 .pptx |
+

@@ -50,3 +50,20 @@ check_kp.py "kp/必修1-第5章-酶降低活化能"  →  PASS 49 / WARN 0 / FAI
 ## 六、线上位置
 
 见 `references/drive-vs-kb-experiment.md` 的链接表（本轮统一推送，名为"第4章成组 + 第5章酶"文件夹）。
+
+## 七、线上位置
+
+Drive 文件夹：https://drive.google.com/drive/folders/1nBFYWP0dFWh0fWMjfdYkeN8Bp-AtmQ7r（D · 必修1 第4章成组 + 第5章酶）
+
+| 件 | 文档 |
+|---|---|
+| 酶-0 | 讲解设计（七步协议 · 第三验证件） |
+| 酶-1 | 教学指南 40 分钟 |
+| 酶-2 | 学生一页学案 |
+| 酶-3 | 诊断题（教师版） |
+| 酶-4 | 逐字稿 |
+| 酶-5 | 交接单 |
+| 酶-6 | 课件 15 页 .pptx |
+
+知识库卡片与讲解设计同时留在 git：它们是源，Drive 里放的是编译产物。
+

@@ -47,6 +47,10 @@ chapters/<册>/第NN章-<章名>/
 
 ## 03 课件（`03-课件.md`）
 
+两处都要放（本轮修正）：`.pptx` 同时进 git 与 Drive。理由是教师找不到课件就等于没交付；Drive 只读副本不承担版本管理，源始终是 md。
+生成命令默认写到 md 所在目录：`python3 scripts/build_pptx.py <md> --lessons <课时数>`（页数 gate = 课时数 × 9 ± 4）。
+
+
 Markdown 约定（`build_pptx.py` 解析）：
 
 ```markdown
