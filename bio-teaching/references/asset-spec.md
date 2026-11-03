@@ -188,11 +188,13 @@ v2 的"四种材料拼贴"已经判死：写实照片、3D 渲染、水彩、风
 | 安装 | `bash scripts/install_ppt_master.sh`（clone + pip + attribution guard 返回 0） |
 | 页面自检 | `svg_quality_checker.py --quick-generate --canonical-authoring --stage final`：0 阻塞、**0 advisory**（连续单行 `<text>` 已合并为 `<text>` + `<tspan>` 段落） |
 | 文字检查 | `python3 scripts/check_overflow.py <构建目录>`：越界 0 / 文字相撞 0 / 行距过挤 0 / **对比度不足 0** |
+| 图形检查 | `python3 scripts/check_shapes.py <构建目录>`：越界 0 / 图压字 0 / 色块压字 0 / 图碰图 0 / 线穿字 0（`--self-test` 自证抓得到） |
 | 字体槽 | 导出后 `polish_pptx.py` 自动跑：major=Times New Roman/SimSun、minor=Arial/微软雅黑；`p:pic` 有 `descr` |
 | 备注 | 与 md 的 `<!-- note -->` 条数一致（酶 15/15、第4章 24/24） |
 | 原生性 | pptx 里图片是图片对象、曲线是路径对象、文字是可编辑文本（不是整页截图） |
 | 预览 | `预览/<课>-<版本>.html`（单文件自包含，双击即看，三版互跳） |
-| 动画 | `<stem>-<版本>-含动画.pptx`（`scripts/animate_pptx.py`，按块淡入 1–6 块/页；宽扁块用 `wipe(up)`，preset 9/22 见 `typography.md` §7） |
+| 动画 | `<stem>-<版本>-含动画.pptx`（`scripts/animate_pptx.py`，按块淡入 ≤6 块/页、允许逐行时 ≤9；宽扁块用 `wipe(up)`，preset 9/22 见 `typography.md` §7） |
+| 图表 | 定量曲线必须是**原生图表**（`scripts/native_chart.py` + `<stem>-charts.json`），不能是 SVG 路径 |
 
 ## 03b 章级成组（`chapters/<册>/第NN章-<章名>/`，多知识点串成一章）
 

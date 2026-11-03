@@ -70,6 +70,8 @@ scripts/
   duotone.py                 配图统一成单墨双色版画（按主题取纸色/墨色，light + ink 两版）
   check_overflow.py          文本包围盒：越界 / 相撞 / 行距过挤 / 对比度（无渲染环境下的替代检查）
   polish_pptx.py             导出后修主题字体槽（标题衬线 / 正文黑体）+ 图片替代文字
+  native_chart.py            把画出来的曲线换成 PowerPoint 原生图表（数据可编辑）
+  check_shapes.py            图形相撞：越界 / 图压字 / 色块压字 / 图碰图 / 线穿字（--self-test）
   animate_pptx.py            给原生 pptx 灌「按块淡入」动画（改 p:timing，不动坐标）
   make_preview.py            一套 SVG → 单文件自包含预览 HTML（页面内联，离线可看）
   install_ppt_master.sh      安装 PPT Master（MIT）及其依赖

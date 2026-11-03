@@ -82,7 +82,20 @@ python3 scripts/build_deck.py --md "kp/…/06-课件.md" --plan "kp/…/06-课�
 | 不动坐标 | 分块只加一层子组（xfrm/chOff 与原组完全一致），排版分毫不差 |
 | 效果 | **按块形状选效果**：整块用 `fade`；宽扁块（高 ≤150px 且宽 ≥620px，如表格行、通栏条）用 `wipe(up)`，让"一行一行推进"看得见 |
 
-### 7.1 用哪个 filter：presetID 必须配对
+### 7.1 逐行 / 逐句（"一行一行推进"）
+
+两块能力，一个原则：**只在列表和表格上拆，图绝不拆**。
+
+1. **句子边界不合并**（`build_deck.merge_text_runs`）：连续单行 `<text>` 默认并成一段（编辑友好），
+   但**上一行以 。！？； 结尾就断开**——一句一个文本框，才可能一句一次点击。
+   长句折行时前几行不以句号结尾，仍然并进同一段。
+2. **按行带拆块**（`animate_pptx.list_rows`）：块内若有 ≥3 条**同左边缘（±5px）、等距下落、单行高 ≤80px** 的文本，
+   一条一步；落在该行区间里的底色/序号/分隔线跟着这一行走。
+   拿不到这样"列"的页面（坐标轴、散点标注、能量图）自动放弃——否则一张图会被拆成十几步，讲不成一句完整的话。
+
+上限：常规 ≤6 块，允许拆分时 ≤9 块（`6 < n ≤ 9` 才启用拆分，否则回退整块）。
+
+### 7.2 用哪个 filter：presetID 必须配对
 
 `p:animEffect` 的 `filter` 和 `presetID` 是两个字段，写错不报错、能播，但 PowerPoint 的动画窗格会标成别的效果。
 下表是**实测可播**的组合（来源：`pptx-animation-skill` 的 `oracle/`，逐条视觉验证）：
@@ -95,6 +108,18 @@ python3 scripts/build_deck.py --md "kp/…/06-课件.md" --plan "kp/…/06-课�
 | circle | `circle(in)` | 18 | 12 | 480ms | 强调点（未启用） |
 
 `p:animEffect` 必须与 `p:set` 的 `style.visibility` 配对才可见；而 `p:anim` 打在 `fill.opacity` / `stroke.weight` 上是**死路径**（解析通过、播放静默丢弃）——不要用。
+
+## 7.3 曲线要原生图表，不要路径
+
+SVG 里画的曲线到 pptx 里是 Freeform：能看不能改。定量曲线（温度/底物浓度/反应进程）一律走原生图表：
+
+```sh
+python3 scripts/native_chart.py deck.pptx deck-charts.json
+```
+
+- `build_deck.py` 画图时把**同一份采样点**写进 `<stem>-charts.json`（81 点，0–1 归一化）；
+- 脚本删掉整块画在图区矩形内的元素（标题/页脚在区域外，不受影响），在原位插 `XY_SCATTER_SMOOTH_NO_MARKERS`；
+- 图表挪进 `content` 组，动画照样能引用；刻度数字隐藏（示意图形，写具体数值是假数据）。
 
 ## 8 字体：PowerPoint 里改的是"主题槽"，不是 run
 

@@ -35,7 +35,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from duotone import make_pair  # noqa: E402
-from polish_pptx import polish as polish_pptx  # noqa: E402
+from polish_pptx import polish as polish_pptx
+import native_chart  # noqa: E402
 
 W, H = 1280, 720
 M = 76                      # 版心边距
@@ -443,7 +444,7 @@ def lay_plate_side(p, meta, ctx):
         y += size * 1.12 * SC
     y += 30 * SC
     if TH["name"] == "classroom":
-        e.append(hand_rule(M - 4, y - 16, 96, RUST, 2.4))
+        e.append(hand_rule(M - 4, y - 32, 96, RUST, 2.4))   # 抬高：压到条目首行会切到字顶
     for i, b in enumerate(p["bullets"], 1):
         e.append(T(M, y, f"{i:02d}", 15, RUST, SANS, 500, spacing=1))
         bs, bl = fit(b, TH["body"] - 1, tw - 54, 200, 3)
@@ -552,7 +553,8 @@ def lay_chart(p, meta, ctx):
     e.append(T(X0 - 14, Y1 - 46, p.get("ylabel", ""), 14, INK2, SANS, 400, anchor="end"))
     e.append(T(X1 + 20, Y0 + 30, p.get("xlabel", ""), 14, INK2, SANS, 400, anchor="end"))
 
-    def path_for(peak, baseline=0.12, cutoff=None):
+    def curve(peak, baseline=0.12, cutoff=None):
+        """返回 [(t, v)]：t/v 都是 0–1 的归一化值。SVG 用它画线，原生图表用同一份数据。"""
         pts = []
         for i in range(81):
             t = i / 80
@@ -563,13 +565,31 @@ def lay_chart(p, meta, ctx):
                 v = baseline + (peak - baseline) * (u ** 1.8)
                 if t > 0.55:
                     v = baseline + (peak - baseline) * (1 - (t - 0.55) * 0.12)
-            pts.append((X0 + 10 + t * (X1 - X0 - 10), Y0 - 16 - (v - 0.03) * (Y0 - Y1 - 16)))
-        return "M" + " L".join(f"{px:.1f},{py:.1f}" for px, py in pts)
+            pts.append((round(t, 4), round(v, 4)))
+        return pts
+
+    def path_for(peak, baseline=0.12, cutoff=None):
+        pts = curve(peak, baseline, cutoff)
+        xy = [(X0 + 10 + t * (X1 - X0 - 10), Y0 - 16 - (v - 0.03) * (Y0 - Y1 - 16)) for t, v in pts]
+        return "M" + " L".join(f"{px:.1f},{py:.1f}" for px, py in xy)
 
     for s in p["series"]:
         dash = ' stroke-dasharray="9 7"' if s.get("dash") else ""
         e.append(f'<path d="{path_for(s["peak"], s.get("baseline", 0.12), s.get("cutoff"))}" '
                  f'fill="none" stroke="{cmap(s["color"])}" stroke-width="2.6"{dash} stroke-linecap="round"/>')
+
+    # 同一份数据交给原生图表（PowerPoint 里右键「编辑数据」就能改）
+    ctx.setdefault("charts", []).append({
+        "slide": ctx["i"],
+        "region": [100, 196, 1110, 408],
+        "xlabel": p.get("xlabel", ""), "ylabel": p.get("ylabel", ""),
+        "ink": cmap(INK).lstrip("#"), "ink2": cmap(INK2).lstrip("#"),
+        "rule": cmap(RULE).lstrip("#"), "panel": cmap(PANEL).lstrip("#"),
+        "series": [{"name": s["name"], "color": cmap(s["color"]).lstrip("#"),
+                    "dash": bool(s.get("dash")),
+                    "pts": curve(s["peak"], s.get("baseline", 0.12), s.get("cutoff"))}
+                   for s in p["series"]],
+    })
     ly = 300
     for s in p["series"]:
         dash = ' stroke-dasharray="9 7"' if s.get("dash") else ""
@@ -759,9 +779,18 @@ def merge_text_runs(svg: str) -> str:
     def key(a):
         return tuple(sorted((k, v) for k, v in a.items() if k not in ("x", "y")))
 
+    SENT_END = ("。", "！", "？", "；")
+
+    def plain(s: str) -> str:
+        return re.sub(r"<[^>]+>", "", s).strip()
+
     groups: list[list[int]] = []
     cur: list[int] | None = None
     for idx, (m, a) in enumerate(items):
+        # **句子边界不合并**：一句一个文本框，才能一句一次点击地讲。
+        # （长句折行时前几行不以句号结尾，仍然并进同一段。）
+        if cur and plain(items[cur[-1]][0].group(2)).endswith(SENT_END):
+            cur = None
         if cur and "<tspan" not in m.group(2):
             pa = items[cur[-1]][1]
             same = (key(pa) == key(a)
@@ -898,6 +927,7 @@ def build(md: Path, plan: Path, out: Path, images: Path, skill: Path, tag: str =
     n_img = prep_images(images, imgdir)
 
     total = len(slides)
+    charts: list[dict] = []
     for i, s in enumerate(slides, start=1):
         spec = specs[i - 1] if i - 1 < len(specs) else {}
         page = dict(s)
@@ -910,6 +940,7 @@ def build(md: Path, plan: Path, out: Path, images: Path, skill: Path, tag: str =
             page["title"] = f"{cn_num(i - 1)}、{title}"
         ctx = {"i": i, "total": total}
         body = LAYOUTS[lay](page, meta, ctx)
+        charts.extend(ctx.get("charts", []))
         if lay not in NO_FOLIO:
             body.append("".join(furniture(i, total, meta)))
 
@@ -958,6 +989,13 @@ def build(md: Path, plan: Path, out: Path, images: Path, skill: Path, tag: str =
             print(line.strip())
     n_font, n_alt = polish_pptx(pptx)      # 字体槽位（标题宋体 / 正文雅黑）+ 图片替代文字
     print(f"[polish] 字体槽位 {n_font} 处，图片替代文字 {n_alt} 条")
+    if charts:                             # 画出来的曲线 → 原生图表（可编辑数据）
+        spec = out / (pptx.stem + "-charts.json")
+        spec.write_text(json.dumps(charts, ensure_ascii=False, indent=1), encoding="utf-8")
+        n_del, n_add = native_chart.apply(pptx, charts)
+        print(f"[chart] 原生图表 {n_add} 张（清掉 {n_del} 个画图元素）")
+    else:
+        (out / (pptx.stem + "-charts.json")).unlink(missing_ok=True)
     write_preview(out, meta, total, tag)
     print(f"[img] {n_img} 张（主题 {TH['name']}）")
     return pptx

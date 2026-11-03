@@ -120,6 +120,53 @@ def make_group(nid: int, name: str, children) -> etree._Element:
     return g
 
 
+def is_text(el) -> bool:
+    return el.tag == q("p:sp") and el.find("p:txBody", NS) is not None
+
+
+def list_rows(block, min_items=3):
+    """块内"逐条/逐行"拆分：只在**列表或表格**上动手。
+
+    判据是"同一列、等距堆叠的短文本"：≥3 条文本框左边缘对齐（±5px）、
+    单个高度 ≤ 80（一行字），且纵向依次下落。这种结构十有八九是
+    列表/表格行，一条一次点击是对的。
+    图（坐标轴、曲线、标注散落各处）拿不到这样的列，自动放弃——
+    否则一张能量图会被拆成十几步，讲不成一句完整的话。
+    """
+    boxes = [(e, shape_box(e)) for e in block["els"]]
+    boxes = [(e, b) for e, b in boxes if b]
+    texts = [(e, b) for e, b in boxes if is_text(e) and b[3] <= 80 and b[2] >= 30]
+    if len(texts) < min_items:
+        return None
+    # 按左边缘分列，取成员最多的那一列
+    cols: dict[int, list] = {}
+    for e, (x, y, w, h) in texts:
+        key = int(round(x / 5))
+        cols.setdefault(key, []).append((y, x, e, (x, y, w, h)))
+    col = max(cols.values(), key=len)
+    if len(col) < min_items:
+        return None
+    col.sort()
+    ys = [c[0] for c in col]
+    if any(ys[i + 1] - ys[i] < 12 for i in range(len(ys) - 1)):
+        return None
+    # 每条 = 该行文本 + 落在它这一带里的其它元素（底色、序号、分隔线）
+    items = []
+    for i, (y, x, e, b) in enumerate(col):
+        top = y - 10
+        bottom = (col[i + 1][0] - 10) if i + 1 < len(col) else block["bottom"] + 2
+        items.append({"top": top, "bottom": bottom, "els": []})
+    for e, (x, y, w, h) in boxes:
+        cy = y + h / 2
+        k = 0
+        for i, it in enumerate(items):
+            if cy >= it["top"]:
+                k = i
+        items[k]["els"].append(e)
+    items = [it for it in items if it["els"]]
+    return items if len(items) >= min_items else None
+
+
 FILTERS = {          # 只用在 pptx-animation-skill 词表里实测过的三个
     "fade": ("fade", "9", 500),
     "wipe": ("wipe(up)", "22", 420),
@@ -255,7 +302,14 @@ def process_slide(xml_bytes: bytes, idx=0, total=0, verbose=False):
     if len(bs) >= 2 and bs[-1]["top"] > 640:
         bs[-2]["els"] += bs[-1]["els"]
         bs.pop()
-    while len(bs) > 6:                    # 一步最多六块，多了合并最短的相邻块
+    # 逐行/逐句：块内再按行带切一刀（表格一行一步、列表一句一步）
+    cap = 6
+    sub = []
+    for b in bs:
+        sub.extend(list_rows(b) or [b])
+    if 6 < len(sub) <= 9:                 # 拆得值才拆：步数上限放宽到 9
+        bs, cap = sub, 9
+    while len(bs) > cap:                  # 多了合并最短的相邻块
         i = min(range(len(bs) - 1), key=lambda k: (bs[k]["bottom"] - bs[k]["top"], k))
         bs[i]["els"] += bs[i + 1]["els"]
         bs[i]["bottom"] = max(bs[i]["bottom"], bs[i + 1]["bottom"])
@@ -301,7 +355,39 @@ def process_slide(xml_bytes: bytes, idx=0, total=0, verbose=False):
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True), steps
 
 
+def _mk_sp(sid: int, x, y, w, h, text=None) -> etree._Element:
+    body = f'<a:p><a:r><a:t>{text}</a:t></a:r></a:p>' if text is not None else ""
+    return etree.fromstring(
+        f'<p:sp xmlns:p="{P}" xmlns:a="{A}"><p:nvSpPr><p:cNvPr id="{sid}" name="s{sid}"/>'
+        f'<p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="{int(x * EMU)}" y="{int(y * EMU)}"/>'
+        f'<a:ext cx="{int(w * EMU)}" cy="{int(h * EMU)}"/></a:xfrm></p:spPr>'
+        f'{("<p:txBody>" + body + "</p:txBody>") if text is not None else ""}</p:sp>')
+
+
+def self_test() -> None:
+    """按行/按句拆分的自测：列表要拆，图不能拆。"""
+    # 一份"列表"：四条同左边缘、等距下落的短文本
+    lst = {"els": [_mk_sp(i, 120, 200 + i * 46, 300, 30, f"第{i}条") for i in range(4)],
+           "top": 190, "bottom": 420}
+    got = list_rows(lst)
+    ok1 = got is not None and len(got) == 4
+    # 一张"能量图"：标注散落各处，没有可用的列
+    dia = {"els": [_mk_sp(1, 180, 380, 60, 24, "反应物"), _mk_sp(2, 640, 380, 60, 24, "产物"),
+                   _mk_sp(3, 380, 250, 70, 30, "活化能"), _mk_sp(4, 100, 200, 40, 20, "能量"),
+                   _mk_sp(5, 700, 560, 70, 24, "反应进程")],
+           "top": 200, "bottom": 590}
+    ok2 = list_rows(dia) is None
+    for name, ok in (("列表逐条拆 4 步", ok1), ("能量图不拆", ok2)):
+        print(f"  {'✓' if ok else '✗'} {name}")
+    if not (ok1 and ok2):
+        sys.exit(1)
+    print("自测通过")
+
+
 def main() -> None:
+    if "--self-test" in sys.argv:
+        self_test()
+        return
     ap = argparse.ArgumentParser()
     ap.add_argument("src")
     ap.add_argument("dst")
