@@ -239,6 +239,7 @@
 
   /* ---------------- 相册 ---------------- */
   let photos = [];
+  let samples = [];
 
   function renderGallery() {
     const wrap = $("#gallery");
@@ -264,7 +265,32 @@
       wrap.dataset.bound = "1";
       wrap.addEventListener("click", (e) => {
         const btn = e.target.closest("[data-index]");
-        if (btn) openLightbox(Number(btn.getAttribute("data-index")));
+        if (btn) openLightbox(Number(btn.getAttribute("data-index")), photos);
+      });
+    }
+  }
+
+  /* ---------------- 画风样张 ---------------- */
+  function renderSamples() {
+    const wrap = $("#sampleWall");
+    if (!wrap) return;
+    samples = DATA.samples || [];
+
+    wrap.innerHTML = samples
+      .map(
+        (s, i) =>
+          '<button class="sample" type="button" data-sample="' + i + '" aria-label="查看大图：' + escapeHTML(s.title) + '">' +
+            '<img src="' + escapeHTML(s.src) + '" alt="' + escapeHTML(s.title) + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + FALLBACK_IMG + '\';" />' +
+            '<span class="sample__title">' + escapeHTML(s.title) + "</span>" +
+          "</button>"
+      )
+      .join("");
+
+    if (!wrap.dataset.bound) {
+      wrap.dataset.bound = "1";
+      wrap.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-sample]");
+        if (btn) openLightbox(Number(btn.getAttribute("data-sample")), samples);
       });
     }
   }
@@ -463,12 +489,14 @@
 
   /* ---------------- 灯箱 ---------------- */
   let lbIndex = 0;
+  let lbItems = [];
   let lastFocused = null;
 
-  function openLightbox(index) {
+  function openLightbox(index, list) {
     const box = $("#lightbox");
-    if (!box || !photos.length) return;
-    lbIndex = (index + photos.length) % photos.length;
+    lbItems = list && list.length ? list : photos;
+    if (!box || !lbItems.length) return;
+    lbIndex = (index + lbItems.length) % lbItems.length;
     lastFocused = document.activeElement;
     paintLightbox();
     box.classList.add("is-open");
@@ -478,7 +506,7 @@
   }
 
   function paintLightbox() {
-    const p = photos[lbIndex];
+    const p = lbItems[lbIndex];
     if (!p) return;
     const img = $("#lbImage");
     img.src = p.src;
@@ -497,7 +525,8 @@
   }
 
   function stepLightbox(dir) {
-    lbIndex = (lbIndex + dir + photos.length) % photos.length;
+    if (!lbItems.length) return;
+    lbIndex = (lbIndex + dir + lbItems.length) % lbItems.length;
     paintLightbox();
   }
 
@@ -738,6 +767,7 @@
     renderStats();
     renderTimeline();
     renderGallery();
+    renderSamples();
     renderDates();
     renderWishes();
     renderNotes();

@@ -21,6 +21,7 @@ couple-site/
 - **首页**：在一起第几天（实时）、几年几个月零几天、今天的时钟、最近的一个纪念日倒计时
 - **时光轴**：按时间排的故事卡，可配图，左右交替
 - **相册**：拍照贴纸墙 + 灯箱，键盘 ← → 翻页，Esc 关闭
+- **画风样张**：相册下面是 Drive 里 scribble-couple 的 6 张测试图，横滑查看（`samples` 数组，可删）
 - **纪念日**：每年循环，自动算「还有几天」，当天会亮起来
 - **一起做的事**：带进度条的清单，勾选状态存本地
 - **小纸条**：贴在冰箱上的便利贴，可写可撕
@@ -52,16 +53,21 @@ python3 -m http.server 8080
 
 ### 1. GitHub Pages（最省事，推荐）
 
-```sh
-# 在仓库里
-git add couple-site && git commit -m "add couple site" && git push
+**网页两步（最稳）**：仓库 → **Settings → Pages** → Source 选 **Deploy from a branch** → Branch 选 `main`、目录选 **`/couple-site`** → Save。
+一两分钟后地址就是 `https://<用户名>.github.io/<仓库名>/`。
 
-# 开启 Pages（选 main 分支 /docs 或 /root）
-gh api -X POST repos/{owner}/{repo}/pages -f source[branch]=main -f source[path]=/couple-site
+或者用你自己的 `gh` 登录跑：
+
+```sh
+gh api -X POST repos/hukeying85-ux/leanrea/pages --input - <<'JSON'
+{"source":{"branch":"main","path":"/couple-site"}}
+JSON
 ```
 
-或者网页操作：仓库 → Settings → Pages → Source 选分支，目录填 `/couple-site` → Save。
-地址是 `https://<用户名>.github.io/<仓库名>/`。仓库里已经放了 `.nojekyll`，因为路径里有下划线目录也不会被 Jekyll 吃掉。
+> 注意：现在站点在功能分支 `arena/26659d1a-leanrea` 上，先把这个分支 PR 合进 `main`，Pages 才指向得到。也可以临时把 Branch 选成 `arena/26659d1a-leanrea`。
+> 仓库里已经放了 `.nojekyll`，避免 Jekyll 处理静态文件。
+
+默认加了 `robots.txt`（禁止收录），因为这是私人页面；想让搜索引擎抓到就删掉它。
 
 > 私有仓库也能用 Pages（免费账号的私有仓库 Pages 需要 Pro；公开仓库免费）。如果只想自己看，见下面的「只在本地」。
 

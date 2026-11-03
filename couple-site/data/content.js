@@ -119,6 +119,16 @@ window.LOVE_DATA = {
     },
   ],
 
+  // 画风样张（来自 Google Drive「第7轮 · 十对情侣」的 scribble-couple 测试图）
+  samples: [
+    { src: "assets/samples/sample-01.jpg", title: "自拍 · 卷发胡子男 + 长直发女" },
+    { src: "assets/samples/sample-02.jpg", title: "近景 · 胡子男 + 头巾女" },
+    { src: "assets/samples/sample-03.jpg", title: "厨房 · 背后抱" },
+    { src: "assets/samples/sample-04.jpg", title: "海滩 · 银发男 + 金发女" },
+    { src: "assets/samples/sample-05.jpg", title: "咖啡馆 · 帽子男 + 黄衣女" },
+    { src: "assets/samples/sample-06.jpg", title: "夜景 · 深色大衣" },
+  ],
+
   // 纪念日：MM-DD 每年循环
   anniversaries: [
     { name: "在一起纪念日", date: "05-20", emoji: "💐", note: "第一次见面的那家咖啡店，今年还要去。" },
