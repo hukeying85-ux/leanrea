@@ -80,6 +80,40 @@ python3 scripts/build_deck.py --md "kp/…/06-课件.md" --plan "kp/…/06-课�
 | 其余 | 每次点击淡入一块，0.5s；页脚并进最后一块，不单独点 |
 | 上限 | 单页最多 6 块，超过就合并最短的相邻块 |
 | 不动坐标 | 分块只加一层子组（xfrm/chOff 与原组完全一致），排版分毫不差 |
+| 效果 | **按块形状选效果**：整块用 `fade`；宽扁块（高 ≤150px 且宽 ≥620px，如表格行、通栏条）用 `wipe(up)`，让"一行一行推进"看得见 |
+
+### 7.1 用哪个 filter：presetID 必须配对
+
+`p:animEffect` 的 `filter` 和 `presetID` 是两个字段，写错不报错、能播，但 PowerPoint 的动画窗格会标成别的效果。
+下表是**实测可播**的组合（来源：`pptx-animation-skill` 的 `oracle/`，逐条视觉验证）：
+
+| 名 | filter | presetID | 方向值 | 时长 | 用途 |
+|---|---|---|---|---|---|
+| fade | `fade` | **9**（不是 10，10 是 dissolve） | — | 500ms | 默认、封面整体 |
+| wipe | `wipe(up)` | 22 | 1 | 420ms | 宽扁块、表格行 |
+| reveal | `wipe(left)` | 22 | 8 | 460ms | 预留 |
+| circle | `circle(in)` | 18 | 12 | 480ms | 强调点（未启用） |
+
+`p:animEffect` 必须与 `p:set` 的 `style.visibility` 配对才可见；而 `p:anim` 打在 `fill.opacity` / `stroke.weight` 上是**死路径**（解析通过、播放静默丢弃）——不要用。
+
+## 8 字体：PowerPoint 里改的是"主题槽"，不是 run
+
+**踩过的坑**：`ppt-master` 生成的主题里 `majorFont` 与 `minorFont` **都是 SimSun**。
+所有文字都写 `+mj-lt` / `+mn-lt`（这是对的，便于统一换字体），但如果主题两个槽一样，
+预览里"标题宋体 + 正文黑体"的层次到 PowerPoint 里就塌成**通篇宋体**——看起来很"教材"，
+但一行正文超过 30 字就会糊成一片。转换器不会替你分开，必须导出后改主题：
+
+`scripts/build_deck.py` 导出后自动调用 `scripts/polish_pptx.py <src> <dst>`：
+
+| 槽 | 拉丁 | 东亚 |
+|---|---|---|
+| major（标题） | Times New Roman | SimSun |
+| minor（正文/表格） | Arial | Microsoft YaHei |
+
+同时给 `<p:pic>` 的 `cNvPr` 写 `descr`（图片替代文字，无障碍 + 教务检查会看）。
+**只处理 `p:pic` 里的 `cNvPr`**——对所有 `cNvPr` 加 descr 会把形状、组合也标成"课程配图"（实测一次 289 条）。
+
+改完必须回 PowerPoint 里看一眼：标题应当是**宋体/衬线**，正文与表格应当是**黑体/无衬线**。
 
 自检：`python3 scripts/animate_pptx.py in.pptx out.pptx` 会打印每页「N 块 → X 自动 + Y 次点击」；
 生成后可再用 python-pptx 打开，检查每页 id 不重复、`spTgt` 目标都存在。

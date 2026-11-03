@@ -68,7 +68,8 @@ scripts/
   check_group.py             成组验收：主线贯穿 / 逐表加列 / 钩子闭环 / 重复自查
   build_deck.py              md + plan.json + --theme → SVG 页 → PPT Master → 原生 .pptx（带讲稿备注）
   duotone.py                 配图统一成单墨双色版画（按主题取纸色/墨色，light + ink 两版）
-  check_overflow.py          文本包围盒：越界 / 相撞 / 行距过挤（无渲染环境下的替代检查）
+  check_overflow.py          文本包围盒：越界 / 相撞 / 行距过挤 / 对比度（无渲染环境下的替代检查）
+  polish_pptx.py             导出后修主题字体槽（标题衬线 / 正文黑体）+ 图片替代文字
   animate_pptx.py            给原生 pptx 灌「按块淡入」动画（改 p:timing，不动坐标）
   make_preview.py            一套 SVG → 单文件自包含预览 HTML（页面内联，离线可看）
   install_ppt_master.sh      安装 PPT Master（MIT）及其依赖

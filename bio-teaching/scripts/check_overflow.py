@@ -58,9 +58,36 @@ def lines_of(at: str, body: str) -> list[tuple[float, float, str, float, float]]
     return out
 
 
+def _lum(hexcolor: str) -> float:
+    h = hexcolor.lstrip("#")
+    if len(h) != 6:
+        return 0.5
+    r, g, b = (int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    f = lambda c: c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    r, g, b = f(r), f(g), f(b)
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def _contrast(a: str, b: str) -> float:
+    la, lb = _lum(a), _lum(b)
+    hi, lo = max(la, lb), min(la, lb)
+    return (hi + 0.05) / (lo + 0.05)
+
+
+def page_bg(t: str) -> str:
+    """取覆盖面积最大的矩形当底色（深色整版页也能正确判定）。"""
+    best, area = "#FFFFFF", 0.0
+    for m in re.finditer(r'<rect[^>]*width="([\d.]+)"[^>]*height="([\d.]+)"[^>]*fill="(#[0-9A-Fa-f]{6})"', t):
+        a = float(m.group(1)) * float(m.group(2))
+        if a > area:
+            area, best = a, m.group(3)
+    return best
+
+
 def check(path: Path) -> list[str]:
     t = path.read_text(encoding="utf-8")
     out: list[str] = []
+    bg = page_bg(t)
     boxes: list[tuple[float, float, float, float, str]] = []
     for m in TEXT.finditer(t):
         at, body = m.group(1), m.group(2)
@@ -85,6 +112,13 @@ def check(path: Path) -> list[str]:
             if y < 18:
                 out.append(f"{path.name}: 上越界 y={y:.0f}  「{txt[:18]}」")
             boxes.append((left, y - f_s * 0.86, right, y + f_s * 0.18, txt))
+            fill = re.search(r'fill="(#[0-9A-Fa-f]{6})"', at)
+            if fill:
+                ratio = _contrast(fill.group(1), bg)
+                need = 3.0 if f_s >= 24 else 4.2
+                if ratio < need:
+                    out.append(f"{path.name}: 对比度低 {ratio:.1f}:1（需 ≥{need}）"
+                               f"「{txt[:16]}」")
 
     for i in range(len(boxes)):
         a = boxes[i]

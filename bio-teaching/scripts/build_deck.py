@@ -35,6 +35,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from duotone import make_pair  # noqa: E402
+from polish_pptx import polish as polish_pptx  # noqa: E402
 
 W, H = 1280, 720
 M = 76                      # 版心边距
@@ -95,6 +96,31 @@ def use_theme(name: str) -> None:
     PAPER, INK, INK2 = TH["paper"], TH["ink"], TH["ink2"]
     RULE, RUST, TEAL, DARK = TH["rule"], TH["rust"], TH["teal"], TH["dark"]
     OCHRE, PANEL = TH["ochre"], TH["panel"]
+
+
+def _lum(hexcolor: str) -> float:
+    h = (hexcolor or "").lstrip("#")
+    if len(h) != 6:
+        return 0.5
+    r, g, b = (int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    f = lambda c: c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b)
+
+
+def on_dark(c: str, bg: str = "", need: float = 3.2) -> str:
+    """深色页上的强调色：对比度不够就往纸色方向提亮。"""
+    bg = bg or DARK
+    def ratio(a, b):
+        la, lb = _lum(a), _lum(b)
+        hi, lo = max(la, lb), min(la, lb)
+        return (hi + 0.05) / (lo + 0.05)
+    out = c
+    for k in (0.18, 0.32, 0.46, 0.6):
+        if ratio(out, bg) >= need:
+            return out
+        out = "#%02X%02X%02X" % tuple(round(int(c[i:i + 2], 16) * (1 - k) + int(PAPER[i:i + 2], 16) * k)
+                                      for i in (1, 3, 5))
+    return out
 
 
 def cmap(c: str) -> str:
@@ -681,7 +707,7 @@ def lay_section(p, meta, ctx):
         e.append(T(M, 268, num, 108, PAPER, SERIF, 700, spacing=6))
         e.append(L(M, 300, M + 120, 300, PAPER, 2))
     else:
-        e.append(T(M, 258, num, 118, RUST, SERIF, 700))
+        e.append(T(M, 258, num, 118, on_dark(RUST), SERIF, 700))
     size, lines = fit(p["title"], 46, 900, 180, 2, track=TH["title_track"])
     y = 392
     for ln in lines:
@@ -930,6 +956,8 @@ def build(md: Path, plan: Path, out: Path, images: Path, skill: Path, tag: str =
     for line in r.stdout.splitlines():
         if "POSTFLIGHT" in line or "[Done]" in line or "Slides:" in line:
             print(line.strip())
+    n_font, n_alt = polish_pptx(pptx)      # 字体槽位（标题宋体 / 正文雅黑）+ 图片替代文字
+    print(f"[polish] 字体槽位 {n_font} 处，图片替代文字 {n_alt} 条")
     write_preview(out, meta, total, tag)
     print(f"[img] {n_img} 张（主题 {TH['name']}）")
     return pptx

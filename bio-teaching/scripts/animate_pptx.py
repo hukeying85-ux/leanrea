@@ -20,6 +20,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import sys
 import zipfile
@@ -119,8 +120,23 @@ def make_group(nid: int, name: str, children) -> etree._Element:
     return g
 
 
+FILTERS = {          # 只用在 pptx-animation-skill 词表里实测过的三个
+    "fade": ("fade", "9", 500),
+    "wipe": ("wipe(up)", "22", 420),
+    "reveal": ("wipe(left)", "22", 460),
+}
+
+
+def pick_effect(box, max_sz):
+    """宽扁的一块（表行、通栏标题）用擦除；其余淡入。"""
+    x, y, w, h = box
+    if h <= 150 and w >= 620:
+        return "wipe"
+    return "fade"
+
+
 def timing_xml(steps) -> etree._Element:
-    """steps: [(spid, mode)]，mode = auto / click。"""
+    """steps: [(spid, mode, effect)]，mode = auto / click。"""
     nid = [100]
     def nxt():
         nid[0] += 1
@@ -145,7 +161,7 @@ def timing_xml(steps) -> etree._Element:
     sctn.set("nodeType", "mainSeq")
     scl = etree.SubElement(sctn, q("p:childTnLst"))
 
-    for spid, mode in steps:
+    for spid, mode, effect in steps:
         par = etree.SubElement(scl, q("p:par"))
         c1 = etree.SubElement(par, q("p:cTn"))
         c1.set("id", str(nxt()))
@@ -166,7 +182,8 @@ def timing_xml(steps) -> etree._Element:
         p3 = etree.SubElement(c2l, q("p:par"))
         c3 = etree.SubElement(p3, q("p:cTn"))
         c3.set("id", str(nxt()))
-        c3.set("presetID", "9")   # fade = 入场 preset 9（如写 10 是 dissolve，动画窗格会标错）
+        filt, preset, dur = FILTERS[effect]
+        c3.set("presetID", preset)
         c3.set("presetClass", "entr")
         c3.set("presetSubtype", "0")
         c3.set("fill", "hold")
@@ -194,11 +211,11 @@ def timing_xml(steps) -> etree._Element:
         # fade in
         eff = etree.SubElement(c3l, q("p:animEffect"))
         eff.set("transition", "in")
-        eff.set("filter", "fade")
+        eff.set("filter", filt)
         eb = etree.SubElement(eff, q("p:cBhvr"))
         et = etree.SubElement(eb, q("p:cTn"))
         et.set("id", str(nxt()))
-        et.set("dur", "500")
+        et.set("dur", str(dur))
         etg = etree.SubElement(eb, q("p:tgtEl"))
         etree.SubElement(etg, q("p:spTgt")).set("spid", str(spid))
 
@@ -257,15 +274,29 @@ def process_slide(xml_bytes: bytes, idx=0, total=0, verbose=False):
         auto_n = 2
     if idx in (1, total):                 # 封面与收尾页整体淡入，不需要点
         auto_n = len(bs)
-    steps = [(int(g.find("p:nvGrpSpPr/p:cNvPr", NS).get("id")),
-              "auto" if i < auto_n else "click") for i, g in enumerate(groups)]
+    def bbox(els):
+        bs = [shape_box(e) for e in els]
+        bs = [b for b in bs if b]
+        return (min(b[0] for b in bs), min(b[1] for b in bs),
+                max(b[0] + b[2] for b in bs) - min(b[0] for b in bs),
+                max(b[1] + b[3] for b in bs) - min(b[1] for b in bs)) if bs else (0, 0, 0, 0)
+
+    def max_sz(els):
+        vals = [int(v) for e in els for v in re.findall(r'\bsz="(\d+)"', etree.tostring(e).decode())]
+        return max(vals) if vals else 0
+
+    steps = []
+    for i, (g, b) in enumerate(zip(groups, bs)):
+        eff = "fade" if (i < auto_n and b.get("bg")) else pick_effect(bbox(b["els"]), max_sz(b["els"]))
+        steps.append((int(g.find("p:nvGrpSpPr/p:cNvPr", NS).get("id")),
+                      "auto" if i < auto_n else "click", eff))
 
     old = root.find("p:timing", NS)
     if old is not None:
         root.remove(old)
     root.append(timing_xml(steps))
     if verbose:
-        n_click = sum(1 for _s, m in steps if m == "click")
+        n_click = sum(1 for _s, m, _e in steps if m == "click")
         print(f"    {len(bs)} 块 / {len(shapes)} 形状 → {len(bs) - n_click} 自动 + {n_click} 次点击")
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True), steps
 
