@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" lang="zh-CN" viewBox="0 0 1280 720" width="1280" height="720" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" data-pptx-page-role="content">
+<rect x="0" y="0" width="1280" height="720" fill="#F7F3EC" id="bg" data-pptx-role="background" />
+<g id="content" data-pptx-bounds="0 0 1280 720">
+<text x="96" y="76" font-size="19" font-weight="500" fill="#C2542F" letter-spacing="2">植物细胞多了一样东西</text>
+<text x="96" y="168" font-family="Songti SC, STSong, SimSun, serif" font-size="40" font-weight="700" fill="#16262A">植物细胞多了一样东西</text>
+<line x1="96" y1="220.8" x2="1184" y2="220.8" stroke="#D8D0C0" stroke-width="1.5" />
+<text x="96" y="268.8" font-size="20" font-weight="500" fill="#C2542F">01</text>
+<text x="150" y="268.8" font-size="26" font-weight="400" fill="#16262A">细胞壁：全透性，几乎不挡水</text>
+<line x1="150" y1="309.90000000000003" x2="796" y2="309.90000000000003" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="96" y="325.90000000000003" font-size="20" font-weight="500" fill="#C2542F">02</text>
+<text x="150" y="325.90000000000003" font-size="26" font-weight="400" fill="#16262A">原生质层：细胞膜 + 细胞质 + 液泡膜，**有选择透过</text>
+<text x="150" y="361.00000000000006" font-size="26" font-weight="400" fill="#16262A">性**</text>
+<line x1="150" y1="402.1000000000001" x2="796" y2="402.1000000000001" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="96" y="418.1000000000001" font-size="20" font-weight="500" fill="#C2542F">03</text>
+<text x="150" y="418.1000000000001" font-size="26" font-weight="400" fill="#16262A">真正起"半透膜"作用的是原生质层</text>
+<image href="../../assets/deck-images/onion.jpg" x="880" y="190" width="304" height="380" preserveAspectRatio="xMidYMid slice" />
+<text x="880" y="600" font-size="15" font-weight="400" fill="#4A5C60" fill-opacity="0.85">紫色来自液泡，不是细胞壁</text>
+<line x1="96" y1="664" x2="1184" y2="664" stroke="#D8D0C0" stroke-width="1" /><text x="96" y="690" font-size="14" font-weight="400" fill="#4A5C60" fill-opacity="0.75">一株海水稻，怎么在盐里活着</text><text x="1184" y="690" font-size="14" font-weight="400" fill="#4A5C60" text-anchor="end" fill-opacity="0.75">06 / 24</text>
+</g>
+</svg>

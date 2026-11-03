@@ -1,0 +1,38 @@
+{
+  "kicker": "第 5 章 · 降低化学反应活化能的酶",
+  "meta": "人教版（2019）必修 1 · 第 5 章第 1 节 · 40 分钟 · 15 页",
+  "pages": [
+    {"layout": "cover", "image": "tubes", "kicker": "第 5 章 · 第 1 节", "subtitle": "酶的作用 · 40 分钟 · 人教版必修 1"},
+    {"layout": "image", "image": "splint", "kicker": "实验现象", "title": "带火星的木条，复燃了", "caption": "H₂O₂ + 肝脏研磨液"},
+    {"layout": "statement", "lines": ["差别只有几微克蛋白质", "反应却快了几百倍"], "note": "一整瓶 H₂O₂，几微克的酶。比例本身就不合理。"},
+    {"layout": "quote", "image": "enzyme", "lines": ["它没有被用掉，", "也没有加能量——", "它动了什么？"], "kicker": "本课唯一的问题"},
+    {"layout": "image", "image": "pass", "kicker": "先讲清楚：反应为什么会慢", "title": "分子要翻过一座山", "caption": "要爬的那一段高度，叫活化能"},
+    {"layout": "table", "kicker": "三条曲线画在同一张图上", "caption": "重点不在峰顶多低，而在两端一样高。"},
+    {"layout": "image", "image": "tunnel", "kicker": "把山凿低，而不是把人抬高", "title": "山没有变矮，路变短了", "caption": "隧道只容一种车通过——专一性"},
+    {"layout": "statement", "lines": ["酶：显著降低活化能的", "生物催化剂"], "note": "多数是蛋白质，少数是 RNA。这一句写在黑板左上角，整节课不改。", "kicker": "一句话记住它"},
+    {"layout": "table", "kicker": "三种「变快」不是一回事", "caption": "「给分子能量」和「降低门槛」是两件相反的事。"},
+    {"layout": "compare", "kicker": "第三支试管为什么一动不动", "title": "煮沸与低温，不是同一件事",
+     "cols": [
+       {"label": "煮沸", "head": "结构被破坏", "bullets": ["空间结构散开，活性丧失", "冷却后回不来", "不可逆"]},
+       {"label": "低温", "head": "只是冻住", "bullets": ["结构完好，速率极低", "回暖后恢复", "可逆"]}
+     ]},
+    {"layout": "bullets", "image": "enzyme", "kicker": "变式一：换催化剂",
+     "caption": "降得多，不是「它更厉害」"},
+    {"layout": "chart", "kicker": "变式二：换温度", "ylabel": "反应速率", "xlabel": "温度",
+     "series": [
+       {"name": "无酶：越热越快", "peak": 0.92, "color": "#C2542F", "baseline": 0.10},
+       {"name": "有酶：60 ℃ 后断崖", "peak": 0.85, "color": "#2E6B66", "baseline": 0.08, "cutoff": 0.62}
+     ],
+     "note": "两条线必须画在一起。\n学生自己说：为什么在这里分岔？"},
+    {"layout": "chart", "kicker": "变式三：换底物", "ylabel": "反应速率", "xlabel": "底物浓度",
+     "series": [{"name": "酶已全部投入工作", "peak": 0.60, "color": "#2E6B66", "baseline": 0.10}],
+     "note": "平台不是门槛，是酶不够用。\n这一条最容易错。"},
+    {"layout": "checklist", "kicker": "三句错话，改一下",
+     "pairs": [
+       {"wrong": "酶给反应提供能量", "right": "酶降低所需的活化能"},
+       {"wrong": "酶让不能发生的反应发生", "right": "它只让能发生的，快一点"},
+       {"wrong": "加酶以后产物更多", "right": "终点一样，只是更快到"}
+     ]},
+    {"layout": "quote", "image": "saltfield", "lines": ["加热是把人抬上去，", "酶是把山削下来。"], "note": "说完停三秒，下课。"}
+  ]
+}

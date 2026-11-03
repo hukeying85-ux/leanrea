@@ -64,6 +64,10 @@ scripts/
   check_chapter.py           单章验收：缺项 / 题数 / 页数 / 时间预算 / 口径一致性
   check_kp.py                知识点验收：最小集 6 份 / 完整集 11 份
   check_group.py             成组验收：主线贯穿 / 逐表加列 / 钩子闭环 / 重复自查
+  build_deck.py              md + plan.json → SVG 页 → PPT Master → 原生 .pptx（带讲稿备注）
+  install_ppt_master.sh      安装 PPT Master（MIT）及其依赖
+assets/
+  deck-images/               10 张课件配图（图内零文字）+ PROMPTS.md
 ```
 
 ## 样板章（已跑通）
@@ -117,6 +121,32 @@ python3 scripts/build_pptx.py \
 **成组另有一层**：第4章把 4 个知识点串成 3 课时，靠的不是"多做几份"，而是四条决策——一条主线（盐碱地里的海水稻）、一张判据表逐课时加一列、四个钩子埋了就回收、重复内容自查表。验收用 `check_group.py`（14/0/0）。
 
 **结论（这条最重要）**：以知识点为单位，**教材不是必需品**——机制、公式、变式、诊断题能从学科事实推出来，这套六份产物没有一页抄教材。但**章离不开教材**：顺序、深度边界、术语口径、入口情境都来自教材。所以本模块"以章为生产单位、以知识点为讲解单位"。
+
+## 课件为什么会好看（以及为什么不再手写 python-pptx）
+
+第一版课件是"文本框 + 圆点"，能读，但难看：没有图，没有层级，一页一页像讲义。2026-11-03 重做了一遍，换了工具链：
+
+```
+06-课件.md（内容 + 备注）
+      │  只写"讲什么"
+      ▼
+06-课件.plan.json（版式：每页 layout / 配图 / kicker）
+      │  只写"长什么样"
+      ▼
+scripts/build_deck.py  → 1280×720 SVG 页（editorial 风格：细分隔线、kicker、衬线标题、赤陶单色）
+      │
+      ▼
+PPT Master（MIT，hugohe3/ppt-master）的 svg_to_pptx
+      ▼
+06-课件.pptx：文字仍是可编辑文本、图片是原生图片、曲线是原生形状（不是整页截图）
+```
+
+- **配图 10 张**：`assets/deck-images/`，全部无文字无标注（提示词见同目录 `PROMPTS.md`）。需要被"读"的关系一律画成矢量——AI 图只负责氛围。
+- **两种页型最关键**：`chart`（原生曲线，三条线两端严格重合）和 `table`（判据表）。这两处 AI 图一定画错，必须矢量。
+- **安装**：`bash scripts/install_ppt_master.sh`；**导出**：`python3 scripts/build_deck.py --md … --plan … --out … --images assets/deck-images`。
+- **预览**：每套课件旁边都有 `-preview.html`，直接用浏览器看，不用装 PowerPoint。
+
+已重做：酶降低活化能 15 页、第4章 24 页（3 课时）。规格见 `references/asset-spec.md` 的「03c 课件版式（PPT Master 通道）」。
 
 ## 关于"上传到 Google Drive"
 

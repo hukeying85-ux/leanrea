@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" lang="zh-CN" viewBox="0 0 1280 720" width="1280" height="720" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" data-pptx-page-role="content">
+<rect x="0" y="0" width="1280" height="720" fill="#F7F3EC" id="bg" data-pptx-role="background" />
+<g id="content" data-pptx-bounds="0 0 1280 720">
+<text x="96" y="76" font-size="19" font-weight="500" fill="#C2542F" letter-spacing="2">判据表：今天加第二列</text>
+<text x="96" y="164" font-family="Songti SC, STSong, SimSun, serif" font-size="38" font-weight="700" fill="#16262A">判据表：今天的第二列</text>
+<line x1="96" y1="232.56" x2="1184" y2="232.56" stroke="#16262A" stroke-width="2" />
+<text x="104.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F" />
+<text x="376.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F">方向</text>
+<text x="648.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F">载体</text>
+<text x="920.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F">能量</text>
+<line x1="96" y1="298.56" x2="1184" y2="298.56" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="104.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">自由扩散</text>
+<text x="376.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">顺</text>
+<text x="648.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">无</text>
+<text x="920.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">不耗</text>
+<line x1="96" y1="352.56" x2="1184" y2="352.56" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="104.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">协助扩散</text>
+<text x="376.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">顺</text>
+<text x="648.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">有</text>
+<text x="920.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">不耗</text>
+<line x1="96" y1="406.56" x2="1184" y2="406.56" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="104.0" y="428.56" font-size="21" font-weight="400" fill="#16262A">主动运输</text>
+<text x="376.0" y="428.56" font-size="21" font-weight="400" fill="#16262A">逆</text>
+<text x="648.0" y="428.56" font-size="21" font-weight="400" fill="#16262A">有</text>
+<text x="920.0" y="428.56" font-size="21" font-weight="400" fill="#16262A">耗</text>
+<line x1="96" y1="460.56" x2="1184" y2="460.56" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="96" y="500.56" font-size="16" font-weight="400" fill="#4A5C60" fill-opacity="0.85">这张表要挂三节课，只加列，不重画。</text>
+<line x1="96" y1="664" x2="1184" y2="664" stroke="#D8D0C0" stroke-width="1" /><text x="96" y="690" font-size="14" font-weight="400" fill="#4A5C60" fill-opacity="0.75">一株海水稻，怎么在盐里活着</text><text x="1184" y="690" font-size="14" font-weight="400" fill="#4A5C60" text-anchor="end" fill-opacity="0.75">13 / 24</text>
+</g>
+</svg>

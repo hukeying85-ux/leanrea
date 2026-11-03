@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" lang="zh-CN" viewBox="0 0 1280 720" width="1280" height="720" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" data-pptx-page-role="content">
+<rect x="0" y="0" width="1280" height="720" fill="#0F1B1F" id="bg" data-pptx-role="background" />
+<g id="content" data-pptx-bounds="0 0 1280 720">
+<image href="../../assets/deck-images/students.jpg" x="560" y="0" width="720" height="720" preserveAspectRatio="xMidYMid slice" />
+<rect x="560" y="0" width="8" height="720" fill="#F7F3EC" />
+<text x="96" y="120" font-size="19" font-weight="500" fill="#C2542F" letter-spacing="2">第 3 课时的入口</text>
+<text x="96" y="300" font-family="Songti SC, STSong, SimSun, serif" font-size="50" font-weight="700" fill="#16262A">帮手有了，钱也省了</text>
+<text x="96" y="361.0" font-family="Songti SC, STSong, SimSun, serif" font-size="50" font-weight="700" fill="#16262A">，</text>
+<text x="96" y="438.0" font-family="Songti SC, STSong, SimSun, serif" font-size="50" font-weight="700" fill="#16262A">还差什么？</text>
+<line x1="96" y1="535.0" x2="276" y2="535.0" stroke="#C2542F" stroke-width="3" />
+<text x="96" y="591.0" font-size="19" font-weight="400" fill="#4A5C60">钩 2。学生若答"差能量"，直接肯定，但先不给名字。</text>
+</g>
+</svg>

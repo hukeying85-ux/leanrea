@@ -61,3 +61,13 @@
 | 06 逐字稿 | academic-ppt 的 speaker notes | 口语化规则、停顿与追问标记、时长核算 |
 | 07 视频演示 | MathLens / explainer-video / myanim | 生物概念的分镜原型（过程动画、尺度缩放、显微视野） |
 | 总控 | teacher-workflow 的总协调器 | 章节状态机 + 一章一回合 + 交接单 |
+
+## 课件类（本轮补检，2026-11-03）
+
+| 仓库 | 能做什么 | 本模块怎么用 |
+|---|---|---|
+| [`hugohe3/ppt-master`](https://github.com/hugohe3/ppt-master)（MIT，v6.8.0） | 1280×720 SVG → **原生** PPTX：文字可编辑、图片原生、曲线/表格原生；带质量门（svg_quality_checker）、讲稿备注分页、动画/过渡、模板复用 | **已安装并接入**：`scripts/install_ppt_master.sh` + `scripts/build_deck.py`。只用它的 SVG→PPTX 导出与质量门，不用它的 Strategist 多轮确认流程（我们要的是"按课时出片"，不是"聊出一版设计"） |
+| `gnuhpc/ppt-master-plus` | PPT Master 的增强分支：美化、备注、实时预览 | 暂不接；`--quick-generate` 已够 |
+| `M1n-n9/academic-ppt-master` | 论文→学术 PPTX | 场景不符（我们是课时课件，不是论文汇报） |
+
+**结论**：之前没有用任何 PPT 设计 skill——`scripts/build_pptx.py` 是自写的"文本框 + 圆点"生成器，能保证结构（页数、备注覆盖率）但保证不了好看。现在把"好看"这件事交给专门的 skill，自己只保留"内容层（md）+ 版式决策层（plan.json）"。

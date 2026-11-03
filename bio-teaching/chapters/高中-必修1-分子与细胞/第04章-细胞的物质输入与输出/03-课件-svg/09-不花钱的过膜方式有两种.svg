@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" lang="zh-CN" viewBox="0 0 1280 720" width="1280" height="720" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" data-pptx-page-role="section">
+<rect x="0" y="0" width="1280" height="720" fill="#0F1B1F" id="bg" data-pptx-role="background" />
+<g id="content" data-pptx-bounds="0 0 1280 720">
+<image href="../../assets/deck-images/pass.jpg" x="0" y="0" width="1280" height="720" preserveAspectRatio="xMidYMid slice" />
+<rect x="0" y="0" width="1280" height="720" fill="#0B1416" fill-opacity="0.62" />
+<text x="96" y="200" font-family="Songti SC, STSong, SimSun, serif" font-size="132" font-weight="700" fill="#C2542F">02</text>
+<text x="96" y="330" font-family="Songti SC, STSong, SimSun, serif" font-size="56" font-weight="700" fill="#F7F3EC">不花钱的过膜方式，有两种</text>
+<line x1="96" y1="407.2" x2="216" y2="407.2" stroke="#F7F3EC" stroke-width="3" stroke-opacity="0.9" />
+<text x="96" y="467.2" font-size="22" font-weight="400" fill="#F7F3EC" fill-opacity="0.82">第 2 课时 · 自由扩散与协助扩散</text>
+</g>
+</svg>

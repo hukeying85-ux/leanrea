@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" lang="zh-CN" viewBox="0 0 1280 720" width="1280" height="720" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" data-pptx-page-role="content">
+<rect x="0" y="0" width="1280" height="720" fill="#F7F3EC" id="bg" data-pptx-role="background" />
+<g id="content" data-pptx-bounds="0 0 1280 720">
+<text x="96" y="76" font-size="19" font-weight="500" fill="#C2542F" letter-spacing="2">最容易混的一页</text>
+<text x="96" y="160" font-family="Songti SC, STSong, SimSun, serif" font-size="38" font-weight="700" fill="#16262A">载体不是通道</text>
+<line x1="640" y1="232.56" x2="640" y2="502.56" stroke="#D8D0C0" stroke-width="1.5" />
+<text x="96.0" y="242.56" font-size="22" font-weight="500" fill="#C2542F">载体蛋白</text>
+<text x="96.0" y="304.56" font-family="Songti SC, STSong, SimSun, serif" font-size="34" font-weight="700" fill="#16262A">结合—变形—释放</text>
+<text x="96.0" y="350.56" font-size="19" font-weight="400" fill="#4A5C60">自身构象改变</text>
+<text x="96.0" y="384.56" font-size="19" font-weight="400" fill="#4A5C60">每轮都要「抓」一次</text>
+<text x="96.0" y="418.56" font-size="19" font-weight="400" fill="#4A5C60">有特异性</text>
+<text x="640.0" y="242.56" font-size="22" font-weight="500" fill="#2E6B66">通道蛋白</text>
+<text x="640.0" y="304.56" font-family="Songti SC, STSong, SimSun, serif" font-size="34" font-weight="700" fill="#16262A">开，或者关</text>
+<text x="640.0" y="350.56" font-size="19" font-weight="400" fill="#4A5C60">形成水相孔道</text>
+<text x="640.0" y="384.56" font-size="19" font-weight="400" fill="#4A5C60">不结合底物</text>
+<text x="640.0" y="418.56" font-size="19" font-weight="400" fill="#4A5C60">同样有选择性</text>
+<line x1="96" y1="664" x2="1184" y2="664" stroke="#D8D0C0" stroke-width="1" /><text x="96" y="690" font-size="14" font-weight="400" fill="#4A5C60" fill-opacity="0.75">一株海水稻，怎么在盐里活着</text><text x="1184" y="690" font-size="14" font-weight="400" fill="#4A5C60" text-anchor="end" fill-opacity="0.75">12 / 24</text>
+</g>
+</svg>

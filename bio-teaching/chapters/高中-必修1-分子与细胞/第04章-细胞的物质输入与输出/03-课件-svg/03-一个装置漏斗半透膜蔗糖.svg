@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" lang="zh-CN" viewBox="0 0 1280 720" width="1280" height="720" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" data-pptx-page-role="content">
+<rect x="0" y="0" width="1280" height="720" fill="#F7F3EC" id="bg" data-pptx-role="background" />
+<g id="content" data-pptx-bounds="0 0 1280 720">
+<text x="96" y="76" font-size="19" font-weight="500" fill="#C2542F" letter-spacing="2">一个装置：漏斗、半透膜、蔗糖</text>
+<text x="96" y="164" font-family="Songti SC, STSong, SimSun, serif" font-size="38" font-weight="700" fill="#16262A">一个装置：漏斗、半透膜、蔗糖</text>
+<line x1="96" y1="232.56" x2="1184" y2="232.56" stroke="#16262A" stroke-width="2" />
+<text x="104.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F" />
+<text x="466.6666666666667" y="266.56" font-size="20" font-weight="500" fill="#C2542F">漏斗内</text>
+<text x="829.3333333333334" y="266.56" font-size="20" font-weight="500" fill="#C2542F">烧杯内</text>
+<line x1="96" y1="298.56" x2="1184" y2="298.56" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="104.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">溶液</text>
+<text x="466.6666666666667" y="320.56" font-size="21" font-weight="400" fill="#16262A">蔗糖溶液</text>
+<text x="829.3333333333334" y="320.56" font-size="21" font-weight="400" fill="#16262A">清水</text>
+<line x1="96" y1="352.56" x2="1184" y2="352.56" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="104.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">水分子</text>
+<text x="466.6666666666667" y="374.56" font-size="21" font-weight="400" fill="#16262A">少</text>
+<text x="829.3333333333334" y="374.56" font-size="21" font-weight="400" fill="#16262A">多</text>
+<line x1="96" y1="406.56" x2="1184" y2="406.56" stroke="#D8D0C0" stroke-width="0.8" />
+<text x="96" y="446.56" font-size="16" font-weight="400" fill="#4A5C60" fill-opacity="0.85">水分子双向运动，净方向朝里 → 液面上升。</text>
+<line x1="96" y1="664" x2="1184" y2="664" stroke="#D8D0C0" stroke-width="1" /><text x="96" y="690" font-size="14" font-weight="400" fill="#4A5C60" fill-opacity="0.75">一株海水稻，怎么在盐里活着</text><text x="1184" y="690" font-size="14" font-weight="400" fill="#4A5C60" text-anchor="end" fill-opacity="0.75">03 / 24</text>
+</g>
+</svg>

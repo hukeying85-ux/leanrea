@@ -137,6 +137,29 @@ Markdown 约定（`build_pptx.py` 解析）：
 | 诊断题 | 每题标命题 id 与迷思 id；错项 = 迷思 | 人查 |
 | 指南独立性 | 只给 `02-教学指南.md`，教师能否直接上完 40 分钟 | 人查（关键） |
 
+## 03c 课件版式（PPT Master 通道）
+
+`03-课件.md` / `06-课件.md` 只写**内容**（页 → 要点 → 备注）。版式是另一层：`<stem>.plan.json` 指定每页的布局与配图，`scripts/build_deck.py` 生成 1280×720 的 SVG 页，再由 PPT Master（MIT，`hugohe3/ppt-master`）转成**原生** PPTX。
+
+| 项 | 规格 | 检查 |
+|---|---|---|
+| 安装 | `bash scripts/install_ppt_master.sh`（clone + pip + attribution guard） | 脚本退出码 0 |
+| 版式层 | `<stem>.plan.json`：每页 `layout` / `image` / `kicker` / `note` | 缺省按内容自动选（表→table，短句→statement） |
+| 画布 | `ppt169` = 1280×720，`data-pptx-page-role` ∈ cover/section/content/ending | `svg_quality_checker.py --quick-generate` |
+| 风格 | editorial：细分隔线、kicker、衬线标题 + 黑体正文、赤陶单色强调 | 人查 |
+| 字阶 | 标题 36–62 / 正文 19–26 / 说明 15–17；**最小 15** | 脚本 `fit()` 自动降号防溢出 |
+| 配色 | 纸 #F7F3EC · 墨 #16262A · 赤陶 #C2542F · 青 #2E6B66 · 分隔线 #D8D0C0 | 固定，不逐页换色 |
+| 配图 | 10 张，`assets/deck-images/`，**图内零文字**；一页最多一张，铺满一侧或整页 | 人查 |
+| 精确关系 | 曲线、表格、判据表一律**矢量/原生**，不用 AI 图 | 人查 |
+| 备注 | `notes/total.md` → `total_md_split.py` → 逐页备注 | 与 `06-课件.md` 的 `<!-- note -->` 条数一致 |
+| 预览 | `<stem>-preview.html`（SVG 原样嵌页面，浏览器即看） | 打不开即失败 |
+| 导出 | `build_deck.py` 内部调 `svg_to_pptx.py --quick-generate --with-notes` | 0 失败页 |
+
+**两条硬规则**：
+
+1. **图不承载信息**。图内不写字、不标箭头、不标数字；需要被读的（曲线两端是否重合、平台高度、原生质层位置）必须画成矢量或写成文字。理由：AI 图里的错字最伤专业感，且改不动。
+2. **改内容改 md，改样子改 plan.json**。两者分开，重跑 `build_deck.py` 即得新 pptx；不要手改 pptx。
+
 ## 03b 章级成组（`chapters/<册>/第NN章-<章名>/`，多知识点串成一章）
 
 `check_chapter.py` 管单份文件合不合规；成组另有口径，用 `check_group.py` 验收。
