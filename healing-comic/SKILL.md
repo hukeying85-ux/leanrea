@@ -38,7 +38,8 @@ storyboard  layout.json  art/     pages/       .mp4
 2. **拆解器** `python3 scripts/series_plan.py --map references/guide-map.md --plan references/series-plan.md --spec-dir examples/`：gate（每批 ≤10 张对齐生图单轮额度、标签 ≤8 字、点题 ≤14 字、台词行 ≤12 字）+ 自动锚点（触发拍上 y0.15、引导拍下 y0.65、左右 0.22/0.80 随页交替）+ 直出 `spec-seriesNN.json`。
 3. 分镜表里**锚点列即角色方位**：触发气泡在哪侧，布布就画在哪侧；引导句在另一侧下拍。
 4. 每批一个发布文案（A6），封面 title 两行 + 页码钩子（「第 3 页那句话…」）。
-范例：第 01 批《底层逻辑与第一课》＝`guide-map.md` + `spec-series01.json` + `copy-系列01-*.md`。
+5. **一批一回合（默认节奏）**：文案与图同轮完成——填地图 → 拆解器出 spec → 10 张底图（恰好一轮生图额度，参考图挂同方位已验收页）→ verify-art/inpaint → compose → verify-page → commit/push → Drive。文案不做事前预审，靠三个回路兜底：① 拆解器 gate（字数/锚点/页数）② 逐页 OCR 验收 ③ 用户事后报页码、单页重画。若某张底图空响应失败，用 partial spec 先出 9 页，下一轮第一动作补画。
+范例：第 01 批《底层逻辑与第一课》＝`guide-map.md` + `spec-series01.json` + `copy-系列01-*.md`；第 04 批起为一批一回合范例（①–④ 全部 10/10 PASS）。
 
 ### A1. 选题：最小可用主题
 
@@ -228,6 +229,7 @@ python3 scripts/ocr_layout.py --verify-page pages/复刻02.png --spec spec.json
 | 一页塞 4 个概念 | 想保留原文结构 | 一页一个动作，其余进正文配文 |
 | 做成 20 页文字卡 | 旧素材惯性 | 砍到 6–9 页 |
 | 引导句像说教 | 文案没映射源文 | A4 硬规则：每句映射回指南实操建议 |
+| 一批想拆两轮（先文案后图） | 想让用户先审文案 | A0-5 一批一回合：gate+OCR+页码返工三回路兜底，更快 |
 | 要商用 | 高相似版有 IP 风险 | 换 `examples/art-original/` |
 | 被限流 | 未标 AI | 发布勾选 AI 标识 |
 
@@ -241,7 +243,7 @@ python3 scripts/ocr_layout.py --verify-page pages/复刻02.png --spec spec.json
 | `pages-xhs2/` + `art-xhs2/` | 复刻 2.0 | B1 四步完整流程（原帖场景去字） |
 | `pages-xhs3/` + `art-xhs3/` | **复刻 3.0 ⭐** | A4 触发句→引导句 + 场景换装 + 锚点节奏 + `复刻_轮播视频.mp4`（E 阶段） |
 | `spec-xhs8c.json` | 3.0 的 spec | label/reveal/bubbles+anchor 字段写法 |
-| `guide-map.md` + `spec-series01.json` + `copy-系列01-*.md` | **连载 13 批 ⭐** | A0 连载拆解：内容地图→拆解器→每批 10 张 |
+| `guide-map.md` + `spec-series01.json` + `copy-系列01-*.md` | **连载 13 批 ⭐** | A0 连载拆解：内容地图→拆解器→每批 10 张（①–④ 已完成，④ 起一批一回合） |
 | `art-original/` | 原创角色 | 商用替代 |
 
 完整调研（14 个 GitHub comic skill）、案例库、转换方案、3.7 与复刻版全套文案设计见 `references/`；测量数据见 `references/layout-xhs8.json`。
