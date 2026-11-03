@@ -32,11 +32,14 @@ def check_files(d: Path) -> None:
             add("OK", f"文件 {f}")
         else:
             add(FAIL, f"缺文件 {f}")
-    for f in ["03-课件.pptx", "index.md"]:
+    for f in ["index.md"]:
         if (d / f).exists():
             add("OK", f"文件 {f}")
         else:
-            add(WARN, f"缺生成物 {f}（课件需跑 build_pptx.py；交接单在 08 生成）")
+            add(WARN, f"缺生成物 {f}（交接单在 08 生成）")
+    decks = sorted(d.glob("03-课件*.pptx"))
+    add("OK" if decks else "WARN", f"课件 {len(decks)} 版",
+        "、".join(x.stem.replace("03-课件", "") or "单墨" for x in decks))
 
 
 def check_extract(d: Path) -> None:

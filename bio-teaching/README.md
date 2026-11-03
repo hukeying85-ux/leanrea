@@ -51,6 +51,7 @@ references/
   chapter-map.md             章节地图与状态机（ready / skeleton），一章一对话的队列
   asset-spec.md              每个模块的产物规格与硬 gate（页数/题数/字数/时长/检查项）
   explain-protocol.md        ⭐ 讲好一个知识点的七步协议 + 八条规则 + 反模式
+  typography.md              排版规格：三套版式的字号阶、中文禁则、孤字、页面机件
   drive-vs-kb-experiment.md  直传 Drive vs 知识库→编译指南：打分、结论、复测方法
 chapters/
   高中-必修1-分子与细胞/第01章-走近细胞/   样板章：全套 7 份产物 + 课件.pptx
@@ -60,15 +61,17 @@ kp/
   必修1-第4章-主动运输/                   样板知识点 B（看不见的）：11 份完整集，含课件/逐字稿/AI/交接单
   必修1-第5章-酶降低活化能/               样板知识点 C（纯模型）：11 份完整集，验证第三种冲突（数量级）
 scripts/
-  build_pptx.py              课件大纲（Markdown）→ .pptx + 自包含 HTML 预览
+  build_pptx.py              旧生成器（v1 文本框版，仅存档 ch01 用；不作交付）
   check_chapter.py           单章验收：缺项 / 题数 / 页数 / 时间预算 / 口径一致性
   check_kp.py                知识点验收：最小集 6 份 / 完整集 11 份
   check_group.py             成组验收：主线贯穿 / 逐表加列 / 钩子闭环 / 重复自查
-  build_deck.py              md + plan.json → SVG 页 → PPT Master → 原生 .pptx（带讲稿备注）
-  duotone.py                 配图统一成单墨双色版画（light / ink 两版）
+  build_deck.py              md + plan.json + --theme → SVG 页 → PPT Master → 原生 .pptx（带讲稿备注）
+  duotone.py                 配图统一成单墨双色版画（按主题取纸色/墨色，light + ink 两版）
+  check_overflow.py          文本包围盒：越界 / 相撞 / 行距过挤（无渲染环境下的替代检查）
   install_ppt_master.sh      安装 PPT Master（MIT）及其依赖
 assets/
-  deck-images/               14 张原图的 28 个版画版本（light/ink，图内零文字）+ PROMPTS.md
+  deck-images/src/           10 张铜版画原图（图内零文字，同一画风）
+  deck-images/               20 个单墨版本（light/ink），供 SVG 预览；PROMPTS.md 存提示词
 ```
 
 ## 样板章（已跑通）
@@ -125,30 +128,35 @@ python3 scripts/build_pptx.py \
 
 ## 课件为什么会好看（以及为什么不再手写 python-pptx）
 
-**v1 的问题**：文本框加圆点，没有图；后来加了图，又变成"四种画风拼贴"——写实照片、3D 渲染、水彩、风景照混在一起，跟生物学的气质不是一套。
-
-**v2 的解法**：一套课件只允许**两种颜色 + 一种画风**。
+**v1**：文本框加圆点，没有图。**v2**：加了图，但"四种画风拼贴"——写实照片、3D 渲染、水彩、风景照混在一套里，审美判"太一般"。**v3**：换的不只是色，是**材料**和**字**。
 
 ```
-06-课件.md（内容 + 备注）          只写"讲什么"
+06-课件.md（内容 + 备注）            只写"讲什么"
       │
-06-课件.plan.json（版式 + 配图）    只写"长什么样"
+06-课件.plan.json（版式 + 配图）      只写"长什么样"——三套版式共用这一份
       │
-scripts/build_deck.py → 1280×720 SVG   单墨版画：纸 #F4EFE4 / 墨 #14302F / 赤陶 #B8452A
+scripts/build_deck.py --theme …  → 1280×720 SVG
       │
-PPT Master（MIT）svg_to_pptx → 原生 .pptx   文字可编辑、图片原生、曲线原生
+PPT Master（MIT）svg_to_pptx      → 原生 .pptx：文字可编辑、图片原生、曲线是路径
 ```
 
-三件具体的事：
+四件具体的事：
 
-1. **配图统一成版画**：14 张原图先过 `scripts/duotone.py`，压到"纸上一种墨"，混合媒介立刻读成同一套图版（浅版嵌版、深版整版）。
-2. **隐喻不该拍照**：山、隧道、教室照退出配图；"能量垭口""酶挖隧道"改用 `diagram` 版式**原生矢量**画——两个谷、一个垭口、一条虚线。风声、雾、光影在这里只会把生物学讲成风景。
-3. **图不承载信息**：图内零文字零标注；要读的关系（三条曲线两端重合、平台被谁卡住、原生质层收缩）全部矢量或表格。
+1. **配图从生成端起就只有一种材料**：10 张十九世纪铜版画，同一段风格约束、图内零文字。构建时按主题重新上色（纸色＝页面纸色），图片可以 `meet` 摆放而不露边框。
+2. **隐喻用矢量画**：山、隧道退出配图，"能量垭口""酶挖隧道"由 `diagram` 版式原生绘制；风景照会把生物学讲成旅游海报。
+3. **字是一套系统，不是随手调**：三档字号阶、字距只给标题与 kicker、正文永远 0；中文禁则（行首不排 `。，、`）、孤字回借、一段话合并成一个 `<text>`+`<tspan>` 段落（转成 PPTX 就是**一个可编辑文本段**）。规格见 [`references/typography.md`](references/typography.md)。
+4. **一稿三版，同一份内容**：
 
-- **安装**：`bash scripts/install_ppt_master.sh`；**导出**：`python3 scripts/build_deck.py --md … --plan … --out … --images assets/deck-images`
-- **预览**：每套课件旁边的 `-preview.html`，浏览器直接翻，不用 PowerPoint
-- **现状**：酶 15 页（7 图 / 15 备注）、第4章 24 页（14 图 / 24 备注），文字零越界
-- 规格见 `references/asset-spec.md` 的「03c 课件版式（PPT Master 通道）」
+| `--theme` | 气质 | 差在哪 |
+|---|---|---|
+| `academic` A 学术冷版 | 学报 | 冷灰纸、只有墨 + 一条细红线、标题字距 0.045em、running head + `01 / 15` |
+| `classroom` B 课堂暖版 | 板书 | 纸更暖、**整体字号 ×1.15**（字与竖向节奏一起放大）、手写圈画与标题横线 |
+| `textbook` C 教材版 | 人教版 | 章名双细线、页码框、图注 `图 5-1`、标题自动编号「一、二、」 |
+
+- **安装**：`bash scripts/install_ppt_master.sh`；**导出**：`python3 scripts/build_deck.py --md … --plan … --out … --images assets/deck-images/src --theme textbook`
+- **预览**：每套课件旁的 `-preview.html`，浏览器直接翻三版并排比，不用 PowerPoint
+- **现状**：酶 15 页 / 第4章 24 页，各出 A·B·C 三版；三版均 **0 越界、0 相撞、0 advisory**
+- 规格：`references/asset-spec.md`「03c」+ `references/typography.md`
 
 ## 关于"上传到 Google Drive"
 

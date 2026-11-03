@@ -10,8 +10,9 @@ chapters/<册>/第NN章-<章名>/
   00-原料/            L0 章包（book-to-skills 产物，只读）
   01-教材拆解.md      L1 起点
   02-教学设计.md      教案（含课时表）
-  03-课件.md          课件大纲（build_pptx.py 的输入）
-  03-课件.pptx        生成物
+  03-课件.md          课件大纲（内容层）
+  03-课件.plan.json   版式层（每页 layout / 配图）
+  03-课件-<版本>.pptx  生成物：A学术 / B课堂 / C教材 三版
   04-习题检验.md      教师版（含答案与解析）
   04-习题-学生版.md   只留题面（可直接印）
   05-AI时代教学.md
@@ -48,10 +49,10 @@ chapters/<册>/第NN章-<章名>/
 ## 03 课件（`03-课件.md`）
 
 两处都要放（本轮修正）：`.pptx` 同时进 git 与 Drive。理由是教师找不到课件就等于没交付；Drive 只读副本不承担版本管理，源始终是 md。
-生成命令默认写到 md 所在目录：`python3 scripts/build_pptx.py <md> --lessons <课时数>`（页数 gate = 课时数 × 9 ± 4）。
+生成走 `scripts/build_deck.py`（见 03c）：页数 gate = 课时数 × 9 ± 4，由 `check_chapter.py` / `check_group.py` 验。
 
 
-Markdown 约定（`build_pptx.py` 解析）：
+Markdown 约定（`build_deck.py` 解析）：
 
 ```markdown
 # 课件标题
@@ -139,34 +140,57 @@ Markdown 约定（`build_pptx.py` 解析）：
 
 ## 03c 课件版式（PPT Master 通道）
 
-`03-课件.md` / `06-课件.md` 只写**内容**（页 → 要点 → 备注）。版式是另一层：`<stem>.plan.json` 指定每页的 `layout` 与配图，`scripts/build_deck.py` 生成 1280×720 SVG，再由 PPT Master（MIT，`hugohe3/ppt-master`）转成**原生** PPTX。
+`03-课件.md` / `06-课件.md` 只写**内容**（页 → 要点 → 备注）。版式是另一层：`<stem>.plan.json` 指定每页的 `layout` 与配图，`scripts/build_deck.py` 生成 1280×720 SVG，再由 PPT Master（MIT，`hugohe3/ppt-master`）转成**原生** PPTX（文字可编辑、图片原生、曲线是路径）。
 
-### 视觉语言：单墨版画（v2，取代 v1 的"什么图都能放"）
+### 配图：铜版画原图（v3）
 
-| 项 | 规格 |
+v2 的"四种材料拼贴"已经判死：写实照片、3D 渲染、水彩、风景照混在一套课件里，怎么调间距都救不回来。v3 从**生成端**就只出一种画风——十九世纪铜版／木刻版画：细密交叉排线、单墨印在暖纸上、**图内零文字零标注**。
+
+| 文件（`assets/deck-images/src/`） | 用在哪 |
 |---|---|
-| 颜色 | 只有两个：暖纸 `#F4EFE4` · 深松墨 `#14302F`；赤陶 `#B8452A` 与哑青 `#2C6157` 只用于强调线与强调数据 |
-| 配图 | 全部经 `scripts/duotone.py` 压成双色版画，出 `-light` / `-ink` 两版；**一套课件只有一个画风** |
-| 排版 | 衬线标题（宋体，56–64）+ 黑体正文（19–22）+ 12.5 衬线斜体图注；细分隔线；页脚 `NN — MM` |
-| 版式 | `cover` 封面 · `plate` 整版图 · `plate_side` 图文对开 · `hero` 双大数字 · `diagram` 原生矢量图 · `chart` 原生曲线 · `table` 判据表 · `compare` 对照 · `checklist` 纠错 · `quote` 引语 · `section` 深色分隔 · `statement` 定义页 |
-| 图注 | 每张图都必须有 `PLATE NN · 说明`，写成"这是什么"而不是"这多好看" |
+| `tubes` | 封面 · 自由扩散（三支试管，中间冒泡） |
+| `splint` | 现象页 · 断电实验（带火星木条） |
+| `flask` | 双大数字页（锥形瓶里密集气泡） |
+| `enzyme` | 关键一问（折叠蛋白托住底物） |
+| `cell` | 植物细胞剖面（细胞壁 / 液泡 / 叶绿体 / 胞间连丝） |
+| `onion` | 质壁分离（细胞壁与收缩的原生质体之间的空隙） |
+| `membrane` | 脂双层 + 通道蛋白 |
+| `root` | 根尖纵剖 + 根毛 |
+| `stomata` | 气孔与保卫细胞 |
+| `saltfield` | 封面 · 收句（盐碱地上的稻穗） |
 
-**三条硬规则**：
+构建时按主题重新上色，出 `-light`（纸底）/ `-ink`（墨底）两版，**纸色与页面同色**，所以图片可以 `meet` 放进版面而不露边框。曲线与格线见 `references/typography.md`。
+
+### 三套版式（`--theme`）
+
+同一份 md + 同一份 plan，只换 `--theme`，就能出三种气质；几何与版式集合完全相同，差的是**纸墨、字号、页面机件**。
+
+| `--theme` | 名字 | 纸 / 墨 | 字 | 页面机件 | 适用 |
+|---|---|---|---|---|---|
+| `academic` | A 学术冷版 | `#F1F0EB` / `#111E20`，只有一条细红线 `#9E2B1B` | 正文 19、标题字距 0.045em | 顶部通栏细线 + 右上 running head；底部 `01 / 15` + 小字 colophon | 公开课、教研、评审 |
+| `classroom` | B 课堂暖版 | `#F8F1E2` / `#1D2E29`，赤陶 `#C0542F` | 整体 **×1.15**（正文 22、标题 64） | 手写感圈画、标题下手写横线、页码大号衬线 | 真实教室，后排也要看得清 |
+| `textbook` | C 教材版 | `#F7F4EA` / `#16282A` | 正文 20、标题前缀「一、二、」 | 顶部章名 + 双细线、右侧固定页码框、图注统一「图 5-1」 | 印发、归档、学生课后看 |
+| `plate` | 单墨基准（v2 对照） | `#F4EFE4` / `#14302F` | 正文 20 | 页脚 `NN — MM` | 只作对照组，不再单独交付 |
+
+12 种版式：`cover` `plate` `plate_side` `hero` `diagram` `chart` `table` `compare` `checklist` `quote` `section` `statement`。
+
+**四条硬规则**：
 
 1. **图不承载信息**。图里不写字、不标箭头、不标数字；要被读的关系（曲线两端、平台高度、原生质层位置）画成矢量或写成文字。
-2. **隐喻要画，不要拍照**。"能量要翻一座山""酶打了一条隧道"——用 `diagram` 版式原生画（两个谷、一个垭口、一条虚线隧道），不用风景照。风景照会让课件从生物学滑向旅游海报，而且不可改。
-3. **改内容改 md，改样子改 plan.json**，重跑 `build_deck.py` 得新 pptx；不要手改 pptx。
+2. **隐喻要画，不要拍照**。"能量要翻一座山""酶打了一条隧道"——用 `diagram` 版式原生画；风景照会让课件从生物学滑向旅游海报。
+3. **配图只准来自 `assets/deck-images/src/`**。混入照片、3D 渲染、水彩即为退稿，重生成不要打补丁。
+4. **改内容改 md，改样子改 plan.json**，重跑 `build_deck.py` 得新 pptx；不要手改 pptx。
 
 ### 质量门与验收
 
 | 项 | 检查 |
 |---|---|
 | 安装 | `bash scripts/install_ppt_master.sh`（clone + pip + attribution guard 返回 0） |
-| 页面自检 | `svg_quality_checker.py --quick-generate --canonical-authoring --stage final`（0 阻塞） |
-| 文字溢出 | 生成时 `fit()` 自动降号；交付前跑文本包围盒检查，**0 处越界** |
+| 页面自检 | `svg_quality_checker.py --quick-generate --canonical-authoring --stage final`：0 阻塞、**0 advisory**（连续单行 `<text>` 已合并为 `<text>` + `<tspan>` 段落） |
+| 文字检查 | `python3 scripts/check_overflow.py <构建目录>`：越界 0 / 文字相撞 0 / 行距过挤 0 |
 | 备注 | 与 md 的 `<!-- note -->` 条数一致（酶 15/15、第4章 24/24） |
 | 原生性 | pptx 里图片是图片对象、曲线是路径对象、文字是可编辑文本（不是整页截图） |
-| 预览 | `<stem>-preview.html`（浏览器直接看） |
+| 预览 | `<stem>-<版本>-preview.html`（浏览器直接翻，三版并排比） |
 
 ## 03b 章级成组（`chapters/<册>/第NN章-<章名>/`，多知识点串成一章）
 

@@ -29,11 +29,14 @@ def cjk(s: str) -> int:
 def files(d: Path) -> None:
     core = ["00-讲解设计.md", "01-知识库卡片.md", "02-教学指南.md",
             "03-学生一页学案.md", "04-诊断题.md", "05-板画与动画.md"]
-    extra = ["06-课件.md", "06-课件.pptx", "07-逐字稿.md", "08-AI时代教学.md", "index.md"]
+    extra = ["06-课件.md", "07-逐字稿.md", "08-AI时代教学.md", "index.md"]
     for f in core:
         add("OK" if (d / f).exists() else "FAIL", f"文件 {f}")
     for f in extra:
         add("OK" if (d / f).exists() else "WARN", f"可选 {f}")
+    decks = sorted(d.glob("06-课件*.pptx"))
+    add("OK" if decks else "WARN", f"可选课件 {len(decks)} 版",
+        "、".join(x.stem.replace("06-课件", "") or "单墨" for x in decks))
 
 
 def design(d: Path) -> None:

@@ -1,6 +1,6 @@
 {
   "kicker": "第 5 章 · 降低化学反应活化能的酶",
-  "meta": "人教版（2019）必修 1 · 第 5 章第 1 节 · 40 分钟 · 15 页 · 单墨版画版式",
+  "meta": "人教版（2019）必修 1 · 第 5 章第 1 节 · 40 分钟 · 15 页",
   "pages": [
     {
       "layout": "cover",
@@ -33,7 +33,7 @@
         }
       ],
       "note": "反应速度差了几百倍。这个比例本身就不合理——它没有被用掉，也没有给反应加能量。",
-      "image": "bubbles",
+      "image": "flask",
       "caption": "PLATE 02 · 气泡：反应正在发生"
     },
     {
@@ -52,12 +52,14 @@
       "title": "分子要翻过一座山",
       "ann": "活化能",
       "catalyst": false,
-      "tunnel": false
+      "tunnel": false,
+      "image": null
     },
     {
       "layout": "table",
       "kicker": "三条曲线画在同一张图上",
-      "caption": "重点不在峰顶多低，而在两端一样高。"
+      "caption": "重点不在峰顶多低，而在两端一样高。",
+      "image": null
     },
     {
       "layout": "diagram",
@@ -66,7 +68,8 @@
       "ann": "活化能",
       "catalyst": true,
       "tunnel": true,
-      "tunnel_label": "酶：打一条隧道（不搬走山，只换路）"
+      "tunnel_label": "酶：打一条隧道（不搬走山，只换路）",
+      "image": null
     },
     {
       "layout": "statement",
@@ -76,12 +79,13 @@
       ],
       "kicker": "一句话记住它",
       "note": "多数是蛋白质，少数是 RNA。这一句写在黑板左上角，整节课不改。",
-      "image": "cell-ink"
+      "image": "cell"
     },
     {
       "layout": "table",
       "kicker": "三种「变快」不是一回事",
-      "caption": "「给分子能量」和「降低门槛」是两件相反的事。"
+      "caption": "「给分子能量」和「降低门槛」是两件相反的事。",
+      "image": null
     },
     {
       "layout": "compare",
@@ -106,7 +110,8 @@
             "可逆"
           ]
         }
-      ]
+      ],
+      "image": null
     },
     {
       "layout": "plate_side",
@@ -134,7 +139,8 @@
           "cutoff": 0.62
         }
       ],
-      "note": "两条线必须画在一起。\n学生自己说：为什么在这里分岔？"
+      "note": "两条线必须画在一起。\n学生自己说：为什么在这里分岔？",
+      "image": null
     },
     {
       "layout": "chart",
@@ -149,7 +155,8 @@
           "baseline": 0.1
         }
       ],
-      "note": "平台不是门槛，是酶不够用。\n这一条最容易错。"
+      "note": "平台不是门槛，是酶不够用。\n这一条最容易错。",
+      "image": null
     },
     {
       "layout": "checklist",
@@ -167,7 +174,8 @@
           "wrong": "加酶以后产物更多",
           "right": "终点一样，只是更快到"
         }
-      ]
+      ],
+      "image": null
     },
     {
       "layout": "quote",
@@ -178,5 +186,6 @@
       ],
       "note": "说完停三秒，下课。"
     }
-  ]
+  ],
+  "figures": "5"
 }
