@@ -302,7 +302,7 @@ def gate(deck: dict, per_slide: int, lessons: float) -> int:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("md")
-    ap.add_argument("--outdir", default=".")
+    ap.add_argument("--outdir", default=None, help="默认写到 md 所在目录")
     ap.add_argument("--title", default=None)
     ap.add_argument("--per-slide", type=int, default=9, help="每课时页数目标，用于页数 gate")
     ap.add_argument("--lessons", type=float, default=2.0, help="本章课时数（含实验课，0.5 计半课时）")
@@ -322,7 +322,7 @@ def main() -> None:
     if not deck.get("h1"):
         deck["h1"] = deck["title"]
 
-    outdir = Path(a.outdir)
+    outdir = Path(a.outdir) if a.outdir else md.parent
     outdir.mkdir(parents=True, exist_ok=True)
     stem = md.stem  # 03-课件.md -> 03-课件.pptx；06-课件.md -> 06-课件.pptx
     pptx_path = outdir / f"{stem}.pptx"
