@@ -166,7 +166,7 @@ def timing_xml(steps) -> etree._Element:
         p3 = etree.SubElement(c2l, q("p:par"))
         c3 = etree.SubElement(p3, q("p:cTn"))
         c3.set("id", str(nxt()))
-        c3.set("presetID", "10")
+        c3.set("presetID", "9")   # fade = 入场 preset 9（如写 10 是 dissolve，动画窗格会标错）
         c3.set("presetClass", "entr")
         c3.set("presetSubtype", "0")
         c3.set("fill", "hold")

@@ -46,7 +46,8 @@ prompts/                     分模块对话（每条对话一个文件，可单
   08-审校与交付.md            验收 gate、合规、交接
 references/
   textbooks.md               教材清单：人教版初高中全册章节表 + 来源 + 版权边界
-  skills-survey.md           相关 skills 调研（18 个），可借鉴 / 不适用 / 本模块取舍
+  skills-survey.md           早期 skills 调研（18 个），保留作对照
+  skills-survey-v3.md        ⭐ GitHub 实检全量盘点：53 候选 / 14 评审 / 6 可用 + 优化路线（P0–P2）
   conversion-route.md        book-to-skills 先转 vs 直接转指南：判别表 + 决策
   chapter-map.md             章节地图与状态机（ready / skeleton），一章一对话的队列
   asset-spec.md              每个模块的产物规格与硬 gate（页数/题数/字数/时长/检查项）
