@@ -139,26 +139,34 @@ Markdown 约定（`build_pptx.py` 解析）：
 
 ## 03c 课件版式（PPT Master 通道）
 
-`03-课件.md` / `06-课件.md` 只写**内容**（页 → 要点 → 备注）。版式是另一层：`<stem>.plan.json` 指定每页的布局与配图，`scripts/build_deck.py` 生成 1280×720 的 SVG 页，再由 PPT Master（MIT，`hugohe3/ppt-master`）转成**原生** PPTX。
+`03-课件.md` / `06-课件.md` 只写**内容**（页 → 要点 → 备注）。版式是另一层：`<stem>.plan.json` 指定每页的 `layout` 与配图，`scripts/build_deck.py` 生成 1280×720 SVG，再由 PPT Master（MIT，`hugohe3/ppt-master`）转成**原生** PPTX。
 
-| 项 | 规格 | 检查 |
-|---|---|---|
-| 安装 | `bash scripts/install_ppt_master.sh`（clone + pip + attribution guard） | 脚本退出码 0 |
-| 版式层 | `<stem>.plan.json`：每页 `layout` / `image` / `kicker` / `note` | 缺省按内容自动选（表→table，短句→statement） |
-| 画布 | `ppt169` = 1280×720，`data-pptx-page-role` ∈ cover/section/content/ending | `svg_quality_checker.py --quick-generate` |
-| 风格 | editorial：细分隔线、kicker、衬线标题 + 黑体正文、赤陶单色强调 | 人查 |
-| 字阶 | 标题 36–62 / 正文 19–26 / 说明 15–17；**最小 15** | 脚本 `fit()` 自动降号防溢出 |
-| 配色 | 纸 #F7F3EC · 墨 #16262A · 赤陶 #C2542F · 青 #2E6B66 · 分隔线 #D8D0C0 | 固定，不逐页换色 |
-| 配图 | 10 张，`assets/deck-images/`，**图内零文字**；一页最多一张，铺满一侧或整页 | 人查 |
-| 精确关系 | 曲线、表格、判据表一律**矢量/原生**，不用 AI 图 | 人查 |
-| 备注 | `notes/total.md` → `total_md_split.py` → 逐页备注 | 与 `06-课件.md` 的 `<!-- note -->` 条数一致 |
-| 预览 | `<stem>-preview.html`（SVG 原样嵌页面，浏览器即看） | 打不开即失败 |
-| 导出 | `build_deck.py` 内部调 `svg_to_pptx.py --quick-generate --with-notes` | 0 失败页 |
+### 视觉语言：单墨版画（v2，取代 v1 的"什么图都能放"）
 
-**两条硬规则**：
+| 项 | 规格 |
+|---|---|
+| 颜色 | 只有两个：暖纸 `#F4EFE4` · 深松墨 `#14302F`；赤陶 `#B8452A` 与哑青 `#2C6157` 只用于强调线与强调数据 |
+| 配图 | 全部经 `scripts/duotone.py` 压成双色版画，出 `-light` / `-ink` 两版；**一套课件只有一个画风** |
+| 排版 | 衬线标题（宋体，56–64）+ 黑体正文（19–22）+ 12.5 衬线斜体图注；细分隔线；页脚 `NN — MM` |
+| 版式 | `cover` 封面 · `plate` 整版图 · `plate_side` 图文对开 · `hero` 双大数字 · `diagram` 原生矢量图 · `chart` 原生曲线 · `table` 判据表 · `compare` 对照 · `checklist` 纠错 · `quote` 引语 · `section` 深色分隔 · `statement` 定义页 |
+| 图注 | 每张图都必须有 `PLATE NN · 说明`，写成"这是什么"而不是"这多好看" |
 
-1. **图不承载信息**。图内不写字、不标箭头、不标数字；需要被读的（曲线两端是否重合、平台高度、原生质层位置）必须画成矢量或写成文字。理由：AI 图里的错字最伤专业感，且改不动。
-2. **改内容改 md，改样子改 plan.json**。两者分开，重跑 `build_deck.py` 即得新 pptx；不要手改 pptx。
+**三条硬规则**：
+
+1. **图不承载信息**。图里不写字、不标箭头、不标数字；要被读的关系（曲线两端、平台高度、原生质层位置）画成矢量或写成文字。
+2. **隐喻要画，不要拍照**。"能量要翻一座山""酶打了一条隧道"——用 `diagram` 版式原生画（两个谷、一个垭口、一条虚线隧道），不用风景照。风景照会让课件从生物学滑向旅游海报，而且不可改。
+3. **改内容改 md，改样子改 plan.json**，重跑 `build_deck.py` 得新 pptx；不要手改 pptx。
+
+### 质量门与验收
+
+| 项 | 检查 |
+|---|---|
+| 安装 | `bash scripts/install_ppt_master.sh`（clone + pip + attribution guard 返回 0） |
+| 页面自检 | `svg_quality_checker.py --quick-generate --canonical-authoring --stage final`（0 阻塞） |
+| 文字溢出 | 生成时 `fit()` 自动降号；交付前跑文本包围盒检查，**0 处越界** |
+| 备注 | 与 md 的 `<!-- note -->` 条数一致（酶 15/15、第4章 24/24） |
+| 原生性 | pptx 里图片是图片对象、曲线是路径对象、文字是可编辑文本（不是整页截图） |
+| 预览 | `<stem>-preview.html`（浏览器直接看） |
 
 ## 03b 章级成组（`chapters/<册>/第NN章-<章名>/`，多知识点串成一章）
 

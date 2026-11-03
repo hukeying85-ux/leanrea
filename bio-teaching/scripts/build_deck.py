@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""把 06-课件.md（或 03-课件.md）排版成 PPT Master 可转换的 SVG 页面，并调用其 svg_to_pptx 导出原生 PPTX。
+"""把课件 md 排版成 PPT Master 可转换的 SVG 页，并导出原生 PPTX。
 
-为什么不再手写 python-pptx：
-    PowerPoint 的"好看"来自版式（层级、留白、图与字的关系），不是文本框加粗。
-    这里用 PPT Master（MIT，hugohe3/ppt-master）的 SVG→原生 DrawingML 通道：
-    每页是一张 1280×720 的 SVG，文字仍是可编辑文本，图片是原生图片，
-    表格/曲线是原生形状，而不是截图。
+两层分工：
+    md      = 讲什么（要点 + 备注）
+    plan.json = 长什么样（每页 layout / 配图 / kicker / 说明）
+
+视觉语言（v2，"单墨版画"）：
+    一套课件只用两种颜色——暖纸 #F4EFE4 与深松墨 #14302F，赤陶 #B8452A 只做一两处强调；
+    所有配图先经 scripts/duotone.py 压成同一套双色版画（浅版/深版两个版本），
+    因此照片、3D 渲染、水彩插画在版面上读起来是**同一套图版**，而不是四种材料拼贴。
 
 用法：
-    python3 scripts/build_deck.py --md <课件.md> --plan <plan.json> --out <输出目录> \
-        --images <图片目录> --skill <ppt-master skill 目录> [--title "…"]
-
-plan.json：{"pages": [{"layout": "cover", "image": "tubes", "kicker": "第 5 章"}, …]}
-    pages 与 md 里的 `## NN 标题` 一一对应；缺省项按 md 内容自动选版式。
+    python3 scripts/build_deck.py --md <课件.md> --plan <plan.json> --out <目录> \
+        --images <已 duotone 的图目录> --skill <ppt-master skill 目录>
 """
 from __future__ import annotations
 
@@ -26,32 +26,26 @@ import sys
 from pathlib import Path
 
 W, H = 1280, 720
-PAPER = "#F7F3EC"
-INK = "#16262A"
-INK2 = "#4A5C60"
-RULE = "#D8D0C0"
-ACCENT = "#C2542F"
-TEAL = "#2E6B66"
-DARK = "#0F1B1F"
+M = 76                      # 版心边距
+PAPER = "#F4EFE4"
+INK = "#14302F"
+INK2 = "#4E625F"
+RULE = "#D5CCBA"
+RUST = "#B8452A"
+TEAL = "#2C6157"
+DARK = "#0C1A1B"
 SERIF = "Songti SC, STSong, SimSun, serif"
 SANS = "PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif"
 
 
-# ---------------------------------------------------------------- helpers
+# ---------------------------------------------------------------- 基础图元
 def esc(s: str) -> str:
     return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
              .replace('"', "&quot;"))
 
 
 def text_w(s: str, size: float) -> float:
-    """粗略字宽：汉字 1em，ASCII 0.52em，全角标点 1em。"""
-    w = 0.0
-    for ch in s:
-        if ord(ch) < 128:
-            w += 0.52
-        else:
-            w += 1.0
-    return w * size
+    return sum((0.52 if ord(c) < 128 else 1.0) for c in s) * size
 
 
 def wrap(s: str, size: float, max_w: float) -> list[str]:
@@ -67,9 +61,8 @@ def wrap(s: str, size: float, max_w: float) -> list[str]:
     return lines
 
 
-def fit(s: str, size: float, max_w: float, max_lines: int) -> tuple[float, list[str]]:
-    """字号从 size 往下试，直到行数不超过 max_lines（最小 16px）。"""
-    while size > 16:
+def fit(s: str, size: float, max_w: float, max_lines: int, floor=14) -> tuple[float, list[str]]:
+    while size > floor:
         ls = wrap(s, size, max_w)
         if len(ls) <= max_lines:
             return size, ls
@@ -78,12 +71,13 @@ def fit(s: str, size: float, max_w: float, max_lines: int) -> tuple[float, list[
 
 
 def T(x, y, s, size=20, fill=INK, font=SANS, weight=400, anchor="start",
-      spacing=None, opacity=None) -> str:
+      spacing=None, opacity=None, italic=False) -> str:
     a = f' text-anchor="{anchor}"' if anchor != "start" else ""
     sp = f' letter-spacing="{spacing}"' if spacing else ""
     op = f' fill-opacity="{opacity}"' if opacity is not None else ""
+    it = ' font-style="italic"' if italic else ""
     return (f'<text x="{x}" y="{y}" font-family="{font}" font-size="{size}" '
-            f'font-weight="{weight}" fill="{fill}"{a}{sp}{op}>{esc(s)}</text>')
+            f'font-weight="{weight}" fill="{fill}"{a}{sp}{op}{it}>{esc(s)}</text>')
 
 
 def R(x, y, w, h, fill, opacity=None, stroke=None, sw=1) -> str:
@@ -98,302 +92,370 @@ def L(x1, y1, x2, y2, color=RULE, sw=1, opacity=None) -> str:
             f'stroke-width="{sw}"{op}/>')
 
 
-def IMG(name: str, x, y, w, h, images_dir: str = "../images") -> str:
-    ext = next((e for e in (".jpg", ".png", ".jpeg") if
-                Path(images_dir, name + e).exists()), ".jpg")
-    return (f'<image href="{images_dir}/{name}{ext}" x="{x}" y="{y}" '
+def IMG(name: str, x, y, w, h, variant="light", images_dir="../images") -> str:
+    stem = f"{name}-{variant}"
+    ext = ".jpg" if Path(images_dir, stem + ".jpg").exists() or True else ".jpg"
+    return (f'<image href="{images_dir}/{stem}{ext}" x="{x}" y="{y}" '
             f'width="{w}" height="{h}" preserveAspectRatio="xMidYMid slice"/>')
 
 
-def kicker(s: str, x=96, y=76) -> str:
-    return T(x, y, s, 19, ACCENT, SANS, 500, spacing=2)
-
-
-def footer(i: int, total: int, label: str) -> str:
+def kicker(s: str, x=M, y=96, color=RUST) -> str:
     return "".join([
-        L(96, 664, W - 96, 664),
-        T(96, 690, label, 14, INK2, SANS, 400, opacity=0.75),
-        T(W - 96, 690, f"{i:02d} / {total:02d}", 14, INK2, SANS, 400, anchor="end",
-          opacity=0.75),
+        R(x, y - 9, 7, 7, color),
+        T(x + 16, y, s, 13, color, SANS, 500, spacing=3.2),
     ])
 
 
-# ---------------------------------------------------------------- layouts
-def lay_cover(p, meta, ctx) -> list[str]:
+def folio(i: int, total: int, label: str) -> str:
+    return "".join([
+        L(M, 654, W - M, 654, RULE, 1),
+        T(M, 682, label, 12, INK2, SANS, 400, spacing=1.6, opacity=0.8),
+        T(W - M, 682, f"{i:02d} — {total:02d}", 12, INK2, SANS, 400, anchor="end",
+          spacing=1.2, opacity=0.8),
+    ])
+
+
+def plate_caption(text: str, x, y, color=INK2) -> str:
+    return T(x, y, text, 12.5, color, SERIF, 400, spacing=1.2, opacity=0.85, italic=True)
+
+
+# ---------------------------------------------------------------- 版式
+def lay_cover(p, meta, ctx):
     e = [R(0, 0, W, H, PAPER)]
-    ix = 760
-    e.append(IMG(p["image"], ix, 0, W - ix, H))
-    e.append(R(ix, 0, 6, H, PAPER))
+    ix = 700
+    e.append(IMG(p["image"], ix, 0, W - ix, H, "light"))
+    e.append(R(ix - 8, 0, 8, H, PAPER))
     e.append(kicker(p.get("kicker") or meta["kicker"]))
-    e.append(L(96, 96, 196, 96, ACCENT, 3))
-    t = p["title"]
-    size, lines = fit(t, 62, 600, 3)
-    y = 300 - (len(lines) - 1) * size * 0.6
+    t = p.get("title") or meta["title"]
+    size, lines = fit(t, 58, 580, 3)
+    y = 268 - (len(lines) - 1) * size * 0.55
     for ln in lines:
-        e.append(T(96, y, ln, size, INK, SERIF, 700))
+        e.append(T(M, y, ln, size, INK, SERIF, 700))
         y += size * 1.16
-    e.append(L(96, y + 6, 316, y + 6, ACCENT, 3))
-    sub = p.get("subtitle") or meta.get("subtitle", "")
-    if sub:
-        e.append(T(96, y + 66, sub, 22, INK2, SANS, 400))
-    e.append(T(96, 640, meta["meta"], 16, INK2, SANS, 400, opacity=0.8))
-    return e
-
-
-def lay_section(p, meta, ctx) -> list[str]:
-    e = [R(0, 0, W, H, DARK)]
-    if p.get("image"):
-        e.append(IMG(p["image"], 0, 0, W, H))
-        e.append(R(0, 0, W, H, "#0B1416", 0.62))
-    e.append(T(96, 200, p.get("num", ""), 132, ACCENT, SERIF, 700))
-    size, lines = fit(p["title"], 56, 900, 2)
-    y = 330
-    for ln in lines:
-        e.append(T(96, y, ln, size, "#F7F3EC", SERIF, 700))
-        y += size * 1.2
-    e.append(L(96, y + 10, 216, y + 10, "#F7F3EC", 3, 0.9))
+    e.append(L(M, y + 8, M + 96, y + 8, RUST, 3))
     if p.get("subtitle"):
-        e.append(T(96, y + 70, p["subtitle"], 22, "#F7F3EC", SANS, 400, opacity=0.82))
+        for k, ln in enumerate(wrap(p["subtitle"], 20, 540)):
+            e.append(T(M, y + 62 + k * 32, ln, 20, INK2, SANS, 400))
+    e.append(T(M, 640, meta["meta"], 12.5, INK2, SANS, 400, spacing=1.4, opacity=0.85))
     return e
 
 
-def lay_statement(p, meta, ctx) -> list[str]:
-    e = [R(0, 0, W, H, PAPER)]
-    e.append(kicker(p.get("kicker") or meta["kicker"]))
-    e.append(L(96, 96, 196, 96, ACCENT, 3))
-    lines_in = p.get("lines") or [p["title"]]
-    y = 260 if len(lines_in) <= 2 else 230
-    for ln in lines_in:
-        size, ls = fit(ln, 54, W - 260, 2)
-        for s in ls:
-            e.append(T(96, y, s, size, INK, SERIF, 700))
-            y += size * 1.18
-        y += 12
-    e.append(L(96, y + 10, 356, y + 10, RULE, 2))
-    if p.get("note"):
-        e.append(T(96, y + 62, p["note"], 22, INK2, SANS, 400))
-    if p.get("image"):
-        e.append(IMG(p["image"], 900, 430, 300, 190))
+def lay_plate_full(p, meta, ctx):
+    e = [R(0, 0, W, H, DARK), IMG(p["image"], 0, 0, W, H, "ink")]
+    e.append(R(0, 250, W, H - 250, DARK, 0.55))
+    e.append(T(M, 420, p.get("kicker", ""), 13, PAPER, SANS, 500, spacing=3.2))
+    size, lines = fit(p.get("title") or "", 50, 980, 2)
+    y = 490
+    for ln in lines:
+        e.append(T(M, y, ln, size, PAPER, SERIF, 700))
+        y += size * 1.16
+    if p.get("caption"):
+        e.append(plate_caption(p["caption"], M, 640, PAPER))
     return e
 
 
-def lay_bullets(p, meta, ctx) -> list[str]:
+def lay_plate_side(p, meta, ctx):
     e = [R(0, 0, W, H, PAPER)]
     e.append(kicker(p.get("kicker") or meta["kicker"]))
-    size, tl = fit(p["title"], 40, 700 if p.get("image") else 1000, 2)
-    y = 168
+    tw = 560
+    size, tl = fit(p["title"], 40, tw, 3)
+    y = 190
     for ln in tl:
-        e.append(T(96, y, ln, size, INK, SERIF, 700))
+        e.append(T(M, y, ln, size, INK, SERIF, 700))
         y += size * 1.12
-    e.append(L(96, y + 8, W - 96, y + 8, RULE, 1.5))
-    y += 56
-    col_w = 700 if p.get("image") else 1000
+    y += 30
     for i, b in enumerate(p["bullets"], 1):
-        e.append(T(96, y, f"{i:02d}", 20, ACCENT, SANS, 500))
-        bs, bl = fit(b, 26, col_w - 70, 2)
+        e.append(T(M, y, f"{i:02d}", 15, RUST, SANS, 500, spacing=1))
+        bs, bl = fit(b, 21, tw - 54, 2)
         yy = y
         for ln in bl:
-            e.append(T(150, yy, ln, bs, INK, SANS, 400))
-            yy += bs * 1.35
-        y = yy + 22
+            e.append(T(M + 46, yy, ln, bs, INK, SANS, 400))
+            yy += bs * 1.5
+        y = yy + 24
         if i < len(p["bullets"]):
-            e.append(L(150, y - 16, 96 + col_w, y - 16, RULE, 0.8))
-    if p.get("image"):
-        e.append(IMG(p["image"], 880, 190, 304, 380))
-        if p.get("caption"):
-            e.append(T(880, 600, p["caption"], 15, INK2, SANS, 400, opacity=0.85))
-    return e
-
-
-def lay_table(p, meta, ctx) -> list[str]:
-    e = [R(0, 0, W, H, PAPER)]
-    e.append(kicker(p.get("kicker") or meta["kicker"]))
-    size, tl = fit(p["title"], 38, 1000, 2)
-    y = 164
-    for ln in tl:
-        e.append(T(96, y, ln, size, INK, SERIF, 700))
-        y += size * 1.12
-    rows = p["table"]
-    ncol = max(len(r) for r in rows)
-    left, right = 96, W - 96
-    tw = right - left
-    cw = tw / ncol
-    y += 26
-    e.append(L(left, y, right, y, INK, 2))
-    y += 34
-    for ri, row in enumerate(rows):
-        hrow = 54
-        for ci in range(ncol):
-            val = row[ci] if ci < len(row) else ""
-            fs = 21 if ri else 20
-            fill = INK if ri else ACCENT
-            weight = 400 if ri else 500
-            e.append(T(left + ci * cw + 8, y, val, fs, fill, SANS, weight))
-        y += hrow
-        e.append(L(left, y - 22, right, y - 22, RULE, 0.8))
+            e.append(L(M + 46, y - 18, M + tw, y - 18, RULE, 0.9))
+    e.append(IMG(p["image"], 720, 150, 484, 400, "light"))
+    e.append(R(720, 150, 484, 400, "none", stroke=RULE, sw=1))
     if p.get("caption"):
-        e.append(T(96, y + 18, p["caption"], 16, INK2, SANS, 400, opacity=0.85))
+        e.append(plate_caption(p["caption"], 720, 584))
     return e
 
 
-def lay_compare(p, meta, ctx) -> list[str]:
+def lay_hero(p, meta, ctx):
     e = [R(0, 0, W, H, PAPER)]
     e.append(kicker(p.get("kicker") or meta["kicker"]))
-    size, tl = fit(p["title"], 38, 1000, 2)
-    y = 160
-    for ln in tl:
-        e.append(T(96, y, ln, size, INK, SERIF, 700))
-        y += size * 1.12
-    y += 40
-    cols = p["cols"]
-    cw = (W - 192) / len(cols)
-    e.append(L(W // 2, y - 10, W // 2, y + 260, RULE, 1.5))
-    for ci, c in enumerate(cols):
-        x = 96 + ci * cw
-        e.append(T(x, y, c["label"], 22, ACCENT if ci == 0 else TEAL, SANS, 500))
-        e.append(T(x, y + 62, c["head"], 34, INK, SERIF, 700))
-        yy = y + 108
-        for b in c.get("bullets", []):
-            for ln in wrap(b, 19, cw - 60)[:2]:
-                e.append(T(x, yy, ln, 19, INK2, SANS, 400))
-                yy += 28
-            yy += 6
-    return e
-
-
-def lay_image_full(p, meta, ctx) -> list[str]:
-    e = [R(0, 0, W, H, PAPER), IMG(p["image"], 0, 0, W, H)]
-    e.append(R(0, 300, W, H - 300, DARK, 0.55))
-    e.append(T(96, 430, p.get("kicker", ""), 18, "#F7F3EC", SANS, 500,
-               spacing=2, opacity=0.9))
-    size, lines = fit(p["title"], 52, 1000, 2)
-    y = 500
+    size, lines = fit(p.get("title") or "", 30, 900, 2)
+    y = 176
     for ln in lines:
-        e.append(T(96, y, ln, size, "#F7F3EC", SERIF, 700))
-        y += size * 1.15
-    if p.get("caption"):
-        e.append(T(W - 96, 690, p["caption"], 15, "#F7F3EC", SANS, 400, anchor="end",
-                   opacity=0.8))
+        e.append(T(M, y, ln, size, INK2, SANS, 400))
+        y += size * 1.3
+    big = p.get("big") or []
+    x = M
+    base = 470
+    for it in big:
+        s = it["text"]
+        fs = it.get("size", 108)
+        e.append(T(x, base, s, fs, it.get("color", INK), SERIF, 700))
+        x += text_w(s, fs) + (it.get("gap", 40))
+    e.append(L(M, base + 46, 820 if p.get("image") else W - M, base + 46, RULE, 1.2))
+    if p.get("note"):
+        for k, ln in enumerate(wrap(p["note"], 22, 720 if p.get("image") else 980)):
+            e.append(T(M, base + 100 + k * 34, ln, 22, INK, SANS, 400))
+    if p.get("image"):
+        e.append(IMG(p["image"], 900, 300, 304, 240, "light"))
+        e.append(R(900, 300, 304, 240, "none", stroke=RULE, sw=1))
+        if p.get("caption"):
+            e.append(plate_caption(p["caption"], 900, 570))
     return e
 
 
-def _axes(e, x0=190, y0=590, x1=1080, y1=210):
-    e.append(L(x0, y1 - 20, x0, y0, INK, 1.5))
-    e.append(L(x0, y0, x1, y0, INK, 1.5))
-
-
-def lay_chart(p, meta, ctx) -> list[str]:
-    """曲线图：p['series'] = [{'name','peak','color','dash'}]，p['x']/p['y'] 轴标签。"""
+def lay_diagram(p, meta, ctx):
+    """原生矢量能量图：两个谷、一个垭口、一条隧道。不用风景照当隐喻。"""
     e = [R(0, 0, W, H, PAPER)]
     e.append(kicker(p.get("kicker") or meta["kicker"]))
-    size, tl = fit(p["title"], 36, 620, 2)
-    y = 160
-    for ln in tl:
-        e.append(T(96, y, ln, size, INK, SERIF, 700))
-        y += size * 1.12
-    X0, Y0, X1, Y1 = 200, 580, 760, 250
-    e.append(L(X0, Y1 - 30, X0, Y0, INK, 1.5))
-    e.append(L(X0, Y0, X1, Y0, INK, 1.5))
-    e.append(T(X0 - 16, Y1 - 40, p.get("ylabel", ""), 17, INK2, SANS, 400, anchor="end"))
-    e.append(T(X1, Y0 + 34, p.get("xlabel", ""), 17, INK2, SANS, 400, anchor="end"))
+    size, tl = fit(p.get("title") or "", 34, 1040, 1)
+    e.append(T(M, 168, tl[0], size, INK, SERIF, 700))
 
-    def path_for(peak: float, baseline: float = 1.0, wobble=0.0, cutoff=None) -> str:
+    x0, x1 = 180, 1120
+    yb, yt = 540, 250
+    # 底轴
+    e.append(L(x0 - 30, yb, x1 + 10, yb, INK, 1.4))
+    e.append(T(x1 + 10, yb + 30, p.get("xlabel", "反应进程"), 15, INK2, SANS, 400, anchor="end"))
+    e.append(T(x0 - 36, yt - 24, p.get("ylabel", "能量"), 15, INK2, SANS, 400, anchor="end"))
+    # 山形：起 → 峰 → 落 → 小峰 → 落
+    peak = p.get("peak", 0.9)
+    py = yb - (yb - yt) * peak
+    hill = (f'M{x0},{yb} C{x0 + 90},{yb} {x0 + 150},{py} {x0 + 300},{py} '
+            f'C{x0 + 430},{py} {x0 + 470},{yb} {x0 + 560},{yb} '
+            f'C{x0 + 640},{yb} {x0 + 700},{yb - 30} {x0 + 760},{yb - 30} '
+            f'L{x1},{yb - 30}')
+    e.append(f'<path d="{hill}" fill="none" stroke="{INK}" stroke-width="3.2" stroke-linecap="round"/>')
+    # 活化能标注
+    ax = x0 + 170
+    e.append(L(ax, yb, ax, py, RUST, 1.4))
+    e.append(f'<path d="M{ax - 5},{py + 12} L{ax},{py} L{ax + 5},{py + 12}" fill="none" stroke="{RUST}" stroke-width="1.4"/>')
+    e.append(f'<path d="M{ax - 5},{yb - 12} L{ax},{yb} L{ax + 5},{yb - 12}" fill="none" stroke="{RUST}" stroke-width="1.4"/>')
+    e.append(T(ax + 14, (yb + py) / 2, p.get("ann", "活化能"), 17, RUST, SANS, 500))
+    # 催化剂：垭口降低
+    if p.get("catalyst", True):
+        cpy = py + 74
+        e.append(f'<path d="M{x0 + 110},{yb - 40} C{x0 + 170},{cpy} {x0 + 250},{cpy} {x0 + 300},{cpy} '
+                 f'C{x0 + 350},{cpy} {x0 + 430},{yb - 40} {x0 + 470},{yb - 40}" fill="none" '
+                 f'stroke="{TEAL}" stroke-width="1.6" stroke-dasharray="7 6" stroke-linecap="round"/>')
+        e.append(T(x0 + 320, cpy - 18, p.get("catalyst_label", "无机催化剂：降一点"), 15, TEAL, SANS, 400))
+    # 隧道：酶
+    if p.get("tunnel", True):
+        ty = yb - 96
+        e.append(L(x0 + 60, ty, x0 + 720, ty, RUST, 2.6, 0.95))
+        e.append(T(x0 + 60, ty - 16, p.get("tunnel_label", "酶：打一条隧道"), 15, RUST, SANS, 500))
+    for cap, cx in ((p.get("left", "反应物"), x0 + 70), (p.get("right", "产物"), x1 - 90)):
+        e.append(T(cx, yb + 34, cap, 14, INK2, SANS, 400, spacing=1.2))
+    return e
+
+
+def lay_chart(p, meta, ctx):
+    e = [R(0, 0, W, H, PAPER)]
+    e.append(kicker(p.get("kicker") or meta["kicker"]))
+    size, tl = fit(p["title"], 32, 640, 2)
+    y = 172
+    for ln in tl:
+        e.append(T(M, y, ln, size, INK, SERIF, 700))
+        y += size * 1.15
+    X0, Y0, X1, Y1 = 190, 560, 740, 260
+    e.append(L(X0, Y1 - 40, X0, Y0, INK, 1.2))
+    e.append(L(X0, Y0, X1 + 20, Y0, INK, 1.2))
+    e.append(T(X0 - 16, Y1 - 46, p.get("ylabel", ""), 15, INK2, SANS, 400, anchor="end"))
+    e.append(T(X1 + 20, Y0 + 30, p.get("xlabel", ""), 15, INK2, SANS, 400, anchor="end"))
+
+    def path_for(peak, baseline=0.12, cutoff=None):
         pts = []
         for i in range(81):
             t = i / 80
             if cutoff is not None and t > cutoff:
-                v = 0.04
+                v = 0.03
             else:
                 u = min(t / 0.55, 1.0)
-                v = baseline + (peak - baseline) * (u ** 1.7)
+                v = baseline + (peak - baseline) * (u ** 1.8)
                 if t > 0.55:
-                    v = baseline + (peak - baseline) * (1 - (t - 0.55) * 0.15)
-            pts.append((X0 + 12 + t * (X1 - X0 - 24), Y0 - 20 - (v - 0.04) * (Y0 - Y1 - 20)))
-        d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
-        return d
+                    v = baseline + (peak - baseline) * (1 - (t - 0.55) * 0.12)
+            pts.append((X0 + 10 + t * (X1 - X0 - 10),
+                        Y0 - 16 - (v - 0.03) * (Y0 - Y1 - 16)))
+        return "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
 
     for s in p["series"]:
-        dash = ' stroke-dasharray="8 6"' if s.get("dash") else ""
-        e.append(f'<path d="{path_for(s["peak"], s.get("baseline", 0.16), cutoff=s.get("cutoff"))}" '
-                 f'fill="none" stroke="{s["color"]}" stroke-width="3"{dash} '
-                 f'stroke-linecap="round"/>')
-    # 图例
+        dash = ' stroke-dasharray="9 7"' if s.get("dash") else ""
+        e.append(f'<path d="{path_for(s["peak"], s.get("baseline", 0.12), s.get("cutoff"))}" '
+                 f'fill="none" stroke="{s["color"]}" stroke-width="2.6"{dash} stroke-linecap="round"/>')
     ly = 300
     for s in p["series"]:
-        dash = ' stroke-dasharray="8 6"' if s.get("dash") else ""
-        e.append(f'<line x1="830" y1="{ly}" x2="880" y2="{ly}" stroke="{s["color"]}" '
-                 f'stroke-width="3"{dash}/>')
-        e.append(T(892, ly + 7, s["name"], 19, INK, SANS, 400))
-        ly += 46
+        dash = ' stroke-dasharray="9 7"' if s.get("dash") else ""
+        e.append(f'<line x1="800" y1="{ly}" x2="852" y2="{ly}" stroke="{s["color"]}" stroke-width="2.6"{dash}/>')
+        e.append(T(866, ly + 6, s["name"], 18, INK, SANS, 400))
+        ly += 42
     if p.get("note"):
-        yy = ly + 20
+        e.append(L(800, ly + 4, 1204, ly + 4, RULE, 1))
+        yy = ly + 40
         for raw in p["note"].split("\n"):
             for ln in wrap(raw, 17, 400):
-                e.append(T(830, yy, ln, 17, INK2, SANS, 400))
+                e.append(T(800, yy, ln, 17, INK2, SANS, 400))
                 yy += 27
     return e
 
 
-def lay_checklist(p, meta, ctx) -> list[str]:
+def lay_table(p, meta, ctx):
     e = [R(0, 0, W, H, PAPER)]
     e.append(kicker(p.get("kicker") or meta["kicker"]))
-    size, tl = fit(p["title"], 38, 1000, 2)
-    y = 160
+    size, tl = fit(p["title"], 34, 1020, 2)
+    y = 170
     for ln in tl:
-        e.append(T(96, y, ln, size, INK, SERIF, 700))
+        e.append(T(M, y, ln, size, INK, SERIF, 700))
+        y += size * 1.12
+    rows = p["table"]
+    ncol = max(len(r) for r in rows)
+    cw = (W - 2 * M) / ncol
+    y += 30
+    e.append(L(M, y, W - M, y, INK, 2))
+    y += 38
+    for ri, row in enumerate(rows):
+        for ci in range(ncol):
+            val = row[ci] if ci < len(row) else ""
+            if ri == 0:
+                e.append(T(M + ci * cw + 10, y, val, 13, RUST, SANS, 500, spacing=2.4))
+            else:
+                e.append(T(M + ci * cw + 10, y, val, 20, INK,
+                           SERIF if ci == 0 else SANS, 700 if ci == 0 else 400))
+        y += 56
+        e.append(L(M, y - 24, W - M, y - 24, RULE, 0.9))
+    if p.get("caption"):
+        e.append(plate_caption(p["caption"], M, y + 6))
+    return e
+
+
+def lay_compare(p, meta, ctx):
+    e = [R(0, 0, W, H, PAPER)]
+    e.append(kicker(p.get("kicker") or meta["kicker"]))
+    size, tl = fit(p["title"], 34, 1020, 2)
+    y = 168
+    for ln in tl:
+        e.append(T(M, y, ln, size, INK, SERIF, 700))
         y += size * 1.12
     y += 44
+    cols = p["cols"]
+    cw = (W - 2 * M) / len(cols)
+    if len(cols) == 2:
+        e.append(L(W / 2, y - 26, W / 2, y + 236, RULE, 1))
+    for ci, c in enumerate(cols):
+        x = M + ci * cw + (0 if ci == 0 else 34)
+        e.append(T(x, y, c["label"], 13, RUST if ci == 0 else TEAL, SANS, 500, spacing=2.4))
+        e.append(T(x, y + 56, c["head"], 32, INK, SERIF, 700))
+        yy = y + 106
+        for b in c.get("bullets", []):
+            for ln in wrap(b, 18, cw - 70)[:2]:
+                e.append(T(x, yy, ln, 18, INK2, SANS, 400))
+                yy += 28
+            yy += 8
+    return e
+
+
+def lay_checklist(p, meta, ctx):
+    e = [R(0, 0, W, H, PAPER)]
+    e.append(kicker(p.get("kicker") or meta["kicker"]))
+    size, tl = fit(p["title"], 34, 1020, 2)
+    y = 168
+    for ln in tl:
+        e.append(T(M, y, ln, size, INK, SERIF, 700))
+        y += size * 1.12
+    y += 48
     for item in p["pairs"]:
-        e.append(T(96, y, "✗", 26, ACCENT, SANS, 700))
+        e.append(T(M, y, "✗", 24, RUST, SANS, 700))
         for ln in wrap(item["wrong"], 22, 430)[:2]:
-            e.append(T(136, y, ln, 22, INK2, SANS, 400))
+            e.append(T(M + 44, y, ln, 22, INK2, SANS, 400))
             y += 30
-        e.append(T(600, y - 30, "→", 24, TEAL, SANS, 700))
+        e.append(T(600, y - 30, "→", 22, TEAL, SANS, 700))
         yy = y - 30
         for ln in wrap(item["right"], 22, 540)[:2]:
             e.append(T(646, yy, ln, 22, INK, SANS, 500))
             yy += 30
         y = max(y, yy) + 26
-        e.append(L(96, y - 16, W - 96, y - 16, RULE, 0.8))
+        e.append(L(M, y - 16, W - M, y - 16, RULE, 0.9))
     return e
 
 
-def lay_quote(p, meta, ctx) -> list[str]:
-    e = [R(0, 0, W, H, PAPER if not p.get("image") else DARK)]
+def lay_quote(p, meta, ctx):
+    e = [R(0, 0, W, H, PAPER)]
+    has_img = bool(p.get("image"))
+    if has_img:
+        e.append(IMG(p["image"], 720, 0, W - 720, H, "light"))
+        e.append(R(712, 0, 8, H, PAPER))
+    e.append(kicker(p.get("kicker") or meta["kicker"], M, 150))
+    lines_in = p.get("lines") or [p.get("title") or ""]
+    y = 320
+    for ln in lines_in:
+        size, ls = fit(ln, 48, 560 if has_img else 1000, 2)
+        for s in ls:
+            e.append(T(M, y, s, size, INK, SERIF, 700))
+            y += size * 1.2
+        y += 14
+    e.append(L(M, y + 16, M + 88, y + 16, RUST, 3))
+    if p.get("note"):
+        for k, ln in enumerate(wrap(p["note"], 18, 520 if has_img else 900)):
+            e.append(T(M, y + 70 + k * 28, ln, 18, INK2, SANS, 400))
+    return e
+
+
+def lay_section(p, meta, ctx):
+    e = [R(0, 0, W, H, DARK)]
     if p.get("image"):
-        e.append(IMG(p["image"], 560, 0, W - 560, H))
-        e.append(R(560, 0, 8, H, PAPER))
-    e.append(kicker(p.get("kicker") or meta["kicker"], 96, 120))
-    lines_in = p.get("lines") or [p["title"]]
+        e.append(IMG(p["image"], 0, 0, W, H, "ink"))
+        e.append(R(0, 0, W, H, DARK, 0.55))
+    e.append(T(M, 250, p.get("num", ""), 120, RUST, SERIF, 700))
+    size, lines = fit(p["title"], 46, 900, 2)
+    y = 380
+    for ln in lines:
+        e.append(T(M, y, ln, size, PAPER, SERIF, 700))
+        y += size * 1.2
+    e.append(L(M, y + 4, M + 96, y + 4, PAPER, 3))
+    if p.get("subtitle"):
+        e.append(T(M, y + 62, p["subtitle"], 19, PAPER, SANS, 400, opacity=0.82))
+    return e
+
+
+def lay_statement(p, meta, ctx):
+    e = [R(0, 0, W, H, PAPER)]
+    e.append(kicker(p.get("kicker") or meta["kicker"]))
+    lines_in = p.get("lines") or [p.get("title") or ""]
     y = 300
     for ln in lines_in:
-        size, ls = fit(ln, 50, 460 if p.get("image") else 980, 2)
+        size, ls = fit(ln, 50, 980, 2)
         for s in ls:
-            e.append(T(96, y, s, size, INK, SERIF, 700))
-            y += size * 1.22
-        y += 16
-    e.append(L(96, y + 20, 276, y + 20, ACCENT, 3))
+            e.append(T(M, y, s, size, INK, SERIF, 700))
+            y += size * 1.2
+        y += 12
+    e.append(L(M, y + 10, M + 300, y + 10, RULE, 2))
     if p.get("note"):
-        e.append(T(96, y + 76, p["note"], 19, INK2, SANS, 400))
+        for k, ln in enumerate(wrap(p["note"], 20, 940)):
+            e.append(T(M, y + 64 + k * 30, ln, 20, INK2, SANS, 400))
+    if p.get("image"):
+        e.append(IMG(p["image"], 900, 440, 304, 190, "light"))
+        e.append(R(900, 440, 304, 190, "none", stroke=RULE, sw=1))
     return e
 
 
 LAYOUTS = {
-    "cover": lay_cover, "section": lay_section, "statement": lay_statement,
-    "bullets": lay_bullets, "table": lay_table, "compare": lay_compare,
-    "image": lay_image_full, "chart": lay_chart, "checklist": lay_checklist,
-    "quote": lay_quote,
+    "cover": lay_cover, "plate": lay_plate_full, "plate_side": lay_plate_side,
+    "hero": lay_hero, "diagram": lay_diagram, "chart": lay_chart,
+    "table": lay_table, "compare": lay_compare, "checklist": lay_checklist,
+    "quote": lay_quote, "section": lay_section, "statement": lay_statement,
 }
+NO_FOLIO = {"cover", "plate", "section", "quote"}
 
 
-# ---------------------------------------------------------------- parse md
-def parse_md(path: Path) -> tuple[dict, list[dict]]:
+# ---------------------------------------------------------------- 解析 md
+def parse_md(path: Path):
     t = path.read_text(encoding="utf-8")
-    lines = t.splitlines()
     meta = {"title": "", "subtitle": "", "kicker": "", "meta": ""}
-    slides: list[dict] = []
-    cur = None
-    for ln in lines:
+    slides, cur = [], None
+    for ln in t.splitlines():
         if ln.startswith("# ") and not meta["title"]:
             meta["title"] = ln[2:].strip()
             continue
@@ -404,8 +466,8 @@ def parse_md(path: Path) -> tuple[dict, list[dict]]:
         if m:
             if cur:
                 slides.append(cur)
-            cur = {"num": m.group(1), "title": m.group(2).strip(), "bullets": [],
-                   "table": [], "note": ""}
+            cur = {"num": m.group(1), "title": m.group(2).strip(),
+                   "bullets": [], "table": [], "note": ""}
             continue
         if cur is None:
             continue
@@ -430,27 +492,24 @@ def parse_md(path: Path) -> tuple[dict, list[dict]]:
     return meta, slides
 
 
-def choose_layout(s: dict, spec: dict) -> str:
+def choose_layout(s, spec):
     if spec.get("layout"):
         return spec["layout"]
     if s["table"]:
         return "table"
     if len(s["bullets"]) <= 2:
         return "statement"
-    return "bullets"
+    return "plate_side"
 
 
-def build(md: Path, plan: Path, out: Path, images: Path, skill: Path,
-          title: str | None) -> Path:
+# ---------------------------------------------------------------- 构建
+def build(md: Path, plan: Path, out: Path, images: Path, skill: Path) -> Path:
     meta, slides = parse_md(md)
     p = json.loads(plan.read_text(encoding="utf-8")) if plan.exists() else {"pages": []}
     specs = p.get("pages", [])
-    meta["kicker"] = p.get("kicker", meta.get("kicker") or meta["title"])
+    meta["kicker"] = p.get("kicker", meta["kicker"] or meta["title"])
     meta["meta"] = p.get("meta", "")
-    if title:
-        meta["title"] = title
 
-    out.mkdir(parents=True, exist_ok=True)
     svgdir = out / "svg_output"
     if svgdir.exists():
         shutil.rmtree(svgdir)
@@ -465,22 +524,17 @@ def build(md: Path, plan: Path, out: Path, images: Path, skill: Path,
         spec = specs[i - 1] if i - 1 < len(specs) else {}
         page = dict(s)
         page.update({k: v for k, v in spec.items() if k != "layout"})
-        page.setdefault("bullets", s["bullets"])
         if not page.get("table") and s["table"]:
             page["table"] = s["table"]
         lay = choose_layout(s, spec)
         body = LAYOUTS[lay](page, meta, {"i": i, "total": total})
-        if lay not in ("cover", "section", "image", "quote"):
-            body.append(footer(i, total, meta["title"]))
+        if lay not in NO_FOLIO:
+            body.append(folio(i, total, meta["title"]))
 
-        # 背景作为根图元（PPT Master 要求：静态页面框架声明 data-pptx-role）
         bg, rest = None, body
-        if body and ('width="1280" height="720"' in body[0] or
-                     'width="1280" height="720"' in body[0] or
-                     ('width="1280"' in body[0] and 'height="720"' in body[0]) or
-                     ('width="640"' in body[0] and 'height="720"' in body[0])):
+        if body and "width=\"1280\" height=\"720\"" in body[0]:
             bg, rest = body[0], body[1:]
-        if bg is not None:
+        if bg:
             bg = bg.replace("/>", ' id="bg" data-pptx-role="background"/>', 1)
         role = ("cover" if i == 1 else "section" if lay == "section"
                 else "ending" if i == total else "content")
@@ -494,7 +548,6 @@ def build(md: Path, plan: Path, out: Path, images: Path, skill: Path,
         name = f"{i:02d}-{re.sub(r'[^0-9A-Za-z一-龥]+', '', page['title'])[:12]}.svg"
         (svgdir / name).write_text(svg, encoding="utf-8")
 
-    # 讲稿备注：PPT Master 读 notes/total.md（# NN_标题 分页，--- 分隔）
     notes_dir = out / "notes"
     notes_dir.mkdir(exist_ok=True)
     blocks = [f"# {i:02d}_{s['title']}\n\n{(s.get('note') or '')}" for i, s in enumerate(slides, 1)]
@@ -502,43 +555,42 @@ def build(md: Path, plan: Path, out: Path, images: Path, skill: Path,
     subprocess.run([sys.executable, str(skill / "scripts/total_md_split.py"), str(out)],
                    check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-    # 规范化为 PPT Master 的 compact authoring 写法（官方 normalizer）
     subprocess.run([sys.executable, str(skill / "scripts/compact_svg_styles.py"),
                     str(svgdir), "--inplace"], check=False,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-    # 交付前自检 + 导出（PPT Master 官方通道）
     subprocess.run([sys.executable, str(skill / "scripts/svg_quality_checker.py"),
                     str(out), "--quick-generate", "--canonical-authoring",
                     "--stage", "final", "--json"], check=False,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
     pptx = out / (md.stem + ".pptx")
     r = subprocess.run([sys.executable, str(skill / "scripts/svg_to_pptx.py"),
                         str(out), "--quick-generate", "--primary-language", "zh-CN",
-                        "--with-notes", "-o", str(pptx)],
-                       capture_output=True, text=True)
-    print(r.stdout[-1500:] if r.stdout else "")
+                        "--with-notes", "-o", str(pptx)], capture_output=True, text=True)
     if r.returncode != 0:
-        print(r.stderr[-1500:], file=sys.stderr)
+        print(r.stdout[-1200:])
+        print(r.stderr[-1200:], file=sys.stderr)
         sys.exit(r.returncode)
+    for line in r.stdout.splitlines():
+        if "POSTFLIGHT" in line or "[Done]" in line or "Slides:" in line:
+            print(line.strip())
     write_preview(out, meta, total)
     return pptx
-
 
 
 PREVIEW = """<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>{title} · 版式预览</title>
 <style>
-:root{{--paper:#F7F3EC;--ink:#16262A;--accent:#C2542F}}
-body{{margin:0;background:#0d1416;color:#e8e2d6;font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}}
-header{{padding:28px 40px 8px}} h1{{font-size:20px;margin:0 0 6px;font-weight:600}}
-p.meta{{margin:0;color:#8fa0a3;font-size:13px}}
-.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:22px;padding:24px 40px 60px}}
-figure{{margin:0;background:#16262a;border-radius:6px;overflow:hidden}}
-img{{width:100%;display:block;background:var(--paper)}}
-figcaption{{font-size:12px;color:#8fa0a3;padding:8px 10px}}
+:root{{--paper:#F4EFE4;--ink:#14302F;--rust:#B8452A}}
+body{{margin:0;background:#0b1314;color:#e9e3d7;font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}}
+header{{padding:30px 40px 6px}} h1{{font-size:21px;margin:0 0 6px;font-weight:600;letter-spacing:.5px}}
+p.meta{{margin:0;color:#8b9a94;font-size:12.5px;letter-spacing:1px}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(470px,1fr));gap:20px;padding:26px 40px 64px}}
+figure{{margin:0;background:#152023;border-radius:3px;overflow:hidden}}
+img{{width:100%;display:block}}
+figcaption{{font-size:11.5px;color:#8b9a94;padding:7px 10px;letter-spacing:.6px}}
 </style></head><body>
-<header><h1>{title}</h1><p class="meta">{meta} · 共 {total} 页 · 由 PPT Master 通道导出（文字/图片/曲线均为原生对象）</p></header>
+<header><h1>{title}</h1><p class="meta">{meta} · 共 {total} 页 · 单墨版画版式 · 文字/图片/曲线均为原生对象</p></header>
 <div class="grid">
 {items}
 </div></body></html>"""
@@ -561,10 +613,9 @@ def main() -> None:
     ap.add_argument("--out", required=True)
     ap.add_argument("--images", required=True)
     ap.add_argument("--skill", default="/home/user/ppt-master/skills/ppt-master")
-    ap.add_argument("--title", default=None)
     a = ap.parse_args()
     pptx = build(Path(a.md), Path(a.plan) if a.plan else Path(a.md).with_suffix(".plan.json"),
-                 Path(a.out), Path(a.images), Path(a.skill), a.title)
+                 Path(a.out), Path(a.images), Path(a.skill))
     print(f"[ok] {pptx}")
 
 

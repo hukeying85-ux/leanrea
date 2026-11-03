@@ -65,9 +65,10 @@ scripts/
   check_kp.py                知识点验收：最小集 6 份 / 完整集 11 份
   check_group.py             成组验收：主线贯穿 / 逐表加列 / 钩子闭环 / 重复自查
   build_deck.py              md + plan.json → SVG 页 → PPT Master → 原生 .pptx（带讲稿备注）
+  duotone.py                 配图统一成单墨双色版画（light / ink 两版）
   install_ppt_master.sh      安装 PPT Master（MIT）及其依赖
 assets/
-  deck-images/               10 张课件配图（图内零文字）+ PROMPTS.md
+  deck-images/               14 张原图的 28 个版画版本（light/ink，图内零文字）+ PROMPTS.md
 ```
 
 ## 样板章（已跑通）
@@ -124,29 +125,30 @@ python3 scripts/build_pptx.py \
 
 ## 课件为什么会好看（以及为什么不再手写 python-pptx）
 
-第一版课件是"文本框 + 圆点"，能读，但难看：没有图，没有层级，一页一页像讲义。2026-11-03 重做了一遍，换了工具链：
+**v1 的问题**：文本框加圆点，没有图；后来加了图，又变成"四种画风拼贴"——写实照片、3D 渲染、水彩、风景照混在一起，跟生物学的气质不是一套。
+
+**v2 的解法**：一套课件只允许**两种颜色 + 一种画风**。
 
 ```
-06-课件.md（内容 + 备注）
-      │  只写"讲什么"
-      ▼
-06-课件.plan.json（版式：每页 layout / 配图 / kicker）
-      │  只写"长什么样"
-      ▼
-scripts/build_deck.py  → 1280×720 SVG 页（editorial 风格：细分隔线、kicker、衬线标题、赤陶单色）
+06-课件.md（内容 + 备注）          只写"讲什么"
       │
-      ▼
-PPT Master（MIT，hugohe3/ppt-master）的 svg_to_pptx
-      ▼
-06-课件.pptx：文字仍是可编辑文本、图片是原生图片、曲线是原生形状（不是整页截图）
+06-课件.plan.json（版式 + 配图）    只写"长什么样"
+      │
+scripts/build_deck.py → 1280×720 SVG   单墨版画：纸 #F4EFE4 / 墨 #14302F / 赤陶 #B8452A
+      │
+PPT Master（MIT）svg_to_pptx → 原生 .pptx   文字可编辑、图片原生、曲线原生
 ```
 
-- **配图 10 张**：`assets/deck-images/`，全部无文字无标注（提示词见同目录 `PROMPTS.md`）。需要被"读"的关系一律画成矢量——AI 图只负责氛围。
-- **两种页型最关键**：`chart`（原生曲线，三条线两端严格重合）和 `table`（判据表）。这两处 AI 图一定画错，必须矢量。
-- **安装**：`bash scripts/install_ppt_master.sh`；**导出**：`python3 scripts/build_deck.py --md … --plan … --out … --images assets/deck-images`。
-- **预览**：每套课件旁边都有 `-preview.html`，直接用浏览器看，不用装 PowerPoint。
+三件具体的事：
 
-已重做：酶降低活化能 15 页、第4章 24 页（3 课时）。规格见 `references/asset-spec.md` 的「03c 课件版式（PPT Master 通道）」。
+1. **配图统一成版画**：14 张原图先过 `scripts/duotone.py`，压到"纸上一种墨"，混合媒介立刻读成同一套图版（浅版嵌版、深版整版）。
+2. **隐喻不该拍照**：山、隧道、教室照退出配图；"能量垭口""酶挖隧道"改用 `diagram` 版式**原生矢量**画——两个谷、一个垭口、一条虚线。风声、雾、光影在这里只会把生物学讲成风景。
+3. **图不承载信息**：图内零文字零标注；要读的关系（三条曲线两端重合、平台被谁卡住、原生质层收缩）全部矢量或表格。
+
+- **安装**：`bash scripts/install_ppt_master.sh`；**导出**：`python3 scripts/build_deck.py --md … --plan … --out … --images assets/deck-images`
+- **预览**：每套课件旁边的 `-preview.html`，浏览器直接翻，不用 PowerPoint
+- **现状**：酶 15 页（7 图 / 15 备注）、第4章 24 页（14 图 / 24 备注），文字零越界
+- 规格见 `references/asset-spec.md` 的「03c 课件版式（PPT Master 通道）」
 
 ## 关于"上传到 Google Drive"
 

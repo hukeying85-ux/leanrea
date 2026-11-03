@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" lang="zh-CN" viewBox="0 0 1280 720" width="1280" height="720" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" data-pptx-page-role="content">
-<rect x="0" y="0" width="1280" height="720" fill="#F7F3EC" id="bg" data-pptx-role="background" />
+<rect x="0" y="0" width="1280" height="720" fill="#0C1A1B" id="bg" data-pptx-role="background" />
 <g id="content" data-pptx-bounds="0 0 1280 720">
-<image href="../../assets/deck-images/splint.jpg" x="0" y="0" width="1280" height="720" preserveAspectRatio="xMidYMid slice" />
-<rect x="0" y="300" width="1280" height="420" fill="#0F1B1F" fill-opacity="0.55" />
-<text x="96" y="430" font-size="18" font-weight="500" fill="#F7F3EC" letter-spacing="2" fill-opacity="0.9">实验现象</text>
-<text x="96" y="500" font-family="Songti SC, STSong, SimSun, serif" font-size="52" font-weight="700" fill="#F7F3EC">带火星的木条，复燃了</text>
-<text x="1184" y="690" font-size="15" font-weight="400" fill="#F7F3EC" text-anchor="end" fill-opacity="0.8">H₂O₂ + 肝脏研磨液</text>
+<image href="../../assets/deck-images/splint-ink.jpg" x="0" y="0" width="1280" height="720" preserveAspectRatio="xMidYMid slice" />
+<rect x="0" y="250" width="1280" height="470" fill="#0C1A1B" fill-opacity="0.55" />
+<text x="76" y="420" font-size="13" font-weight="500" fill="#F4EFE4" letter-spacing="3.2">实验现象</text>
+<text x="76" y="490" font-family="Songti SC, STSong, SimSun, serif" font-size="50" font-weight="700" fill="#F4EFE4">带火星的木条，复燃了</text>
+<text x="76" y="640" font-family="Songti SC, STSong, SimSun, serif" font-size="12.5" font-weight="400" fill="#F4EFE4" letter-spacing="1.2" fill-opacity="0.85" font-style="italic">PLATE 01 · H₂O₂ + 肝脏研磨液，室温</text>
 </g>
 </svg>

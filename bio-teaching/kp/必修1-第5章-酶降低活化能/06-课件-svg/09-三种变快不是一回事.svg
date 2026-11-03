@@ -1,30 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" lang="zh-CN" viewBox="0 0 1280 720" width="1280" height="720" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" data-pptx-page-role="content">
-<rect x="0" y="0" width="1280" height="720" fill="#F7F3EC" id="bg" data-pptx-role="background" />
+<rect x="0" y="0" width="1280" height="720" fill="#F4EFE4" id="bg" data-pptx-role="background" />
 <g id="content" data-pptx-bounds="0 0 1280 720">
-<text x="96" y="76" font-size="19" font-weight="500" fill="#C2542F" letter-spacing="2">三种「变快」不是一回事</text>
-<text x="96" y="164" font-family="Songti SC, STSong, SimSun, serif" font-size="38" font-weight="700" fill="#16262A">三种"变快"不是一回事</text>
-<line x1="96" y1="232.56" x2="1184" y2="232.56" stroke="#16262A" stroke-width="2" />
-<text x="104.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F" />
-<text x="376.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F">给分子能量</text>
-<text x="648.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F">降低门槛</text>
-<text x="920.0" y="266.56" font-size="20" font-weight="500" fill="#C2542F">结果</text>
-<line x1="96" y1="298.56" x2="1184" y2="298.56" stroke="#D8D0C0" stroke-width="0.8" />
-<text x="104.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">加热</text>
-<text x="376.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">给</text>
-<text x="648.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">不变</text>
-<text x="920.0" y="320.56" font-size="21" font-weight="400" fill="#16262A">变快</text>
-<line x1="96" y1="352.56" x2="1184" y2="352.56" stroke="#D8D0C0" stroke-width="0.8" />
-<text x="104.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">FeCl₃</text>
-<text x="376.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">不给</text>
-<text x="648.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">降一点</text>
-<text x="920.0" y="374.56" font-size="21" font-weight="400" fill="#16262A">变快</text>
-<line x1="96" y1="406.56" x2="1184" y2="406.56" stroke="#D8D0C0" stroke-width="0.8" />
-<text x="104.0" y="428.56" font-size="21" font-weight="400" fill="#16262A">酶</text>
-<text x="376.0" y="428.56" font-size="21" font-weight="400" fill="#16262A">不给</text>
-<text x="648.0" y="428.56" font-size="21" font-weight="400" fill="#16262A">降很多</text>
-<text x="920.0" y="428.56" font-size="21" font-weight="400" fill="#16262A">很快且专一</text>
-<line x1="96" y1="460.56" x2="1184" y2="460.56" stroke="#D8D0C0" stroke-width="0.8" />
-<text x="96" y="500.56" font-size="16" font-weight="400" fill="#4A5C60" fill-opacity="0.85">「给分子能量」和「降低门槛」是两件相反的事。</text>
-<line x1="96" y1="664" x2="1184" y2="664" stroke="#D8D0C0" stroke-width="1" /><text x="96" y="690" font-size="14" font-weight="400" fill="#4A5C60" fill-opacity="0.75">几微克蛋白质，凭什么让反应快几百倍</text><text x="1184" y="690" font-size="14" font-weight="400" fill="#4A5C60" text-anchor="end" fill-opacity="0.75">09 / 15</text>
+<rect x="76" y="87" width="7" height="7" fill="#B8452A" /><text x="92" y="96" font-size="13" font-weight="500" fill="#B8452A" letter-spacing="3.2">三种「变快」不是一回事</text>
+<text x="76" y="170" font-family="Songti SC, STSong, SimSun, serif" font-size="34" font-weight="700" fill="#14302F">三种"变快"不是一回事</text>
+<line x1="76" y1="238.08" x2="1204" y2="238.08" stroke="#14302F" stroke-width="2" />
+<text x="86.0" y="276.08000000000004" font-size="13" font-weight="500" fill="#B8452A" letter-spacing="2.4" />
+<text x="368.0" y="276.08000000000004" font-size="13" font-weight="500" fill="#B8452A" letter-spacing="2.4">给分子能量</text>
+<text x="650.0" y="276.08000000000004" font-size="13" font-weight="500" fill="#B8452A" letter-spacing="2.4">降低门槛</text>
+<text x="932.0" y="276.08000000000004" font-size="13" font-weight="500" fill="#B8452A" letter-spacing="2.4">结果</text>
+<line x1="76" y1="308.08000000000004" x2="1204" y2="308.08000000000004" stroke="#D5CCBA" stroke-width="0.9" />
+<text x="86.0" y="332.08000000000004" font-family="Songti SC, STSong, SimSun, serif" font-size="20" font-weight="700" fill="#14302F">加热</text>
+<text x="368.0" y="332.08000000000004" font-size="20" font-weight="400" fill="#14302F">给</text>
+<text x="650.0" y="332.08000000000004" font-size="20" font-weight="400" fill="#14302F">不变</text>
+<text x="932.0" y="332.08000000000004" font-size="20" font-weight="400" fill="#14302F">变快</text>
+<line x1="76" y1="364.08000000000004" x2="1204" y2="364.08000000000004" stroke="#D5CCBA" stroke-width="0.9" />
+<text x="86.0" y="388.08000000000004" font-family="Songti SC, STSong, SimSun, serif" font-size="20" font-weight="700" fill="#14302F">FeCl₃</text>
+<text x="368.0" y="388.08000000000004" font-size="20" font-weight="400" fill="#14302F">不给</text>
+<text x="650.0" y="388.08000000000004" font-size="20" font-weight="400" fill="#14302F">降一点</text>
+<text x="932.0" y="388.08000000000004" font-size="20" font-weight="400" fill="#14302F">变快</text>
+<line x1="76" y1="420.08000000000004" x2="1204" y2="420.08000000000004" stroke="#D5CCBA" stroke-width="0.9" />
+<text x="86.0" y="444.08000000000004" font-family="Songti SC, STSong, SimSun, serif" font-size="20" font-weight="700" fill="#14302F">酶</text>
+<text x="368.0" y="444.08000000000004" font-size="20" font-weight="400" fill="#14302F">不给</text>
+<text x="650.0" y="444.08000000000004" font-size="20" font-weight="400" fill="#14302F">降很多</text>
+<text x="932.0" y="444.08000000000004" font-size="20" font-weight="400" fill="#14302F">很快且专一</text>
+<line x1="76" y1="476.08000000000004" x2="1204" y2="476.08000000000004" stroke="#D5CCBA" stroke-width="0.9" />
+<text x="76" y="506.08000000000004" font-family="Songti SC, STSong, SimSun, serif" font-size="12.5" font-weight="400" fill="#4E625F" letter-spacing="1.2" fill-opacity="0.85" font-style="italic">「给分子能量」和「降低门槛」是两件相反的事。</text>
+<line x1="76" y1="654" x2="1204" y2="654" stroke="#D5CCBA" stroke-width="1" /><text x="76" y="682" font-size="12" font-weight="400" fill="#4E625F" letter-spacing="1.6" fill-opacity="0.8">几微克蛋白质，凭什么让反应快几百倍</text><text x="1204" y="682" font-size="12" font-weight="400" fill="#4E625F" text-anchor="end" letter-spacing="1.2" fill-opacity="0.8">09 — 15</text>
 </g>
 </svg>
