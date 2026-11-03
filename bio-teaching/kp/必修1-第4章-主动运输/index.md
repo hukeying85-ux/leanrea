@@ -62,3 +62,19 @@ PASS 48 / WARN 0 / FAIL 0
 
 1. 把第4章两个知识点（被动运输、主动运输）配成一小套，再回看章级教案是否需要重排；
 2. 或做第三个验证件 `酶降低活化能`（机制 + 曲线 + 实验设计三者叠加），把"数据矛盾型冲突"用第二次。
+
+## 七、线上位置（Drive，只放读者视角的编译产物）
+
+文件夹：https://drive.google.com/drive/folders/1tkSVoMDLn1isKOqSVKrS4Oa2Efr9prJ7
+
+| # | 文档 | 链接 |
+|---|---|---|
+| 00 | 交接单（先读） | https://docs.google.com/document/d/1x8_Zqf3R9IS-qfL5M3bqNmIy7xiy0DvpVekFiLLa-_I/edit |
+| 01 | 教学指南 40 分钟 | https://docs.google.com/document/d/1OtEHFweFeLs1Lnrs2MImZnLjWxZVR4Sw2_oSph3lWwo/edit |
+| 02 | 学生学案 | https://docs.google.com/document/d/1leP8VAXj-cwKmq1vv91hSyDKzqzpM-WMs-r7HDADyeU/edit |
+| 03 | 诊断题（教师版） | https://docs.google.com/document/d/1tG6vVrJldRpc-tgAzi9qj2AAzPKymfnZT18vZRsEMEU/edit |
+| 04 | 逐字稿 | https://docs.google.com/document/d/1R9WrM1ATM6MzXQoGqy__CC1P3PQP-5qKBbc-m47SloY/edit |
+| 05 | 板书六格 + 动画分镜 | https://docs.google.com/document/d/1zsZI7ATGZZYlcLEuFoSJ_vMqIvUoWJ-3RRuYmCAn3xQ/edit |
+
+按 `references/drive-vs-kb-experiment.md` 的结论：**课件 .pptx、知识库卡片、讲解设计留在 git**（它们要么是二进制、要么是作者视角的源），Drive 只放教师/学生真正要读的三类。
+
