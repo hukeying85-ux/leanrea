@@ -117,3 +117,22 @@ MIT licensed.
 ## Also in this repo: healing-comic
 
 A second, unrelated skill that applies the same "one small file, no MCP" idea to a different problem: turning a long Chinese guide/PDF into a 6–9 page Xiaohongshu-style cute healing comic plus a slideshow video. The skill covers the full pipeline — content planning (topic selection, hooks, trigger→guidance dialogue design, publish copy), layout (Chinese-OCR-measured replica of a reference post with per-bubble anchors, or a taste-skill-audited poster mode), textless art generation, scripted Chinese composition with per-page OCR verification, an ffmpeg slideshow recipe, and publishing compliance. Start at [healing-comic/README.md](healing-comic/README.md), the skill itself at [healing-comic/SKILL.md](healing-comic/SKILL.md), or open [the replica gallery](healing-comic/examples/pages-xhs3/preview.html).
+
+---
+
+## Also in this repo: bio-teaching
+
+A third skill, for teachers: turn **one chapter of a Chinese biology textbook** (人教版 初中 2024/2025 · 高中 2019) into a full set of classroom assets — **教材拆解 → 教学设计 → 课件 PPT → 分层习题 → AI 时代教学 → 课堂逐字稿 → 视频演示 → 审校交接**.
+
+Two design choices worth noting:
+
+- **One chapter, one conversation.** A chapter is 2–4 lessons, which is about one conversation's worth of context. A 总控对话 only routes, checks gates, and hands off; the eight module conversations do the work. Progress lives in a single chapter map with a state machine (`skeleton → … → ready`).
+- **Not "book-to-skills *or* a teaching guide".** Textbook content needs fidelity (terms, 课标 alignment, textbook columns), not framework distillation, so `book-to-skills` is used only in its analyse/slice mode as a **raw layer**, and this skill adds the **teaching layer** (concept → student misconception → teaching move → assessment evidence). Rationale and discriminants: [bio-teaching/references/conversion-route.md](bio-teaching/references/conversion-route.md).
+
+A worked chapter ships with it — 人教版（2019）必修1 第1章 走近细胞: 8 concepts, 6 misconceptions, 2 lesson plans, an 18-slide `.pptx` + offline HTML preview, 12 tiered questions with distractor-to-misconception mapping, 3 AI integration points with a hallucination-hunting task, a full lesson script, and a 90-second video storyboard. Start at [bio-teaching/README.md](bio-teaching/README.md), the skill at [bio-teaching/SKILL.md](bio-teaching/SKILL.md), or the master prompt at [bio-teaching/总控对话.md](bio-teaching/总控对话.md).
+
+```sh
+python3 -m pip install python-pptx
+python3 bio-teaching/scripts/build_pptx.py "bio-teaching/chapters/高中-必修1-分子与细胞/第01章-走近细胞/03-课件.md" --outdir /tmp/deck
+python3 bio-teaching/scripts/check_chapter.py "bio-teaching/chapters/高中-必修1-分子与细胞/第01章-走近细胞"
+```
