@@ -68,6 +68,8 @@ scripts/
   build_deck.py              md + plan.json + --theme → SVG 页 → PPT Master → 原生 .pptx（带讲稿备注）
   duotone.py                 配图统一成单墨双色版画（按主题取纸色/墨色，light + ink 两版）
   check_overflow.py          文本包围盒：越界 / 相撞 / 行距过挤（无渲染环境下的替代检查）
+  animate_pptx.py            给原生 pptx 灌「按块淡入」动画（改 p:timing，不动坐标）
+  make_preview.py            一套 SVG → 单文件自包含预览 HTML（页面内联，离线可看）
   install_ppt_master.sh      安装 PPT Master（MIT）及其依赖
 assets/
   deck-images/src/           10 张铜版画原图（图内零文字，同一画风）
@@ -154,7 +156,8 @@ PPT Master（MIT）svg_to_pptx      → 原生 .pptx：文字可编辑、图片�
 | `textbook` C 教材版 | 人教版 | 章名双细线、页码框、图注 `图 5-1`、标题自动编号「一、二、」 |
 
 - **安装**：`bash scripts/install_ppt_master.sh`；**导出**：`python3 scripts/build_deck.py --md … --plan … --out … --images assets/deck-images/src --theme textbook`
-- **预览**：每套课件旁的 `-preview.html`，浏览器直接翻三版并排比，不用 PowerPoint
+- **预览**：`预览/enzyme-B课堂.html` 这类单文件，双击即看，三版互跳
+- **动画**：`06-课件-B课堂-含动画.pptx`——按内容块淡入，每页 1–4 次点击，封面/收尾整体淡入
 - **现状**：酶 15 页 / 第4章 24 页，各出 A·B·C 三版；三版均 **0 越界、0 相撞、0 advisory**
 - 规格：`references/asset-spec.md`「03c」+ `references/typography.md`
 

@@ -46,6 +46,7 @@ THEMES = {
         name="plate", label="单墨版画",
         paper="#F4EFE4", ink="#14302F", ink2="#4E625F", rule="#D5CCBA",
         rust="#B8452A", teal="#2C6157", dark="#0C1A1B",
+        ochre="#A9761F", panel="#EDE6D6",
         scale=1.0, title_track=0.015, body_track=0.0,
         kicker="dot", caption="plate", head="none", foot="rule",
         cover_image="bleed", num_titles=False, body=20),
@@ -53,13 +54,15 @@ THEMES = {
         name="academic", label="A 学术冷版",
         paper="#F1F0EB", ink="#111E20", ink2="#4A585B", rule="#CFD2CE",
         rust="#9E2B1B", teal="#22464C", dark="#0B1416",
+        ochre="#8A6A2A", panel="#E9E8E2",
         scale=0.97, title_track=0.045, body_track=0.012,
         kicker="rule", caption="pl", head="academic", foot="academic",
         cover_image="bleed", num_titles=False, body=19),
     "classroom": dict(
         name="classroom", label="B 课堂暖版",
-        paper="#F8F1E2", ink="#1D2E29", ink2="#5A6B60", rule="#DCCFBA",
-        rust="#C0542F", teal="#2F6B57", dark="#12211E",
+        paper="#FAF3E3", ink="#1A2A26", ink2="#5B6B5F", rule="#E3D6BD",
+        rust="#B94E2A", teal="#2D6A54", dark="#10201D",
+        ochre="#B5852B", panel="#F2E6CB",
         scale=1.15, title_track=0.0, body_track=0.0,
         kicker="hand", caption="plain", head="none", foot="hand",
         cover_image="bleed", num_titles=False, body=22),
@@ -67,6 +70,7 @@ THEMES = {
         name="textbook", label="C 教材版",
         paper="#F7F4EA", ink="#16282A", ink2="#4F625F", rule="#D8D2C2",
         rust="#A8432B", teal="#2A5F55", dark="#0E1B1C",
+        ochre="#9C7A2E", panel="#F1ECDC",
         scale=1.03, title_track=0.02, body_track=0.004,
         kicker="textbook", caption="figure", head="textbook", foot="textbook",
         cover_image="figure", num_titles=True, body=20),
@@ -75,14 +79,27 @@ THEMES = {
 TH: dict = dict(THEMES["plate"])
 SC = 1.0
 PAPER = INK = INK2 = RULE = RUST = TEAL = DARK = ""
+OCHRE = PANEL = ""
+
+# plan.json 里写的是单墨版的色值；换主题时按语义映射，曲线/大数字才不会跟配色打架
+CMAP = {"#14302F": "ink", "#1D2E29": "ink", "#111E20": "ink", "#16282A": "ink",
+        "#B8452A": "rust", "#C0542F": "rust", "#9E2B1B": "rust", "#A8432B": "rust",
+        "#2C6157": "teal", "#2F6B57": "teal", "#22464C": "teal", "#2A5F55": "teal",
+        "#4E625F": "ink2", "#5A6B60": "ink2", "#D5CCBA": "rule", "#0C1A1B": "dark"}
 
 
 def use_theme(name: str) -> None:
-    global TH, SC, PAPER, INK, INK2, RULE, RUST, TEAL, DARK
+    global TH, SC, PAPER, INK, INK2, RULE, RUST, TEAL, DARK, OCHRE, PANEL
     TH = dict(THEMES[name])
     SC = TH["scale"]
     PAPER, INK, INK2 = TH["paper"], TH["ink"], TH["ink2"]
     RULE, RUST, TEAL, DARK = TH["rule"], TH["rust"], TH["teal"], TH["dark"]
+    OCHRE, PANEL = TH["ochre"], TH["panel"]
+
+
+def cmap(c: str) -> str:
+    """把 plan 里写死的单墨色值映射到当前主题。"""
+    return TH[CMAP[c.upper()]] if c and c.upper() in CMAP else (c or INK)
 
 
 # ---------------------------------------------------------------- 基础图元
@@ -272,7 +289,7 @@ def kicker(s: str, x=M, y=96, color=None, dark=False) -> str:
         return "".join([L(x, y - 4, x + 26, y - 4, c, 2),
                         T(x + 38, y, s, 11.5, INK if not dark else PAPER, SANS, 500, spacing=4.4)])
     if st == "hand":
-        return "".join([hand_rule(x - 2, y + 8, 30, c, 2.6),
+        return "".join([hand_rule(x - 2, y + 8, 30, OCHRE, 2.6),
                         T(x + 40, y, s, 14.5, INK if not dark else PAPER, SANS, 600, spacing=1.6)])
     return "".join([R(x, y - 9, 6, 6, INK if not dark else PAPER),
                     T(x + 16, y, s, 12.5, INK if not dark else PAPER, SANS, 500, spacing=2.2)])
@@ -429,7 +446,7 @@ def lay_hero(p, meta, ctx):
     for it in big:
         s = it["text"]
         fs = it.get("size", 108)
-        e.append(T(x, base, s, fs, it.get("color", INK), SERIF, 700, spacing=fs * 0.01))
+        e.append(T(x, base, s, fs, cmap(it.get("color", INK)), SERIF, 700, spacing=fs * 0.01))
         x += text_w(s, fs, 0.01) + it.get("gap", 40)
     trail = 820 if p.get("image") else W - M
     e.append(L(M, base + 46 * SC, trail, base + 46 * SC, RULE, 1.2))
@@ -451,6 +468,8 @@ def lay_diagram(p, meta, ctx):
 
     x0, x1 = 190, 1110
     yb, yt = 542, 250
+    # 图版底色：像一张贴在纸上的挂图，而不是浮在空白里
+    e.append(R(x0 - 58, yt - 46, (x1 + 44) - (x0 - 58), (yb + 60) - (yt - 46), PANEL))
     # 淡网格：教材图版的手感
     for k in range(1, 4):
         gy = yb - (yb - yt) * k / 4
@@ -498,6 +517,7 @@ def lay_chart(p, meta, ctx):
         e.append(T(M, y, ln, size, INK, SERIF, 700, spacing=size * TH["title_track"]))
         y += size * 1.15 * SC
     X0, Y0, X1, Y1 = 190, 560, 740, 260
+    e.append(R(X0 - 52, Y1 - 44, (X1 + 46) - (X0 - 52), (Y0 + 36) - (Y1 - 44), PANEL))
     for k in range(1, 5):
         gy = Y0 - (Y0 - Y1) * k / 5
         e.append(L(X0, gy, X1 + 16, gy, RULE, 0.6, 0.7))
@@ -523,11 +543,11 @@ def lay_chart(p, meta, ctx):
     for s in p["series"]:
         dash = ' stroke-dasharray="9 7"' if s.get("dash") else ""
         e.append(f'<path d="{path_for(s["peak"], s.get("baseline", 0.12), s.get("cutoff"))}" '
-                 f'fill="none" stroke="{s["color"]}" stroke-width="2.6"{dash} stroke-linecap="round"/>')
+                 f'fill="none" stroke="{cmap(s["color"])}" stroke-width="2.6"{dash} stroke-linecap="round"/>')
     ly = 300
     for s in p["series"]:
         dash = ' stroke-dasharray="9 7"' if s.get("dash") else ""
-        e.append(f'<line x1="800" y1="{ly}" x2="852" y2="{ly}" stroke="{s["color"]}" stroke-width="2.6"{dash}/>')
+        e.append(f'<line x1="800" y1="{ly}" x2="852" y2="{ly}" stroke="{cmap(s["color"])}" stroke-width="2.6"{dash}/>')
         e.append(T(866, ly + 6, s["name"], 18, INK, SANS, 400))
         ly += 40 * SC
     if p.get("note"):
@@ -554,6 +574,7 @@ def lay_table(p, meta, ctx):
     y += 30 * SC
     e.append(L(M, y, W - M, y, INK, 2))
     y += 36 * SC
+    e.append(R(M, y - 26 * SC, W - 2 * M, 34 * SC, PANEL))
     body_size = TH["body"] * (1.0 if ncol <= 4 else 0.88)
     for ri, row in enumerate(rows):
         for ci in range(ncol):

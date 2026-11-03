@@ -67,3 +67,19 @@ python3 scripts/build_deck.py --md "kp/…/06-课件.md" --plan "kp/…/06-课�
 ```
 
 `--theme` 四个取值：`academic` / `classroom` / `textbook` / `plate`。同一份 plan 换主题重跑即可，不需要第二份 plan，也不需要复制 md。
+
+## 7 动画（`-含动画.pptx`）
+
+动画不在 SVG 里做，做完 pptx 再灌：`scripts/animate_pptx.py in.pptx out.pptx`。
+
+| 规则 | 说明 |
+|---|---|
+| 分块 | 按**文档顺序**聚类，同一个内容块一起出现；块间距 < 24px 归为一块 |
+| 满版底图 | 盖满整页的图/底色永远是第 0 块，随页面自动出现 |
+| 首块 | 标题块自动；封面与收尾页整体自动（不进点击序列） |
+| 其余 | 每次点击淡入一块，0.5s；页脚并进最后一块，不单独点 |
+| 上限 | 单页最多 6 块，超过就合并最短的相邻块 |
+| 不动坐标 | 分块只加一层子组（xfrm/chOff 与原组完全一致），排版分毫不差 |
+
+自检：`python3 scripts/animate_pptx.py in.pptx out.pptx` 会打印每页「N 块 → X 自动 + Y 次点击」；
+生成后可再用 python-pptx 打开，检查每页 id 不重复、`spTgt` 目标都存在。
