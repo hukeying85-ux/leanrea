@@ -35,7 +35,17 @@ description: 把初/高中生物学的一章（或一个知识点）做成可上
 ```
 
 **为什么 ① 在 ② 前面**：教材决定"必须讲到什么"，skills 决定"用什么工具讲"。反过来会被工具牵着走，产出全是版式没有内容。
-**为什么 ② 不能省**：本轮（2026-11）实测，教学法层**没有**现成可用 skill，但**动画 XML 词表、风格库、自检思路**三类能直接借——省下来的时间够把一章的配图重做两遍。
+**为什么 ② 不能省**：2026-11 实测（28 条检索式），教学法层**没有**现成可用 skill，但**动画 XML 词表、自检思路、调研清单**三类能直接借——省下来的时间够把一章的配图重做两遍。盘点见 [`references/skills-catalog.md`](references/skills-catalog.md)。
+
+调研展开成 **5 路**（借用私教.skill 的 8 路，按课堂教学裁到 5 路）：
+
+| 路 | 问什么 | 产物 |
+|---|---|---|
+| 1 教材 | 这一章在教材里怎么排？前置是哪一节？ | 章节地图 |
+| 2 课标与考试 | 课标要求到哪一层？真题怎么考？ | 目标 + 题型 |
+| 3 迷思 | 学生最常见的**错答**是什么？ | 冲突素材（七步协议的弹药） |
+| 4 先修 | 真实依赖是什么（不是目录顺序） | 课时顺序 |
+| 5 工具 | 有哪些现成 skill / 版式 / 配图风格 | 工具表 |
 
 ## 3 输入与产出
 
@@ -185,6 +195,7 @@ python3 scripts/make_preview.py --svg /tmp/deck-B/svg_output --out 预览/x.html
 | 规则 | 说明 |
 |---|---|
 | 分块 | 按文档顺序 = 阅读顺序；纵向重叠的归一块 |
+| **目标** | 一步 = 一次点击 = **一组叶子形状**（每块里每个形状各写一条效果，首条 `clickEffect`、其余 `withEffect`）。**绝不把形状包成组合再对组合加动画**——组合是最常见的播放兼容缺口 |
 | 满版底图 | 永远第 0 块，随页面自动出现 |
 | 首块 | 标题自动；封面/收尾页整体自动（不进点击序列） |
 | 逐行/逐句 | 块内若有**同左边缘、等距堆叠的短文本 ≥3 条**（列表/表格），一条一步；图不拆（判据见 `list_rows()`） |
@@ -202,6 +213,25 @@ python3 scripts/make_preview.py --svg /tmp/deck-B/svg_output --out 预览/x.html
 
 死路径（解析通过、播放静默丢弃，别用）：`p:anim` 打在 `fill.opacity` / `stroke.weight` / `stroke.opacity` 上。
 `p:animEffect` 必须与 `p:set style.visibility` 配对。
+
+### 5.6.1 为什么 WPS 里"没有动画"
+
+同一份文件 PowerPoint 能播、WPS 点了没反应，按这个顺序排：
+
+1. **动画目标是不是组合**（最常见）。旧版做法把每块包成 `p:grpSp` 再对组合加动画，部分 WPS 版本直接跳过整个组合。
+   → 现在默认**不打包**，直接对叶子形状加效果；`--group` 才回到老做法。
+2. **是不是打开的是静态版**：文件名没有 `-含动画`。
+3. **是不是在编辑视图**：WPS 只有**放映**才播动画；网页版/手机版、Google Drive 预览一律不播。
+4. **文件来自网络**：WPS 会进保护视图，动画和宏被禁。
+5. **filter 不认识**：`wipe(up)` 少数老版本不认 → 用 `--simple` 全部退化成 `fade`。
+
+自查命令（把"能播"拆成七条结构，跑一遍就知道是哪一条）：
+
+```sh
+python3 scripts/check_animation.py xxx-含动画.pptx
+```
+
+它会直接报出「动画目标是组合」这一类的硬伤，以及点击组 delay 写错（一进页就全播完）。
 
 ### 5.7 原生图表：别交"能看不能改"的图
 曲线用 SVG 画出来，到 PPT 里是一条 Freeform——改一个数据点要重画整张。
@@ -227,7 +257,7 @@ md 里 `<!-- note -->` → pptx 每页备注，条数与 md 一致（酶 15/15�
 | 知识点 | `check_kp.py <kp 目录>` | PASS 49 / WARN 0 / FAIL 0 |
 | 单章 | `check_chapter.py <章目录>` | PASS 36 / WARN 0 / FAIL 0 |
 | 成组 | `check_group.py <章目录>` | PASS 14 / WARN 0 / FAIL 0 |
-| 动画 | `animate_pptx.py` 自检 | 每页 id 不重复、`spTgt` 全命中、步数合理 |
+| 动画 | `check_animation.py <pptx>` | 目标不是组合 / id 不重复 / `spTgt` 全命中 / 点击组 `delay=indefinite` / filter 在白名单 |
 | 自测 | `check_shapes.py --self-test`、`animate_pptx.py --self-test` | 全 ✓ |
 
 **两道自测存在的理由**：一道门如果永远返回 0，它就是摆设。合成用例必须能证明它抓得到问题
@@ -249,6 +279,8 @@ md 里 `<!-- note -->` → pptx 每页备注，条数与 md 一致（酶 15/15�
 | 曲线改不了 | SVG 路径对象 | `native_chart.py` 换原生图表 |
 | 深色页强调色发闷 | 对比度 <3:1 | `on_dark()` 自动混纸色提亮 |
 | 手写装饰线切到字顶 | 线画在 `y-16`（正好是字冠高度） | 抬到 `y-32`；`check_shapes` 会报"线穿字" |
+| PowerPoint 有动画、WPS 没有 | 动画目标被打包成**组合** | 默认对叶子形状加效果，`check_animation.py` 会判 FAIL |
+| 一进页所有内容就全出现 | 点击组 `delay` 写成 0 | 必须是 `indefinite`（同上检查） |
 | `--tag -A学术` 报参数错 | 以 `-` 开头的值被当选项 | 写 `--tag=-A学术` |
 | 预览换地方打开一片白 | 引用了相对路径的 SVG | `make_preview.py` 单文件内联 |
 | 端口被占 | 8000 常被沙箱占用 | 用 8099 |
@@ -278,6 +310,7 @@ python3 scripts/duotone.py      --help
 # 验收
 python3 scripts/check_overflow.py DIR...
 python3 scripts/check_shapes.py   DIR...       # 或 --self-test
+python3 scripts/check_animation.py X-含动画.pptx
 python3 scripts/check_kp.py       kp/XXX
 python3 scripts/check_chapter.py  chapters/XXX
 python3 scripts/check_group.py    chapters/XXX
@@ -290,3 +323,4 @@ python3 scripts/check_group.py    chapters/XXX
 - **动画**没有做"强调"（emphasis）与"退出"（exit），只有进场。
 - **视频**只有脚本，没有成片（沙箱无 ffmpeg/无中文字体）。
 - **字体**依赖 PowerPoint 走主题槽；WPS 老版本可能不吃，需要在目标机器上实看一次。
+- **WPS 兼容**只能做到"不依赖存疑结构"（不打包、fade 兜底）；沙箱里没有 WPS，无法真机验证，最终仍需在目标机器放映一次。

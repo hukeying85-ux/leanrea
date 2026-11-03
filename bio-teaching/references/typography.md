@@ -79,7 +79,8 @@ python3 scripts/build_deck.py --md "kp/…/06-课件.md" --plan "kp/…/06-课�
 | 首块 | 标题块自动；封面与收尾页整体自动（不进点击序列） |
 | 其余 | 每次点击淡入一块，0.5s；页脚并进最后一块，不单独点 |
 | 上限 | 单页最多 6 块，超过就合并最短的相邻块 |
-| 不动坐标 | 分块只加一层子组（xfrm/chOff 与原组完全一致），排版分毫不差 |
+| 目标 | **一步 = 一次点击 = 一组叶子形状**：每块里每个形状各写一条效果（首条 `clickEffect`、其余 `withEffect`）。不打包成组合——组合是 WPS 最常见的"没动画"原因 |
+| 不动坐标 | 不动 `spTree`，不动任何 xfrm；只追加一段 `<p:timing>` |
 | 效果 | **按块形状选效果**：整块用 `fade`；宽扁块（高 ≤150px 且宽 ≥620px，如表格行、通栏条）用 `wipe(up)`，让"一行一行推进"看得见 |
 
 ### 7.1 逐行 / 逐句（"一行一行推进"）
@@ -140,5 +141,7 @@ python3 scripts/native_chart.py deck.pptx deck-charts.json
 
 改完必须回 PowerPoint 里看一眼：标题应当是**宋体/衬线**，正文与表格应当是**黑体/无衬线**。
 
-自检：`python3 scripts/animate_pptx.py in.pptx out.pptx` 会打印每页「N 块 → X 自动 + Y 次点击」；
+兼容：`--simple` 把 wipe 全退化成 fade（老 WPS 不认方向 filter 时用）；`--group` 回到"打包成组合"的老做法（只在纯 PowerPoint 环境用）。
+自检：`python3 scripts/check_animation.py xxx-含动画.pptx` 判七条结构（目标是否组合 / id 唯一 / spTgt 命中 / 点击组 delay / filter 白名单）；
+`python3 scripts/animate_pptx.py in.pptx out.pptx` 会打印每页「N 块 → X 自动 + Y 次点击」；
 生成后可再用 python-pptx 打开，检查每页 id 不重复、`spTgt` 目标都存在。

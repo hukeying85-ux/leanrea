@@ -15,7 +15,7 @@
     4. 页脚带并进最后一带，避免"点一下才出现页码"。
 
 用法：
-    python3 scripts/animate_pptx.py in.pptx out.pptx [--dry-run]
+    python3 scripts/animate_pptx.py in.pptx out.pptx [--dry-run] [--simple] [--group]
 """
 from __future__ import annotations
 
@@ -183,8 +183,14 @@ def pick_effect(box, max_sz):
 
 
 def timing_xml(steps) -> etree._Element:
-    """steps: [(spid, mode, effect)]，mode = auto / click。"""
-    nid = [100]
+    """steps: [([spid, ...], mode, effect)]，mode = auto / click。
+
+    **一步 = 一次点击 = 一组形状**。同一个块里的多个形状各写一条效果，
+    第一条 clickEffect、其余 withEffect（PowerPoint 自己"多个对象一起"就是这么写的）。
+    这样就不必先把形状包成组合——组合是 WPS 最不擅长播放的动画目标。
+    """
+    nid = [1]
+
     def nxt():
         nid[0] += 1
         return nid[0]
@@ -208,14 +214,14 @@ def timing_xml(steps) -> etree._Element:
     sctn.set("nodeType", "mainSeq")
     scl = etree.SubElement(sctn, q("p:childTnLst"))
 
-    for spid, mode, effect in steps:
+    for spids, mode, effect in steps:
         par = etree.SubElement(scl, q("p:par"))
         c1 = etree.SubElement(par, q("p:cTn"))
         c1.set("id", str(nxt()))
         c1.set("fill", "hold")
         st = etree.SubElement(c1, q("p:stCondLst"))
-        cond = etree.SubElement(st, q("p:cond"))
-        cond.set("delay", "0" if mode == "auto" else "indefinite")
+        etree.SubElement(st, q("p:cond")).set(
+            "delay", "0" if mode == "auto" else "indefinite")
         c1l = etree.SubElement(c1, q("p:childTnLst"))
 
         p2 = etree.SubElement(c1l, q("p:par"))
@@ -226,45 +232,47 @@ def timing_xml(steps) -> etree._Element:
         etree.SubElement(st2, q("p:cond")).set("delay", "0")
         c2l = etree.SubElement(c2, q("p:childTnLst"))
 
-        p3 = etree.SubElement(c2l, q("p:par"))
-        c3 = etree.SubElement(p3, q("p:cTn"))
-        c3.set("id", str(nxt()))
         filt, preset, dur = FILTERS[effect]
-        c3.set("presetID", preset)
-        c3.set("presetClass", "entr")
-        c3.set("presetSubtype", "0")
-        c3.set("fill", "hold")
-        c3.set("nodeType", "afterEffect" if mode == "auto" else "clickEffect")
-        st3 = etree.SubElement(c3, q("p:stCondLst"))
-        etree.SubElement(st3, q("p:cond")).set("delay", "0")
-        c3l = etree.SubElement(c3, q("p:childTnLst"))
+        for k, spid in enumerate(spids):
+            p3 = etree.SubElement(c2l, q("p:par"))
+            c3 = etree.SubElement(p3, q("p:cTn"))
+            c3.set("id", str(nxt()))
+            c3.set("presetID", preset)
+            c3.set("presetClass", "entr")
+            c3.set("presetSubtype", "0")
+            c3.set("fill", "hold")
+            if k == 0:
+                c3.set("nodeType", "afterEffect" if mode == "auto" else "clickEffect")
+            else:
+                c3.set("nodeType", "withEffect")
+            st3 = etree.SubElement(c3, q("p:stCondLst"))
+            etree.SubElement(st3, q("p:cond")).set("delay", "0")
+            c3l = etree.SubElement(c3, q("p:childTnLst"))
 
-        # set visibility
-        setEl = etree.SubElement(c3l, q("p:set"))
-        bhvr = etree.SubElement(setEl, q("p:cBhvr"))
-        t = etree.SubElement(bhvr, q("p:cTn"))
-        t.set("id", str(nxt()))
-        t.set("dur", "1")
-        t.set("fill", "hold")
-        stc = etree.SubElement(t, q("p:stCondLst"))
-        etree.SubElement(stc, q("p:cond")).set("delay", "0")
-        tgt = etree.SubElement(bhvr, q("p:tgtEl"))
-        etree.SubElement(tgt, q("p:spTgt")).set("spid", str(spid))
-        names = etree.SubElement(bhvr, q("p:attrNameLst"))
-        etree.SubElement(names, q("p:attrName")).text = "style.visibility"
-        to = etree.SubElement(setEl, q("p:to"))
-        etree.SubElement(to, q("p:strVal")).set("val", "visible")
+            setEl = etree.SubElement(c3l, q("p:set"))
+            bhvr = etree.SubElement(setEl, q("p:cBhvr"))
+            tc = etree.SubElement(bhvr, q("p:cTn"))
+            tc.set("id", str(nxt()))
+            tc.set("dur", "1")
+            tc.set("fill", "hold")
+            stc = etree.SubElement(tc, q("p:stCondLst"))
+            etree.SubElement(stc, q("p:cond")).set("delay", "0")
+            tgt = etree.SubElement(bhvr, q("p:tgtEl"))
+            etree.SubElement(tgt, q("p:spTgt")).set("spid", str(spid))
+            names = etree.SubElement(bhvr, q("p:attrNameLst"))
+            etree.SubElement(names, q("p:attrName")).text = "style.visibility"
+            to = etree.SubElement(setEl, q("p:to"))
+            etree.SubElement(to, q("p:strVal")).set("val", "visible")
 
-        # fade in
-        eff = etree.SubElement(c3l, q("p:animEffect"))
-        eff.set("transition", "in")
-        eff.set("filter", filt)
-        eb = etree.SubElement(eff, q("p:cBhvr"))
-        et = etree.SubElement(eb, q("p:cTn"))
-        et.set("id", str(nxt()))
-        et.set("dur", str(dur))
-        etg = etree.SubElement(eb, q("p:tgtEl"))
-        etree.SubElement(etg, q("p:spTgt")).set("spid", str(spid))
+            eff = etree.SubElement(c3l, q("p:animEffect"))
+            eff.set("transition", "in")
+            eff.set("filter", filt)
+            eb = etree.SubElement(eff, q("p:cBhvr"))
+            et = etree.SubElement(eb, q("p:cTn"))
+            et.set("id", str(nxt()))
+            et.set("dur", str(dur))
+            etg = etree.SubElement(eb, q("p:tgtEl"))
+            etree.SubElement(etg, q("p:spTgt")).set("spid", str(spid))
 
     prev = etree.SubElement(seq, q("p:prevCondLst"))
     pc = etree.SubElement(prev, q("p:cond"))
@@ -279,7 +287,12 @@ def timing_xml(steps) -> etree._Element:
     return timing
 
 
-def process_slide(xml_bytes: bytes, idx=0, total=0, verbose=False):
+def shape_id(el):
+    nv = el.find(".//p:cNvPr", NS)
+    return int(nv.get("id")) if nv is not None else 0
+
+
+def process_slide(xml_bytes: bytes, idx=0, total=0, verbose=False, group=False, simple=False):
     root = etree.fromstring(xml_bytes)
     tree = root.find(".//p:spTree", NS)
     if tree is None:
@@ -315,13 +328,16 @@ def process_slide(xml_bytes: bytes, idx=0, total=0, verbose=False):
         bs[i]["bottom"] = max(bs[i]["bottom"], bs[i + 1]["bottom"])
         bs.pop(i + 1)
 
-    nid = max_id(root)
-    groups = []
-    for i, b in enumerate(bs):
-        nid += 1
-        groups.append(make_group(nid, f"step{i + 1}", b["els"]))
-    for g in groups:
-        container.append(g)
+    if group:                              # 老做法：包成组合再对组合加动画（PowerPoint 友好，WPS 不友好）
+        nid = max_id(root)
+        groups = []
+        for i, b in enumerate(bs):
+            nid += 1
+            groups.append(make_group(nid, f"step{i + 1}", b["els"]))
+        for g in groups:
+            container.append(g)
+    else:                                  # 默认：不动树，直接给每个形状各写一条效果
+        groups = bs
     # 首块（标题/底图）自动出现；封面与收尾页全部自动
     auto_n = 1
     if bs and bs[0].get("bg"):
@@ -340,10 +356,16 @@ def process_slide(xml_bytes: bytes, idx=0, total=0, verbose=False):
         return max(vals) if vals else 0
 
     steps = []
-    for i, (g, b) in enumerate(zip(groups, bs)):
+    for i, b in enumerate(bs):
         eff = "fade" if (i < auto_n and b.get("bg")) else pick_effect(bbox(b["els"]), max_sz(b["els"]))
-        steps.append((int(g.find("p:nvGrpSpPr/p:cNvPr", NS).get("id")),
-                      "auto" if i < auto_n else "click", eff))
+        if simple:
+            eff = "fade"
+        if group:
+            ids = [shape_id(groups[i])]
+        else:
+            ids = [i2 for i2 in (shape_id(e) for e in b["els"]) if i2]
+        if ids:
+            steps.append((ids, "auto" if i < auto_n else "click", eff))
 
     old = root.find("p:timing", NS)
     if old is not None:
@@ -351,7 +373,8 @@ def process_slide(xml_bytes: bytes, idx=0, total=0, verbose=False):
     root.append(timing_xml(steps))
     if verbose:
         n_click = sum(1 for _s, m, _e in steps if m == "click")
-        print(f"    {len(bs)} 块 / {len(shapes)} 形状 → {len(bs) - n_click} 自动 + {n_click} 次点击")
+        n_obj = sum(len(s) for s, _m, _e in steps)
+        print(f"    {len(bs)} 块 / {n_obj} 对象 → {len(bs) - n_click} 自动 + {n_click} 次点击")
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True), steps
 
 
@@ -392,6 +415,10 @@ def main() -> None:
     ap.add_argument("src")
     ap.add_argument("dst")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--simple", action="store_true",
+                    help="全部退化成 fade（老版本 WPS 不认 wipe(up) 时用）")
+    ap.add_argument("--group", action="store_true",
+                    help="把每块包成组合再动画（PowerPoint 友好；WPS 对组合动画支持差，默认关）")
     a = ap.parse_args()
 
     src, dst = Path(a.src), Path(a.dst)
@@ -409,7 +436,8 @@ def main() -> None:
     for info, data in items:
         if info.filename.startswith("ppt/slides/slide") and info.filename.endswith(".xml"):
             idx = int(_re.search(r"slide(\d+)\.xml$", info.filename).group(1))
-            new, steps = process_slide(data, idx, total_slides, verbose=True)
+            new, steps = process_slide(data, idx, total_slides, verbose=True,
+                                       group=a.group, simple=a.simple)
             total += len(steps)
             data = new
         out.append((info, data))
