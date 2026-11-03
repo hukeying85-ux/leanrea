@@ -324,11 +324,14 @@ def main() -> None:
 
     outdir = Path(a.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
-    build_pptx(deck, outdir / "03-课件.pptx")
-    print(f"[ok] {outdir/'03-课件.pptx'}")
+    stem = md.stem  # 03-课件.md -> 03-课件.pptx；06-课件.md -> 06-课件.pptx
+    pptx_path = outdir / f"{stem}.pptx"
+    build_pptx(deck, pptx_path)
+    print(f"[ok] {pptx_path}")
     if not a.no_html:
-        build_html(deck, outdir / "preview.html")
-        print(f"[ok] {outdir/'preview.html'}")
+        html_path = outdir / f"{stem}-preview.html"
+        build_html(deck, html_path)
+        print(f"[ok] {html_path}  （服务端预览用；改名 preview.html 也可）")
     if not a.no_warn:
         gate(deck, a.per_slide, a.lessons)
 
