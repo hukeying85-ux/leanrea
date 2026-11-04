@@ -1,0 +1,97 @@
+[
+  {
+    "art": "art-xhs2/00-cover.png",
+    "layout": "xhs2-cover",
+    "title": ["引导型恋人", "从不做的 8 件事"],
+    "subtitle": "第 6 张，很多人天天在做",
+    "out": "复刻01.png"
+  },
+  {
+    "art": "art-xhs3/01.png",
+    "layout": "xhs2",
+    "label": "替他兜底一切",
+    "reveal": "那不是爱，是接管",
+    "bubbles": [
+      {"lines": ["有点沉……"], "anchor": [0.22, 0.15]},
+      {"lines": ["你先试，我在旁边。"], "anchor": [0.80, 0.65]}
+    ],
+    "out": "复刻02.png"
+  },
+  {
+    "art": "art-xhs3/02.png",
+    "layout": "xhs2",
+    "label": "把独处当冷淡",
+    "reveal": "独处是充电，不是离开",
+    "bubbles": [
+      {"lines": ["我想一个人待会儿。"], "anchor": [0.80, 0.15]},
+      {"lines": ["好，水放这儿。"], "anchor": [0.22, 0.65]}
+    ],
+    "out": "复刻03.png"
+  },
+  {
+    "art": "art-xhs3/03.png",
+    "layout": "xhs2",
+    "label": "一开口就翻旧账",
+    "reveal": "就事论事，上次翻篇了",
+    "bubbles": [
+      {"lines": ["又要提上次吗……"], "anchor": [0.22, 0.15]},
+      {"lines": ["不提，只说今天这件。"], "anchor": [0.80, 0.65]}
+    ],
+    "out": "复刻04.png"
+  },
+  {
+    "art": "art-xhs3/04.png",
+    "layout": "xhs2",
+    "label": "逼他改性格",
+    "reveal": "只谈行为，不改人格",
+    "bubbles": [
+      {"lines": ["我是不是得改改？"], "anchor": [0.80, 0.15]},
+      {"lines": ["不用改，只说这件事。"], "anchor": [0.22, 0.65]}
+    ],
+    "out": "复刻05.png"
+  },
+  {
+    "art": "art-xhs3/05.png",
+    "layout": "xhs2",
+    "label": "用沉默罚他认错",
+    "reveal": "给时间，不给惩罚",
+    "bubbles": [
+      {"lines": ["……我现在不想说。"], "anchor": [0.22, 0.15]},
+      {"lines": ["可以，想说我都在。"], "anchor": [0.80, 0.65]}
+    ],
+    "out": "复刻06.png"
+  },
+  {
+    "art": "art-xhs3/06.png",
+    "layout": "xhs2",
+    "label": "查手机装定位",
+    "reveal": "信任不看聊天记录",
+    "bubbles": [
+      {"lines": ["手机给你，随便看。"], "anchor": [0.80, 0.15]},
+      {"lines": ["不看，我信你。"], "anchor": [0.22, 0.65]}
+    ],
+    "out": "复刻07.png"
+  },
+  {
+    "art": "art-xhs3/07.png",
+    "layout": "xhs2",
+    "label": "当他的心理医生",
+    "reveal": "陪伴不等于治疗",
+    "bubbles": [
+      {"lines": ["只有你能救我……"], "anchor": [0.22, 0.15]},
+      {"lines": ["我陪你，也找人聊聊。"], "anchor": [0.80, 0.65]}
+    ],
+    "out": "复刻08.png"
+  },
+  {
+    "art": "art-xhs3/08.png",
+    "layout": "xhs2",
+    "label": "空头承诺",
+    "reveal": "大承诺给想象，小承诺给证据",
+    "bubbles": [
+      {"lines": ["明年一定带我去吗？"], "anchor": [0.80, 0.15]},
+      {"lines": ["先定这周三，我来订位。"], "anchor": [0.22, 0.65]}
+    ],
+    "out": "复刻09.png"
+  }
+]

@@ -111,3 +111,13 @@ The answer keys in `tasks.json` match the app versions used here and a `gh` buil
 REA is an impressive, well-documented project by the morluto team. Most of the gotchas in this skill came from reading their code and docs. leanrea isn't affiliated with REA. It is just a test of whether a model with plain tools and a short note can do the same work faster.
 
 MIT licensed.
+
+---
+
+## Also in this repo: healing-comic
+
+A second, unrelated skill that applies the same "one small file, no MCP" idea to a different problem: turning a long Chinese guide/PDF into a 6–9 page Xiaohongshu-style cute healing comic plus a slideshow video. The skill covers the full pipeline — content planning (topic selection, hooks, trigger→guidance dialogue design, publish copy), layout (Chinese-OCR-measured replica of a reference post with per-bubble anchors, or a taste-skill-audited poster mode), textless art generation, scripted Chinese composition with per-page OCR verification, an ffmpeg slideshow recipe, and publishing compliance. Start at [healing-comic/README.md](healing-comic/README.md), the skill itself at [healing-comic/SKILL.md](healing-comic/SKILL.md), or open [the replica gallery](healing-comic/examples/pages-xhs3/preview.html).
+
+## couple-site（额外）
+
+一个零依赖的情侣记录静态站：时间轴、相册、纪念日、清单、小纸条，数据全在 `couple-site/data/content.js`。部署方式见 [couple-site/README.md](couple-site/README.md)。

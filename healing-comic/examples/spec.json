@@ -1,0 +1,50 @@
+[
+  {
+    "art": "art/00-cover.png",
+    "title": "真正的引导型恋人",
+    "subtitle": "从来不是当爹当妈",
+    "bubble": ["把选择权还回去，", "再在旁边站得稳一点。"],
+    "footer": "《引导型恋人指南》v1.1.0 · 导言",
+    "out": "01-cover.png"
+  },
+  {
+    "art": "art/01-consent.png",
+    "title": "他说想一个人待着",
+    "subtitle": "我就把手机扣下",
+    "bubble": ["好，那我不加安排。", "下周三你有空再告诉我。"],
+    "footer": "2.6 同意可撤回 · 随时可以说不想聊、不想被安排",
+    "out": "02-consent.png"
+  },
+  {
+    "art": "art/02-no-remake.png",
+    "title": "揉掉改造清单",
+    "subtitle": "只谈具体的事，不改造人",
+    "bubble": ["我不改你，", "只说这件事让我有点难受。"],
+    "footer": "不改造人格 · 只谈行为、影响、请求",
+    "out": "03-no-remake.png"
+  },
+  {
+    "art": "art/04-professional-help.png",
+    "title": "不急着修好他",
+    "subtitle": "先陪他坐一会儿",
+    "bubble": ["我们一起找人聊聊，", "不是谁有病。"],
+    "footer": "13.8 · 暴力、成瘾、自伤，先转介专业帮助",
+    "out": "04-professional-help.png"
+  },
+  {
+    "art": "art/03-no-surveillance.png",
+    "title": "他的手机倒扣着",
+    "subtitle": "我去给花浇水",
+    "bubble": ["你的手机，我不看。"],
+    "footer": "不监控不试探 · 查手机、装定位、冷处理，一律不做",
+    "out": "05-no-surveillance.png"
+  },
+  {
+    "art": "art/05-ending.png",
+    "title": "既能靠近",
+    "subtitle": "也有退路",
+    "bubble": ["两个人都站在自己的位置上，", "就很好。"],
+    "footer": "完整 13 章 · 104 个具体处境 · CC BY 4.0",
+    "out": "06-ending.png"
+  }
+]
