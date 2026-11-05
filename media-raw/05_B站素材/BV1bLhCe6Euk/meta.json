@@ -10,6 +10,11 @@
       "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f bv*+ba/b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f worst -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
     },
     {
+      "tool": "bilibili-api",
+      "ok": false,
+      "log": "view api: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
       "tool": "gallery-dl",
       "ok": false,
       "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'"
@@ -21,6 +26,6 @@
     }
   ],
   "files": [],
-  "collected_at": "2026-11-05T10:31:05Z",
+  "collected_at": "2026-11-05T10:34:52Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
