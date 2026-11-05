@@ -76,6 +76,64 @@ def is_media(name):
     return os.path.splitext(name)[1].lower() in MEDIA_EXT
 
 
+# cookie 注入：内容走 GitHub Actions Secrets，按域名挂给 yt-dlp / gallery-dl
+COOKIE_ENV = {
+    "douyin.com": "COOKIES_DOUYIN",
+    "youtube.com": "COOKIES_YOUTUBE",
+    "youtu.be": "COOKIES_YOUTUBE",
+    "bilibili.com": "COOKIES_BILIBILI",
+    "xiaohongshu.com": "COOKIES_XHS",
+    "instagram.com": "COOKIES_INSTAGRAM",
+    "weibo.com": "COOKIES_WEIBO",
+    "kuaishou.com": "COOKIES_KUAISHOU",
+}
+
+
+def write_cookies_file(domain, pairs, out):
+    """pairs: dict|list[tuple] -> Netscape 格式。"""
+    if not pairs:
+        return None
+    items = pairs.items() if isinstance(pairs, dict) else pairs
+    path = os.path.join(out, "_cookies.txt")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("# Netscape HTTP Cookie File\n")
+        for k, v in items:
+            f.write(f".{domain.lstrip('.')}\tTRUE\t/\tFALSE\t0\t{k}\t{v}\n")
+    return path
+
+
+def cookies_for(url, out):
+    """按 URL 域名取 cookie 文件（Secrets 优先，其次官方指纹自举）。"""
+    low = url.lower()
+    for dom, envname in COOKIE_ENV.items():
+        if dom in low:
+            raw = os.environ.get(envname, "").strip()
+            if raw:
+                pairs = []
+                for part in raw.replace("\n", ";").split(";"):
+                    if "=" in part:
+                        k, v = part.split("=", 1)
+                        pairs.append((k.strip(), v.strip()))
+                p = write_cookies_file(dom, pairs, out)
+                if p:
+                    return p
+    if "bilibili.com" in low:
+        # B站对机房 IP 返回 412；带上官方接口发的 buvid3/buvid4 指纹可解
+        try:
+            r = requests.get("https://api.bilibili.com/x/frontend/finger/spi",
+                             headers={"User-Agent": UA,
+                                      "Referer": "https://www.bilibili.com/"}, timeout=30)
+            d = r.json().get("data") or {}
+            if d.get("b_3"):
+                return write_cookies_file("bilibili.com",
+                                          [("buvid3", d["b_3"]),
+                                           ("buvid4", d.get("b_4", "")),
+                                           ("b_nut", "100")], out)
+        except Exception:
+            pass
+    return None
+
+
 def list_files_recursive(root):
     out = []
     for d, _, fs in os.walk(root):
@@ -129,10 +187,11 @@ FORMATS = [
 
 
 def try_ytdlp(url, out):
-    logs, cookie_file = [], None
-    if any(k in url for k in ("douyin.com", "weibo.com", "bilibili.com")):
+    logs = []
+    cookie_file = cookies_for(url, out)
+    if not cookie_file and any(k in url for k in ("douyin.com", "weibo.com")):
         cookie_file = bootstrap_cookies(url, out)
-        logs.append(f"bootstrap cookies: {cookie_file or 'none'}")
+    logs.append(f"cookies: {cookie_file or 'none'}")
 
     for i, fmt in enumerate(FORMATS):
         cmd = list(YT_BASE) + ["-f", fmt, "--merge-output-format", "mp4",

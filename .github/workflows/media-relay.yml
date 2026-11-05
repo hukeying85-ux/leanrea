@@ -45,17 +45,35 @@ jobs:
         run: |
           python tools/media-library/relay_worker.py 2>&1 | tee /tmp/relay.log
 
-      - name: Commit results back to the branch
+      - name: Publish results to the dedicated media-out branch
         if: always()
+        env:
+          COOKIES_DOUYIN: ${{ secrets.COOKIES_DOUYIN }}
+          COOKIES_YOUTUBE: ${{ secrets.COOKIES_YOUTUBE }}
+          COOKIES_BILIBILI: ${{ secrets.COOKIES_BILIBILI }}
+          COOKIES_XHS: ${{ secrets.COOKIES_XHS }}
+          COOKIES_INSTAGRAM: ${{ secrets.COOKIES_INSTAGRAM }}
+          COOKIES_WEIBO: ${{ secrets.COOKIES_WEIBO }}
+          COOKIES_KUAISHOU: ${{ secrets.COOKIES_KUAISHOU }}
         run: |
+          # 结果单独放 media-out 分支：不写回工作分支，避免和本地提交反复冲突
           git config user.name  "media-relay[bot]"
           git config user.email "media-relay[bot]@users.noreply.github.com"
+          git add -f media-raw || true
+          git stash -u -- media-raw 2>/dev/null || true
+          if git fetch origin media-out --depth=1 2>/dev/null; then
+            git checkout -B media-out FETCH_HEAD
+          else
+            git checkout --orphan media-out
+            git rm -rf --cached . >/dev/null 2>&1 || true
+          fi
+          git stash pop 2>/dev/null || true
           git add -f media-raw || true
           if git diff --cached --quiet; then
             echo "nothing new to commit"
           else
             git commit -m "media: relay run $(date -u +%Y-%m-%dT%H%M%SZ)"
-            git push origin HEAD:${{ github.ref_name }} || echo "push failed"
+            git push origin media-out || echo "push failed"
           fi
 
       - name: Upload as artifact too
