@@ -158,6 +158,42 @@ B站的 412 是地区 + 机房双判定。GitHub 托管 runner 只有美西/欧�
 
 ---
 
+## 五之二、GitHub 上现成的工具，哪些真能救
+
+你问"GitHub 肯定有能成功的工具"——有，但要分清楚**哪些卡的是工具、哪些卡的是环境**。
+工具解决不了 IP 封禁，这点必须说在前面。
+
+**yt-dlp 插件生态（yt-dlp 会自动加载，装完就生效）**
+
+| 工具 | 治什么 | 装法 | 现状 |
+|---|---|---|---|
+| `bgutil-ytdlp-pot-provider` | YouTube 的 PO token / 403 | `pip install bgutil-ytdlp-pot-provider` | **已装，仍 403** |
+| `yt-dlp-get-pot` | 同上，另一个实现 | `pip install yt-dlp-get-pot` | 未试 |
+| `yt-dlp-nightly` | yt-dlp 的每日构建，修得比正式版快 | `pip install -U yt-dlp-nightly` | 未试 |
+
+bgutil 这次没救回来，是因为它默认要连一个本地 HTTP 服务生成 token，
+在 runner 上那一步没起来。**换 `yt-dlp-nightly` 是最值得下一步试的**——
+YouTube 的 extractor 基本每周都在被修。
+
+**平台专用下载器（都要 cookie，或者要能出网的地区）**
+
+| 平台 | 工具 | 说明 |
+|---|---|---|
+| B站 | `yutto-dev/yutto`、`bilibili-API-collect` | 工具都成熟，但**IP 被封，换工具没用**，得换 runner 地区 |
+| 抖音 | `JoeanAmier/TikTokDownloader`、`Evil0ctal/DouYinCommandLine` | 功能最全，但**必须给 cookie**，且要定期更新 |
+| 快手 / 微博 / Instagram | `gallery-dl` 直接支持 | 后两家基本必须给 cookie |
+| 全平台爬虫 | `MediaCrawler`（小红书/抖音/B站/微博） | 关键词级批量采集，重、要部署，适合大量采 |
+
+**结论**：剩下三家卡的是**环境（数据中心 IP + 缺 cookie）**，不是工具。
+工具箱里已经装了 yt-dlp + gallery-dl，这两个覆盖了 90% 的场景；
+真要补齐，性价比排序是：
+
+1. **换 self-hosted runner 到国内/香港节点** —— 一次性解决 B站、抖音、快手
+2. **导出 cookie 塞进 Actions Secrets** —— 解决抖音、YouTube、微博、Instagram
+3. **换 `yt-dlp-nightly`** —— 最省事，可能直接解决 YouTube
+
+---
+
 ## 六、结论
 
 "沙箱内抓不了国内平台"这个结论**已经不成立**——
