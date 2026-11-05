@@ -59,15 +59,14 @@ jobs:
           # 结果单独放 media-out 分支：不写回工作分支，避免和本地提交反复冲突
           git config user.name  "media-relay[bot]"
           git config user.email "media-relay[bot]@users.noreply.github.com"
-          git add -f media-raw || true
-          git stash -u -- media-raw 2>/dev/null || true
+          # media-raw 是未跟踪目录，切分支不会被删掉，不需要 stash
           if git fetch origin media-out --depth=1 2>/dev/null; then
             git checkout -B media-out FETCH_HEAD
           else
             git checkout --orphan media-out
             git rm -rf --cached . >/dev/null 2>&1 || true
           fi
-          git stash pop 2>/dev/null || true
+          ls -la media-raw | head -5
           git add -f media-raw || true
           if git diff --cached --quiet; then
             echo "nothing new to commit"
