@@ -1,0 +1,285 @@
+[
+  {
+    "source_url": "https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user",
+    "platform_folder": "01_小红书素材",
+    "status": "ok",
+    "tool_used": "scrape",
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "[XiaoHongShu] Extracting URL: https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdE...&xsec_source=pc_user\n[XiaoHongShu] 6ae333e7000000002903c0c0: Downloading webpage\nERROR: [XiaoHongShu] 6ae333e7000000002903c0c0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "[gallery-dl][error] Unsupported URL 'https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user'\n"
+      },
+      {
+        "tool": "scrape",
+        "ok": true,
+        "log": "found 5 candidate urls, saved 3"
+      }
+    ],
+    "files": [
+      {
+        "name": "img_04.png",
+        "bytes": 94225,
+        "sha256": "355c14ab7392517d302fdfc040062961403c2852a79a5c696cf7b6f4bf9ece62"
+      },
+      {
+        "name": "img_03.png",
+        "bytes": 66247,
+        "sha256": "210d454eb10a7014ea241c7620fbe97ea006f6c55bb284933f183b1d322cc9f0"
+      },
+      {
+        "name": "img_05.png",
+        "bytes": 85358,
+        "sha256": "b2e5a9a417878b2c2791c376d2584a719a4095d0ecdb67d1a1eb588bd403ede4"
+      }
+    ],
+    "collected_at": "2026-11-05T10:22:52Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.bilibili.com/video/BV1SPNz6rEE8/",
+    "platform_folder": "05_B站素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1SPNz6rEE8/\n[BiliBili] 1SPNz6rEE8: Downloading webpage\nERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "[gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'\n"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 1 candidate urls, saved 0"
+      }
+    ],
+    "files": [],
+    "collected_at": "2026-11-05T10:22:46Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.bilibili.com/video/BV1bLhCe6Euk/",
+    "platform_folder": "05_B站素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1bLhCe6Euk/\n[BiliBili] 1bLhCe6Euk: Downloading webpage\nERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "[gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'\n"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 1 candidate urls, saved 0"
+      }
+    ],
+    "files": [],
+    "collected_at": "2026-11-05T10:22:46Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.douyin.com/video/7525669126587026745",
+    "platform_folder": "02_抖音素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "[Douyin] Extracting URL: https://www.douyin.com/video/7525669126587026745\n[Douyin] 7525669126587026745: Downloading web detail JSON\nERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "[gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7525669126587026745'\n"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 0 candidate urls, saved 0"
+      }
+    ],
+    "files": [],
+    "collected_at": "2026-11-05T10:22:48Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "platform_folder": "03_YouTube素材",
+    "status": "ok",
+    "tool_used": "scrape",
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "[youtube] Extracting URL: https://www.youtube.com/watch?v=dQw4w9WgXcQ\n[youtube] dQw4w9WgXcQ: Downloading webpage\n[youtube] dQw4w9WgXcQ: Downloading visionos player API JSON\nERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats\n"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "[gallery-dl][error] Unsupported URL 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'\n"
+      },
+      {
+        "tool": "scrape",
+        "ok": true,
+        "log": "found 30 candidate urls, saved 23"
+      }
+    ],
+    "files": [
+      {
+        "name": "img_23.jpg",
+        "bytes": 15895,
+        "sha256": "14813b607c3ff620fb3272335a73d9c9df81fbaa1e6d0cde13a6431a3ac56e29"
+      },
+      {
+        "name": "img_24.jpg",
+        "bytes": 15163,
+        "sha256": "71d734215d97a152617b429f6aed4dd6c90cf873612fb6026d1db4c81d776831"
+      },
+      {
+        "name": "img_25.jpg",
+        "bytes": 24605,
+        "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
+      },
+      {
+        "name": "img_06.jpg",
+        "bytes": 65324,
+        "sha256": "263dedc00c8521ab388aa6385c36c28be9e02c8e7bb6f8edbe6240f5cdd9bdbd"
+      },
+      {
+        "name": "img_16.webp",
+        "bytes": 39360,
+        "sha256": "f2ce4ce30923ca8d67e25e8e7a0a07025fb0d64d4c0ebdae130a7754b92d4289"
+      },
+      {
+        "name": "img_05.jpg",
+        "bytes": 21011,
+        "sha256": "2fc77b4a0620f5dca2d3cae6d917af3acdeb3b2e5558ba1727f8d651351fc692"
+      },
+      {
+        "name": "img_14.webp",
+        "bytes": 35878,
+        "sha256": "e14937fa2e3eef4f8957fe4320b4be3d5bc9546302d8edbe514f68b9974f1d0d"
+      },
+      {
+        "name": "img_17.jpg",
+        "bytes": 20860,
+        "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
+      },
+      {
+        "name": "img_07.webp",
+        "bytes": 28620,
+        "sha256": "15e68d2a9d25570ba52b91a5abf7fe8edf6ffc41f331761061b1709c61c57226"
+      },
+      {
+        "name": "img_29.jpg",
+        "bytes": 22316,
+        "sha256": "331e4104df47b1e041f9cad3dd5591af418c6b331fccda8110e1ea38f3a2be12"
+      },
+      {
+        "name": "img_21.jpg",
+        "bytes": 30075,
+        "sha256": "1911487bb88c7c5f0ae2c68a820afc60be231c77ea43cff893a774c168b375cf"
+      },
+      {
+        "name": "img_11.jpg",
+        "bytes": 11564,
+        "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
+      },
+      {
+        "name": "img_30.jpg",
+        "bytes": 14728,
+        "sha256": "84409254664b1603e89867e03e9834169db34f9822f8fcbc3fb8437f1c311cef"
+      },
+      {
+        "name": "img_20.jpg",
+        "bytes": 20887,
+        "sha256": "3700c97acf25a30e523e7b2e6922f7bc60417199ed93d00941df229534fdc53f"
+      },
+      {
+        "name": "img_18.jpg",
+        "bytes": 18202,
+        "sha256": "17fccea0f1b15309320adcb0141be2be78ea1418a52c5295df84e9c9eb2db7b2"
+      },
+      {
+        "name": "img_13.jpg",
+        "bytes": 19760,
+        "sha256": "749e6ae20bc9e2aa84aa6856ac6137e89a39a1d01e319d7004581817bcad3250"
+      },
+      {
+        "name": "img_12.jpg",
+        "bytes": 72501,
+        "sha256": "ff6175b5482cb45abcc7abb03e177f5418d585f6641412f6e01d93de32c2f20d"
+      },
+      {
+        "name": "img_26.jpg",
+        "bytes": 27604,
+        "sha256": "9a98b2885f3df51c56428e643adbbb8d4b757ed28fa0b52d39b6672d4485a45c"
+      },
+      {
+        "name": "img_22.jpg",
+        "bytes": 53433,
+        "sha256": "8494f0e35f49bc869e63e630e813587ca5f3fa969d302c81820cbfd2ecd275f1"
+      },
+      {
+        "name": "img_27.jpg",
+        "bytes": 18327,
+        "sha256": "91d57e95700c190f60cd776301b59c34c6da570f1cd42755db7ab63c9c9c5351"
+      },
+      {
+        "name": "img_15.jpg",
+        "bytes": 26481,
+        "sha256": "1df0462c1fa97f84ac84eba8901f529c1e5bb246ee449d3ca99471160b5d8124"
+      },
+      {
+        "name": "img_19.jpg",
+        "bytes": 17085,
+        "sha256": "6b09b42c14dece5c80c087a59fe6fc861e37b7a1efd82bd0c0a37d6b30fabc9f"
+      },
+      {
+        "name": "img_28.jpg",
+        "bytes": 25076,
+        "sha256": "b5c6b8dfbe198aa7fa183d9d25790b9ce3ff2ad04d2d14fd7f305ed054d54dde"
+      }
+    ],
+    "collected_at": "2026-11-05T10:23:12Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.tiktok.com/@tiktok/video/7106594312292453675",
+    "platform_folder": "07_TikTok素材",
+    "status": "ok",
+    "tool_used": "gallery-dl",
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "[TikTok] Extracting URL: https://www.tiktok.com/@tiktok/video/7106594312292453675\n[TikTok] 7106594312292453675: Downloading webpage\nERROR: [TikTok] 7106594312292453675: Unexpected response from webpage request; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": true,
+        "log": "/home/runner/work/leanrea/leanrea/media-raw/07_TikTok素材/7106594312292453675/tiktok/tiktok/7106594312292453675 how many frogs did you find? 🐸 check out tiktok’s #Minecraft community today! @Gorillo.mp4\n"
+      }
+    ],
+    "files": [],
+    "collected_at": "2026-11-05T10:22:50Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  }
+]

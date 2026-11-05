@@ -1,0 +1,26 @@
+{
+  "source_url": "https://www.bilibili.com/video/BV1bLhCe6Euk/",
+  "platform_folder": "05_B站素材",
+  "status": "failed",
+  "tool_used": null,
+  "steps": [
+    {
+      "tool": "yt-dlp",
+      "ok": false,
+      "log": "[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1bLhCe6Euk/\n[BiliBili] 1bLhCe6Euk: Downloading webpage\nERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n"
+    },
+    {
+      "tool": "gallery-dl",
+      "ok": false,
+      "log": "[gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'\n"
+    },
+    {
+      "tool": "scrape",
+      "ok": false,
+      "log": "found 1 candidate urls, saved 0"
+    }
+  ],
+  "files": [],
+  "collected_at": "2026-11-05T10:22:46Z",
+  "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+}

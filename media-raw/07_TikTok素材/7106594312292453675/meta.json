@@ -1,0 +1,21 @@
+{
+  "source_url": "https://www.tiktok.com/@tiktok/video/7106594312292453675",
+  "platform_folder": "07_TikTok素材",
+  "status": "ok",
+  "tool_used": "gallery-dl",
+  "steps": [
+    {
+      "tool": "yt-dlp",
+      "ok": false,
+      "log": "[TikTok] Extracting URL: https://www.tiktok.com/@tiktok/video/7106594312292453675\n[TikTok] 7106594312292453675: Downloading webpage\nERROR: [TikTok] 7106594312292453675: Unexpected response from webpage request; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n"
+    },
+    {
+      "tool": "gallery-dl",
+      "ok": true,
+      "log": "/home/runner/work/leanrea/leanrea/media-raw/07_TikTok素材/7106594312292453675/tiktok/tiktok/7106594312292453675 how many frogs did you find? 🐸 check out tiktok’s #Minecraft community today! @Gorillo.mp4\n"
+    }
+  ],
+  "files": [],
+  "collected_at": "2026-11-05T10:22:50Z",
+  "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+}
