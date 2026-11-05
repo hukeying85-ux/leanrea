@@ -1,0 +1,50 @@
+name: xhsref
+on:
+  push:
+    paths:
+      - '.xhsref/**'
+      - '.github/workflows/xhsref.yml'
+permissions:
+  contents: write
+jobs:
+  ref:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch + downscale refs
+        run: |
+          set -x
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+          NOTE='https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user'
+          curl -sSL -m 60 -A "$UA" -H 'Accept-Language: zh-CN,zh;q=0.9' "$NOTE" -o note.html || true
+          mkdir -p raw refs
+          grep -oE 'https://sns-webpic-qc\.xhscdn\.com/[^"[:space:]\\)]+' note.html | grep 'notes_pre_post' | grep 'nd_dft_wlteh_webp_3' | sort -u > urls.txt || true
+          echo "urls=$(wc -l < urls.txt)"
+          [ "$(wc -l < urls.txt)" -ge 5 ] || cp .xhsref/urls.txt urls.txt
+          i=0
+          while IFS= read -r u; do
+            [ -z "$u" ] && continue
+            i=$((i+1)); n=$(printf "%02d" $i)
+            c=$(curl -sSL -m 90 -A "$UA" -e 'https://www.xiaohongshu.com/' -o "raw/x_${n}.webp" -w '%{http_code}' "$u" || echo 000)
+            [ "$c" = "200" ] || c=$(curl -sSL -m 90 -A "$UA" -e 'https://www.xiaohongshu.com/' -o "raw/x_${n}.webp" -w '%{http_code}' "${u%%!*}" || echo 000)
+            echo "img$n http=$c size=$(stat -c%s raw/x_${n}.webp 2>/dev/null || echo 0)"
+          done < urls.txt
+          sudo apt-get update -qq >/dev/null 2>&1 || true
+          sudo apt-get install -y -qq webp python3-pil >/dev/null 2>&1 || true
+          pip install --quiet pillow 2>&1 | tail -1 || true
+          for f in raw/*.webp; do [ -s "$f" ] && dwebp "$f" -o "${f%.webp}.png" >/dev/null 2>&1; done
+          python3 -c "
+from PIL import Image
+import glob, os
+for i, f in enumerate(sorted(glob.glob('raw/*.png')), 1):
+    im = Image.open(f).convert('RGB').resize((720, 1520), Image.LANCZOS)
+    im.save('refs/r%d.jpg' % i, 'JPEG', quality=82, optimize=True)
+    print('refs/r%d.jpg %d' % (i, os.path.getsize('refs/r%d.jpg' % i)))
+"
+      - name: Commit refs
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena-bot@users.noreply.github.com"
+          git add -f refs
+          git commit -m "xhsref: reference thumbnails" || echo nothing
+          for i in 1 2 3; do git push origin HEAD:"${GITHUB_REF_NAME}" && break || sleep 5; done
