@@ -7,7 +7,7 @@
     {
       "tool": "yt-dlp",
       "ok": false,
-      "log": "bootstrap cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f 18/22/43/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
+      "log": "cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1SPNz6rEE8/_cookies.txt\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f 18/22/43/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
     },
     {
       "tool": "bilibili-api",
@@ -25,7 +25,13 @@
       "log": "found 1 candidate urls, saved 0"
     }
   ],
-  "files": [],
-  "collected_at": "2026-11-05T10:43:50Z",
+  "files": [
+    {
+      "name": "_cookies.txt",
+      "bytes": 759,
+      "sha256": "926a9783ba434f2245a98f452a3a4015ae337651d13b15f7048973689c2375d4"
+    }
+  ],
+  "collected_at": "2026-11-05T11:03:30Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
