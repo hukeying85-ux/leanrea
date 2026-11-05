@@ -5,7 +5,7 @@ on:
       - '.xhs-fetch/**'
       - '.github/workflows/xhs-fetch.yml'
 permissions:
-  contents: read
+  contents: write
 jobs:
   fetch:
     runs-on: ubuntu-latest
@@ -59,12 +59,14 @@ jobs:
           name: xhs-images
           path: out/
           if-no-files-found: error
-      - name: Emit base64 fallback
+      - name: Commit images back to branch
         run: |
-          cd out
-          for f in *; do
-            [ -e "$f" ] || continue
-            echo "B64BEGIN:$f"
-            base64 -w 200 "$f"
-            echo "B64END:$f"
-          done
+          git config user.name "arena-fetch-bot"
+          git config user.email "arena-fetch-bot@users.noreply.github.com"
+          mkdir -p .xhs-fetch/out
+          cp -f out/* .xhs-fetch/out/ 2>/dev/null || true
+          git add -A .xhs-fetch/out
+          if git diff --cached --quiet; then echo "NO NEW FILES"; else
+            git commit -m "fetch: xhs source images"
+            for i in 1 2 3; do git push origin HEAD:"${GITHUB_REF_NAME}" && break || sleep 5; done
+          fi
