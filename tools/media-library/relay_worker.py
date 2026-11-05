@@ -17,6 +17,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -192,7 +193,10 @@ def bootstrap_cookies(url, out):
 # --------------------------------------------------------------------------
 # 1. yt-dlp
 # --------------------------------------------------------------------------
-YT_BASE = ["yt-dlp", "--no-warnings", "--no-playlist", "--ignore-errors",
+# 优先用 nightly：YouTube 的 extractor 每周都在被修，正式版经常跟不上
+YT_BIN = shutil.which("yt-dlp-nightly") or shutil.which("yt-dlp") or "yt-dlp"
+
+YT_BASE = [YT_BIN, "--no-warnings", "--no-playlist", "--ignore-errors",
            "--no-color", "--user-agent", UA, "--referer", "https://www.google.com/",
            "--write-info-json", "--write-thumbnail", "--convert-thumbnails", "jpg",
            "--retries", "5", "--socket-timeout", "30"]
@@ -248,7 +252,7 @@ def try_xhs_dump(url, out):
     urls = []
 
     # A. yt-dlp dump（视频笔记能 dump 出来；图片笔记它会直接报错）
-    rc, so, se = run(["yt-dlp", "--no-warnings", "--no-playlist", "--user-agent", UA,
+    rc, so, se = run([YT_BIN, "--no-warnings", "--no-playlist", "--user-agent", UA,
                       "--dump-single-json", url], timeout=180)
     if rc == 0 and so.strip():
         try:

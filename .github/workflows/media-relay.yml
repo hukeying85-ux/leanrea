@@ -38,6 +38,8 @@ jobs:
           python -m pip install --upgrade yt-dlp gallery-dl requests
           # bgutil PO-token 插件：专治 YouTube 对数据中心 IP 的 403 / "format not available"
           python -m pip install --upgrade bgutil-ytdlp-pot-provider || echo "bgutil install failed"
+          # yt-dlp nightly：extractor 修得比正式版快，YouTube 基本每周都在变
+          python -m pip install --upgrade --pre yt-dlp-nightly || echo "nightly install failed"
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
           yt-dlp --version || true
