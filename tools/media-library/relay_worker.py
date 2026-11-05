@@ -473,6 +473,137 @@ def try_douyin_api(url, out):
 
 
 # --------------------------------------------------------------------------
+# 3.7 YouTube 专用：Invidious 公共实例 —— 换一条完全不在数据中心 IP 上的路
+#     Invidious 是开源 YouTube 前端，它自己的服务器去取流，我们只跟它要结果
+# --------------------------------------------------------------------------
+INVIDIOUS = [
+    "https://inv.nadeko.net",
+    "https://invidious.nerdvpn.de",
+    "https://yewtu.be",
+    "https://iv.melmac.space",
+    "https://invidious.privacyredirect.com",
+    "https://invidious.f5.si",
+]
+
+
+def _h(res):
+    m = re.search(r"(\d+)", str(res or ""))
+    return int(m.group(1)) if m else 0
+
+
+def try_invidious(url, out):
+    vid = re.search(r"(?:v=|youtu\.be/|shorts/)([A-Za-z0-9_-]{11})", url)
+    if not vid:
+        return False, "no 11-char video id", []
+    vid = vid.group(1)
+    diag = []
+    for inst in INVIDIOUS:
+        host = inst.split("//")[1]
+        try:
+            r = requests.get(f"{inst}/api/v1/videos/{vid}",
+                             headers={"User-Agent": UA}, timeout=35)
+            if r.status_code != 200:
+                diag.append(f"{host}: HTTP {r.status_code}")
+                continue
+            j = r.json()
+        except Exception as e:
+            diag.append(f"{host}: {type(e).__name__}")
+            continue
+
+        prog = [(f.get("resolution"), f.get("url"))
+                for f in (j.get("formatStreams") or []) if f.get("url")]
+        prog = [p for p in prog if 0 < _h(p[0]) <= 480] or prog
+        prog.sort(key=lambda p: -_h(p[0]))
+
+        vids = [(f.get("qualityLabel") or f.get("resolution"), f.get("url"))
+                for f in (j.get("adaptiveFormats") or [])
+                if f.get("url") and "audio" not in (f.get("type") or "")]
+        vids = [v for v in vids if 0 < _h(v[0]) <= 720] or vids
+        vids.sort(key=lambda v: -_h(v[0]))
+
+        auds = [(f.get("audioQuality") or f.get("bitrate") or "0", f.get("url"))
+                for f in (j.get("adaptiveFormats") or [])
+                if f.get("url") and "audio" in (f.get("type") or "")]
+        auds.sort(key=lambda a: -int(re.sub(r"\D", "", str(a[0])) or 0))
+
+        title = re.sub(r"[^\w\u4e00-\u9fff-]+", "_", j.get("title") or "yt")[:40]
+        final = os.path.join(out, f"{title}_{vid}.mp4")
+
+        def grab(u, dst):
+            rr = requests.get(u, headers={"User-Agent": UA, "Referer": inst},
+                              timeout=300, stream=True)
+            if rr.status_code not in (200, 206):
+                return False
+            with open(dst, "wb") as f:
+                for c in rr.iter_content(1 << 20):
+                    f.write(c)
+            return os.path.getsize(dst) > 50000
+
+        if prog:
+            if grab(prog[0][1], final):
+                return True, f"{host}: progressive {prog[0][0]}", [os.path.basename(final)]
+            diag.append(f"{host}: progressive download failed")
+        if vids:
+            vp = os.path.join(out, "v.tmp")
+            ap = os.path.join(out, "a.tmp")
+            if grab(vids[0][1], vp):
+                if auds and grab(auds[0][1], ap):
+                    run(["ffmpeg", "-y", "-loglevel", "error", "-i", vp, "-i", ap,
+                         "-c", "copy", final], timeout=600)
+                else:
+                    run(["ffmpeg", "-y", "-loglevel", "error", "-i", vp,
+                         "-c", "copy", final], timeout=600)
+                for p in (vp, ap):
+                    try:
+                        os.remove(p)
+                    except OSError:
+                        pass
+                if os.path.exists(final) and os.path.getsize(final) > 50000:
+                    return True, f"{host}: adaptive+mux {vids[0][0]}", [os.path.basename(final)]
+            diag.append(f"{host}: adaptive download failed")
+    return False, " | ".join(diag) or "no invidious instance reachable", []
+
+
+# --------------------------------------------------------------------------
+# 3.8 公共代理中继：B站/抖音对机房 IP 硬拒绝，借第三方代理换个出口 IP 试试
+# --------------------------------------------------------------------------
+PROXY_TPL = [
+    "https://api.codetabs.com/v1/proxy?quest=",
+    "https://api.allorigins.win/raw?url=",
+    "https://corsproxy.io/?url=",
+]
+
+
+def try_proxy_relay(url, out):
+    """只用于拿元数据 JSON（B站 view / playurl、抖音 iteminfo）。"""
+    diag = []
+    for tpl in PROXY_TPL:
+        host = tpl.split("//")[1].split("/")[0]
+        try:
+            from urllib.parse import quote
+            r = requests.get(tpl + quote(url, safe=""),
+                             headers={"User-Agent": UA}, timeout=45)
+            if r.status_code != 200:
+                diag.append(f"{host}: HTTP {r.status_code}")
+                continue
+            txt = r.text.strip()
+            if not txt or txt[0] not in "{[":
+                diag.append(f"{host}: non-json {txt[:60]!r}")
+                continue
+            try:
+                j = json.loads(txt)
+            except Exception:
+                diag.append(f"{host}: json parse failed")
+                continue
+            json.dump(j, open(os.path.join(out, f"_proxy_{host}.json"), "w",
+                              encoding="utf-8"), ensure_ascii=False, indent=2)
+            return True, f"{host}: got JSON", []
+        except Exception as e:
+            diag.append(f"{host}: {type(e).__name__}")
+    return False, " | ".join(diag) or "no proxy worked", []
+
+
+# --------------------------------------------------------------------------
 # 4. 兜底：直接扒页面里的 CDN 图片
 # --------------------------------------------------------------------------
 def try_scrape(url, out):
@@ -529,6 +660,11 @@ def handle(url):
     os.makedirs(out, exist_ok=True)
 
     chain = [("yt-dlp", try_ytdlp), ("gallery-dl", try_gallerydl), ("scrape", try_scrape)]
+    # 视频优先的平台，先换条不在机房 IP 上的路
+    if folder == "03_YouTube素材":
+        chain.insert(1, ("invidious", try_invidious))
+    if folder in ("05_B站素材", "02_抖音素材"):
+        chain.append(("proxy-relay", try_proxy_relay))
     if folder == "01_小红书素材":
         # 图片笔记没有 video format，先走 dump-json 拿原图列表
         chain.insert(0, ("xhs-dump", try_xhs_dump))
