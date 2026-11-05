@@ -1,6 +1,6 @@
 # 最近一次中继下载
 
-时间：2026-11-05 11:30 UTC  
+时间：2026-11-05 11:33 UTC  
 任务：6 条，成功：3 条
 
 | 平台 | 结果 | 命中工具 | 文件数 | 体积 | 链接 |
@@ -9,7 +9,7 @@
 | 05_B站素材 | ❌ | - | 1 | 0.00 MB | https://www.bilibili.com/video/BV1SPNz6rEE8/ |
 | 05_B站素材 | ❌ | - | 1 | 0.00 MB | https://www.bilibili.com/video/BV1bLhCe6Euk/ |
 | 02_抖音素材 | ❌ | - | 0 | 0.00 MB | https://www.douyin.com/video/7525669126587026745 |
-| 03_YouTube素材 | ✅ | scrape | 24 | 0.68 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
+| 03_YouTube素材 | ✅ | scrape | 25 | 0.64 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
 | 07_TikTok素材 | ✅ | yt-dlp | 2 | 3.26 MB | https://www.tiktok.com/@tiktok/video/710659431229245367 |
 
 ## 逐条明细
@@ -35,7 +35,7 @@
 
 - 平台目录：`05_B站素材`
 - 状态：failed，命中工具：无
-- `_cookies.txt` — 763 字节
+- `_cookies.txt` — 764 字节
 - ❌ yt-dlp：`cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1SPNz6rEE8/_cookies.txt
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
 -f 18/22/43/b -> rc=1 ER`
@@ -47,7 +47,7 @@
 
 - 平台目录：`05_B站素材`
 - 状态：failed，命中工具：无
-- `_cookies.txt` — 763 字节
+- `_cookies.txt` — 764 字节
 - ❌ yt-dlp：`cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1bLhCe6Euk/_cookies.txt
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
 -f 18/22/43/b -> rc=1 ER`
@@ -75,26 +75,27 @@
 - `img_05.jpg` — 21,011 字节
 - `img_06.jpg` — 65,324 字节
 - `img_07.webp` — 28,620 字节
+- `img_10.png` — 11,507 字节
 - `img_11.webp` — 11,564 字节
-- `img_12.webp` — 72,501 字节
-- `img_13.webp` — 19,760 字节
-- `img_14.webp` — 35,878 字节
-- `img_15.webp` — 26,481 字节
-- `img_16.webp` — 39,360 字节
-- `img_17.webp` — 27,604 字节
-- `img_18.webp` — 26,402 字节
-- `img_19.webp` — 25,076 字节
-- `img_20.webp` — 30,976 字节
-- `img_21.webp` — 30,075 字节
+- `img_12.webp` — 11,564 字节
+- `img_13.webp` — 72,501 字节
+- `img_14.webp` — 19,760 字节
+- `img_15.webp` — 35,878 字节
+- `img_16.webp` — 26,481 字节
+- `img_17.webp` — 39,360 字节
+- `img_18.webp` — 25,076 字节
+- `img_19.webp` — 22,316 字节
+- `img_20.webp` — 18,202 字节
+- `img_21.webp` — 20,887 字节
 - `img_22.webp` — 20,887 字节
-- `img_23.webp` — 30,075 字节
-- `img_24.webp` — 22,948 字节
-- `img_25.webp` — 31,616 字节
-- `img_26.webp` — 20,937 字节
-- `img_27.webp` — 26,846 字节
-- `img_28.webp` — 28,012 字节
-- `img_29.webp` — 17,625 字节
-- `img_30.webp` — 18,327 字节
+- `img_23.webp` — 27,604 字节
+- `img_24.webp` — 18,684 字节
+- `img_25.webp` — 15,163 字节
+- `img_26.webp` — 27,503 字节
+- `img_27.webp` — 28,140 字节
+- `img_28.webp` — 29,383 字节
+- `img_29.webp` — 18,327 字节
+- `img_30.webp` — 17,085 字节
 - ❌ yt-dlp：`cookies: none
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats
 -f 18/22/43/b -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden
