@@ -7,12 +7,12 @@
     {
       "tool": "yt-dlp",
       "ok": false,
-      "log": "[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1SPNz6rEE8/\n[BiliBili] 1SPNz6rEE8: Downloading webpage\nERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n"
+      "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f bv*+ba/b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f worst -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
     },
     {
       "tool": "gallery-dl",
       "ok": false,
-      "log": "[gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'\n"
+      "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'"
     },
     {
       "tool": "scrape",
@@ -21,6 +21,6 @@
     }
   ],
   "files": [],
-  "collected_at": "2026-11-05T10:22:46Z",
+  "collected_at": "2026-11-05T10:31:05Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

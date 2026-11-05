@@ -7,12 +7,12 @@
     {
       "tool": "yt-dlp",
       "ok": false,
-      "log": "[Douyin] Extracting URL: https://www.douyin.com/video/7525669126587026745\n[Douyin] 7525669126587026745: Downloading web detail JSON\nERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n"
+      "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f bv*+ba/b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f worst -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
     },
     {
       "tool": "gallery-dl",
       "ok": false,
-      "log": "[gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7525669126587026745'\n"
+      "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7525669126587026745'"
     },
     {
       "tool": "scrape",
@@ -21,6 +21,6 @@
     }
   ],
   "files": [],
-  "collected_at": "2026-11-05T10:22:48Z",
+  "collected_at": "2026-11-05T10:31:04Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

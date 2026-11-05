@@ -2,34 +2,24 @@
   "source_url": "https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user",
   "platform_folder": "01_小红书素材",
   "status": "ok",
-  "tool_used": "scrape",
+  "tool_used": "yt-dlp",
   "steps": [
     {
       "tool": "yt-dlp",
-      "ok": false,
-      "log": "[XiaoHongShu] Extracting URL: https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdE...&xsec_source=pc_user\n[XiaoHongShu] 6ae333e7000000002903c0c0: Downloading webpage\nERROR: [XiaoHongShu] 6ae333e7000000002903c0c0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n"
-    },
-    {
-      "tool": "gallery-dl",
-      "ok": false,
-      "log": "[gallery-dl][error] Unsupported URL 'https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user'\n"
-    },
-    {
-      "tool": "scrape",
       "ok": true,
-      "log": "found 5 candidate urls, saved 3"
+      "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
     }
   ],
   "files": [
     {
-      "name": "img_04.png",
-      "bytes": 94225,
-      "sha256": "355c14ab7392517d302fdfc040062961403c2852a79a5c696cf7b6f4bf9ece62"
-    },
-    {
       "name": "img_03.png",
       "bytes": 66247,
       "sha256": "210d454eb10a7014ea241c7620fbe97ea006f6c55bb284933f183b1d322cc9f0"
+    },
+    {
+      "name": "img_04.png",
+      "bytes": 94225,
+      "sha256": "355c14ab7392517d302fdfc040062961403c2852a79a5c696cf7b6f4bf9ece62"
     },
     {
       "name": "img_05.png",
@@ -37,6 +27,6 @@
       "sha256": "b2e5a9a417878b2c2791c376d2584a719a4095d0ecdb67d1a1eb588bd403ede4"
     }
   ],
-  "collected_at": "2026-11-05T10:22:52Z",
+  "collected_at": "2026-11-05T10:31:02Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
