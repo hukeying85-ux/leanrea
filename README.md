@@ -114,6 +114,12 @@ MIT licensed.
 
 ---
 
+## Also in this repo: xhs-replica
+
+A third skill, same "one small file, no MCP" idea: take one Xiaohongshu image post and replicate it into N frames that keep the characters and the art direction identical and change only the content. It covers source fetching, measuring the reference art without ever looking at it (OCR, band colours, edge density), reference-locked generation, a deterministic post-process (crop to 9:19, upscale to 1080x2280, film grade, composited English prop lettering), per-round Drive archiving, and the publish copy. Start at [xhs-replica/README.md](xhs-replica/README.md), the skill itself at [xhs-replica/SKILL.md](xhs-replica/SKILL.md).
+
+---
+
 ## Also in this repo: healing-comic
 
 A second, unrelated skill that applies the same "one small file, no MCP" idea to a different problem: turning a long Chinese guide/PDF into a 6–9 page Xiaohongshu-style cute healing comic plus a slideshow video. The skill covers the full pipeline — content planning (topic selection, hooks, trigger→guidance dialogue design, publish copy), layout (Chinese-OCR-measured replica of a reference post with per-bubble anchors, or a taste-skill-audited poster mode), textless art generation, scripted Chinese composition with per-page OCR verification, an ffmpeg slideshow recipe, and publishing compliance. Start at [healing-comic/README.md](healing-comic/README.md), the skill itself at [healing-comic/SKILL.md](healing-comic/SKILL.md), or open [the replica gallery](healing-comic/examples/pages-xhs3/preview.html).
