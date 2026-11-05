@@ -7,7 +7,7 @@
     {
       "tool": "yt-dlp",
       "ok": false,
-      "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
+      "log": "bootstrap cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f 18/22/43/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
     },
     {
       "tool": "bilibili-api",
@@ -26,6 +26,6 @@
     }
   ],
   "files": [],
-  "collected_at": "2026-11-05T10:37:57Z",
+  "collected_at": "2026-11-05T10:40:58Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
