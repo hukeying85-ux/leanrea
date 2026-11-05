@@ -12,7 +12,7 @@
     {
       "tool": "bilibili-api",
       "ok": false,
-      "log": "view api non-json: HTTP 412, '<!DOCTYPE html>\\n<html lang=\"zh-cn\">\\n\\n<head>\\n    <meta http-equiv=\"Access-Control-Allow-Origin\" content=\"*\" />\\n    <meta http-equiv=\"Page-Enter\" content=\"blendTrans(Duration=0.5)\">\\n'"
+      "log": "api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json"
     },
     {
       "tool": "gallery-dl",
@@ -28,10 +28,10 @@
   "files": [
     {
       "name": "_cookies.txt",
-      "bytes": 759,
-      "sha256": "926a9783ba434f2245a98f452a3a4015ae337651d13b15f7048973689c2375d4"
+      "bytes": 763,
+      "sha256": "e51cf4725533a1160383b80203c7c301b9f111d6a8f15af5a3b72095a6ff6be0"
     }
   ],
-  "collected_at": "2026-11-05T11:03:30Z",
+  "collected_at": "2026-11-05T11:29:58Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
