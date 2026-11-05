@@ -23,15 +23,20 @@
       "tool": "scrape",
       "ok": false,
       "log": "found 1 candidate urls, saved 0"
+    },
+    {
+      "tool": "proxy-relay",
+      "ok": false,
+      "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
     }
   ],
   "files": [
     {
       "name": "_cookies.txt",
-      "bytes": 761,
-      "sha256": "c549299b6bcf781f582082cfc85bf4d78ead2c077f0be961ed38967f9fa77931"
+      "bytes": 763,
+      "sha256": "73eb9d66edf312007c0bfd05877680314ca9ab9783456f38fc2506419c6d6bf2"
     }
   ],
-  "collected_at": "2026-11-05T11:43:34Z",
+  "collected_at": "2026-11-05T12:17:56Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

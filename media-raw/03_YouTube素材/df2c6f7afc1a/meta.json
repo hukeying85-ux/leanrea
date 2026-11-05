@@ -10,6 +10,11 @@
       "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden\n-f 18/22/43/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats\n-f b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats\n-f bv*+ba/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: The page needs to be reloaded.\n-f worst -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats"
     },
     {
+      "tool": "invidious",
+      "ok": false,
+      "log": "inv.nadeko.net: HTTP 403 | invidious.nerdvpn.de: HTTP 401 | yewtu.be: HTTP 403 | iv.melmac.space: ConnectionError | invidious.privacyredirect.com: HTTP 404 | invidious.f5.si: HTTP 530"
+    },
+    {
       "tool": "gallery-dl",
       "ok": false,
       "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'"
@@ -17,7 +22,7 @@
     {
       "tool": "scrape",
       "ok": true,
-      "log": "found 43 candidate urls, saved 23"
+      "log": "found 44 candidate urls, saved 21"
     }
   ],
   "files": [
@@ -42,94 +47,89 @@
       "sha256": "15e68d2a9d25570ba52b91a5abf7fe8edf6ffc41f331761061b1709c61c57226"
     },
     {
-      "name": "img_10.png",
-      "bytes": 11507,
-      "sha256": "32565a681f5420b051f863e20a723490d94d07306de7b379862f0ec4a0d6676c"
-    },
-    {
       "name": "img_11.webp",
       "bytes": 11564,
       "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
     },
     {
       "name": "img_12.webp",
-      "bytes": 11564,
-      "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
-    },
-    {
-      "name": "img_13.webp",
       "bytes": 72501,
       "sha256": "ff6175b5482cb45abcc7abb03e177f5418d585f6641412f6e01d93de32c2f20d"
     },
     {
-      "name": "img_14.webp",
+      "name": "img_13.webp",
       "bytes": 19760,
       "sha256": "749e6ae20bc9e2aa84aa6856ac6137e89a39a1d01e319d7004581817bcad3250"
     },
     {
-      "name": "img_15.webp",
+      "name": "img_14.webp",
       "bytes": 35878,
       "sha256": "e14937fa2e3eef4f8957fe4320b4be3d5bc9546302d8edbe514f68b9974f1d0d"
     },
     {
-      "name": "img_16.webp",
+      "name": "img_15.webp",
       "bytes": 26481,
       "sha256": "1df0462c1fa97f84ac84eba8901f529c1e5bb246ee449d3ca99471160b5d8124"
     },
     {
-      "name": "img_17.webp",
+      "name": "img_16.webp",
       "bytes": 39360,
       "sha256": "f2ce4ce30923ca8d67e25e8e7a0a07025fb0d64d4c0ebdae130a7754b92d4289"
     },
     {
-      "name": "img_18.webp",
+      "name": "img_17.webp",
       "bytes": 25076,
       "sha256": "b5c6b8dfbe198aa7fa183d9d25790b9ce3ff2ad04d2d14fd7f305ed054d54dde"
     },
     {
+      "name": "img_18.webp",
+      "bytes": 20887,
+      "sha256": "3700c97acf25a30e523e7b2e6922f7bc60417199ed93d00941df229534fdc53f"
+    },
+    {
       "name": "img_19.webp",
-      "bytes": 20860,
-      "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
+      "bytes": 24786,
+      "sha256": "748b850fd3bac776951a272cd82daca70a4eb836dc9d3f989c65fe2da72fc480"
     },
     {
       "name": "img_20.webp",
-      "bytes": 15163,
-      "sha256": "71d734215d97a152617b429f6aed4dd6c90cf873612fb6026d1db4c81d776831"
+      "bytes": 26697,
+      "sha256": "bd6c964b1af07f8044e437d505e5ae27f3b3f364764227d99fa08e5375af8c30"
     },
     {
       "name": "img_21.webp",
-      "bytes": 27604,
-      "sha256": "9a98b2885f3df51c56428e643adbbb8d4b757ed28fa0b52d39b6672d4485a45c"
-    },
-    {
-      "name": "img_22.webp",
-      "bytes": 28140,
-      "sha256": "bd7f4321a2c98338a7a64f7b460a55a73385ff6c4c05f959736175113f0dabe7"
-    },
-    {
-      "name": "img_23.webp",
-      "bytes": 17085,
-      "sha256": "6b09b42c14dece5c80c087a59fe6fc861e37b7a1efd82bd0c0a37d6b30fabc9f"
-    },
-    {
-      "name": "img_24.webp",
-      "bytes": 18202,
-      "sha256": "17fccea0f1b15309320adcb0141be2be78ea1418a52c5295df84e9c9eb2db7b2"
-    },
-    {
-      "name": "img_25.webp",
-      "bytes": 27503,
-      "sha256": "26d64831e032521a3217c74af7ef6c86ee08dcfe4010ae63f0bad011fb6b723c"
-    },
-    {
-      "name": "img_26.webp",
       "bytes": 22316,
       "sha256": "331e4104df47b1e041f9cad3dd5591af418c6b331fccda8110e1ea38f3a2be12"
     },
     {
+      "name": "img_22.webp",
+      "bytes": 26402,
+      "sha256": "d87895fb2f9a9e6456d9e605a3486de30384875c15dd0a1512edf38675b40914"
+    },
+    {
+      "name": "img_23.webp",
+      "bytes": 22948,
+      "sha256": "ae377ff102e13da69b0274079e9bd04cf83d03b784df9db044c0b417cdeeafbf"
+    },
+    {
+      "name": "img_24.webp",
+      "bytes": 18684,
+      "sha256": "2723bce983869c39d7fe87c609e70d0c3bafd25079eb4b38f5191294a89e0188"
+    },
+    {
+      "name": "img_25.webp",
+      "bytes": 20937,
+      "sha256": "e18a2b506b9da34b75d86901dfe1c20f00387edad00bf2abcdc7880a95fb8379"
+    },
+    {
+      "name": "img_26.webp",
+      "bytes": 15844,
+      "sha256": "2e99c2b0f47d0304146f36129da35d0d05b34e2986c2097b37d99bcc082c361d"
+    },
+    {
       "name": "img_27.webp",
-      "bytes": 18285,
-      "sha256": "19c1a34c001300d4bdd3041f76a12378dbbc9a45b5dbff57d9e3991e7a1073a9"
+      "bytes": 21035,
+      "sha256": "b29612bb100d4d426f13ce85877900dcedeebd27fd51d054100cb5259001a367"
     },
     {
       "name": "img_28.webp",
@@ -138,15 +138,15 @@
     },
     {
       "name": "img_29.webp",
-      "bytes": 18327,
-      "sha256": "91d57e95700c190f60cd776301b59c34c6da570f1cd42755db7ab63c9c9c5351"
+      "bytes": 24605,
+      "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
     },
     {
       "name": "img_30.webp",
-      "bytes": 16753,
-      "sha256": "f18394167cfc65e98d8ae8373cd87e08b141021723c3db192433ed067ec8e262"
+      "bytes": 19816,
+      "sha256": "aa9a36f8498e442648aae6caadb7fd1d208831b5b37917e1c1d125333f5cf5d0"
     }
   ],
-  "collected_at": "2026-11-05T11:43:56Z",
+  "collected_at": "2026-11-05T12:18:20Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
