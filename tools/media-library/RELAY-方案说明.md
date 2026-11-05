@@ -78,10 +78,10 @@ tools/media-library/gh-relay --status     # 看上一次跑的结果
 
 | 平台 | 结果 | 命中 | 拿到什么 |
 |---|---|---|---|
-| **TikTok** | ✅ | yt-dlp | 真视频，3.20 MB |
-| **小红书** | ✅ | xhs-dump | 4 张图，0.29 MB |
-| **YouTube** | ⚠️ | scrape | 42 个缩略图/封面，1.06 MB，**没拿到视频** |
-| **B站** | ❌ | — | 网页和 API 都返回 **HTTP 412** |
+| **TikTok** | ✅ | yt-dlp | 真视频 3.26 MB |
+| **小红书** | ✅ | xhs-dump | 12 个文件，0.40 MB |
+| **YouTube** | ⚠️ | scrape | 25 个缩略图/封面，**视频没拿到** |
+| **B站** | ❌ | — | 全链路 **HTTP 412** |
 | **抖音** | ❌ | — | yt-dlp 要 cookie；iesdouyin 公开接口已失效 |
 
 ### 逐条说清楚
@@ -89,17 +89,31 @@ tools/media-library/gh-relay --status     # 看上一次跑的结果
 **TikTok —— 通了。** 第一个格式失败，阶梯往下走到 `b` 就拿到了完整 mp4。
 这是"沙箱里也能抓 TikTok"的完整证据。
 
-**YouTube —— 半通。** 缩略图、封面图能拿到（42 个），视频拿不到。
-三种报错轮换出现：`Requested format is not available` /
-`HTTP 403 Forbidden` / `The page needs to be reloaded`。
-这是 YouTube 对数据中心 IP 的常规风控，不是工具问题。
+**小红书 —— 通了，从 4 个涨到 12 个。** 关键是别指望 yt-dlp
+（图片笔记它会直接报 `No video formats found`），
+走 `xhs-dump`：先试 `--dump-single-json`，失败就直接解页面里的
+`window.__INITIAL_STATE__` 拿 `imageList` 的 `urlDefault`，
+再把 `!nd_dft_xxx` 降质后缀去掉，就是原图。
 
-**B站 —— 卡在 WAF。** 网页端和 `api.bilibili.com/x/web-interface/view`
-**都返回 412 Precondition Failed**，带浏览器 UA、带 Referer、带自举 cookie 都无效。
-B站对机房 IP 是硬拒绝。
+**YouTube —— 半通。** 缩略图、封面图能拿到（25 个），视频拿不到。
+轮换五种 player_client（android_vr / web_safari / ios / tv / default）
+外加传统渐进式格式 `18/22/43`，三种报错轮换出现：
+`Requested format is not available` / `HTTP 403 Forbidden` /
+`The page needs to be reloaded`。这是 YouTube 对数据中心 IP 的常规风控。
 
-**抖音 —— 卡在 cookie。** yt-dlp 明确要求 `Fresh cookies (not necessarily logged in) are needed`；
-自举匿名 cookie 拿不到（抖音不返回 Set-Cookie）。
+**B站 —— 确认是 IP 级封禁，不是指纹问题。**
+试过的路子（全部 412 Precondition Failed）：
+
+* 网页端 + 浏览器 UA + Referer
+* `api.bilibili.com/x/web-interface/view` 直连
+* 官方指纹接口 `x/frontend/finger/spi` 取 buvid3/buvid4 再带 cookie 重试
+* yt-dlp 全格式阶梯
+
+B站对机房 IP 是硬拒绝，**只能换 runner 地区，没有别的办法**。
+
+**抖音 —— 卡在 cookie。** yt-dlp 明确要求
+`Fresh cookies (not necessarily logged in) are needed`；
+自举匿名 cookie 拿不到（抖音对机房 IP 不返回 Set-Cookie）。
 老的 `www.iesdouyin.com/web/api/v2/aweme/iteminfo` 无水印接口**已经失效**，
 现在返回 HTML 不是 JSON。
 
