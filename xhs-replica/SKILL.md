@@ -38,12 +38,52 @@ the torso. Both bears share these same proportions.
 ⚠️ 代理人看不到图，无法自查比例是否走形。
 **每轮出图后必须让用户抽查**，走形的编号记下来，下轮针对性加强。
 
+## 角色锁定（比身体比例更致命）
+
+**第 14 轮整轮翻车**：提示词写成 `two identical plush teddy bears, one cream-oatmeal, one cocoa-brown`，
+且一张参考图都没挂。结果 10 张全是两只普通泰迪熊——**一二被画成了另一只布布**。
+
+两个错叠在一起才崩，单点不会翻车，但两个都犯必翻：
+
+1. **写错角色卡**：写「two bears」，模型默认两只一样。一二不是熊。
+2. **没挂参考图**：纯文生图时模型没有任何角色来源，只能自由发挥。
+
+### 角色卡（每个提示词第一段，一字不差照抄）
+
+- **一二**：白色小熊猫——纯白圆身、实心黑圆耳、黑色熊猫眼罩、小眼睛、
+  **黑蝴蝶领结**、白色短手、黑色小脚。
+- **布布**：奶茶棕小熊——略大一圈、圆耳、奶白口鼻、黑点眼、小鼻子、
+  短粗四肢；**原作不戴围巾，别加**。
+
+提示词里用这段英文（`healing-comic/SKILL.md` 同款，已验证）：
+
+```
+Use the two characters and the exact art style from the reference images.
+CHARACTER 1 (white panda cub): small chubby pure-white round body, two solid
+black round ears, two black oval panda eye patches, small simple eyes, a small
+black bow tie, short white stubby arms, little black feet.
+CHARACTER 2 (brown bear cub): slightly bigger chubby milk-tea-brown round
+body, small round ears, pale cream muzzle, small black dot eyes, tiny nose,
+short stubby limbs, no scarf.
+```
+
+### 三条铁律
+
+- **每次 generate_image 必须挂 2–3 张原图作参考**（`images: [refs_original/r1.jpg, r3.jpg]`）。
+  纯文生图不准出成品。参考图在 `/home/user/refs_original/r1..r5.jpg`。
+- 提示词里**禁止**出现 `two identical bears` / `two teddy bears` / `same bear`——
+  一说 identical，两只就会长成一样。
+- 出图后**先让用户看角色对不对**，再谈配色构图。角色不对，后面全都白做。
+
+⚠️ 代理人看不到图，自查不了角色有没有跑偏。
+**每轮出图后必须让用户确认角色**，这比确认身体比例更优先。
+
 ## 流程
 
 ```
 1 取素材   抓笔记页 → 提 CDN 图链 → 下载 → webp 转 png
 2 量设计   对原片跑 OCR + 分带取色 + 边缘密度，得到设计语言
-3 生成     原图作参考图锁角色，提示词锁风格与构图（含身体比例硬锁）
+3 生成     必挂原图作参考（2–3 张）+ 角色卡照抄 + 身体比例硬锁；不挂参考图不准出图
 4 后期     finish.py：裁切 → 放大 → USM → 胶片分级 → 叠文字元素
 5 出总图   每轮必出一张 总图.jpg（全部成品的拼版），随成品一起上传
 6 归档     云盘「每轮一个子文件夹」+ 档案 Doc（含来源链接与文案）
