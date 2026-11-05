@@ -68,6 +68,14 @@ def run(cmd, timeout=300):
         return 99, "", f"{type(e).__name__}: {e}"
 
 
+MEDIA_EXT = {".mp4", ".m4v", ".webm", ".mov", ".mkv", ".flv", ".avi",
+             ".m4a", ".mp3", ".aac", ".opus", ".flac"}
+
+
+def is_media(name):
+    return os.path.splitext(name)[1].lower() in MEDIA_EXT
+
+
 def list_files_recursive(root):
     out = []
     for d, _, fs in os.walk(root):
@@ -137,7 +145,8 @@ def try_ytdlp(url, out):
         logs.append(f"-f {fmt} -> rc={rc} {se.strip()[-200:]}")
         files = [f for f in list_files_recursive(out)
                  if not f.startswith("_") and f != "meta.json"]
-        if files:
+        # 缩略图不算成功：--write-thumbnail 总会写，会把失败伪装成成功
+        if [f for f in files if is_media(f)]:
             return True, "\n".join(logs), files
     return False, "\n".join(logs), []
 
@@ -199,6 +208,140 @@ def try_xhs_dump(url, out):
 
 
 # --------------------------------------------------------------------------
+# 3.5 B站专用：网页端 412（WAF），改走官方 web-interface / playurl 接口
+# --------------------------------------------------------------------------
+def try_bilibili_api(url, out):
+    bv = re.search(r"(BV[0-9A-Za-z]+)", url)
+    if not bv:
+        return False, "no bvid", []
+    bvid = bv.group(1)
+    h = {"User-Agent": UA, "Referer": "https://www.bilibili.com/",
+         "Origin": "https://www.bilibili.com"}
+    try:
+        v = requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bvid}",
+                         headers=h, timeout=30).json()
+        if v.get("code") != 0:
+            return False, f"view api code={v.get('code')} {v.get('message')}", []
+        cid = v["data"]["cid"]
+        title = re.sub(r"[^\w\u4e00-\u9fff-]+", "_", v["data"]["title"])[:40]
+    except Exception as e:
+        return False, f"view api: {type(e).__name__}: {e}", []
+
+    logs = [f"bvid={bvid} cid={cid}"]
+    for qn, plat in ((32, "html5"), (16, "html5"), (64, "pc")):
+        try:
+            p = requests.get(
+                "https://api.bilibili.com/x/player/playurl",
+                params={"bvid": bvid, "cid": cid, "qn": qn, "otype": "json",
+                        "fnver": 0, "fnval": 16, "fourk": 1, "platform": plat},
+                headers=h, timeout=30).json()
+            if p.get("code") != 0:
+                logs.append(f"qn{qn}/{plat}: code={p.get('code')}")
+                continue
+            d = p["data"]
+            srcs = []
+            if d.get("dash"):
+                srcs.append(("v.m4s", [x["baseUrl"] for x in d["dash"]["video"]]))
+                srcs.append(("a.m4s", [x["baseUrl"] for x in d["dash"].get("audio", [])]))
+            elif d.get("durl"):
+                srcs.append(("v.flv", [d["durl"][0]["url"]]))
+            if not srcs:
+                logs.append(f"qn{qn}/{plat}: no stream")
+                continue
+
+            saved = []
+            for fname, urls in srcs:
+                if not urls:
+                    continue
+                r = requests.get(urls[0], headers={**h, "Range": "bytes=0-"}, timeout=180, stream=True)
+                if r.status_code in (200, 206):
+                    pth = os.path.join(out, fname)
+                    with open(pth, "wb") as f:
+                        for chunk in r.iter_content(1 << 20):
+                            f.write(chunk)
+                    saved.append(pth)
+
+            final = os.path.join(out, f"{title}_{bvid}.mp4")
+            if len(saved) == 2:
+                run(["ffmpeg", "-y", "-loglevel", "error", "-i", saved[0], "-i", saved[1],
+                     "-c", "copy", final], timeout=600)
+            elif saved:
+                run(["ffmpeg", "-y", "-loglevel", "error", "-i", saved[0], "-c", "copy", final],
+                    timeout=600)
+            if os.path.exists(final) and os.path.getsize(final) > 50000:
+                for s in saved:
+                    try:
+                        os.remove(s)
+                    except OSError:
+                        pass
+                return True, "; ".join(logs), [os.path.basename(final)]
+            logs.append(f"qn{qn}/{plat}: mux produced nothing")
+        except Exception as e:
+            logs.append(f"qn{qn}/{plat}: {type(e).__name__}: {e}")
+    return False, "; ".join(logs), []
+
+
+# --------------------------------------------------------------------------
+# 3.6 抖音专用：yt-dlp 要 cookie，这里走公开的 iteminfo 接口拿无水印地址
+# --------------------------------------------------------------------------
+def try_douyin_api(url, out):
+    vid = re.search(r"/video/(\d+)", url) or re.search(r"(\d{15,})", url)
+    if not vid:
+        return False, "no video id", []
+    vid = vid.group(1)
+    h = {"User-Agent": ("Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) "
+                        "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"),
+         "Referer": "https://www.douyin.com/"}
+    apis = [
+        f"https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={vid}",
+        f"https://www.iesdouyin.com/share/video/{vid}/?region=CN&mid=0",
+    ]
+    data = None
+    for a in apis:
+        try:
+            r = requests.get(a, headers=h, timeout=30)
+            j = r.json()
+            if j.get("item_list"):
+                data = j
+                break
+        except Exception:
+            continue
+    if not data:
+        return False, "iteminfo returned no item_list", []
+
+    item = data["item_list"][0]
+    got = []
+    # 图文
+    for i, im in enumerate(item.get("images") or []):
+        for u in im.get("url_list", [])[:1]:
+            try:
+                rr = requests.get(u, headers=h, timeout=60)
+                if rr.status_code == 200 and len(rr.content) > 10000:
+                    p = os.path.join(out, f"douyin_{i+1:02d}.jpg")
+                    open(p, "wb").write(rr.content)
+                    got.append(os.path.basename(p))
+            except Exception:
+                continue
+    # 视频：playwm -> play 去掉水印
+    if not got:
+        for u in item.get("video", {}).get("play_addr", {}).get("url_list", []):
+            u = u.replace("/playwm/", "/play/").replace("/play/", "/play/")
+            try:
+                rr = requests.get(u, headers={**h, "Range": "bytes=0-"}, timeout=180, stream=True)
+                if rr.status_code in (200, 206):
+                    p = os.path.join(out, f"douyin_{vid}.mp4")
+                    with open(p, "wb") as f:
+                        for c in rr.iter_content(1 << 20):
+                            f.write(c)
+                    if os.path.getsize(p) > 50000:
+                        got.append(os.path.basename(p))
+                        break
+            except Exception:
+                continue
+    return bool(got), f"iteminfo ok (images={len(item.get('images') or [])})", got
+
+
+# --------------------------------------------------------------------------
 # 4. 兜底：直接扒页面里的 CDN 图片
 # --------------------------------------------------------------------------
 def try_scrape(url, out):
@@ -256,7 +399,12 @@ def handle(url):
 
     chain = [("yt-dlp", try_ytdlp), ("gallery-dl", try_gallerydl), ("scrape", try_scrape)]
     if folder == "01_小红书素材":
-        chain.insert(1, ("xhs-dump", try_xhs_dump))
+        # 图片笔记没有 video format，先走 dump-json 拿原图列表
+        chain.insert(0, ("xhs-dump", try_xhs_dump))
+    if folder == "05_B站素材":
+        chain.insert(1, ("bilibili-api", try_bilibili_api))
+    if folder == "02_抖音素材":
+        chain.insert(1, ("douyin-api", try_douyin_api))
 
     steps, ok = [], False
     for name, fn in chain:
