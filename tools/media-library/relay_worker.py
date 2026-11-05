@@ -224,8 +224,13 @@ def try_ytdlp(url, out):
             cmd += ["--cookies", cookie_file]
         if "youtube.com" in url or "youtu.be" in url:
             # 轮换 player client，绕过「Requested format is not available」
-            clients = ["web_safari,mweb", "android_vr,ios", "tv,web_embedded"]
-            cmd += ["--extractor-args", f"youtube:player_client={clients[i % len(clients)]}"]
+            clients = ["android_vr", "web_safari,mweb", "ios,mweb",
+                       "tv,web_embedded", "default,-web_safari"]
+            extra = f"youtube:player_client={clients[i % len(clients)]}"
+            if i >= len(clients):
+                # 再退一步：接受缺 PO token 的格式，有时候能直接下下来
+                extra += ";formats=missing_pot"
+            cmd += ["--extractor-args", extra]
         rc, so, se = run(cmd, timeout=1200)
         logs.append(f"-f {fmt} -> rc={rc} {se.strip()[-200:]}")
         files = [f for f in list_files_recursive(out)
