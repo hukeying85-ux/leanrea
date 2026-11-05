@@ -45,6 +45,26 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 IMG_CDN = re.compile(
     r"https?://[^\s\"'\\<>]+?\.(?:jpg|jpeg|png|webp)(?:\?[^\s\"'\\<>]*)?", re.I)
 
+# 完整浏览器请求头：B站那层 WAF 认的是 sec-ch-ua / sec-fetch-* 这套，
+# 光有 User-Agent 会被判成脚本直接 412
+BROWSER_H = {
+    "User-Agent": UA,
+    "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
+               "image/avif,image/webp,image/apng,*/*;q=0.8"),
+    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "sec-ch-ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+}
+
 
 def platform_of(url):
     low = url.lower()
@@ -292,22 +312,37 @@ def try_bilibili_api(url, out):
     if not bv:
         return False, "no bvid", []
     bvid = bv.group(1)
-    h = {"User-Agent": UA, "Referer": "https://www.bilibili.com/",
-         "Origin": "https://www.bilibili.com"}
-    try:
-        r = requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bvid}",
-                         headers=h, timeout=30)
+    h = dict(BROWSER_H, Referer="https://www.bilibili.com/",
+             Origin="https://www.bilibili.com")
+    # 多入口轮试：web 接口 / app 接口 / wbi 前的老接口
+    endpoints = [
+        f"https://api.bilibili.com/x/web-interface/view?bvid={bvid}",
+        f"https://app.bilibili.com/x/v2/view?bvid={bvid}&build=7240300&mobi_app=android",
+        f"https://api.bilibili.com/view?type=bvid&bvid={bvid}",
+    ]
+    v = None
+    diag = []
+    for ep in endpoints:
         try:
-            v = r.json()
-        except Exception:
-            return False, (f"view api non-json: HTTP {r.status_code}, "
-                           f"{r.text[:180]!r}"), []
-        if v.get("code") != 0:
-            return False, f"view api code={v.get('code')} {v.get('message')}", []
+            r = requests.get(ep, headers=h, timeout=30)
+            try:
+                j = r.json()
+            except Exception:
+                diag.append(f"{ep.split('/')[2]}: HTTP {r.status_code} non-json")
+                continue
+            if j.get("code") == 0 and (j.get("data") or {}).get("cid"):
+                v = j
+                break
+            diag.append(f"{ep.split('/')[2]}: code={j.get('code')}")
+        except Exception as e:
+            diag.append(f"{ep.split('/')[2]}: {type(e).__name__}")
+    if not v:
+        return False, " | ".join(diag) or "all endpoints blocked", []
+    try:
         cid = v["data"]["cid"]
         title = re.sub(r"[^\w\u4e00-\u9fff-]+", "_", v["data"]["title"])[:40]
     except Exception as e:
-        return False, f"view api: {type(e).__name__}: {e}", []
+        return False, f"parse: {e}", []
 
     logs = [f"bvid={bvid} cid={cid}"]
     for qn, plat in ((32, "html5"), (16, "html5"), (64, "pc")):
