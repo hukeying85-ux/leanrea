@@ -121,6 +121,7 @@ YT_BASE = ["yt-dlp", "--no-warnings", "--no-playlist", "--ignore-errors",
 
 FORMATS = [
     "bv*[height<=480]+ba/b[height<=480]",   # 首选：480p 音视频分离后合并
+    "18/22/43/b",                            # YouTube 传统渐进式单文件（最抗风控）
     "b",                                     # 退一步：最好的单文件
     "bv*+ba/b",                              # 再退：不管分辨率
     "worst",                                 # 保底
@@ -129,8 +130,9 @@ FORMATS = [
 
 def try_ytdlp(url, out):
     logs, cookie_file = [], None
-    if "douyin.com" in url or "weibo.com" in url:
+    if any(k in url for k in ("douyin.com", "weibo.com", "bilibili.com")):
         cookie_file = bootstrap_cookies(url, out)
+        logs.append(f"bootstrap cookies: {cookie_file or 'none'}")
 
     for i, fmt in enumerate(FORMATS):
         cmd = list(YT_BASE) + ["-f", fmt, "--merge-output-format", "mp4",
@@ -164,22 +166,38 @@ def try_gallerydl(url, out):
 # 3. 小红书专用：yt-dlp 能解析页面，只是图片笔记没有 video format
 # --------------------------------------------------------------------------
 def try_xhs_dump(url, out):
+    urls = []
+
+    # A. yt-dlp dump（视频笔记能 dump 出来；图片笔记它会直接报错）
     rc, so, se = run(["yt-dlp", "--no-warnings", "--no-playlist", "--user-agent", UA,
                       "--dump-single-json", url], timeout=180)
-    if rc != 0 or not so.strip():
-        return False, f"dump failed rc={rc} {se.strip()[-200:]}", []
-    try:
-        data = json.loads(so)
-    except Exception as e:
-        return False, f"json parse failed: {e}", []
+    if rc == 0 and so.strip():
+        try:
+            data = json.loads(so)
+            for t in data.get("thumbnails") or []:
+                u = t.get("url") if isinstance(t, dict) else t
+                if u:
+                    urls.append(u)
+            if not urls and data.get("thumbnail"):
+                urls.append(data["thumbnail"])
+        except Exception:
+            pass
 
-    urls = []
-    for t in data.get("thumbnails") or []:
-        u = t.get("url") if isinstance(t, dict) else t
-        if u:
-            urls.append(u)
-    if not urls and data.get("thumbnail"):
-        urls.append(data["thumbnail"])
+    # B. 直接解页面里的 __INITIAL_STATE__，拿 imageList（图片笔记走这条）
+    if not urls:
+        try:
+            r = requests.get(url, headers={"User-Agent": UA,
+                                           "Accept-Language": "zh-CN,zh;q=0.9"}, timeout=45)
+            html = r.text.replace("\\u002F", "/").replace("\\/", "/")
+            for key in ("urlDefault", "urlPre", "url"):
+                urls += re.findall(rf'"{key}"\s*:\s*"(https?:[^"]+?)"', html)
+            urls = [u for u in urls if "xhscdn" in u or "xiaohongshu" in u] or urls
+        except Exception as e:
+            if not urls:
+                return False, f"dump rc={rc} {se.strip()[-160:]} | page: {type(e).__name__}", []
+
+    if not urls:
+        return False, f"dump rc={rc} {se.strip()[-160:]} | no image urls in page", []
 
     cleaned, seen = [], set()
     for u in urls:
