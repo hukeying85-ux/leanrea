@@ -15,12 +15,35 @@
 每一轮出图后先 `python3 -c "from PIL import Image; print(Image.open(f).size)"` 抽查，
 不是 `1080, 2280` 就不要进云盘。
 
+## 身体比例（最容易翻车的地方）
+
+模型默认会把熊画成**拟人化**——拉长躯干、加腰身、拉长四肢。
+这跟原片的大头小身 chibi 比例完全是两回事。
+光写「identical body proportions」压不住，必须在提示词里把比例描述死：
+
+```
+CRITICAL BODY-PROPORTION LOCK: copy the chibi proportions of the
+reference images exactly — a large round head sitting directly on a
+small compact low-slung rounded body, short stubby arms and legs,
+essentially no neck. Do NOT elongate the torso, do NOT lengthen or
+slim the limbs, do NOT add a waist or shoulders, do NOT make them
+human-like or anthropomorphic. The head must stay clearly larger than
+the torso. Both bears share these same proportions.
+```
+
+**真正起作用的是「不要什么」那几条**——正面描述模型会自己发挥，
+负面约束才能压住拟人化倾向。这段要放在提示词靠前的位置，
+别埋在场景描述后面。
+
+⚠️ 代理人看不到图，无法自查比例是否走形。
+**每轮出图后必须让用户抽查**，走形的编号记下来，下轮针对性加强。
+
 ## 流程
 
 ```
 1 取素材   抓笔记页 → 提 CDN 图链 → 下载 → webp 转 png
 2 量设计   对原片跑 OCR + 分带取色 + 边缘密度，得到设计语言
-3 生成     原图作参考图锁角色，提示词锁风格与构图
+3 生成     原图作参考图锁角色，提示词锁风格与构图（含身体比例硬锁）
 4 后期     finish.py：裁切 → 放大 → USM → 胶片分级 → 叠文字元素
 5 出总图   每轮必出一张 总图.jpg（全部成品的拼版），随成品一起上传
 6 归档     云盘「每轮一个子文件夹」+ 档案 Doc（含来源链接与文案）
