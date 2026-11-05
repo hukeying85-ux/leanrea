@@ -12,39 +12,53 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Fetch + downscale refs
+        id: fetch
         run: |
-          set -x
+          {
+          echo "date: $(date -u)"
           UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
           NOTE='https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user'
-          curl -sSL -m 60 -A "$UA" -H 'Accept-Language: zh-CN,zh;q=0.9' "$NOTE" -o note.html || true
+          code=$(curl -sSL -m 60 -A "$UA" -H 'Accept-Language: zh-CN,zh;q=0.9' -o note.html -w '%{http_code}' "$NOTE" || echo 000)
+          echo "note http=$code bytes=$(stat -c%s note.html 2>/dev/null || echo 0)"
+          echo "--- first 400 chars of note.html ---"
+          head -c 400 note.html
+          echo ""
           mkdir -p raw refs
-          grep -oE 'https://sns-webpic-qc\.xhscdn\.com/[^"[:space:]\\)]+' note.html | grep 'notes_pre_post' | grep 'nd_dft_wlteh_webp_3' | sort -u > urls.txt || true
-          echo "urls=$(wc -l < urls.txt)"
-          [ "$(wc -l < urls.txt)" -ge 5 ] || cp .xhsref/urls.txt urls.txt
+          grep -oE 'https://sns-webpic-qc\.xhscdn\.com/[^"[:space:)\]]+' note.html | grep 'notes_pre_post' | grep 'nd_dft_wlteh_webp_3' | sort -u > fresh.txt || true
+          echo "fresh urls: $(wc -l < fresh.txt)"
+          if [ "$(wc -l < fresh.txt)" -ge 5 ]; then cp fresh.txt urls.txt; else cp .xhsref/urls.txt urls.txt; echo "USING FALLBACK URLS"; fi
           i=0
           while IFS= read -r u; do
             [ -z "$u" ] && continue
             i=$((i+1)); n=$(printf "%02d" $i)
             c=$(curl -sSL -m 90 -A "$UA" -e 'https://www.xiaohongshu.com/' -o "raw/x_${n}.webp" -w '%{http_code}' "$u" || echo 000)
-            [ "$c" = "200" ] || c=$(curl -sSL -m 90 -A "$UA" -e 'https://www.xiaohongshu.com/' -o "raw/x_${n}.webp" -w '%{http_code}' "${u%%!*}" || echo 000)
+            if [ "$c" != "200" ]; then
+              c=$(curl -sSL -m 90 -A "$UA" -e 'https://www.xiaohongshu.com/' -o "raw/x_${n}.webp" -w '%{http_code}' "${u%%!*}" || echo 000)
+              echo "  used no-suffix fallback"
+            fi
             echo "img$n http=$c size=$(stat -c%s raw/x_${n}.webp 2>/dev/null || echo 0)"
           done < urls.txt
           sudo apt-get update -qq >/dev/null 2>&1 || true
           sudo apt-get install -y -qq webp python3-pil >/dev/null 2>&1 || true
           pip install --quiet pillow 2>&1 | tail -1 || true
-          for f in raw/*.webp; do [ -s "$f" ] && dwebp "$f" -o "${f%.webp}.png" >/dev/null 2>&1; done
+          echo "--- dwebp ---"
+          for f in raw/*.webp; do [ -s "$f" ] && dwebp "$f" -o "${f%.webp}.png" >/dev/null 2>&1 && echo "ok $f" || echo "fail $f"; done
           python3 -c "
-from PIL import Image
-import glob, os
-for i, f in enumerate(sorted(glob.glob('raw/*.png')), 1):
-    im = Image.open(f).convert('RGB').resize((720, 1520), Image.LANCZOS)
-    im.save('refs/r%d.jpg' % i, 'JPEG', quality=82, optimize=True)
-    print('refs/r%d.jpg %d' % (i, os.path.getsize('refs/r%d.jpg' % i)))
-"
-      - name: Commit refs
+          from PIL import Image
+          import glob, os
+          for i, f in enumerate(sorted(glob.glob('raw/*.png')), 1):
+              im = Image.open(f).convert('RGB').resize((720, 1520), Image.LANCZOS)
+              im.save('refs/r%d.jpg' % i, 'JPEG', quality=82, optimize=True)
+              print('refs/r%d.jpg %d' % (i, os.path.getsize('refs/r%d.jpg' % i)))
+          "
+          echo "refs made: $(ls refs | wc -l)"
+          } > diag.txt 2>&1
+          cat diag.txt
+      - name: Commit
+        if: always()
         run: |
           git config user.name "arena-bot"
           git config user.email "arena-bot@users.noreply.github.com"
-          git add -f refs
-          git commit -m "xhsref: reference thumbnails" || echo nothing
+          git add -f diag.txt refs 2>/dev/null || true
+          git commit -m "xhsref: diag + refs" || echo nothing
           for i in 1 2 3; do git push origin HEAD:"${GITHUB_REF_NAME}" && break || sleep 5; done
