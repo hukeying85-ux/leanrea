@@ -177,6 +177,13 @@ B站的 412 是地区 + 机房双判定。GitHub 托管 runner 只有美西/欧�
 稳定复现 `HTTP 403 Forbidden` / `Requested format is not available` /
 `The page needs to be reloaded` 三种报错轮换。
 
+**还试过两条"绕开 IP"的路，也都堵死了：**
+
+| 路子 | 做法 | 实测 |
+|---|---|---|
+| Invidious 公共实例 | 开源 YouTube 前端代取，换一条非机房 IP | ❌ 6 个实例全挂：inv.nadeko.net 403、nerdvpn.de 401、yewtu.be 403、melmac.space 连不上、privacyredirect 404、f5.si 530 |
+| 公共 CORS 代理 | codetabs / allorigins / corsproxy 转发 B站、抖音接口 | ❌ 522 / 522 / 401 全部拒绝 |
+
 **结论：YouTube 视频必须给 cookie，没有第二条路。**
 （缩略图、封面、info.json 这些不需要 cookie，已经能拿。）
 
