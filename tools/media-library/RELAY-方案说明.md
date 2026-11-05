@@ -165,15 +165,20 @@ B站的 412 是地区 + 机房双判定。GitHub 托管 runner 只有美西/欧�
 
 **yt-dlp 插件生态（yt-dlp 会自动加载，装完就生效）**
 
-| 工具 | 治什么 | 装法 | 现状 |
+| 工具 | 治什么 | 装法 | 实测结果 |
 |---|---|---|---|
-| `bgutil-ytdlp-pot-provider` | YouTube 的 PO token / 403 | `pip install bgutil-ytdlp-pot-provider` | **已装，仍 403** |
-| `yt-dlp-get-pot` | 同上，另一个实现 | `pip install yt-dlp-get-pot` | 未试 |
-| `yt-dlp-nightly` | yt-dlp 的每日构建，修得比正式版快 | `pip install -U yt-dlp-nightly` | 未试 |
+| `bgutil-ytdlp-pot-provider` | YouTube 的 PO token / 403 | `pip install bgutil-ytdlp-pot-provider` | ❌ 已装，仍 403 |
+| `yt-dlp-nightly` | 每日构建，extractor 修得比正式版快 | `pip install -U --pre yt-dlp-nightly` | ❌ 已装并优先调用，仍 403 |
+| `formats=missing_pot` | 接受缺 PO token 的格式 | `--extractor-args "youtube:formats=missing_pot"` | ❌ 仍 403 |
+| `player_client` 轮换 | 换播放器身份绕过风控 | `android_vr / web_safari / ios / tv / default` | ❌ 五种全试，仍 403 |
 
-bgutil 这次没救回来，是因为它默认要连一个本地 HTTP 服务生成 token，
-在 runner 上那一步没起来。**换 `yt-dlp-nightly` 是最值得下一步试的**——
-YouTube 的 extractor 基本每周都在被修。
+**YouTube 无 cookie 这条路，我已经试到底了。**
+三招叠满（nightly + PO 插件 + missing_pot + 五种 client 轮换），
+稳定复现 `HTTP 403 Forbidden` / `Requested format is not available` /
+`The page needs to be reloaded` 三种报错轮换。
+
+**结论：YouTube 视频必须给 cookie，没有第二条路。**
+（缩略图、封面、info.json 这些不需要 cookie，已经能拿。）
 
 **平台专用下载器（都要 cookie，或者要能出网的地区）**
 
