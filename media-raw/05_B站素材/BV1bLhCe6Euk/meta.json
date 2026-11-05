@@ -1,8 +1,8 @@
 {
   "source_url": "https://www.bilibili.com/video/BV1bLhCe6Euk/",
   "platform_folder": "05_B站素材",
-  "status": "failed",
-  "tool_used": null,
+  "status": "ok",
+  "tool_used": "bilibili-api",
   "steps": [
     {
       "tool": "yt-dlp",
@@ -11,27 +11,22 @@
     },
     {
       "tool": "bilibili-api",
-      "ok": false,
-      "log": "api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json"
-    },
-    {
-      "tool": "gallery-dl",
-      "ok": false,
-      "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'"
-    },
-    {
-      "tool": "scrape",
-      "ok": false,
-      "log": "found 1 candidate urls, saved 0"
+      "ok": true,
+      "log": "bvid=BV1bLhCe6Euk cid=500001603930579"
     }
   ],
   "files": [
     {
       "name": "_cookies.txt",
-      "bytes": 760,
-      "sha256": "7278deec4446a1ae21ff6a98c8d01cd91c6cd3e4d70be29b86dd2c36939bd735"
+      "bytes": 761,
+      "sha256": "ad798aec1040e9d648ca56f4c2b3dbb871a64bdf60f54c7b4fdb0703c95240a1"
+    },
+    {
+      "name": "一二和布布_BV1bLhCe6Euk.mp4",
+      "bytes": 793991,
+      "sha256": "bef8c2ae8b21276a1071149f0b14fdcfc94ce3e8a28f6cf3105a9ce039dd9b7a"
     }
   ],
-  "collected_at": "2026-11-05T11:41:21Z",
+  "collected_at": "2026-11-05T11:43:34Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
