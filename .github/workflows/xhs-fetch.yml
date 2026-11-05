@@ -1,0 +1,47 @@
+name: xhs-fetch
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download images
+        run: |
+          mkdir -p out
+          i=0
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+          REF='https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0'
+          while IFS= read -r u; do
+            [ -z "$u" ] && continue
+            i=$((i+1)); n=$(printf "%02d" $i)
+            code=$(curl -sSL -m 90 -A "$UA" -e "$REF" \
+              -H 'Accept: image/avif,image/webp,image/apng,image/*,*/*;q=0.8' \
+              -H 'Accept-Language: zh-CN,zh;q=0.9' \
+              -o "out/xhs_${n}.webp" -w '%{http_code}' "$u" || echo 000)
+            if [ "$code" != "200" ]; then
+              base="${u%%!*}"
+              code=$(curl -sSL -m 90 -A "$UA" -e "$REF" -o "out/xhs_${n}.webp" -w '%{http_code}' "$base" || echo 000)
+            fi
+            echo "img_${n}: http=${code} bytes=$(stat -c%s out/xhs_${n}.webp 2>/dev/null || echo 0)"
+          done < .xhs-fetch/urls.txt
+      - name: Convert webp to png
+        run: |
+          sudo apt-get update -qq >/dev/null 2>&1
+          sudo apt-get install -y -qq webp >/dev/null 2>&1 || true
+          cd out
+          for f in *.webp; do
+            [ -e "$f" ] || continue
+            s=$(stat -c%s "$f"); echo "$f size=$s"
+            if [ "$s" -gt 1000 ]; then dwebp "$f" -o "${f%.webp}.png" >/dev/null 2>&1 && rm -f "$f" || echo "dwebp failed for $f"; fi
+          done
+          ls -la out
+          for f in out/*; do echo "$(basename $f) $(file -b "$f")"; done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xhs-images
+          path: out/
+          if-no-files-found: error
