@@ -36,12 +36,19 @@ FONT_PATHS = [
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
 ]
+# only used when lang="zh" — the originals carry English, so this is the fallback
+CJK_FONT_PATHS = [
+    "/usr/local/lib/python3.11/dist-packages/mplfonts/fonts/NotoSansCJKsc-Regular.otf",
+    "/usr/local/lib/python3.11/dist-packages/mplfonts/fonts/SourceHanSerifSC-Regular.otf",
+    "/usr/local/lib/python3.11/dist-packages/mplfonts/fonts/SimHei.ttf",
+]
 SHADOW_TINT = np.array([1.045, 1.005, 0.960], dtype=np.float32)  # warm cocoa
 HIGH_TINT   = np.array([0.960, 0.985, 1.040], dtype=np.float32)  # cool slate
 
 
-def pick_font(size):
-    for p in FONT_PATHS:
+def pick_font(size, lang="en"):
+    paths = (CJK_FONT_PATHS + FONT_PATHS) if lang == "zh" else (FONT_PATHS + CJK_FONT_PATHS)
+    for p in paths:
         if os.path.exists(p):
             return ImageFont.truetype(p, size)
     return ImageFont.load_default()
@@ -96,10 +103,14 @@ def flattest_patch(im, bw, bh):
     return best or (x0, y0)
 
 
-def stamp_word(im, word, idx=0):
-    """Composite one English word, letter-spaced, into the flattest patch."""
+def stamp_word(im, word, idx=0, scale=1.35, rule=True, lang="en"):
+    """Composite one word, letter-spaced, into the flattest patch.
+
+    scale=1.35 makes it read as a designed text element rather than a stray
+    prop label; rule=True adds the thin rule underneath, poster-style.
+    """
     W, H = im.size
-    bw, bh = int(W * 0.34), int(H * 0.055)
+    bw, bh = int(W * 0.34 * scale), int(H * 0.055 * scale)
     x, y = flattest_patch(im, bw, bh)
 
     patch = np.asarray(im.crop((x, y, x + bw, y + bh)).convert("RGB")).astype(np.float32) / 255.0
@@ -111,32 +122,39 @@ def stamp_word(im, word, idx=0):
 
     # fit the word to the patch, letter-spaced
     size = 10
-    spacing = 0.10
+    spacing = 0.16
     while True:
-        f = pick_font(size)
+        f = pick_font(size, lang)
         widths = [f.getlength(ch) for ch in word]
         total = sum(widths) + spacing * size * (len(word) - 1)
-        if total > bw * 0.92 or size > 120:
+        if total > bw * 0.92 or size > 160:
             size -= 2
-            f = pick_font(max(6, size))
+            f = pick_font(max(6, size), lang)
             widths = [f.getlength(ch) for ch in word]
             total = sum(widths) + spacing * max(6, size) * (len(word) - 1)
             break
         size += 2
 
-    f = pick_font(max(6, size))
+    f = pick_font(max(6, size), lang)
     ascent, descent = f.getmetrics()
     lh = ascent + descent
-    layer = Image.new("RGBA", (int(total) + 24, lh + 16), (0, 0, 0, 0))
+    pad = 20
+    lw, lhgt = int(total) + pad * 2, lh + pad + (28 if rule else 16)
+    layer = Image.new("RGBA", (lw, lhgt), (0, 0, 0, 0))
     d = ImageDraw.Draw(layer)
-    pen = 12
+    pen = pad
     for ch, wch in zip(word, widths):
-        d.text((pen, 8), ch, font=f, fill=col + (255,))
+        d.text((pen, pad // 2), ch, font=f, fill=col + (255,))
         pen += wch + spacing * max(6, size)
+
+    if rule:  # thin rule under the word — reads as printed type, not a sticker
+        rw = int(total)
+        ry = pad // 2 + lh + 6
+        d.rectangle([pad, ry, pad + rw, ry + max(3, size // 12)], fill=col + (255,))
 
     rot = ((idx * 7) % 5) - 2            # -2..+2 deg, deterministic
     layer = layer.rotate(rot, expand=True, resample=Image.BICUBIC)
-    layer.putalpha(layer.getchannel("A").point(lambda v: int(v * 0.62)))
+    layer.putalpha(layer.getchannel("A").point(lambda v: int(v * 0.72)))
 
     px = x + (bw - layer.width) // 2
     py = y + (bh - layer.height) // 2
@@ -164,7 +182,10 @@ def main():
         im = im.filter(ImageFilter.UnsharpMask(radius=2, percent=60, threshold=3))
         im = film_grade(im, grain=grain, rng=np.random.default_rng(7 + i))
         if it.get("word"):
-            im, box = stamp_word(im, it["word"], i)
+            im, box = stamp_word(im, it["word"], i,
+                                 scale=float(it.get("scale", 1.35)),
+                                 rule=bool(it.get("rule", True)),
+                                 lang=it.get("lang", "en"))
         else:
             box = None
         dst = os.path.join(outdir, it["name"] + ".png")
