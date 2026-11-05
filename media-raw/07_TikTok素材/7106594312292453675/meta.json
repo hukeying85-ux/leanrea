@@ -7,7 +7,7 @@
     {
       "tool": "yt-dlp",
       "ok": true,
-      "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
+      "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [TikTok] 7106594312292453675: Requested format is not available. Use --list-formats for a list of available formats"
     }
   ],
   "files": [
@@ -17,6 +17,6 @@
       "sha256": "5d58665e5f1e9f82fe33e82591f0ebe719b9589858e8ef0a9caf3a00833112b2"
     }
   ],
-  "collected_at": "2026-11-05T10:34:57Z",
+  "collected_at": "2026-11-05T10:38:05Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

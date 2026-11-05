@@ -1,6 +1,6 @@
 # 最近一次中继下载
 
-时间：2026-11-05 10:35 UTC  
+时间：2026-11-05 10:38 UTC  
 任务：6 条，成功：3 条
 
 | 平台 | 结果 | 命中工具 | 文件数 | 体积 | 链接 |
@@ -9,7 +9,7 @@
 | 05_B站素材 | ❌ | - | 0 | 0.00 MB | https://www.bilibili.com/video/BV1SPNz6rEE8/ |
 | 05_B站素材 | ❌ | - | 0 | 0.00 MB | https://www.bilibili.com/video/BV1bLhCe6Euk/ |
 | 02_抖音素材 | ❌ | - | 0 | 0.00 MB | https://www.douyin.com/video/7525669126587026745 |
-| 03_YouTube素材 | ✅ | scrape | 40 | 0.99 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
+| 03_YouTube素材 | ✅ | scrape | 42 | 1.56 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
 | 07_TikTok素材 | ✅ | yt-dlp | 1 | 3.20 MB | https://www.tiktok.com/@tiktok/video/710659431229245367 |
 
 ## 逐条明细
@@ -22,29 +22,17 @@
 - `img_04.png` — 94,225 字节
 - `img_05.png` — 85,358 字节
 - ❌ xhs-dump：`dump failed rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U`
-- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --help to see a list of all options.
--f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --he`
+- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U
+-f b -> rc=1 0: No video formats found!; please repor`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user'`
 
 ### https://www.bilibili.com/video/BV1SPNz6rEE8/
 
 - 平台目录：`05_B站素材`
 - 状态：failed，命中工具：无
-- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --help to see a list of all options.
--f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --he`
-- ❌ bilibili-api：`view api: JSONDecodeError: Expecting value: line 1 column 1 (char 0)`
+- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
+-f b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (cau`
+- ❌ bilibili-api：`view api non-json: HTTP 412, '<!DOCTYPE html>\n<html lang="zh-cn">\n\n<head>\n    <meta http-equiv="Access-Control-Allow-Origin" content="*" />\n    <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.5)">\n'`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'`
 - ❌ scrape：`found 1 candidate urls, saved 0`
 
@@ -52,15 +40,9 @@ Type yt-dlp --he`
 
 - 平台目录：`05_B站素材`
 - 状态：failed，命中工具：无
-- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --help to see a list of all options.
--f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --he`
-- ❌ bilibili-api：`view api: JSONDecodeError: Expecting value: line 1 column 1 (char 0)`
+- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
+-f b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (cau`
+- ❌ bilibili-api：`view api non-json: HTTP 412, '<!DOCTYPE html>\n<html lang="zh-cn">\n\n<head>\n    <meta http-equiv="Access-Control-Allow-Origin" content="*" />\n    <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.5)">\n'`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'`
 - ❌ scrape：`found 1 candidate urls, saved 0`
 
@@ -68,15 +50,10 @@ Type yt-dlp --he`
 
 - 平台目录：`02_抖音素材`
 - 状态：failed，命中工具：无
-- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --help to see a list of all options.
--f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --he`
-- ❌ douyin-api：`iteminfo returned no item_list`
+- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed
+-f b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed
+-f bv*+ba/b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fres`
+- ❌ douyin-api：`www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\n<script data-sdk-glue-in="pre-handler" nonce="argus-csp-token" >    !fun'`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7525669126587026745'`
 - ❌ scrape：`found 0 candidate urls, saved 0`
 
@@ -84,6 +61,7 @@ Type yt-dlp --he`
 
 - 平台目录：`03_YouTube素材`
 - 状态：ok，命中工具：scrape
+- `Rick Astley - Never Gonna Give You Up (Official Vi_dQw4w9WgXcQ.jpg` — 37,593 字节
 - `img_05.jpg` — 21,011 字节
 - `img_06.jpg` — 65,324 字节
 - `img_07.webp` — 28,620 字节
@@ -102,36 +80,32 @@ Type yt-dlp --he`
 - `img_18.jpg` — 18,202 字节
 - `img_18.webp` — 15,895 字节
 - `img_19.jpg` — 17,085 字节
-- `img_19.webp` — 18,327 字节
+- `img_19.webp` — 27,503 字节
 - `img_20.jpg` — 20,887 字节
-- `img_20.webp` — 27,604 字节
+- `img_20.webp` — 84,862 字节
 - `img_21.jpg` — 30,075 字节
-- `img_21.webp` — 17,085 字节
+- `img_21.webp` — 16,439 字节
 - `img_22.jpg` — 53,433 字节
-- `img_22.webp` — 30,075 字节
+- `img_22.webp` — 139,622 字节
 - `img_23.jpg` — 15,895 字节
-- `img_23.webp` — 20,887 字节
+- `img_23.webp` — 15,895 字节
 - `img_24.jpg` — 15,163 字节
+- `img_24.webp` — 119,372 字节
 - `img_25.jpg` — 24,605 字节
-- `img_25.webp` — 20,860 字节
+- `img_25.webp` — 20,887 字节
 - `img_26.jpg` — 27,604 字节
-- `img_26.webp` — 20,937 字节
+- `img_26.webp` — 219,984 字节
 - `img_27.jpg` — 18,327 字节
 - `img_27.webp` — 18,202 字节
 - `img_28.jpg` — 25,076 字节
-- `img_28.webp` — 20,959 字节
+- `img_28.webp` — 24,605 字节
 - `img_29.jpg` — 22,316 字节
-- `img_29.webp` — 17,816 字节
+- `img_29.webp` — 82,778 字节
 - `img_30.jpg` — 14,728 字节
-- `img_30.webp` — 24,605 字节
-- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --help to see a list of all options.
--f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]
-
-yt-dlp: error: You must provide at least one URL.
-Type yt-dlp --he`
+- `img_30.webp` — 26,402 字节
+- ❌ yt-dlp：`-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats
+-f b -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden
+-f bv*+ba/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: The page ne`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'`
 
 ### https://www.tiktok.com/@tiktok/video/7106594312292453675

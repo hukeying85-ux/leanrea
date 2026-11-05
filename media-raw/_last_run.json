@@ -13,7 +13,7 @@
       {
         "tool": "yt-dlp",
         "ok": false,
-        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f bv*+ba/b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f worst -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
+        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f b -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f bv*+ba/b -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f worst -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U"
       },
       {
         "tool": "gallery-dl",
@@ -43,7 +43,7 @@
         "sha256": "b2e5a9a417878b2c2791c376d2584a719a4095d0ecdb67d1a1eb588bd403ede4"
       }
     ],
-    "collected_at": "2026-11-05T10:34:59Z",
+    "collected_at": "2026-11-05T10:38:06Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -55,12 +55,12 @@
       {
         "tool": "yt-dlp",
         "ok": false,
-        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f bv*+ba/b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f worst -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
+        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
       },
       {
         "tool": "bilibili-api",
         "ok": false,
-        "log": "view api: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "log": "view api non-json: HTTP 412, '<!DOCTYPE html>\\n<html lang=\"zh-cn\">\\n\\n<head>\\n    <meta http-equiv=\"Access-Control-Allow-Origin\" content=\"*\" />\\n    <meta http-equiv=\"Page-Enter\" content=\"blendTrans(Duration=0.5)\">\\n'"
       },
       {
         "tool": "gallery-dl",
@@ -74,7 +74,7 @@
       }
     ],
     "files": [],
-    "collected_at": "2026-11-05T10:34:52Z",
+    "collected_at": "2026-11-05T10:37:57Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -86,12 +86,12 @@
       {
         "tool": "yt-dlp",
         "ok": false,
-        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f bv*+ba/b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f worst -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
+        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
       },
       {
         "tool": "bilibili-api",
         "ok": false,
-        "log": "view api: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "log": "view api non-json: HTTP 412, '<!DOCTYPE html>\\n<html lang=\"zh-cn\">\\n\\n<head>\\n    <meta http-equiv=\"Access-Control-Allow-Origin\" content=\"*\" />\\n    <meta http-equiv=\"Page-Enter\" content=\"blendTrans(Duration=0.5)\">\\n'"
       },
       {
         "tool": "gallery-dl",
@@ -105,7 +105,7 @@
       }
     ],
     "files": [],
-    "collected_at": "2026-11-05T10:34:52Z",
+    "collected_at": "2026-11-05T10:37:57Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -117,12 +117,12 @@
       {
         "tool": "yt-dlp",
         "ok": false,
-        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f bv*+ba/b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f worst -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
+        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f bv*+ba/b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f worst -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed"
       },
       {
         "tool": "douyin-api",
         "ok": false,
-        "log": "iteminfo returned no item_list"
+        "log": "www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\\n<script data-sdk-glue-in=\"pre-handler\" nonce=\"argus-csp-token\" >    !fun'"
       },
       {
         "tool": "gallery-dl",
@@ -136,7 +136,7 @@
       }
     ],
     "files": [],
-    "collected_at": "2026-11-05T10:34:57Z",
+    "collected_at": "2026-11-05T10:38:04Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -148,7 +148,7 @@
       {
         "tool": "yt-dlp",
         "ok": false,
-        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f bv*+ba/b -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options.\n-f worst -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
+        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats\n-f b -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden\n-f bv*+ba/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: The page needs to be reloaded.\n-f worst -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats"
       },
       {
         "tool": "gallery-dl",
@@ -158,10 +158,15 @@
       {
         "tool": "scrape",
         "ok": true,
-        "log": "found 43 candidate urls, saved 22"
+        "log": "found 63 candidate urls, saved 21"
       }
     ],
     "files": [
+      {
+        "name": "Rick Astley - Never Gonna Give You Up (Official Vi_dQw4w9WgXcQ.jpg",
+        "bytes": 37593,
+        "sha256": "b11f6d999adad43cd6bd2169831f24d5e1797a34127a75e82540efc4239835ea"
+      },
       {
         "name": "img_05.jpg",
         "bytes": 21011,
@@ -254,8 +259,8 @@
       },
       {
         "name": "img_19.webp",
-        "bytes": 18327,
-        "sha256": "91d57e95700c190f60cd776301b59c34c6da570f1cd42755db7ab63c9c9c5351"
+        "bytes": 27503,
+        "sha256": "26d64831e032521a3217c74af7ef6c86ee08dcfe4010ae63f0bad011fb6b723c"
       },
       {
         "name": "img_20.jpg",
@@ -264,8 +269,8 @@
       },
       {
         "name": "img_20.webp",
-        "bytes": 27604,
-        "sha256": "9a98b2885f3df51c56428e643adbbb8d4b757ed28fa0b52d39b6672d4485a45c"
+        "bytes": 84862,
+        "sha256": "3eb50c299b7779ffea45dedd13c594488dfaa2138c43b4e52022405ce3551b14"
       },
       {
         "name": "img_21.jpg",
@@ -274,8 +279,8 @@
       },
       {
         "name": "img_21.webp",
-        "bytes": 17085,
-        "sha256": "6b09b42c14dece5c80c087a59fe6fc861e37b7a1efd82bd0c0a37d6b30fabc9f"
+        "bytes": 16439,
+        "sha256": "b9a6d132f92d23020a48bb0838f4db5584561bcb4e3cccf1c4b99d9e27bc5c3f"
       },
       {
         "name": "img_22.jpg",
@@ -284,8 +289,8 @@
       },
       {
         "name": "img_22.webp",
-        "bytes": 30075,
-        "sha256": "1911487bb88c7c5f0ae2c68a820afc60be231c77ea43cff893a774c168b375cf"
+        "bytes": 139622,
+        "sha256": "891db139d7cfac76e39cb16b42624a4f80d3434b2cb3a5507702a14127651a59"
       },
       {
         "name": "img_23.jpg",
@@ -294,13 +299,18 @@
       },
       {
         "name": "img_23.webp",
-        "bytes": 20887,
-        "sha256": "3700c97acf25a30e523e7b2e6922f7bc60417199ed93d00941df229534fdc53f"
+        "bytes": 15895,
+        "sha256": "14813b607c3ff620fb3272335a73d9c9df81fbaa1e6d0cde13a6431a3ac56e29"
       },
       {
         "name": "img_24.jpg",
         "bytes": 15163,
         "sha256": "71d734215d97a152617b429f6aed4dd6c90cf873612fb6026d1db4c81d776831"
+      },
+      {
+        "name": "img_24.webp",
+        "bytes": 119372,
+        "sha256": "b63cd8d176dae439cca99439f0b65c3bcb20d3926a2471e771b9dcbfdd227ddb"
       },
       {
         "name": "img_25.jpg",
@@ -309,8 +319,8 @@
       },
       {
         "name": "img_25.webp",
-        "bytes": 20860,
-        "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
+        "bytes": 20887,
+        "sha256": "3700c97acf25a30e523e7b2e6922f7bc60417199ed93d00941df229534fdc53f"
       },
       {
         "name": "img_26.jpg",
@@ -319,8 +329,8 @@
       },
       {
         "name": "img_26.webp",
-        "bytes": 20937,
-        "sha256": "e18a2b506b9da34b75d86901dfe1c20f00387edad00bf2abcdc7880a95fb8379"
+        "bytes": 219984,
+        "sha256": "d08f9991a175fa932ed46f101c4ac9da9c1eef2299b58dccc0e0d0ebb7f88f6e"
       },
       {
         "name": "img_27.jpg",
@@ -339,8 +349,8 @@
       },
       {
         "name": "img_28.webp",
-        "bytes": 20959,
-        "sha256": "47131cd1cdd93d0e8eabe4ddb0e434d8ea6fa5ee582fbc86ad063ffc37e0faee"
+        "bytes": 24605,
+        "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
       },
       {
         "name": "img_29.jpg",
@@ -349,8 +359,8 @@
       },
       {
         "name": "img_29.webp",
-        "bytes": 17816,
-        "sha256": "4cb1e40b29b9a18817eae63952cba81298272efed62208b2bda29d68cf99f9af"
+        "bytes": 82778,
+        "sha256": "e3cfed0785a9393b9ceb5dc575ac6585319830f8ae07a96f4e97c27dff2cf287"
       },
       {
         "name": "img_30.jpg",
@@ -359,11 +369,11 @@
       },
       {
         "name": "img_30.webp",
-        "bytes": 24605,
-        "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
+        "bytes": 26402,
+        "sha256": "d87895fb2f9a9e6456d9e605a3486de30384875c15dd0a1512edf38675b40914"
       }
     ],
-    "collected_at": "2026-11-05T10:35:06Z",
+    "collected_at": "2026-11-05T10:38:18Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -375,7 +385,7 @@
       {
         "tool": "yt-dlp",
         "ok": true,
-        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=2 Usage: yt-dlp [OPTIONS] URL [URL...]\n\nyt-dlp: error: You must provide at least one URL.\nType yt-dlp --help to see a list of all options."
+        "log": "-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [TikTok] 7106594312292453675: Requested format is not available. Use --list-formats for a list of available formats"
       }
     ],
     "files": [
@@ -385,7 +395,7 @@
         "sha256": "5d58665e5f1e9f82fe33e82591f0ebe719b9589858e8ef0a9caf3a00833112b2"
       }
     ],
-    "collected_at": "2026-11-05T10:34:57Z",
+    "collected_at": "2026-11-05T10:38:05Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   }
 ]
