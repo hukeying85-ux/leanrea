@@ -59,25 +59,31 @@ jobs:
           COOKIES_WEIBO: ${{ secrets.COOKIES_WEIBO }}
           COOKIES_KUAISHOU: ${{ secrets.COOKIES_KUAISHOU }}
         run: |
-          # 结果单独放 media-out 分支：不写回工作分支，避免和本地提交反复冲突
+          # 结果放独立分支 media-out，不写回工作分支。
+          # 做法：把 media-out 单独 clone 到 /tmp 再提交推送 —— 在工作区里
+          # checkout 分支会因为已 staged 的产物而失败。
+          set -x
+          SRC="$GITHUB_WORKSPACE/media-raw"
+          ls -la "$SRC" | head -5
+          rm -rf /tmp/mo
+          if ! git clone --quiet --branch media-out \
+               "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" /tmp/mo; then
+            mkdir -p /tmp/mo && cd /tmp/mo && git init -q && git checkout -q -b media-out
+          fi
+          cd /tmp/mo
           git config user.name  "media-relay[bot]"
           git config user.email "media-relay[bot]@users.noreply.github.com"
-          # media-raw 是未跟踪目录，切分支不会被删掉，不需要 stash
-          # 注意：不能用 --depth=1，浅克隆推不上去（shallow update not allowed）
-          if git fetch origin media-out 2>/dev/null; then
-            git checkout -B media-out FETCH_HEAD
-          else
-            git checkout --orphan media-out
-            git rm -rf --cached . >/dev/null 2>&1 || true
-          fi
-          ls -la media-raw | head -5
-          git add -f media-raw || true
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          mkdir -p media-raw
+          cp -r "$SRC"/. media-raw/
+          git add -A
           if git diff --cached --quiet; then
             echo "nothing new to commit"
           else
             git commit -m "media: relay run $(date -u +%Y-%m-%dT%H%M%SZ)"
-            git push origin media-out || echo "push failed"
+            git push origin media-out
           fi
+          set +x
 
       - name: Upload as artifact too
         if: always()
