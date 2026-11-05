@@ -134,7 +134,7 @@ def try_ytdlp(url, out):
 
     for i, fmt in enumerate(FORMATS):
         cmd = list(YT_BASE) + ["-f", fmt, "--merge-output-format", "mp4",
-                               "-o", os.path.join(out, "%(title).50s_%(id)s.%(ext)s")]
+                               "-o", os.path.join(out, "%(title).50s_%(id)s.%(ext)s"), url]
         if cookie_file:
             cmd += ["--cookies", cookie_file]
         if "youtube.com" in url or "youtu.be" in url:
@@ -218,8 +218,13 @@ def try_bilibili_api(url, out):
     h = {"User-Agent": UA, "Referer": "https://www.bilibili.com/",
          "Origin": "https://www.bilibili.com"}
     try:
-        v = requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bvid}",
-                         headers=h, timeout=30).json()
+        r = requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bvid}",
+                         headers=h, timeout=30)
+        try:
+            v = r.json()
+        except Exception:
+            return False, (f"view api non-json: HTTP {r.status_code}, "
+                           f"{r.text[:180]!r}"), []
         if v.get("code") != 0:
             return False, f"view api code={v.get('code')} {v.get('message')}", []
         cid = v["data"]["cid"]
@@ -296,18 +301,23 @@ def try_douyin_api(url, out):
         f"https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={vid}",
         f"https://www.iesdouyin.com/share/video/{vid}/?region=CN&mid=0",
     ]
-    data = None
+    data, diag = None, []
     for a in apis:
         try:
             r = requests.get(a, headers=h, timeout=30)
-            j = r.json()
+            try:
+                j = r.json()
+            except Exception:
+                diag.append(f"{a.split('/')[2]}: HTTP {r.status_code} non-json {r.text[:100]!r}")
+                continue
             if j.get("item_list"):
                 data = j
                 break
-        except Exception:
-            continue
+            diag.append(f"{a.split('/')[2]}: keys={list(j)[:5]} status_code={j.get('status_code')}")
+        except Exception as e:
+            diag.append(f"{a.split('/')[2]}: {type(e).__name__}: {e}")
     if not data:
-        return False, "iteminfo returned no item_list", []
+        return False, " | ".join(diag) or "no item_list", []
 
     item = data["item_list"][0]
     got = []
