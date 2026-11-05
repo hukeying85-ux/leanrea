@@ -63,7 +63,8 @@ jobs:
           git config user.name  "media-relay[bot]"
           git config user.email "media-relay[bot]@users.noreply.github.com"
           # media-raw 是未跟踪目录，切分支不会被删掉，不需要 stash
-          if git fetch origin media-out --depth=1 2>/dev/null; then
+          # 注意：不能用 --depth=1，浅克隆推不上去（shallow update not allowed）
+          if git fetch origin media-out 2>/dev/null; then
             git checkout -B media-out FETCH_HEAD
           else
             git checkout --orphan media-out
