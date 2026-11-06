@@ -110,7 +110,7 @@ for f in sorted(glob.glob('raw/*.png')):
 
 比值 > 0.75 或横图 → 重出，别硬裁。
 
-## 让模型写字（实测：写不出来）
+## 让模型写字（中文写不出来，英文单词能写）
 
 用户要求「对话直接通过图片生成」。试了，10 张全失败：
 提示词里写了 `TEXT TO RENDER — 必须烤进画面`，并指定上/下留白带位置、简体中文字形、
@@ -127,6 +127,50 @@ for f in sorted(glob.glob('raw/*.png')):
 
 **结论：中文字仍然只能后期合成**（`dialogue.py`）。
 要让字看起来是画面的一部分，就把出图的留白带留够，气泡画进去。
+
+---
+
+### 英文单词：模型能自己画（第21轮实测 10/10 ✅）
+
+第21轮用户要求「字必须是图片生成的，不是后期加的」。试了，**英文单词全部画出来了**：
+
+| 检查项 | 结果 |
+|---|---|
+| MOON / CLOUDS / GLOW / OCEAN / STARS / SNOW / WISH / AURORA / SWING / DAWN | OCR 全部读出，置信度 0.88–0.99 |
+| 拼写 | 10/10 正确 |
+| 位置 | 横向居中（≈50%），纵向 81%–90%，整轮基本对齐 |
+
+**关键差异：中文对话画不出来，英文单词能画。**
+中文字形笔画多，模型会直接放弃或画成乱码；4–6 个大写英文短词容错高。
+
+照抄就能用的写法：
+```
+TEXT TO RENDER (this is essential): the English word DAWN appears in the lower part
+of the image, below the characters, written in large simple bold capital letters,
+spelled exactly D-A-W-N, clean even letterforms, cream-white colour, like a printed
+poster title. The letters must be perfectly legible and correctly spelled.
+No other text anywhere.
+```
+要点：**逐字母拼写**（D-A-W-N）、说 `large simple bold capitals`、
+说 `no other text anywhere`、场景要留空（字周围有干净区域）。
+
+**怎么验证（不用眼睛看）** —— 装 OCR 客观读字：
+```
+pip install --break-system-packages rapidocr-onnxruntime opencv-python-headless
+```
+少了 `opencv-python-headless` 会报 `libGL.so.1`，cv2 起不来，别漏。
+```python
+from rapidocr_onnxruntime import RapidOCR
+r, _ = RapidOCR()(np.array(Image.open(f).convert('RGB')))
+print([(t, round(c, 2)) for _, t, c in (r or [])])
+```
+先拿一张写着 HELLO 的白纸自检，读得出来再去验图。
+
+**结论（更新版）**
+- 英文单词 → 让模型自己画，比后期叠更自然（字跟画面吃同一个光），也不需要底板
+- 中文对话 → 仍然只能后期合成（`dialogue.py`）
+- 要让模型写字时，后期**只做裁切/放大/USM/分级**，spec 里**不给 `word` 键**，`finish.py` 就不会再叠一层
+
 
 ## 字不要有底（第18轮定下来的规矩）
 
@@ -225,7 +269,7 @@ Scene: <具体场景，两只在做什么、前景中景背景各有什么>
 
 最后两句是关键：
 
-- **禁止模型写字** —— 它要么不出，要么拼错。字一律后期叠。
+- **中文禁止模型写字**（不出或拼错）；英文单词可以让模型自己画，见「让模型写字」一章，出完用 OCR 验。
 - **留一块平整面** —— 给后期叠字留位置。
 
 ### 4. 后期
@@ -279,7 +323,7 @@ python3 scripts/finish.py spec.json
 ## 坑
 
 - **模型输出不是 9:19**：704×1504 是 0.4681，差一点点，直接拉伸会变形，必须先裁。
-- **英文小字漏字**：模型不可靠，必须后期叠。
+- **小字/中文漏字**：中文、长句、字号太小模型不可靠，必须后期叠；4–6 个大写英文单词可以放心交给模型（出完用 OCR 验）。
 - **重复调色**：补字时重跑 `finish.py` 会二次降饱和、二次暗角，画面会发灰。
 - **参考图漂移**：别拿上一轮生成的图当参考，会累积漂移，永远用原片。
 - **二进制进 git**：抓图用过的 workflow 和图片必须清掉，否则分支会被重置/膨胀。
