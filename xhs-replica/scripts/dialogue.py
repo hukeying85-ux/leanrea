@@ -26,7 +26,7 @@ spec.json
       ]
     }
 """
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import numpy as np
 import json, sys, os, glob
 
@@ -66,6 +66,57 @@ def bubble(draw, text, cy, font, tail_down=True, max_w=920):
     draw.rounded_rectangle([x0, y0, x1, y1], radius=42, fill=PAPER,
                            outline=INK, width=OUTLINE)
     draw.text((cx - tw // 2, y0 + pady - 6), text, font=font, fill=INK)
+    return x0, y0, x1, y1
+
+
+def frost_panel(im, box, radius=46, blur=34, tint=0.34):
+    """从画面自己身上取材质：把该区域模糊后当文字底。
+
+    之前用的是外来白纸（#FCF8F1 + 墨描边），跟画面的暖调对不上，
+    用户一句「字的背景和图片的背景不一样」——
+    所以改成：底 = 这块画面本身（模糊 + 轻微提亮/压暗），
+    字色 = 从这块底的明暗推出来。底和画面是同一种材质，就一致了。
+    """
+    x0, y0, x1, y1 = box
+    pad = 60                                  # 模糊会吃边缘，多取一圈
+    sx0, sy0 = max(0, x0 - pad), max(0, y0 - pad)
+    sx1, sy1 = min(TW, x1 + pad), min(TH, y1 + pad)
+    region = im.crop((sx0, sy0, sx1, sy1)).filter(ImageFilter.GaussianBlur(blur))
+
+    # 这块画面本身是亮还是暗 → 决定压暗还是提亮
+    base = np.asarray(im.crop((x0, y0, x1, y1)).convert("L")).astype(np.float32)
+    m = float(base.mean())
+    overlay = Image.new("RGB", region.size, (28, 20, 16) if m > 138 else (255, 250, 242))
+    region = Image.blend(region, overlay, tint)
+
+    mask = Image.new("L", region.size, 0)
+    ImageDraw.Draw(mask).rounded_rectangle(
+        [x0 - sx0, y0 - sy0, x1 - sx0, y1 - sy0], radius=radius, fill=255)
+    im.paste(region, (sx0, sy0), mask)
+    return m
+
+
+def panel(draw, im, text, cy, font, word=None, wfont=None):
+    """毛玻璃文字牌：底来自画面，字色由底的明暗决定。"""
+    tw, th = draw.textbbox((0, 0), text, font=font)[2:]
+    ww, wh = (draw.textbbox((0, 0), word, font=wfont)[2:] if word else (0, 0))
+    padx, pady = 60, 40
+    w = min(940, max(tw, ww) + padx * 2)
+    h = th + pady * 2 + (wh + 22 if word else 0)
+    cx = TW // 2
+    x0, y0, x1, y1 = cx - w // 2, int(cy - h / 2), cx + w // 2, int(cy + h / 2)
+
+    m = frost_panel(im, (x0, y0, x1, y1))
+    col = (74, 56, 46) if m > 138 else (252, 246, 238)   # 亮底用暖墨，暗底用奶油白
+
+    ty = y0 + pady - 6
+    draw.text((cx - tw // 2, ty), text, font=font, fill=col)
+    if word:
+        wy = ty + th + 22
+        ln = max(ww, 120)
+        draw.line([cx - ln // 2, wy - 12, cx + ln // 2, wy - 12],
+                  fill=col + (None,), width=0) if False else None
+        draw.text((cx - ww // 2, wy), word, font=wfont, fill=col)
     return x0, y0, x1, y1
 
 
@@ -109,6 +160,43 @@ def find_free_band(im, top=0.62, bot=0.99, need=96):
     return y0 + i + 12
 
 
+def bare_text(im, draw, text, cy, font, word=None, wfont=None):
+    """无底排版：字直接坐在画面上，没有牌子、没有外来底色。
+
+    毛玻璃那版仍然是一块「板」（实测 Δ 60~97），用户要的是**根本没有底**。
+    所以：底 = 画面本身，一个像素都不加。
+    可读性靠一层很淡的柔光描边（描边色是字色的反色，半透明），
+    这样在任何底色上都读得清，又不会像贴纸。
+    """
+    tw, th = draw.textbbox((0, 0), text, font=font)[2:]
+    ww, wh = (draw.textbbox((0, 0), word, font=wfont)[2:] if word else (0, 0))
+    cx = TW // 2
+    ty = int(cy - (th + (wh + 26 if word else 0)) / 2) - 6
+
+    # 这块留白带本身是亮还是暗 → 决定字用暖墨还是奶油白
+    band = np.asarray(im.convert("L"))[max(0, ty - 20):min(TH, ty + th + 40)].astype(np.float32)
+    m = float(band.mean())
+    # 别用固定阈值切明暗——底色正好卡在临界点时字色会选错（03/07 下句就栽在这）。
+    # 改成：墨色和奶油白谁离底色更远就选谁，永远选对比更大的那一个。
+    INK_LUM, CREAM_LUM = 52.0, 247.0
+    light = abs(m - INK_LUM) > abs(m - CREAM_LUM)
+    ink = (66, 50, 40) if light else (252, 247, 240)
+    contrast = abs((INK_LUM if light else CREAM_LUM) - m)
+    # 对比不够就把柔光描边加厚加重（而不是去动画面底色）
+    alpha = 200 if contrast < 80 else (150 if contrast < 120 else 120)
+    halo = (255, 250, 243, alpha) if light else (24, 16, 12, alpha)
+
+    layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    d.text((cx - tw // 2, ty), text, font=font, fill=ink + (255,),
+           stroke_width=9, stroke_fill=halo)
+    if word:
+        d.text((cx - ww // 2, ty + th + 26), word, font=wfont, fill=ink + (255,),
+               stroke_width=6, stroke_fill=halo)
+    im.paste(Image.alpha_composite(im.convert("RGBA"), layer).convert("RGB"), (0, 0))
+    return light
+
+
 def make_sheet(paths, out, cols=5, tile_w=300):
     """把成品拼成一张总图，方便选首图。"""
     tw = TH * tile_w // TW
@@ -147,20 +235,25 @@ def main(spec_path):
                                rng=np.random.default_rng(7 + i))
 
         d = ImageDraw.Draw(im)
+        style = spec.get("style", "bare")           # bare（默认，无底） / frost（毛玻璃） / paper（老白纸）
         if it.get("top"):
-            bubble(d, it["top"], TH * TOP_CY, f_text, tail_down=True)
+            if style == "frost":
+                panel(d, im, it["top"], TH * TOP_CY, f_text)
+            elif style == "paper":
+                bubble(d, it["top"], TH * TOP_CY, f_text, tail_down=True)
+            else:                       # bare（默认）：字直接坐在画面上
+                bare_text(im, d, it["top"], TH * TOP_CY, f_text)
         if it.get("bottom"):
-            bubble(d, it["bottom"], TH * BOT_CY, f_text, tail_down=False)
-        if it.get("word"):
-            if it.get("top") or it.get("bottom"):
-                small_word(d, it["word"], f_word, im=im)          # 脚本画气泡的老版本
+            if style == "frost":
+                panel(d, im, it["bottom"], TH * BOT_CY, f_text,
+                      word=it.get("word"), wfont=f_word)
+            elif style == "paper":
+                bubble(d, it["bottom"], TH * BOT_CY, f_text, tail_down=False)
+                if it.get("word"):
+                    small_word(d, it["word"], f_word, im=im)
             else:
-                y = find_free_band(im)                             # 文字已烤进图里 → 找空位
-                if y:
-                    small_word(d, it["word"], f_word, im=im, y=y)
-                    print(f"    word 放在 y={y}")
-                else:
-                    print(f"    word 跳过：下半幅没有空位，怕压到烤进去的中文")
+                bare_text(im, d, it["bottom"], TH * BOT_CY, f_text,
+                          word=it.get("word"), wfont=f_word)
 
         out = os.path.join(outdir, it["name"] + ".png")
         im.save(out)
