@@ -69,7 +69,7 @@ def bubble(draw, text, cy, font, tail_down=True, max_w=920):
     return x0, y0, x1, y1
 
 
-def small_word(draw, word, font, im=None):
+def small_word(draw, word, font, im=None, y=None):
     """底部一行小英文——保持「每张都有英文元素」这条老规矩。
 
     颜色必须跟着背景走：亮底用暖墨，暗底用奶油白。
@@ -77,7 +77,7 @@ def small_word(draw, word, font, im=None):
     """
     tw = draw.textbbox((0, 0), word, font=font)[2]
     cx = TW // 2
-    y = int(TH * WORD_Y)
+    y = int(TH * WORD_Y) if y is None else int(y)
     # 取这一行的背景亮度，决定用深字还是浅字
     ink_bg = 0.5
     if im is not None:
@@ -87,6 +87,26 @@ def small_word(draw, word, font, im=None):
     draw.line([cx - tw // 2 - 30, y - 26, cx + tw // 2 + 30, y - 26],
               fill=col, width=3)
     draw.text((cx - tw // 2, y), word, font=font, fill=col)
+
+
+def find_free_band(im, top=0.62, bot=0.99, need=96):
+    """对话烤进画面之后，字在哪儿不由我们控制。
+
+    所以先在下半幅找一条「最空」的横带放小英文——
+    行间差分越小 = 细节越少 = 越干净。找不到足够空的地方就返回 None，
+    宁可不放，也不压在烤进去的中文上。
+    """
+    g = np.asarray(im.convert("L")).astype(np.float32)
+    y0, y1 = int(TH * top), int(TH * bot)
+    rows = g[y0:y1]
+    dens = np.abs(np.diff(rows, axis=0)).mean(axis=1)
+    if len(dens) < need:
+        return None
+    win = np.convolve(dens, np.ones(need) / need, mode="valid")
+    i = int(np.argmin(win))
+    if win[i] > np.median(dens) * 0.75:      # 不够空 → 放弃
+        return None
+    return y0 + i + 12
 
 
 def make_sheet(paths, out, cols=5, tile_w=300):
@@ -132,7 +152,15 @@ def main(spec_path):
         if it.get("bottom"):
             bubble(d, it["bottom"], TH * BOT_CY, f_text, tail_down=False)
         if it.get("word"):
-            small_word(d, it["word"], f_word, im=im)
+            if it.get("top") or it.get("bottom"):
+                small_word(d, it["word"], f_word, im=im)          # 脚本画气泡的老版本
+            else:
+                y = find_free_band(im)                             # 文字已烤进图里 → 找空位
+                if y:
+                    small_word(d, it["word"], f_word, im=im, y=y)
+                    print(f"    word 放在 y={y}")
+                else:
+                    print(f"    word 跳过：下半幅没有空位，怕压到烤进去的中文")
 
         out = os.path.join(outdir, it["name"] + ".png")
         im.save(out)
