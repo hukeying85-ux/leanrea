@@ -70,7 +70,11 @@ short stubby limbs, no scarf.
 ### 三条铁律
 
 - **每次 generate_image 必须挂 2–3 张原图作参考**（`images: [refs_original/r1.jpg, r3.jpg]`）。
-  纯文生图不准出成品。参考图在 `/home/user/refs_original/r1..r5.jpg`。
+  纯文生图不准出成品。
+- **工作区重置会把 `refs_original/` 清空**，开工前先确认参考图还在。
+  参考图永久存在云盘 `01_小红书素材 → 一二和布布_小红书原图（沿用已有参考图）`，
+  用 `download_file` 取回**只返回路径、不返回 base64**，不占上下文；
+  但它会写进 `leanrea/google_drive/`，**取完立刻 mv 出仓库并删掉该目录**。
 - 提示词里**禁止**出现 `two identical bears` / `two teddy bears` / `same bear`——
   一说 identical，两只就会长成一样。
 - 出图后**先让用户看角色对不对**，再谈配色构图。角色不对，后面全都白做。
