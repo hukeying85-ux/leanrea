@@ -103,7 +103,7 @@ def flattest_patch(im, bw, bh):
     return best or (x0, y0)
 
 
-def stamp_word(im, word, idx=0, scale=1.35, rule=True, lang="en"):
+def stamp_word(im, word, idx=0, scale=1.35, rule=True, lang="en", anchor=None):
     """Composite one word, letter-spaced, into the flattest patch.
 
     scale=1.35 makes it read as a designed text element rather than a stray
@@ -111,7 +111,10 @@ def stamp_word(im, word, idx=0, scale=1.35, rule=True, lang="en"):
     """
     W, H = im.size
     bw, bh = int(W * 0.34 * scale), int(H * 0.055 * scale)
-    x, y = flattest_patch(im, bw, bh)
+    if anchor:  # 整轮统一位置：anchor=[x%, y%]，不再各自找最平色块
+        x, y = int(W * anchor[0]), int(H * anchor[1])
+    else:
+        x, y = flattest_patch(im, bw, bh)
 
     patch = np.asarray(im.crop((x, y, x + bw, y + bh)).convert("RGB")).astype(np.float32) / 255.0
     mean = patch.reshape(-1, 3).mean(0)
@@ -185,7 +188,8 @@ def main():
             im, box = stamp_word(im, it["word"], i,
                                  scale=float(it.get("scale", 1.35)),
                                  rule=bool(it.get("rule", True)),
-                                 lang=it.get("lang", "en"))
+                                 lang=it.get("lang", "en"),
+                                 anchor=it.get("anchor"))
         else:
             box = None
         dst = os.path.join(outdir, it["name"] + ".png")
