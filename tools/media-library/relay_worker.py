@@ -666,6 +666,67 @@ def try_douyin_video(url, out):
     return False, "; ".join(diag) or "no play url", []
 
 
+PUBLIC_PARSERS = [
+    "https://api.xingzhige.com/API/douyin/?url={}",
+    "https://api.kxzjoker.cn/api/dy?url={}",
+    "https://api.52vmy.cn/api/video/dy?url={}",
+    "https://api.pearktrue.cn/api/video/douyin/?url={}",
+    "https://api.suyanw.cn/api/dy.php?url={}",
+    "https://api.douyin.wtf/api/hybrid/video_data?url={}&minimal=false",
+]
+
+
+def try_public_parsers(url, out):
+    """公共解析站兜底：它们大多走 app 签名接口，能绕开数据中心 IP 的 SSR 500。"""
+    from urllib.parse import quote
+    diag, cands = [], []
+    for tpl in PUBLIC_PARSERS:
+        host = tpl.split("/")[2]
+        try:
+            r = requests.get(tpl.format(quote(url, safe="")),
+                             headers={"User-Agent": UA, "Accept": "application/json, */*"},
+                             timeout=45)
+        except Exception as e:
+            diag.append(f"{host}: {type(e).__name__}")
+            continue
+        txt = r.text or ""
+        if r.status_code != 200:
+            diag.append(f"{host}: HTTP {r.status_code}")
+            continue
+        found = re.findall(r'https?://[^"\s\\]+(?:douyinvod|zjcdn|\.mp4)[^"\s\\]*', txt)
+        found = [f.replace("\\u0026", "&").replace("\\/", "/") for f in found]
+        if not found:
+            diag.append(f"{host}: 200 但无直链 ({txt[:60]!r})")
+            continue
+        diag.append(f"{host}: {len(found)} 直链")
+        cands += found
+
+    aid = re.search(r"(\d{15,})", url)
+    for u in cands[:6]:
+        try:
+            rr = requests.get(u, headers={"User-Agent": MOBILE_UA,
+                                          "Referer": "https://www.douyin.com/"},
+                              timeout=240, stream=True)
+        except Exception as e:
+            diag.append(f"dl: {type(e).__name__}")
+            continue
+        ctype = (rr.headers.get("Content-Type") or "").lower()
+        if rr.status_code not in (200, 206) or "text" in ctype or "json" in ctype:
+            diag.append(f"dl: HTTP {rr.status_code} {ctype[:16]}")
+            continue
+        p = os.path.join(out, f"douyin_{aid.group(1) if aid else 'video'}.mp4")
+        with open(p, "wb") as f:
+            for c in rr.iter_content(1 << 20):
+                f.write(c)
+        size = os.path.getsize(p)
+        head = open(p, "rb").read(32)
+        if size > 200_000 and (b"ftyp" in head[:16] or head[:4] == b"\x1aE\xdf\xa3"):
+            return True, f"saved {size/1048576:.2f} MB; " + "; ".join(diag), [os.path.basename(p)]
+        os.remove(p)
+        diag.append(f"dl: not video ({size}B)")
+    return False, "; ".join(diag) or "no parser worked", []
+
+
 def try_douyin_note(url, out):
     m = re.search(r"(?:/note/|/video/|item_ids=|/slides/)(\d{15,})", url)
     if not m:
@@ -962,6 +1023,7 @@ def handle(url):
     if folder == "05_B站素材":
         chain.insert(1, ("bilibili-api", try_bilibili_api))
     if folder == "02_抖音素材":
+        chain.insert(2, ("public-parsers", try_public_parsers))
         chain.insert(0, ("douyin-video", try_douyin_video))
         chain.insert(0, ("douyin-note", try_douyin_note))
         chain.insert(1, ("douyin-api", try_douyin_api))
