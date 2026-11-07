@@ -22,7 +22,7 @@
     {
       "tool": "scrape",
       "ok": true,
-      "log": "found 63 candidate urls, saved 23"
+      "log": "found 66 candidate urls, saved 22"
     }
   ],
   "files": [
@@ -88,63 +88,43 @@
     },
     {
       "name": "img_18.webp",
-      "bytes": 30564,
-      "sha256": "6a2282f1600c5b4ca75e7af16e03cc7ac38d4e6ada5b4b4f56a438ce2986f048"
+      "bytes": 33918,
+      "sha256": "5bd98475561ad7266b1867a6596308d334e25337ca533940de9640648f77be57"
     },
     {
       "name": "img_19.webp",
-      "bytes": 30976,
-      "sha256": "68601c51d47966f0cc755a5aa3b13fcaa2a6e3cfef24589e66acc8d8ac42af4c"
-    },
-    {
-      "name": "img_20.jpg",
-      "bytes": 16451,
-      "sha256": "bdb4c8a2884a0cecf34ddfb7e00eeef63396d371220f353ae5859ca153654da4"
+      "bytes": 131648,
+      "sha256": "f38d1d2a286634cab5ad8456c78fbb09ad1c559370e50218567fadc9e6c06d09"
     },
     {
       "name": "img_20.webp",
-      "bytes": 30321,
-      "sha256": "2895e11cada9fc8e252866d7a955662b6e71dd0288a6d41aa2ffe5fc10918013"
+      "bytes": 12751,
+      "sha256": "27aa7b8d256e84cf3244cd9be1f3f8c5494ce301c4786068451b562813b0f955"
     },
     {
       "name": "img_21.webp",
-      "bytes": 85523,
-      "sha256": "05b633ffbbcae50063cd81c6c66008e65b0fdebd3ca744aede3ab1629f92081e"
-    },
-    {
-      "name": "img_22.jpg",
-      "bytes": 29801,
-      "sha256": "ef907ed6b02e1a11ebc6393f1c090c36ba766a3107194666dec500415a3670da"
+      "bytes": 39584,
+      "sha256": "a2aca9f0c05a9a95edda0edf1634520e64807c0c896c1051b2044b040d1681cb"
     },
     {
       "name": "img_22.webp",
-      "bytes": 20887,
-      "sha256": "3700c97acf25a30e523e7b2e6922f7bc60417199ed93d00941df229534fdc53f"
+      "bytes": 23727,
+      "sha256": "446fab712ad70c84b8a77960a66ec16ef474c253234ee603dee1ac15445b8393"
     },
     {
       "name": "img_23.webp",
-      "bytes": 89523,
-      "sha256": "e54ffb1b9ce8af161945b87a290044ec887ef0108f76a5b2bb1557c36f7cdeea"
-    },
-    {
-      "name": "img_24.jpg",
-      "bytes": 26748,
-      "sha256": "97a733f214bfbbfc6c1bf1421791000ae830fc7a48462b410bc8e042f63c04f0"
+      "bytes": 200677,
+      "sha256": "dc30d74857eb5822800543fc2e69c956e7c9fb67c9b2d260ba3b2d8f4df7329e"
     },
     {
       "name": "img_24.webp",
-      "bytes": 15163,
-      "sha256": "71d734215d97a152617b429f6aed4dd6c90cf873612fb6026d1db4c81d776831"
+      "bytes": 40114,
+      "sha256": "7dc2c5d61b0289edf2f06a20247819a7d8d0e325cacdca97185f495b05946bd6"
     },
     {
       "name": "img_25.webp",
-      "bytes": 282172,
-      "sha256": "eb11f9adc1e8e6af8e82cb756d01d08c9cce7a24e752e6ac30a891f255df6670"
-    },
-    {
-      "name": "img_26.jpg",
-      "bytes": 22601,
-      "sha256": "5bd11f371f3252abaae0d4f88feff3766b481f3b9c4abba1847c38e70a24692e"
+      "bytes": 145662,
+      "sha256": "87028ce493942ed4854a8844daa6b30bf5d4894025017542f8d14cd7cfe3281e"
     },
     {
       "name": "img_26.webp",
@@ -153,35 +133,25 @@
     },
     {
       "name": "img_27.webp",
-      "bytes": 119902,
-      "sha256": "d863d7e71c46aca9fa1b28949a9cab8047724158679e60dcf20950d3af76e9b8"
-    },
-    {
-      "name": "img_28.jpg",
-      "bytes": 16707,
-      "sha256": "64b0ac8e2a841a1267e8aeb6aa5a94ea5b98b39340d5e8bc36a866757bb237e0"
+      "bytes": 28867,
+      "sha256": "b1ed0f11c6eeea95d99428315c8ac54408118a7b3dbef40ca198af53d8ca487e"
     },
     {
       "name": "img_28.webp",
-      "bytes": 24605,
-      "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
+      "bytes": 278329,
+      "sha256": "282d8ba36d3b4a2a2107ae9609597c306da2cb453f60e22b8a6d4d5bbf42be0e"
     },
     {
       "name": "img_29.webp",
-      "bytes": 104752,
-      "sha256": "bc9d6bb441baf160638ccae47bd37593bde954d0ce1f474ed016f8d816a46c9a"
-    },
-    {
-      "name": "img_30.jpg",
-      "bytes": 19979,
-      "sha256": "3186ccc143e1fb5428e75e716ae11f011ccd8ba956575f46898722725f1d1377"
+      "bytes": 22318,
+      "sha256": "f5f74ee9e2e7abc782ea7e75a4b1c5fc97d627cb8c84e0d36c365f0a40e27070"
     },
     {
       "name": "img_30.webp",
-      "bytes": 18327,
-      "sha256": "91d57e95700c190f60cd776301b59c34c6da570f1cd42755db7ab63c9c9c5351"
+      "bytes": 317741,
+      "sha256": "a80ee506293583839369be24fe2b00aabbb169b57da4d87b63fa1b4e4c430028"
     }
   ],
-  "collected_at": "2026-11-07T08:34:53Z",
+  "collected_at": "2026-11-07T08:38:29Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

@@ -7,7 +7,7 @@
     {
       "tool": "xhs-dump",
       "ok": false,
-      "log": "dumped 1 urls, saved 1"
+      "log": "dump rc=1 t this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U | no image urls"
     },
     {
       "tool": "yt-dlp",
@@ -25,13 +25,7 @@
       "log": "found 0 candidate urls, saved 0"
     }
   ],
-  "files": [
-    {
-      "name": "xhs_01.webp",
-      "bytes": 60599,
-      "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
-    }
-  ],
-  "collected_at": "2026-11-07T08:34:46Z",
+  "files": [],
+  "collected_at": "2026-11-07T08:38:16Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

@@ -1,6 +1,6 @@
 # 最近一次中继下载
 
-时间：2026-11-07 08:34 UTC  
+时间：2026-11-07 08:38 UTC  
 任务：7 条，成功：2 条
 
 | 平台 | 结果 | 命中工具 | 文件数 | 体积 | 链接 |
@@ -9,9 +9,9 @@
 | 05_B站素材 | ❌ | - | 1 | 0.00 MB | https://www.bilibili.com/video/BV1SPNz6rEE8/ |
 | 05_B站素材 | ❌ | - | 1 | 0.00 MB | https://www.bilibili.com/video/BV1bLhCe6Euk/ |
 | 02_抖音素材 | ❌ | - | 0 | 0.00 MB | https://www.douyin.com/video/7525669126587026745 |
-| 03_YouTube素材 | ✅ | scrape | 31 | 1.32 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
+| 03_YouTube素材 | ✅ | scrape | 25 | 1.60 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
 | 07_TikTok素材 | ✅ | yt-dlp | 2 | 3.26 MB | https://www.tiktok.com/@tiktok/video/710659431229245367 |
-| 01_小红书素材 | ❌ | - | 1 | 0.06 MB | https://www.xiaohongshu.com/discovery/item/6aedad8b0000 |
+| 01_小红书素材 | ❌ | - | 0 | 0.00 MB | https://www.xiaohongshu.com/discovery/item/6aedad8b0000 |
 
 ## 逐条明细
 
@@ -31,7 +31,7 @@
 - `xhs_18.jpg` — 33,980 字节
 - `xhs_19.webp` — 37,337 字节
 - `xhs_21.webp` — 60,599 字节
-- ❌ xhs-dump：`dumped 1 urls, saved 1`
+- ❌ xhs-dump：`dump rc=1 t this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U | no image urls`
 - ❌ yt-dlp：`cookies: none
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U
 -f 18/22/43/b -> rc=1 0: No video forma`
@@ -93,25 +93,19 @@
 - `img_15.webp` — 35,878 字节
 - `img_16.webp` — 26,481 字节
 - `img_17.webp` — 39,360 字节
-- `img_18.webp` — 30,564 字节
-- `img_19.webp` — 30,976 字节
-- `img_20.jpg` — 16,451 字节
-- `img_20.webp` — 30,321 字节
-- `img_21.webp` — 85,523 字节
-- `img_22.jpg` — 29,801 字节
-- `img_22.webp` — 20,887 字节
-- `img_23.webp` — 89,523 字节
-- `img_24.jpg` — 26,748 字节
-- `img_24.webp` — 15,163 字节
-- `img_25.webp` — 282,172 字节
-- `img_26.jpg` — 22,601 字节
+- `img_18.webp` — 33,918 字节
+- `img_19.webp` — 131,648 字节
+- `img_20.webp` — 12,751 字节
+- `img_21.webp` — 39,584 字节
+- `img_22.webp` — 23,727 字节
+- `img_23.webp` — 200,677 字节
+- `img_24.webp` — 40,114 字节
+- `img_25.webp` — 145,662 字节
 - `img_26.webp` — 20,937 字节
-- `img_27.webp` — 119,902 字节
-- `img_28.jpg` — 16,707 字节
-- `img_28.webp` — 24,605 字节
-- `img_29.webp` — 104,752 字节
-- `img_30.jpg` — 19,979 字节
-- `img_30.webp` — 18,327 字节
+- `img_27.webp` — 28,867 字节
+- `img_28.webp` — 278,329 字节
+- `img_29.webp` — 22,318 字节
+- `img_30.webp` — 317,741 字节
 - ❌ yt-dlp：`cookies: none
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden
 -f 18/22/43/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats
@@ -130,8 +124,7 @@
 
 - 平台目录：`01_小红书素材`
 - 状态：failed，命中工具：无
-- `xhs_01.webp` — 60,599 字节
-- ❌ xhs-dump：`dumped 1 urls, saved 1`
+- ❌ xhs-dump：`dump rc=1 t this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U | no image urls`
 - ❌ yt-dlp：`cookies: none
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U
 -f 18/22/43/b -> rc=1 f: No video forma`
