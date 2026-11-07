@@ -81,6 +81,28 @@ jobs:
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           mkdir -p media-raw
           cp -r "$SRC"/. media-raw/
+          # cp 不会删除远端已有文件，所以再按文件内容清一遍非素材
+          # （曾经被误存成图片的营业执照 PDF 就是靠这一步清掉的）
+          python3 - <<'PYEOF'
+import os
+BAD = (b'%PDF', b'<html', b'<!DOCTYPE html', b'<!doctype html', b'<?xml')
+KEEP_EXT = ('.md', '.json', '.txt', '.log', '.csv')
+removed = []
+for d, _, fs in os.walk('media-raw'):
+    for f in fs:
+        p = os.path.join(d, f)
+        if p.lower().endswith(KEEP_EXT):
+            continue
+        try:
+            head = open(p, 'rb').read(64)
+        except Exception:
+            continue
+        if head.startswith(BAD):
+            os.remove(p); removed.append(p)
+print('purged non-media files:', len(removed))
+for r in removed[:20]:
+    print('  -', r)
+PYEOF
           git add -A
           if git diff --cached --quiet; then
             echo "nothing new to commit"

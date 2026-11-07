@@ -446,6 +446,36 @@ def _dedupe_keep_order(urls):
 # 0. 小红书首选：JoeanAmier/XHS-Downloader（GitHub 12.9k star）
 #    用 curl_cffi 做浏览器 TLS 指纹伪装，2.2 版起官方说明「无需 cookie」即可取原图
 # --------------------------------------------------------------------------
+def _save_image(out, content, prefix, seen):
+    """内容去重后落盘，返回文件名；重复返回 None。"""
+    h = hashlib.sha256(content).hexdigest()
+    if h in seen:
+        return None
+    if not _looks_like_image(content):
+        return None
+    seen.add(h)
+    name = "%s%02d%s" % (prefix, len(seen), _ext_of_image(content))
+    open(os.path.join(out, name), "wb").write(content)
+    return name
+
+
+def _harvest(out, urls, seen, prefix="xhs_", limit=60, referer="https://www.xiaohongshu.com/"):
+    """把一批候选直链下成图片，自动跳过重复与非图片内容。"""
+    got = []
+    for u in urls[:limit]:
+        try:
+            r = requests.get(u, headers={"User-Agent": BROWSER_UA, "Referer": referer},
+                             timeout=60)
+            if r.status_code == 200 and len(r.content) > 5000:
+                n = _save_image(out, r.content, prefix, seen)
+                if n:
+                    got.append(n)
+        except Exception:
+            continue
+        time.sleep(0.2)
+    return got
+
+
 NON_IMG_EXT = (".pdf", ".js", ".css", ".json", ".html", ".htm", ".txt",
                ".mp4", ".m4a", ".mp3", ".svg", ".woff", ".woff2")
 
@@ -569,6 +599,7 @@ def try_xhs_downloader(url, out):
     if not _ensure_xhs_downloader(DBG):
         return False, "xhs-downloader: 源码没装好", []
 
+    seen = set()
     shutil.rmtree(XHSDL_OUT, ignore_errors=True)
     os.makedirs(XHSDL_OUT, exist_ok=True)
     if os.path.exists("/tmp/xhs_detail.json"):
@@ -584,12 +615,15 @@ def try_xhs_downloader(url, out):
         p = os.path.join(XHSDL_OUT, rel)
         if not os.path.isfile(p) or os.path.getsize(p) < 5000:
             continue
-        ext = os.path.splitext(rel)[1].lower() or ".jpg"
-        if ext not in (".jpg", ".jpeg", ".png", ".webp", ".heic"):
+        if _is_garbage_url(rel):
             continue
-        shutil.copy(p, os.path.join(out, "xhs_%02d%s" % (len(got) + 1, ".jpg"
-                                                          if ext == ".heic" else ext)))
-        got.append(rel)
+        try:
+            content = open(p, "rb").read()
+        except Exception:
+            continue
+        n = _save_image(out, content, "xhs_", seen)
+        if n:
+            got.append(n)
     _dbg(DBG, "tool downloaded: %d -> %s" % (len(got), got[:20]))
 
     # 2) 从返回的详情里再抠一遍直链，按原图规格自己下（双保险）
@@ -610,18 +644,7 @@ def try_xhs_downloader(url, out):
     for u in cands[:20]:
         _dbg(DBG, "   %s" % u[:170])
 
-    for u in cands[:60]:
-        try:
-            r = requests.get(u, headers={"User-Agent": BROWSER_UA,
-                                         "Referer": "https://www.xiaohongshu.com/"},
-                             timeout=60)
-            if r.status_code == 200 and len(r.content) > 5000 and _looks_like_image(r.content):
-                dst = os.path.join(out, "xhs_%02d%s" % (len(got) + 1, _ext_of_image(r.content)))
-                open(dst, "wb").write(r.content)
-                got.append(os.path.basename(dst))
-        except Exception:
-            continue
-        time.sleep(0.2)
+    got += _harvest(out, cands, seen)
     _dbg(DBG, "TOTAL saved: %d" % len(got))
     return len(got) >= 2, "xhs-downloader: saved %d" % len(got), got
 
@@ -811,18 +834,8 @@ def try_xhs_ultimate(url, out):
     for u in cleaned[:20]:
         _dbg(DBG, "   %s" % u[:170])
 
-    got = []
-    for i, u in enumerate(cleaned[:60]):
-        try:
-            r = requests.get(u, headers={"User-Agent": BROWSER_UA,
-                                         "Referer": "https://www.xiaohongshu.com/"}, timeout=60)
-            if r.status_code == 200 and len(r.content) > 5000 and _looks_like_image(r.content):
-                pth = os.path.join(out, "xhs_%02d%s" % (i + 1, _ext_of_image(r.content)))
-                open(pth, "wb").write(r.content)
-                got.append(os.path.basename(pth))
-        except Exception:
-            continue
-        time.sleep(0.2)
+    seen = set()
+    got = _harvest(out, cleaned, seen)
     _dbg(DBG, "TOTAL saved: %d" % len(got))
     return len(got) >= 2, f"ultimate: {len(cleaned)} candidates, saved {len(got)}", got
 
