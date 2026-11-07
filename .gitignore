@@ -8,3 +8,6 @@ google_drive/
 
 # 派生底图（art_shift.py 一条命令可重建）
 runs/*/art-fit/
+
+# 源片本体只留在 runs/<轮次>/ 里（downloads/ 只存抓取记录，避免两份 8MB）
+downloads/*/source.mp4
