@@ -1,84 +1,29 @@
-==================== STEP 1 冒充 Chrome 抓页面 ====================
-curl_cffi [chrome131] -> 200 1965490 bytes
-HTML_OK via chrome131
-playability: OK | None
+================== 1. 取页面 & playerResponse ==================
+page: 200 1124116
+playability: OK
 title: 永久免费 Claude Code 来了，月 13 亿 token 随便造 | author: qingqing wang | sec: 34
-==================== STEP 2 yt-dlp + 浏览器指纹 ====================
->>> attempt imp_chrome_web
-$ yt-dlp --no-warnings --no-playlist --no-color --ignore-errors --write-info-json --write-thumbnail --convert-thumbnails jpg --retries 6 --socket-timeout 30 --no-check-certificates -o /tmp/out/%(title).60s.%(ext)s --impersonate chrome --extractor-args youtube:player_client=web -f bv*+ba/b https://www.youtube.com/shorts/bkGhmZLOAwI
-[youtube] Extracting URL: https://www.youtube.com/shorts/bkGhmZLOAwI
-[youtube] bkGhmZLOAwI: Downloading webpage
-[err] ERROR: [youtube] bkGhmZLOAwI: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
-<<< imp_chrome_web rc=1 no video
->>> attempt imp_chrome_tvsimply
-$ yt-dlp --no-warnings --no-playlist --no-color --ignore-errors --write-info-json --write-thumbnail --convert-thumbnails jpg --retries 6 --socket-timeout 30 --no-check-certificates -o /tmp/out/%(title).60s.%(ext)s --impersonate chrome --extractor-args youtube:player_client=tv_simply;fetch_pot=always -f bv*+ba/b https://www.youtube.com/shorts/bkGhmZLOAwI
-[youtube] Extracting URL: https://www.youtube.com/shorts/bkGhmZLOAwI
-[youtube] bkGhmZLOAwI: Downloading webpage
-[youtube] bkGhmZLOAwI: Downloading tv simply player API JSON
-[err] ERROR: [youtube] bkGhmZLOAwI: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
-<<< imp_chrome_tvsimply rc=1 no video
->>> attempt imp_safari_mweb
-$ yt-dlp --no-warnings --no-playlist --no-color --ignore-errors --write-info-json --write-thumbnail --convert-thumbnails jpg --retries 6 --socket-timeout 30 --no-check-certificates -o /tmp/out/%(title).60s.%(ext)s --impersonate safari --extractor-args youtube:player_client=mweb -f b https://www.youtube.com/shorts/bkGhmZLOAwI
-[youtube] Extracting URL: https://www.youtube.com/shorts/bkGhmZLOAwI
-[youtube] bkGhmZLOAwI: Downloading webpage
-[youtube] bkGhmZLOAwI: Downloading mweb client config
-[youtube] bkGhmZLOAwI: Downloading mweb player API JSON
-[err] ERROR: [youtube] bkGhmZLOAwI: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
-<<< imp_safari_mweb rc=1 no video
->>> attempt imp18
-$ yt-dlp --no-warnings --no-playlist --no-color --ignore-errors --write-info-json --write-thumbnail --convert-thumbnails jpg --retries 6 --socket-timeout 30 --no-check-certificates -o /tmp/out/%(title).60s.%(ext)s --impersonate chrome -f 18/b[ext=mp4]/b https://www.youtube.com/shorts/bkGhmZLOAwI
-[youtube] Extracting URL: https://www.youtube.com/shorts/bkGhmZLOAwI
-[youtube] bkGhmZLOAwI: Downloading webpage
-[youtube] bkGhmZLOAwI: Downloading visionos player API JSON
-[err] ERROR: [youtube] bkGhmZLOAwI: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies
-<<< imp18 rc=1 no video
-==================== STEP 3 直链兜底 ====================
-$ curl -sL --max-time 240 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -H Referer: https://www.youtube.com/ -H Origin: https://www.youtube.com -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/direct_640p.mp4 https://rr5---sn-2imern7r.googlevideo.com/videoplayback?expire=1794063842&ei=gunuavKcJeORsfIP27HHwAo&ip=20.171.3.183&i
-HTTP=403 SIZE=0
-  itag=18 h=640 -> HTTP=403 SIZE=0 file=0
-==================== STEP 5 字幕 ====================
-$ curl -sL --max-time 60 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/caption_en_asr.json3 https://www.youtube.com/api/timedtext?v=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xosf=1&xospf=1&hl=zh-CN&ip=0.0.0.0&ipbits=0&expire=1794067442&
-HTTP=200 SIZE=0
-  caption json3 -> HTTP=200 SIZE=0 file=0 head=
-$ curl -sL --max-time 60 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/caption_en_asr.vtt https://www.youtube.com/api/timedtext?v=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xosf=1&xospf=1&hl=zh-CN&ip=0.0.0.0&ipbits=0&expire=1794067442&sp
-HTTP=200 SIZE=0
-  caption vtt -> HTTP=200 SIZE=0 file=0 head=
-$ curl -sL --max-time 60 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/caption_en_asr.srv1 https://www.youtube.com/api/timedtext?v=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xosf=1&xospf=1&hl=zh-CN&ip=0.0.0.0&ipbits=0&expire=1794067442&s
-HTTP=200 SIZE=0
-  caption srv1 -> HTTP=200 SIZE=0 file=0 head=
-==================== STEP 6 封面 ====================
-$ curl -sL --max-time 30 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/cover_maxresdefault.jpg https://i.ytimg.com/vi/bkGhmZLOAwI/maxresdefault.jpg
-HTTP=200 SIZE=129002
-  cover maxresdefault -> HTTP=200 SIZE=129002 file=129002
-$ curl -sL --max-time 30 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/cover_oar2.jpg https://i.ytimg.com/vi/bkGhmZLOAwI/oar2.jpg
-HTTP=200 SIZE=170551
-  cover oar2 -> HTTP=200 SIZE=170551 file=170551
-$ curl -sL --max-time 30 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/cover_hq720.jpg https://i.ytimg.com/vi/bkGhmZLOAwI/hq720.jpg
-HTTP=200 SIZE=129002
-  cover hq720 -> HTTP=200 SIZE=129002 file=129002
-$ curl -sL --max-time 30 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/cover_sddefault.jpg https://i.ytimg.com/vi/bkGhmZLOAwI/sddefault.jpg
-HTTP=200 SIZE=70028
-  cover sddefault -> HTTP=200 SIZE=70028 file=70028
-$ curl -sL --max-time 30 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/cover_hqdefault.jpg https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg
-HTTP=200 SIZE=19726
-  cover hqdefault -> HTTP=200 SIZE=19726 file=19726
-==================== STEP 7 故事板 ====================
-levels: [(0, 48, 27, 100), (1, 25, 45, 36), (2, 50, 90, 36), (3, 101, 180, 36)]
-$ curl -sL --max-time 40 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/storyboard/s000.jpg https://i.ytimg.com/sb/bkGhmZLOAwI/storyboard3_L3/M0.jpg?sqp=-oaymwENSDfyq4qpAwVwAcABBqLzl_8DBgiC4LLWBg==&sigh=rs$AOn4CLDtYnagdoDESesyzReGdjc5fh5sYQ
-HTTP=200 SIZE=24156
-   sheet0 -> HTTP=200 SIZE=24156 file=24156
-$ curl -sL --max-time 40 -A Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 -w HTTP=%{http_code} SIZE=%{size_download} -o /tmp/out/storyboard/s001.jpg https://i.ytimg.com/sb/bkGhmZLOAwI/storyboard3_L3/M1.jpg?sqp=-oaymwENSDfyq4qpAwVwAcABBqLzl_8DBgiC4LLWBg==&sigh=rs$AOn4CLDtYnagdoDESesyzReGdjc5fh5sYQ
-HTTP=200 SIZE=22902
-   sheet1 -> HTTP=200 SIZE=22902 file=22902
-   sheet2 -> HTTP=200 SIZE=23462 file=23462
-storyboard ok: 0 / 36
-==================== RESULT ====================
-VIDEO: NONE
-$ find /tmp/out -maxdepth 2 -type f -printf '%10s  %p\n' | sort -k2 | head -70
+================== 2. 故事板全量下载 ==================
+levels: [(0, 48, 27, 100, 0), (1, 25, 45, 36, 1000), (2, 50, 90, 36, 1000), (3, 101, 180, 36, 1000)]
+level 3 (101x180): 0/36 ok
+level 2 (50x90): 0/36 ok
+level 0 (48x27): 0/100 ok
+level 1 (25x45): 0/36 ok
+storyboard sheets total: 0
+================== 3. 切帧（全片每秒都有） ==================
+================== 4. 封面 / 字幕 ==================
+cover maxresdefault: http=200 size=129002
+cover oar2: http=200 size=170551
+cover sddefault: http=200 size=70028
+cover hqdefault: http=200 size=19726
+cover hq720: http=200 size=129002
+caption tracks: 1
+  caption json3: http=200 size=0
+  caption vtt: http=200 size=0
+================== RESULT ==================
 129002  /tmp/out/cover_hq720.jpg
      19726  /tmp/out/cover_hqdefault.jpg
     129002  /tmp/out/cover_maxresdefault.jpg
     170551  /tmp/out/cover_oar2.jpg
      70028  /tmp/out/cover_sddefault.jpg
-     68084  /tmp/out/player_response.json
-      9163  /tmp/out/run.log
+     67620  /tmp/out/player_response.json
+       937  /tmp/out/run.log
