@@ -250,6 +250,17 @@ def try_gallerydl(url, out):
     return (rc == 0 and bool(files)), f"rc={rc} {se.strip()[-300:]}", files
 
 
+def _dbg(path, text):
+    """沙箱读不到 Actions 日志（日志存在 azure，出口被墙），
+    所以把诊断信息写成文件，跟素材一起 commit 到 media-out，本地 git 就能看。"""
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(str(text) + "\n")
+    except Exception:
+        pass
+
+
 def _xhs_urls_from_html(html):
     """从小红书笔记页里把整组原图 URL 抠出来。
 
@@ -295,9 +306,14 @@ def _xhs_urls_from_html(html):
 def try_xhs_dump(url, out):
     urls = []
 
+    DBG = os.path.join(RAW, "_debug", "xhs_%s.txt" % os.path.basename(out))
+    _dbg(DBG, "=== %s ===" % url)
+    _dbg(DBG, "UA: %s" % UA[:60])
+
     # A. yt-dlp dump（视频笔记能 dump 出来；图片笔记它会直接报错）
     rc, so, se = run([YT_BIN, "--no-warnings", "--no-playlist", "--user-agent", UA,
                       "--dump-single-json", url], timeout=180)
+    _dbg(DBG, "yt-dlp rc=%s stdout=%d bytes stderr_tail=%s" % (rc, len(so), (se or "").strip()[-200:]))
     if rc == 0 and so.strip():
         try:
             data = json.loads(so)
@@ -318,9 +334,20 @@ def try_xhs_dump(url, out):
         r = requests.get(url, headers={"User-Agent": UA,
                                        "Accept-Language": "zh-CN,zh;q=0.9",
                                        "Referer": "https://www.xiaohongshu.com/"}, timeout=45)
-        urls += _xhs_urls_from_html(r.text)
+        html = r.text
+        _dbg(DBG, "page GET status=%s bytes=%d" % (r.status_code, len(html)))
+        _dbg(DBG, "has __INITIAL_STATE__: %s" % bool(re.search(r"__INITIAL_STATE__", html)))
+        _dbg(DBG, "xhscdn hits in html: %d" % len(re.findall(r"xhscdn", html)))
+        _dbg(DBG, "cookie wall: %s" % ("登录" in html or "login" in html.lower()))
+        _dbg(DBG, "html head: %s" % re.sub(r"\s+", " ", html[:600]))
+        got_urls = _xhs_urls_from_html(html)
+        _dbg(DBG, "urls from page: %d" % len(got_urls))
+        for u in got_urls[:12]:
+            _dbg(DBG, "   %s" % u[:160])
+        urls += got_urls
     except Exception as e:
-        page_note = f" | page: {type(e).__name__}"
+        page_note = f" | page: {type(e).__name__}: {e}"
+        _dbg(DBG, "page GET failed: %s" % page_note)
     if not urls:
         return False, f"dump rc={rc} {se.strip()[-160:]}{page_note} | no image urls", []
 
@@ -338,6 +365,10 @@ def try_xhs_dump(url, out):
             seen.add(key)
             cleaned.append(u)
 
+    _dbg(DBG, "cleaned urls: %d" % len(cleaned))
+    for u in cleaned[:12]:
+        _dbg(DBG, "   clean %s" % u[:160])
+
     got = []
     for i, u in enumerate(cleaned[:60]):
         try:
@@ -349,10 +380,16 @@ def try_xhs_dump(url, out):
                 p = os.path.join(out, f"xhs_{i+1:02d}{ext}")
                 open(p, "wb").write(r.content)
                 got.append(os.path.basename(p))
-        except Exception:
+                _dbg(DBG, "saved %s (%d bytes, http %s)" % (os.path.basename(p), len(r.content), r.status_code))
+        except Exception as e:
+            _dbg(DBG, "download failed %s: %s" % (u[:80], type(e).__name__))
             continue
         time.sleep(0.3)
-    return bool(got), f"dumped {len(cleaned)} urls, saved {len(got)}", got
+
+    _dbg(DBG, "TOTAL saved: %d" % len(got))
+    # 只拿到 1 张通常说明页面没解析开 —— 别急着收工，让后面的 gallery-dl / scrape 再试
+    ok = len(got) >= 2
+    return ok, f"dumped {len(cleaned)} urls, saved {len(got)}", got
 
 
 # --------------------------------------------------------------------------
