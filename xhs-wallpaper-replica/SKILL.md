@@ -118,14 +118,25 @@ python3 scripts/painting_set.py … --out examples/<slug>/02-复刻/成图 --for
 - 文件名 `<prefix>NN-<画家·作品>.png`；`总图.jpg` 2×5 带图注（标题 / 副标题不要放 emoji，字体没有彩色 emoji 字形）。
 - 验收：10 张尺寸一致、无文字签名、两只角色特征不漂（耳朵颜色、脸颊颜色最容易漂）。
 
-### ④ 合成 + 验收（`scripts/phone_mockup.py`）
+### ④ 合成 + 验收（`scripts/phone_mockup.py`）—— 每轮交付两份：干净壁纸 + 手机UI预览
+
+**铁律：先出干净图，再由脚本「加」UI；永远不要让生图模型画 UI 再去「去」。**
+加 = 确定性叠加（时钟 / 日期 / 手电筒 / 相机 / Home 条 / 主屏毛玻璃图标），几秒钟、可换日期时间、不碰画面；
+去 = 要重生成或 inpaint，不可控还会伤画面。所以 10 张干净底图是源头，UI 版只是它的派生物。
+
+每轮 Drive 里固定两份：
+- `<轮文件夹>/`（或 `结果/`）：干净 PNG ×10 = 真正的壁纸交付物；
+- `<轮文件夹>/手机UI预览/`（或 `结果/手机UI预览/`）：同名 JPG ×10 + `预览总图.jpg`，叠了 iOS 锁屏/主屏 UI，用来看「装到手机上」的实测效果：时钟压没压到主体、非 9:20 的画幅被手机裁掉了多少。只看不发。
+
 
 ```bash
 # 字体：中文 霞鹜文楷（--cjk-font）；只有 --ui ios 才需要时钟字体 Inter（--clock-font）
 python3 scripts/phone_mockup.py all  examples/<slug>/02-复刻/spec.json \
         --art-dir examples/<slug>/02-复刻/art --out <交付目录> --format png     # Drive 交付：干净 PNG
 python3 scripts/phone_mockup.py all  … --out examples/<slug>/02-复刻/壁纸 --format jpg   # 仓库留档：JPG
-python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" --time 05:20   # 可选：另出一份 iOS 效果预览
+python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" --time 05:20   # 必做：手机UI预览 → OUT/预览-iOS/ + 总图（带机框）
+# 非 9:20 画幅（第 6/7 轮 1532×2560 / 1536×2752）：先用 painting_set.py 出干净图，再用一份 overlay 全 lock 的临时 spec 把 art/ 喂给
+# phone_mockup.py build --ui ios → fit_canvas 会按 9:20 居中放大裁切，正好等于手机「填充」行为；只取 预览-iOS/ 与总图，1440×3200 的干净版不要交付
 ```
 
 产出（默认 `--ui none`）：`复刻图NN-<场景>.png`（1440×3200 干净壁纸，就是交付物）、`总图.jpg`（2×5 拼版，米色底圆角卡片）、`封面-双机预览.jpg`（两张竖图并排）。
@@ -139,7 +150,8 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 - [ ] 顶部 15% 没有被角色/招牌占住，时钟和日期压在干净背景上
 - [ ] 无任何文字、签名、水印；无残留 UI
 - [ ] 角色特征对（眉毛、发型、服装颜色），画风和其余 9 张统一
-- [ ] 交付件里没有任何手机 UI（时间/日期/图标/Home 条）
+- [ ] 干净交付件里没有任何手机 UI（时间/日期/图标/Home 条）
+- [ ] `手机UI预览/` 齐 10 张 + 预览总图；逐张看时钟（y≈319–553）有没有压到脸，非 9:20 画幅看两侧被裁后主体还在不在
 - [ ] 10 张尺寸一致 1440×3200；总图里一眼看出是一套
 
 ### ⑤ 文案（`references/copy-小新壁纸.md`）
@@ -152,15 +164,15 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 ```
 素材 05/
 ├─ 第1轮-原版7张（小红书下载）/   <标题>_<n>_<作者>_来自小红书网页版.png ×7 · 总图.jpg · note.json · Doc「第1轮 · 小红书文案」
-├─ 第2轮-复刻10张/               复刻图01…10.png（1440×3200 干净壁纸）· 总图.jpg · 封面-双机预览.jpg
+├─ 第2轮-复刻10张/               复刻图01…10.png（1440×3200 干净壁纸）· 总图.jpg · 封面-双机预览.jpg · 手机UI预览/（iOS 叠层 ×10 + 预览总图）
 │                                · Doc「第2轮 · 小红书文案」· 小新壁纸复刻方案-SKILL.md · spec.json
 ├─ 第3轮-视频下载测试/            原片/（runner 直传的无水印原片 + 网页码流 + 封面 + note.json）· 结果/（关键帧总图、音频、信息 Doc）
-├─ 第4轮-新画10张/               新画01…10.png（全新场景，非复刻）· 总图.jpg · 封面-双机预览.jpg · Doc「第4轮 · 小红书文案」· spec.json
-├─ 第5轮-新画10张/               新画2-01…10.png（第二套全新场景）· 总图.jpg · 封面-双机预览.jpg · Doc「第5轮 · 小红书文案」· spec.json
+├─ 第4轮-新画10张/               新画01…10.png（全新场景，非复刻）· 总图.jpg · 封面-双机预览.jpg · Doc「第4轮 · 小红书文案」· spec.json · 手机UI预览/
+├─ 第5轮-新画10张/               新画2-01…10.png（第二套全新场景）· 总图.jpg · 封面-双机预览.jpg · Doc「第5轮 · 小红书文案」· spec.json · 手机UI预览/
 ├─ 第6轮-一二布布名画风/          原片/（小红书无水印 webp · 转PNG · note.json · Doc「笔记信息」）
-│                                结果/（名画01…10.png 1532×2560 · 总图.jpg · spec.json · Doc「第6轮 · 小红书文案」）
+│                                结果/（名画01…10.png 1532×2560 · 总图.jpg · spec.json · Doc「第6轮 · 小红书文案」· 手机UI预览/）
 └─ 第7轮-一二布布鲜花壁纸/        原片/（5 张原图 `<标题>_<n>_<作者>_来自小红书网页版.*` · 原片总图.jpg · note.json · Doc「笔记信息」）
-                                 结果/（鲜花01…10.png 1536×2752 · 总图.jpg · spec.json · Doc「第7轮 · 小红书文案」）
+                                 结果/（鲜花01…10.png 1536×2752 · 总图.jpg · spec.json · Doc「第7轮 · 小红书文案」· 手机UI预览/）
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -188,6 +200,7 @@ xhs-wallpaper-replica/
 └─ examples/shinchan-6aedad8b/
    ├─ 01-原图/ 01–07.png, note.json, note.md
    ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
+   │          （每个轮次目录另有 预览总图-iOS.jpg；50 张 UI 预览本体不进仓库，一条命令可再生）
    ├─ 03-新画10张/ 同上结构；模式 B（新场景）的完整样例，风格锚用的是 02-复刻/art 里的干净底图
    ├─ 04-新画10张-第5轮/ 第二套新场景；文件前缀改成「新画2-」避免和上一套同名
    ├─ ../video-test-6a4be129/01-原片/ video.mp4(网页码流), cover.jpg, note.json, drive_upload.json
@@ -200,4 +213,5 @@ xhs-wallpaper-replica/
 - 沙箱可能被回滚到旧快照：本地 git 历史、`~/.fonts`、pip 包、gitignored 的 `google_drive/` 暂存目录全会丢。每轮开工先 `git status && git log --oneline -3`；
   不对就 `git fetch && git reset origin/<branch> && git checkout origin/<branch> -- xhs-wallpaper-replica`，再 `pip install pillow numpy`，字体用 GitHub blobs API 重拉
   （`gh api repos/lxgw/LxgwWenKai/git/blobs/<sha> -H "Accept: application/vnd.github.raw"`，release 资源域名在沙箱里不通）。
+  Inter（iOS 时钟字体）同法：`gh api repos/google/fonts/contents/ofl/inter` 取 `Inter[opsz,wght].ttf` 的 sha → blobs API 存为 `~/.fonts/Inter-Variable.ttf`。
 - 已经传到 Drive 的东西不受影响，暂存目录丢了不用重传。

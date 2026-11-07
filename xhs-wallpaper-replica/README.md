@@ -42,7 +42,8 @@ python3 scripts/painting_set.py examples/vangogh-bubu-6aeeecba/02-复刻/spec.js
     --art-dir examples/vangogh-bubu-6aeeecba/02-复刻/art --out /path/to/第6轮/结果 --format png
 ```
 
-仓库里只留 `art/`（真正的源文件，688×1536 PNG）和 `壁纸/` 的 JPG 留档；1440×3200 的 PNG 交付件可随时由上面一条命令重新生成。想看带 iOS 锁屏/主屏界面的效果图加 `--ui ios`（仅展示用，不是壁纸）。
+仓库里只留 `art/`（真正的源文件，688×1536 PNG）和 `壁纸/` 的 JPG 留档；1440×3200 的 PNG 交付件可随时由上面一条命令重新生成。每轮固定交付两份：干净 PNG（壁纸本体）+ `手机UI预览/`（`--ui ios` 叠 iOS 锁屏/主屏层的同名 JPG + 预览总图，用来看装机实测效果，不是壁纸）。
+UI 一律由脚本「加」在干净图上，从不让模型画了再「去」——加是几秒钟的确定性叠加，去要重生成。第 2/4/5/6/7 轮的预览都已按这个方式补齐。
 
 ## 说明
 
