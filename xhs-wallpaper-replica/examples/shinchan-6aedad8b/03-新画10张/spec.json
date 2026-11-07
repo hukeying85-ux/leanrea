@@ -1,0 +1,21 @@
+{
+  "title": "小新手机壁纸 · 新画 10 张",
+  "subtitle": "第4轮 · 10 个全新场景（非复刻）· 画风延续 弥弥壁纸 小新系列 · 1440×3200 干净壁纸 · 无手机UI · AI 生成",
+  "canvas": [1440, 3200],
+  "date": "Saturday, November 7",
+  "time": "05:20",
+  "prefix": "新画",
+  "pages": [
+    {"n": 1,  "name": "雨天窗边",   "overlay": "lock", "from": "新场景", "line": "下雨天就和小白一起看雨"},
+    {"n": 2,  "name": "放学路上",   "overlay": "lock", "from": "新场景", "line": "放学路上有晚霞和小白"},
+    {"n": 3,  "name": "厨房做蛋糕", "overlay": "home", "from": "新场景", "line": "和妈妈一起做蛋糕"},
+    {"n": 4,  "name": "阳台晾被子", "overlay": "lock", "from": "新场景", "line": "晒过太阳的被子有阳光的味道"},
+    {"n": 5,  "name": "海边沙堡",   "overlay": "home", "from": "新场景", "line": "春日部防卫队的夏天"},
+    {"n": 6,  "name": "夏夜西瓜电视","overlay": "lock", "from": "新场景", "line": "夏夜全家挤在一起吃西瓜"},
+    {"n": 7,  "name": "雪天堆雪人", "overlay": "lock", "from": "新场景", "line": "下雪了就和小葵堆雪人"},
+    {"n": 8,  "name": "幼稚园午睡", "overlay": "home", "from": "新场景", "line": "午睡时间"},
+    {"n": 9,  "name": "河堤骑车",   "overlay": "lock", "from": "新场景", "line": "坐在爸爸车后座吹风"},
+    {"n": 10, "name": "秋日银杏",   "overlay": "lock", "from": "新场景", "line": "踩一地金黄的银杏叶"}
+  ],
+  "cover": {"left": 2, "right": 10}
+}
