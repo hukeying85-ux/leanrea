@@ -339,13 +339,16 @@ def _xhs_urls_from_html(html):
 
     # 2) 兜底：直接从 __INITIAL_STATE__ 文本里扫图链（结构变了也还能用）
     if not urls:
-        cand = re.findall(r'https?://[^"\s\\<>]+?xhscdn\.com/[^"\s\\<>]+', hay)
-        cand += re.findall(r'https?://[^"\s\\<>]+?xiaohongshu\.com/spectrum/[^"\s\\<>]+', hay)
+        # 小红书 JSON 里常见协议相对地址 //sns-webpic-qc.xhscdn.com/...，别漏
+        cand = re.findall(r'(?:https?:)?//[^"\s\\<>]+?xhscdn\.com/[^"\s\\<>]+', hay)
+        cand += re.findall(r'(?:https?:)?//[^"\s\\<>]+?xiaohongshu\.com/spectrum/[^"\s\\<>]+', hay)
+        cand = [("https:" + c if c.startswith("//") else c) for c in cand]
         urls = [u for u in cand if not any(b in u for b in BAD_IMG)]
 
     # 3) 还不行就退回整页
     if not urls:
-        cand = re.findall(r'https?://[^"\s\\<>]+?xhscdn\.com/[^"\s\\<>]+', html)
+        cand = re.findall(r'(?:https?:)?//[^"\s\\<>]+?xhscdn\.com/[^"\s\\<>]+', html)
+        cand = [("https:" + c if c.startswith("//") else c) for c in cand]
         urls = [u for u in cand if not any(b in u for b in BAD_IMG)]
 
     # 按图片 ID 去重（同一张图的多档清晰度路径相同、后缀不同）
@@ -486,6 +489,9 @@ def try_xhs_ultimate(url, out):
                 _dbg(DBG, "     state tail: %s" % re.sub(r"\s+", " ", st[-500:]))
                 _dbg(DBG, "     raw xhscdn in html: %d"
                      % len(re.findall(r"xhscdn", r.text)))
+                for _m in list(re.finditer(r"xhscdn", st))[:8]:
+                    _lo = max(0, _m.start() - 170)
+                    _dbg(DBG, "     ctx> %s" % re.sub(r"\s+", " ", st[_lo:_m.start() + 170]))
         except Exception as e:
             _dbg(DBG, "[A/%s] %s: %s" % (ref_name, type(e).__name__, e))
 
@@ -599,7 +605,10 @@ def try_xhs_ultimate(url, out):
                  % (len(captured), len(state_txt or ""), len(dom_imgs)))
             for u in dom_imgs[:12]:
                 _dbg(DBG, "     dom %s" % str(u)[:150])
-            for c in captured:
+            for _i, c in enumerate(captured):
+                _keys = list(c.keys())[:12] if isinstance(c, dict) else type(c).__name__
+                _dbg(DBG, "     api[%d] keys=%s" % (_i, _keys))
+                _dbg(DBG, "     api[%d] head=%s" % (_i, json.dumps(c, ensure_ascii=False)[:400]))
                 _images_from_any_json(c, urls)
             if state_txt and not state_txt.startswith("ERR:"):
                 try:
