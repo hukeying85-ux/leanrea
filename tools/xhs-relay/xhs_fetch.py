@@ -230,6 +230,9 @@ def run_job(job, cookie):
     url = job["note_url"]
     out_dir = os.path.join(ROOT, job["out_dir"])
     log(f"== {url}\n   -> {job['out_dir']}")
+    if os.path.exists(os.path.join(out_dir, "note.json")) and not job.get("force"):
+        log("   note.json already present -> skip (set \"force\": true in queue.json to refetch)")
+        return
     try:
         note, html = fetch_note(url, cookie)
     except Exception as e:  # noqa: BLE001

@@ -34,7 +34,7 @@ Arena 沙箱出网只有 github / pypi / npm，小红书 CDN 一律不通；Acti
 ## 文件
 
 - `xhs_fetch.py` —— runner 上跑的脚本（requests + Pillow，解析页面 → 下载 → 写 note.json/md）
-- `queue.json` —— 任务清单（跑完不用清空，`out_dir` 里已有同名文件会跳过）
+- `queue.json` —— 任务清单（跑完不用清空：`out_dir` 里已有 `note.json` 的任务会跳过；要重抓加 `"force": true`）
 - `../../.github/workflows/xhs-relay.yml` —— workflow（`xhs-relay[bot]` 提交，GITHUB_TOKEN 的 push 不会再触发自己）
 
 ## 已知坑
