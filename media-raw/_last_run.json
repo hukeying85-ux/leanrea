@@ -88,7 +88,7 @@
         "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
       }
     ],
-    "collected_at": "2026-11-07T08:37:28Z",
+    "collected_at": "2026-11-07T08:41:14Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -127,10 +127,10 @@
       {
         "name": "_cookies.txt",
         "bytes": 760,
-        "sha256": "d9182cb2897755a393060c28d26b7da851175be87e239ad8412e8a15b6ee5923"
+        "sha256": "ab195d13732078ef5808d17a4bcdba17d6b8731ef3e9b64de0a25ddcd59e1db9"
       }
     ],
-    "collected_at": "2026-11-07T08:38:03Z",
+    "collected_at": "2026-11-07T08:41:48Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -169,10 +169,10 @@
       {
         "name": "_cookies.txt",
         "bytes": 760,
-        "sha256": "1c1852355b5a9e58f13c5e9be2da4002e37ffd8330f575da696d79388b9d3d0c"
+        "sha256": "040644c50bb4a9f62541800fed294a108b4683a7030961260eed9866218f0834"
       }
     ],
-    "collected_at": "2026-11-07T08:38:02Z",
+    "collected_at": "2026-11-07T08:41:49Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -204,11 +204,11 @@
       {
         "tool": "proxy-relay",
         "ok": false,
-        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401"
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 520 | corsproxy.io: HTTP 401"
       }
     ],
     "files": [],
-    "collected_at": "2026-11-07T08:38:07Z",
+    "collected_at": "2026-11-07T08:41:50Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -235,7 +235,7 @@
       {
         "tool": "scrape",
         "ok": true,
-        "log": "found 66 candidate urls, saved 22"
+        "log": "found 46 candidate urls, saved 20"
       }
     ],
     "files": [
@@ -301,71 +301,71 @@
       },
       {
         "name": "img_18.webp",
+        "bytes": 20860,
+        "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
+      },
+      {
+        "name": "img_19.webp",
         "bytes": 33918,
         "sha256": "5bd98475561ad7266b1867a6596308d334e25337ca533940de9640648f77be57"
       },
       {
-        "name": "img_19.webp",
-        "bytes": 131648,
-        "sha256": "f38d1d2a286634cab5ad8456c78fbb09ad1c559370e50218567fadc9e6c06d09"
-      },
-      {
         "name": "img_20.webp",
-        "bytes": 12751,
-        "sha256": "27aa7b8d256e84cf3244cd9be1f3f8c5494ce301c4786068451b562813b0f955"
+        "bytes": 26450,
+        "sha256": "efe9af00ea2415653e7266e56a42b28faa81dc3954b3658bc0ecab5a7f685f14"
       },
       {
         "name": "img_21.webp",
-        "bytes": 39584,
-        "sha256": "a2aca9f0c05a9a95edda0edf1634520e64807c0c896c1051b2044b040d1681cb"
+        "bytes": 9337,
+        "sha256": "34fc13aff72093135b7c3d24fb498a2eee3027916f377bf09735cc548d253ed0"
       },
       {
         "name": "img_22.webp",
-        "bytes": 23727,
-        "sha256": "446fab712ad70c84b8a77960a66ec16ef474c253234ee603dee1ac15445b8393"
-      },
-      {
-        "name": "img_23.webp",
-        "bytes": 200677,
-        "sha256": "dc30d74857eb5822800543fc2e69c956e7c9fb67c9b2d260ba3b2d8f4df7329e"
-      },
-      {
-        "name": "img_24.webp",
         "bytes": 40114,
         "sha256": "7dc2c5d61b0289edf2f06a20247819a7d8d0e325cacdca97185f495b05946bd6"
       },
       {
+        "name": "img_23.webp",
+        "bytes": 15895,
+        "sha256": "14813b607c3ff620fb3272335a73d9c9df81fbaa1e6d0cde13a6431a3ac56e29"
+      },
+      {
+        "name": "img_24.webp",
+        "bytes": 20426,
+        "sha256": "c57c0e3fa6041246a186606c324db164f92925a4fa601cd3c9c7dc5dfe4ac340"
+      },
+      {
         "name": "img_25.webp",
-        "bytes": 145662,
-        "sha256": "87028ce493942ed4854a8844daa6b30bf5d4894025017542f8d14cd7cfe3281e"
+        "bytes": 24605,
+        "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
       },
       {
         "name": "img_26.webp",
-        "bytes": 20937,
-        "sha256": "e18a2b506b9da34b75d86901dfe1c20f00387edad00bf2abcdc7880a95fb8379"
+        "bytes": 37198,
+        "sha256": "d0514baf6ad5ffa841f20ea39c242d6ddcf7e30e0bff3643b96892b37daddadd"
       },
       {
         "name": "img_27.webp",
-        "bytes": 28867,
-        "sha256": "b1ed0f11c6eeea95d99428315c8ac54408118a7b3dbef40ca198af53d8ca487e"
+        "bytes": 18046,
+        "sha256": "6d4a7fceb827510134347beae8f4a077d2c9afe0298ede056ca97e62400e9987"
       },
       {
         "name": "img_28.webp",
-        "bytes": 278329,
-        "sha256": "282d8ba36d3b4a2a2107ae9609597c306da2cb453f60e22b8a6d4d5bbf42be0e"
+        "bytes": 24605,
+        "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
       },
       {
         "name": "img_29.webp",
-        "bytes": 22318,
-        "sha256": "f5f74ee9e2e7abc782ea7e75a4b1c5fc97d627cb8c84e0d36c365f0a40e27070"
+        "bytes": 21364,
+        "sha256": "57f99c9017d136be45d4aff4652445e49afb74c3e0839651959c8f72b5f02829"
       },
       {
         "name": "img_30.webp",
-        "bytes": 317741,
-        "sha256": "a80ee506293583839369be24fe2b00aabbb169b57da4d87b63fa1b4e4c430028"
+        "bytes": 18327,
+        "sha256": "91d57e95700c190f60cd776301b59c34c6da570f1cd42755db7ab63c9c9c5351"
       }
     ],
-    "collected_at": "2026-11-07T08:38:29Z",
+    "collected_at": "2026-11-07T08:42:12Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -392,7 +392,7 @@
         "sha256": "5d58665e5f1e9f82fe33e82591f0ebe719b9589858e8ef0a9caf3a00833112b2"
       }
     ],
-    "collected_at": "2026-11-07T08:38:04Z",
+    "collected_at": "2026-11-07T08:41:50Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -423,7 +423,38 @@
       }
     ],
     "files": [],
-    "collected_at": "2026-11-07T08:38:16Z",
+    "collected_at": "2026-11-07T08:42:02Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.xiaohongshu.com/explore/6aedad8b0000000012019a2f?xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
+    "platform_folder": "01_小红书素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "xhs-dump",
+        "ok": false,
+        "log": "dump rc=1 t this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U | no image urls"
+      },
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f 18/22/43/b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f bv*+ba/b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f worst -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.xiaohongshu.com/explore/6aedad8b0000000012019a2f?xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 0 candidate urls, saved 0"
+      }
+    ],
+    "files": [],
+    "collected_at": "2026-11-07T08:42:02Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   }
 ]

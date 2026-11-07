@@ -1,0 +1,15 @@
+=== https://www.xiaohongshu.com/explore/6aedad8b0000000012019a2f?xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share ===
+UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+yt-dlp rc=1 stdout=5 bytes stderr_tail=f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U
+page GET status=200 bytes=236058
+has __INITIAL_STATE__: True
+initial_state bytes: 9865
+initial_state parses as JSON: False
+initial_state head: {"global":{"appSettings":{"guestBrowsePolicy":{"enabled":true,"sources":["seo","direct"],"version":"v1"},"notificationInterval":30,"prefetchTimeout":3001,"prefetchRedisExpires":259200000,"webLabRedisExpires":864000000,"searchFilterGuideConfig":{"maxDailyShow":1,"maxTotalShow":3,"showInterval":1,"validDays":15,"autoCloseDelay":5000},"retryFeeds":true,"grayModeConfig":{"global":false,"dateRange":["2
+xhscdn hits in html: 7
+raw cdn urls (0):
+og:image: ['//fe-s10.rednotecdn.com/fe-platform/e6214e4fbfae2cf14d634d4296916e8a5eaefdf4.png']
+has cookie header support: False
+cookie wall: True
+html head: <!doctype html><html lang="en"><head><script>window.__XHS_SEARCH_CRAWLER_FLAG__={"google":false,"bing":false};</script><script formula-runtime >!function(){"use strict";function e(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{},n=Object.keys(t);"function"==typeof Object.getOwnPropertySymbols&&(n=n.concat(Object.getOwnPropertySymbols(t).filter(function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),n.forEach(function(r){var n;n=t[r],r in e?Object.defineProperty(e,r,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[r]=n})}return e}function r(e,
+urls from page: 0
