@@ -86,6 +86,7 @@ no signature, no border.
 - 道具上的小字（罐子 "SUGAR"、海报）最容易漏：提示词写 `no letters on jars / packaging / posters`；已经生成的，用 edit 模式只改那一处，
   或者直接 Pillow 按精确坐标用两侧颜色线性插值抹掉（`03-新画10张/art/03.png` 就是这么修的）。
 - 生图每轮上限 10 张，10 张一套正好用完——留 1 张余量给返工更稳（先出 9 张或分两轮）。
+- 多轮出图时每轮换一个文件前缀（`复刻图` / `新画` / `新画2-`），Drive 里不同轮的文件名才不会撞；场景清单先对着前几轮查重再写提示词。
 - 新场景的风格锚：优先用自己上一轮的干净底图（`02-复刻/art/*.png`）而不是带 UI 的原图，既保 9:20 又不会把时钟带进来。
 
 ### ④ 合成 + 验收（`scripts/phone_mockup.py`）
@@ -125,7 +126,8 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 ├─ 第2轮-复刻10张/               复刻图01…10.png（1440×3200 干净壁纸）· 总图.jpg · 封面-双机预览.jpg
 │                                · Doc「第2轮 · 小红书文案」· 小新壁纸复刻方案-SKILL.md · spec.json
 ├─ 第3轮-视频下载测试/            原片/（runner 直传的无水印原片 + 网页码流 + 封面 + note.json）· 结果/（关键帧总图、音频、信息 Doc）
-└─ 第4轮-新画10张/               新画01…10.png（全新场景，非复刻）· 总图.jpg · 封面-双机预览.jpg · Doc「第4轮 · 小红书文案」· spec.json
+├─ 第4轮-新画10张/               新画01…10.png（全新场景，非复刻）· 总图.jpg · 封面-双机预览.jpg · Doc「第4轮 · 小红书文案」· spec.json
+└─ 第5轮-新画10张/               新画2-01…10.png（第二套全新场景）· 总图.jpg · 封面-双机预览.jpg · Doc「第5轮 · 小红书文案」· spec.json
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -150,5 +152,6 @@ xhs-wallpaper-replica/
    ├─ 01-原图/ 01–07.png, note.json, note.md
    ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
    ├─ 03-新画10张/ 同上结构；模式 B（新场景）的完整样例，风格锚用的是 02-复刻/art 里的干净底图
+   ├─ 04-新画10张-第5轮/ 第二套新场景；文件前缀改成「新画2-」避免和上一套同名
    └─ ../video-test-6a4be129/01-原片/ video.mp4(网页码流), cover.jpg, note.json, drive_upload.json
 ```

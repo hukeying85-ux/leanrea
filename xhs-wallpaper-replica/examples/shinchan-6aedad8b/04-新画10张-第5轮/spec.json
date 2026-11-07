@@ -1,0 +1,21 @@
+{
+  "title": "小新手机壁纸 · 新画 10 张（二）",
+  "subtitle": "第5轮 · 又 10 个全新场景（非复刻）· 画风延续 弥弥壁纸 小新系列 · 1440×3200 干净壁纸 · 无手机UI · AI 生成",
+  "canvas": [1440, 3200],
+  "date": "Saturday, November 7",
+  "time": "05:20",
+  "prefix": "新画2-",
+  "pages": [
+    {"n": 1,  "name": "樱花野餐",     "overlay": "lock", "from": "新场景", "line": "春天就该在樱花树下吃便当"},
+    {"n": 2,  "name": "鲤鱼旗",       "overlay": "lock", "from": "新场景", "line": "坐在爸爸肩膀上够鲤鱼旗"},
+    {"n": 3,  "name": "向日葵花田",   "overlay": "home", "from": "新场景", "line": "小葵和向日葵"},
+    {"n": 4,  "name": "夏日祭捞金鱼", "overlay": "lock", "from": "新场景", "line": "夏日祭的晚上"},
+    {"n": 5,  "name": "露营星空",     "overlay": "lock", "from": "新场景", "line": "全家一起数星星"},
+    {"n": 6,  "name": "雨后踩水洼",   "overlay": "lock", "from": "新场景", "line": "雨停了就去踩水坑"},
+    {"n": 7,  "name": "被炉吃橘子",   "overlay": "home", "from": "新场景", "line": "冬天钻进被炉剥橘子"},
+    {"n": 8,  "name": "装饰圣诞树",   "overlay": "lock", "from": "新场景", "line": "一家人一起挂星星"},
+    {"n": 9,  "name": "被窝手电看绘本","overlay": "lock", "from": "新场景", "line": "熄灯后的秘密基地"},
+    {"n": 10, "name": "趴着画蜡笔画", "overlay": "home", "from": "新场景", "line": "蜡笔小新在画蜡笔画"}
+  ],
+  "cover": {"left": 2, "right": 4}
+}
