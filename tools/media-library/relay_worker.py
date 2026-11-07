@@ -400,6 +400,13 @@ def try_xhs_dump(url, out):
         _dbg(DBG, "initial_state parses as JSON: %s" % (bool(_st) and _safe_json(_st)))
         _dbg(DBG, "initial_state head: %s" % re.sub(r"\s+", " ", _st[:400]))
         _dbg(DBG, "xhscdn hits in html: %d" % len(re.findall(r"xhscdn", html)))
+        _raw = re.findall(r'https?://[^"\s\\<>]+?(?:xhscdn|spectrum)[^"\s\\<>]*', html)
+        _dbg(DBG, "raw cdn urls (%d):" % len(_raw))
+        for _u in _raw[:30]:
+            _dbg(DBG, "   raw %s" % _u[:180])
+        _dbg(DBG, "og:image: %s" % re.findall(
+            r'<meta[^>]+?(?:og:image|twitter:image)[^>]*?content="([^"]+)"', html)[:10])
+        _dbg(DBG, "has cookie header support: %s" % bool(os.environ.get("COOKIES_XHS")))
         _dbg(DBG, "cookie wall: %s" % ("登录" in html or "login" in html.lower()))
         _dbg(DBG, "html head: %s" % re.sub(r"\s+", " ", html[:600]))
         got_urls = _xhs_urls_from_html(html)
