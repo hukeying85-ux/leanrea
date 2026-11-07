@@ -644,7 +644,12 @@ def try_xhs_downloader(url, out):
     for u in cands[:20]:
         _dbg(DBG, "   %s" % u[:170])
 
-    got += _harvest(out, cands, seen)
+    # 工具自己已经下好了就别再下一遍：同一张图走两条路拿到的字节不同，
+    # 内容 hash 去不掉重，只能靠「下够了就不再补」来避免存两份
+    if len(got) >= 2:
+        _dbg(DBG, "工具已下够 %d 张，跳过直链补下" % len(got))
+    else:
+        got += _harvest(out, cands, seen)
     _dbg(DBG, "TOTAL saved: %d" % len(got))
     return len(got) >= 2, "xhs-downloader: saved %d" % len(got), got
 
