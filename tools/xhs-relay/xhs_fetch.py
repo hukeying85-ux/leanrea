@@ -124,6 +124,9 @@ def fetch_note(url, cookie=""):
                 "width": im.get("width"), "height": im.get("height"),
                 "live_photo": bool(im.get("livePhoto")),
             })
+        out["type"] = note.get("type") or ("video" if note.get("video") else "normal")
+        if note.get("video"):
+            out["video"] = video_info(note["video"])
     else:
         # B. 正则兜底
         flat = unescape_js(html)
@@ -144,7 +147,33 @@ def fetch_note(url, cookie=""):
                 out["images"].append({"index": len(out["images"]) + 1, "url_default": u,
                                       "url_pre": "", "width": None, "height": None, "live_photo": False})
         out["tags"] = re.findall(r"#([^#\s\[\]]{1,30})\[话题\]#", out["desc"])
+        # 视频兜底：originVideoKey / masterUrl 直接从页面文本里抓
+        vk = re.search(r'"originVideoKey":"([^"]+)"', flat)
+        murls = re.findall(r'"masterUrl":"(https?:[^"]+)"', flat)
+        if vk or murls:
+            out["type"] = "video"
+            out["video"] = {"origin_key": vk.group(1) if vk else "", "duration": None,
+                            "streams": [{"codec": "?", "height": None, "width": None, "size": None,
+                                         "bitrate": None, "url": u} for u in dict.fromkeys(murls)]}
+        else:
+            out["type"] = "normal"
     return out, html
+
+
+def video_info(v):
+    """note.video → 原片 key + 各码流（XHS-Downloader 同款字段）。"""
+    info = {"origin_key": ((v.get("consumer") or {}).get("originVideoKey")) or "",
+            "duration": ((v.get("capa") or {}).get("duration")) or ((v.get("media") or {}).get("video") or {}).get("duration"),
+            "streams": []}
+    stream = ((v.get("media") or {}).get("stream")) or {}
+    for codec, items in stream.items():
+        for it in items or []:
+            urls = [it.get("masterUrl")] + list(it.get("backupUrls") or [])
+            info["streams"].append({"codec": codec, "height": it.get("height"), "width": it.get("width"),
+                                    "size": it.get("size"), "bitrate": it.get("videoBitrate"),
+                                    "url": next((u for u in urls if u), "")})
+    info["streams"].sort(key=lambda x: (x["height"] or 0, x["size"] or 0), reverse=True)
+    return info
 
 
 # ---------------------------------------------------------------- 图片
@@ -225,6 +254,64 @@ def download_all(images, out_dir, max_total_mb):
     return results
 
 
+# ---------------------------------------------------------------- 视频
+VID_H = {"User-Agent": PAGE_H["User-Agent"], "Referer": "https://www.xiaohongshu.com/",
+         "Accept": "video/mp4,video/*;q=0.9,*/*;q=0.8"}
+
+
+def get_video(url, dest, max_mb, tries=2):
+    """流式下载到 dest；返回 (bytes, err)。超过 max_mb 直接放弃，避免把仓库撑爆。"""
+    last = ""
+    for k in range(tries):
+        try:
+            with requests.get(url, headers=VID_H, timeout=120, stream=True) as r:
+                if r.status_code != 200:
+                    last = f"HTTP {r.status_code}"
+                    time.sleep(2)
+                    continue
+                clen = int(r.headers.get("Content-Length") or 0)
+                if clen and clen > max_mb * 1024 * 1024:
+                    return 0, f"too large: {clen/1e6:.1f}MB > {max_mb}MB"
+                n = 0
+                with open(dest, "wb") as f:
+                    for chunk in r.iter_content(1 << 20):
+                        f.write(chunk)
+                        n += len(chunk)
+                        if n > max_mb * 1024 * 1024:
+                            f.close()
+                            os.remove(dest)
+                            return 0, f"too large (>{max_mb}MB while streaming)"
+                if n < 20000:
+                    last = f"too small {n}B"
+                    continue
+                return n, ""
+        except Exception as e:  # noqa: BLE001
+            last = f"{type(e).__name__}: {str(e)[:60]}"
+            time.sleep(2)
+    return 0, last
+
+
+def download_video(video, out_dir, max_mb):
+    """先试无水印原片 sns-video-bd/<originVideoKey>，再退到最高分辨率码流。"""
+    os.makedirs(out_dir, exist_ok=True)
+    cands = []
+    if video.get("origin_key"):
+        cands.append(("origin", f"https://sns-video-bd.xhscdn.com/{video['origin_key']}"))
+    for st in video.get("streams") or []:
+        if st.get("url"):
+            cands.append((f"stream-{st.get('codec')}-{st.get('height')}p", st["url"]))
+    rec = {"tried": [], "file": None}
+    for name, u in cands:
+        dest = os.path.join(out_dir, "video.mp4")
+        n, err = get_video(u, dest, max_mb)
+        rec["tried"].append({"variant": name, "url": u, "ok": bool(n), "bytes": n, "err": err})
+        log(f"  [video] {name:22s} -> {'OK' if n else 'x '} {n/1e6:.1f}MB {err}")
+        if n:
+            rec.update({"file": "video.mp4", "variant": name, "bytes": n})
+            break
+    return rec
+
+
 # ---------------------------------------------------------------- 主流程
 def run_job(job, cookie):
     url = job["note_url"]
@@ -252,8 +339,18 @@ def run_job(job, cookie):
         note["images_source"] = "page"
     note["images"] = images
 
+    is_video = note.get("type") == "video" and note.get("video")
+    if is_video:
+        images = images[:1]  # 视频笔记的 imageList 只有封面
+        note["images"] = images
     results = download_all(images, out_dir, job.get("max_total_mb", 80)) if images else []
     note["downloads"] = results
+    if is_video:
+        note["video_download"] = download_video(note["video"], out_dir, job.get("max_video_mb", 60))
+        if results and results[0].get("file"):
+            cov = results[0]["file"]
+            os.replace(os.path.join(out_dir, cov), os.path.join(out_dir, "cover." + cov.split(".")[-1]))
+            results[0]["file"] = "cover." + cov.split(".")[-1]
     note["source_url"] = url
     note["fetched_at_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
@@ -273,6 +370,14 @@ def run_job(job, cookie):
         lines += ["## 正文", "", note["desc"], ""]
     if note.get("tags"):
         lines += ["## 话题", "", " ".join(f"#{t}" for t in note["tags"]), ""]
+    if is_video:
+        vd = note["video_download"]
+        v = note["video"]
+        lines += ["## 视频", "",
+                  f"- 文件：{vd.get('file') or '❌ 下载失败'}（{vd.get('variant', '')}，{vd.get('bytes', 0)/1e6:.1f} MB）",
+                  f"- 时长：{v.get('duration') or '?'} s；原片 key：`{v.get('origin_key') or '-'}`",
+                  "- 码流：" + "；".join(f"{st.get('codec')} {st.get('width')}×{st.get('height')} {((st.get('size') or 0)/1e6):.1f}MB" for st in (v.get('streams') or [])[:4]),
+                  ""]
     lines += ["## 图片", "", "| # | 文件 | 变体 | 尺寸 | 体积 |", "|---|---|---|---|---|"]
     for r in results:
         if r.get("file"):
