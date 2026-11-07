@@ -1,0 +1,22 @@
+{
+  "source_url": "https://v11-coldf.douyinvod.com/7ae051b4ad4239b22bbf8fcda86c986a/6aef119f/video/tos/cn/tos-cn-ve-15/oIsVsgDDpBn1qiQFED9pUAQxAA5efvbgs9ITNA/?a=1128&ch=256&cr=13&dr=0&lr=all&cd=0%7C0%7C0%7C&cv=1&br=269&bt=269&cs=2&ds=6&eid=45312&ft=G48rZq0PaCCv5M8lIwV09wG0TnWKeUFDY0a9T4RSO7T9wiX4-fu8Zgo&mime_type=video_mp4&qs=11&rc=Mzo2O2llPDNpNDRpOmY8OkBpM29sZ3Q5cmo8OTMzNGkzM0A1Mi5hNWJiNi4xXjNjLV9eYSNfZGdwMmQ0XnNhLS1kLTBzcw%3D%3D&btag=c0010e400ad008&cdn_type=1&cquery=103R_103S_100b_104i_103Q&dy_q=1794041651&feature_id=27703fba0430012a7c1570f68d3f2948&l=20261107165411FBEA6339163F40ABC2A7&n80=1&n80_dm=bjk4LXYtbmNkbmFiMy5kb3V5aW52b2QuY29t&n80_tk=15f2e9c9555ad2dcc637cedf794f6fe5&pdp=online_xy&pwid=314&req_cdn_type=r",
+  "platform_folder": "02_抖音素材",
+  "status": "ok",
+  "tool_used": "direct-media",
+  "steps": [
+    {
+      "tool": "direct-media",
+      "ok": true,
+      "log": "saved 1.98 MB (video/mp4)"
+    }
+  ],
+  "files": [
+    {
+      "name": "douyin_video.mp4",
+      "bytes": 2074441,
+      "sha256": "573ce574a1ec6ce2742a064bde137fa83b42e61105dcaa7a267744c5236f6a9d"
+    }
+  ],
+  "collected_at": "2026-11-07T08:55:07Z",
+  "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+}
