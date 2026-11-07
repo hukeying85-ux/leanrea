@@ -20,6 +20,14 @@
       "max_total_mb": 20,
       "max_video_mb": 60,
       "keep_html": false
+    },
+    {
+      "note_url": "https://www.xiaohongshu.com/discovery/item/6aeeecba000000001500bd41?xsec_token=CBq1GujLMQPGMTvSaZDTs4ky8glgNJGTnUVSo4bkE1fb4=&xsec_source=pc_share",
+      "out_dir": "xhs-wallpaper-replica/examples/vangogh-bubu-6aeeecba/01-原片",
+      "max_total_mb": 40,
+      "image_urls": [
+        "https://sns-web-i10.rednotecdn.com/202611071926/86cdc25201fef2fb6d7be35df542b07e/notes_pre_post/1040g3k832790k6g3me6g5pf3tae193rahhuu5e0!nd_dft_wlteh_webp_3"
+      ]
     }
   ]
 }
