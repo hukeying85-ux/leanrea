@@ -5,14 +5,19 @@
   "tool_used": null,
   "steps": [
     {
-      "tool": "yt-dlp",
+      "tool": "douyin-note",
       "ok": false,
-      "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f 18/22/43/b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f bv*+ba/b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f worst -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882"
+      "log": "www.iesdouyin.com: HTTP 200 len=25863 imgs=0; www.iesdouyin.com: HTTP 200 len=32227 imgs=0; m.douyin.com: HTTP 200 len=33202 imgs=0; www.douyin.com: HTTP 200 len=2397 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0; api www.tikwm.com: HTTP 200 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0"
     },
     {
       "tool": "douyin-api",
       "ok": false,
       "log": "www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\\n<script data-sdk-glue-in=\"pre-handler\" nonce=\"argus-csp-token\" >    !fun'"
+    },
+    {
+      "tool": "yt-dlp",
+      "ok": false,
+      "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f 18/22/43/b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f bv*+ba/b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f worst -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882"
     },
     {
       "tool": "gallery-dl",
@@ -27,10 +32,10 @@
     {
       "tool": "proxy-relay",
       "ok": false,
-      "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
+      "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 408 | corsproxy.io: HTTP 401"
     }
   ],
   "files": [],
-  "collected_at": "2026-11-07T08:14:06Z",
+  "collected_at": "2026-11-07T08:17:28Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
