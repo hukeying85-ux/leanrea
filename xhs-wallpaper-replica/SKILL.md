@@ -101,6 +101,10 @@ texture, portrait format. No text, no signature, no frame, no watermark.
 - 原帖多于 10 张（第 9 轮猫和老鼠 18 张）时全走 A 模式，不出新场景：先拼一张原片总图，按「场景 / 道具 / 配色 / 光线」挑差异最大的 10 张（同一张沙发的两种盖被只留一张），
   在原片总图上用 ★ 标出选中的，spec 的 `label` 里记下对应原图号，文案「发图顺序」再按情绪走向重排；经典 IP（汤姆/杰瑞）的提示词把角色写成固定描述串
   （grey-blue cat with white muzzle and paws / small brown mouse with big round ears），不写 IP 名字也能复刻到位。
+- 原帖是 3:5 的「画」而不是 9:20 壁纸（第 10 轮厚涂油画 971×1619）：交付跟原帖 3:5（1536×2560，`painting_set.py`），再用 `phone_mockup.py build --ui ios` 看 9:20 居中裁切后的装机效果——
+  两侧各裁约 12%，主体在中间的都没事，时钟压到主体的那张（灯塔塔顶）改做主屏预览；文案里提醒用户「缩放/平移」。
+  油画类 A 模式提示词开头写「Recreate this exact painting as a faithful replica … same thick impasto oil-paint brushwork」，再逐项点元素和配色（honey-gold / peach / periwinkle-blue），复刻度极高，生图输出 800×1328 ≈ 3:5 基本零裁切。
+  原帖 9 张要 10 张时，第 10 张从正文没画到的句子 + 作者昵称里找梗（「坐一会儿吧」+「一只小猫」→ 窗台小猫看灯塔），风格锚用最点题的那张原图。
 - 生图输出 688×1536（≈9:20），一次 1 张；10 张可以并行 5+5。
 - 角色一致性提示：小新（黄上衣红短裤 / 睡衣 / 幼稚园绿短裤白 T）、小白（白色棉花糖狗）、广志（黑短发眼镜 / 蓝衬衫）、美冴（棕色短卷发）、小葵（橙色头发婴儿）、妮妮（双马尾粉裙）、风间（蓝色西瓜头）。
 - 常见翻车：留下了时钟（提示词没写 REMOVE）→ 重生成；出现日文/英文招牌字 → 提示词加 `no readable text on signs`；上半部分太满 → 加 calm top 15%；比例变 3:4 → 忘了传 images。
@@ -181,8 +185,10 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 │                                结果/（鲜花01…10.png 1536×2752 · 总图.jpg · spec.json · Doc「第7轮 · 小红书文案」· 手机UI预览/）
 ├─ 第8轮-小猫樱花治愈壁纸/        原片/（4 张原图 850×1850 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
 │                                结果/（小猫01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第8轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
-└─ 第9轮-猫和老鼠停战壁纸/        原片/（18 张原图 1290×2796 同上命名 · 原片总图.jpg（★ 标出选中的 10 张）· note.json · Doc「笔记信息」）
-                                 结果/（猫鼠01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第9轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+├─ 第9轮-猫和老鼠停战壁纸/        原片/（18 张原图 1290×2796 同上命名 · 原片总图.jpg（★ 标出选中的 10 张）· note.json · Doc「笔记信息」）
+│                                结果/（猫鼠01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第9轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+└─ 第10轮-日落灯塔油画壁纸/       原片/（9 张 PNG 原图 971×1619 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
+                                 结果/（灯塔01…10.png 1536×2560（3:5 跟原帖）· 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第10轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -209,6 +215,7 @@ xhs-wallpaper-replica/
 ├─ references/copy-一二布布鲜花.md 第7轮文案（鲜花 10 张）
 ├─ references/copy-小猫樱花.md     第8轮文案（小猫 10 张 + 锁屏备注）
 ├─ references/copy-猫和老鼠停战.md 第9轮文案（猫鼠 10 张 + 锁屏备注）
+├─ references/copy-日落灯塔.md     第10轮文案（灯塔 10 张 + 3:5 裁切备注）
 └─ examples/shinchan-6aedad8b/
    ├─ 01-原图/ 01–07.png, note.json, note.md
    ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
@@ -219,7 +226,8 @@ xhs-wallpaper-replica/
    ├─ ../vangogh-bubu-6aeeecba/ 模式 C 样例：01-原片/01.webp(1532×2560)+note；02-复刻/ spec.json, ref-原图.jpg, art/01–10.png, 成图/ ×10 (jpg), 总图.jpg
    ├─ ../flowers-bubu-6ae3391a/ 模式 A+B 混合样例（原帖本身就是干净壁纸）：01-原片/01–05 (1536×2752)+note；02-复刻/ spec.json, art/01–10.png, 成图/ ×10 (jpg), 总图.jpg
    ├─ ../cat-sakura-6ae8870f/   非 IP 的治愈系插画样例（4 原图 ≈ 9:20 → 标准 phone_mockup 流程）：01-原片/01–04 (850×1850)+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
-   └─ ../tomjerry-6aed5b12/    原帖多于 10 张的纯 A 模式样例（18 原图 1290×2796 ≈ 9:20 → 挑 10 张逐张复刻）：01-原片/01–18+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   ├─ ../tomjerry-6aed5b12/    （18 原图 1290×2796 ≈ 9:20 → 挑 10 张逐张复刻）：01-原片/01–18+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   └─ ../lighthouse-6aede8e7/  厚涂油画 · 3:5 画幅样例（9 原图 971×1619 → 01–09 A 模式逐张复刻 + 10 B 模式新场景；painting_set 1536×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–09.png+note；02-复刻/ spec.json, art/01–10.png(800×1328), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
 ```
 
 ## 沙箱踩坑备忘
