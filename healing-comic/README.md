@@ -17,7 +17,7 @@
 复刻其它帖子：`ocr_layout.py --refs 原图目录 --out layout.json` 量版式 → 底图做「去字编辑」→ `compose.py --layout xhs2`（spec 抄锚点）→ `ocr_layout.py --verify-page` 逐页验收。
 5. **其它样张** → 四条底线 6 页 [`examples/pages/`](examples/pages/)、3.7 承诺篇 3 页 [`examples/pages-37/`](examples/pages-37/)，文案设计在 [`references/copy-3.7-承诺要小而可兑现.md`](references/copy-3.7-承诺要小而可兑现.md)。
 
-6. **视频源复刻（素材08 第 1 轮）** → 用户丢来一条 B 站工具讲解视频（[BV1suxg6MEJz](https://www.bilibili.com/video/BV1suxg6MEJz/)），复刻成 10 页 + 40s 轮播视频：先认源视频讲的工具（[`rddmwmddr/android-ad-cleaner`](https://github.com/rddmwmddr/android-ad-cleaner)，免 root 关国产安卓系统广告），再按「痛点五连 → 做法三段 → 情绪收尾」排页。成品与文案见 [`runs/素材08-r1/`](runs/素材08-r1/)，全流程写进 SKILL.md 新增的 **G 段**；本轮新增三个脚本 `art_shift.py`（底图垂直微调，救「点题句压脸」）、`slideshow.py`（E 段 ffmpeg 配方自动化）、`grid_preview.py`（5×2 总预览图）。沙箱出网打不开 bilibili，原片下载脚本见 `scripts/fetch_bilibili.sh`（本机执行）。
+6. **视频源复刻（素材08 第 1 轮）** → 用户丢来一条 B 站工具讲解视频（[BV1suxg6MEJz](https://www.bilibili.com/video/BV1suxg6MEJz/)），复刻成 10 页 + 40s 轮播视频：先认源视频讲的工具（[`rddmwmddr/android-ad-cleaner`](https://github.com/rddmwmddr/android-ad-cleaner)，免 root 关国产安卓系统广告），再按「痛点五连 → 做法三段 → 情绪收尾」排页。成品与文案见 [`runs/素材08-r1/`](runs/素材08-r1/)，全流程写进 SKILL.md 新增的 **G 段**；本轮新增三个脚本 `art_shift.py`（底图垂直微调，救「点题句压脸」）、`slideshow.py`（E 段 ffmpeg 配方自动化）、`grid_preview.py`（5×2 总预览图）。沙箱出网在 IP 层就被拦（yt-dlp/yutto/bilix/you-get 全挂），改用 **GitHub Actions runner 中继**（`.github/workflows/fetch-bv.yml` + `.github/scripts/fetch_bili.py`：WBI 签名 + 多镜像破 567）拿到 720P 原片，本机下载脚本见 `scripts/fetch_bilibili.sh`。
 
 ## 先看成品
 
