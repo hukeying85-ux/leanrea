@@ -5,12 +5,12 @@
     "service": "GFEEDBACK",
     "params": [
      {
-      "key": "is_alc_surface",
-      "value": "false"
-     },
-     {
       "key": "is_viewed_live",
       "value": "False"
+     },
+     {
+      "key": "is_alc_surface",
+      "value": "false"
      },
      {
       "key": "ipcc",
@@ -22,7 +22,7 @@
      },
      {
       "key": "visitor_data",
-      "value": "Cgt2cExjU1ZBMUZIMCi-0LvXBjIKCgJVUxIEGgAgWmKuAgqrAkN0MEJDQVVTandFQkRCNlBEREtJOUVXU19veFdCVkR2NnJrcnhURjJVYWR2QWdOakcxbGJHQjNxTHVSVXVBcTkyZ3l1UGloTzUwUUdqZkxzaERscTFWOW1HaFhrXzVhSHVieUdhOXRPZE4wRXJFQVNaNnpGdDVVLUJCRHJYbVVSVHJkMW5OeDAxeFVqUTl0bW0waXEyWUN6X2FBR00wQTFubGVuX1gzTlZXbUpKUTY5MjlFcWhnVmlGVmRpeWg5T2FySURYYXotVXlnRk1rVUJIRmoxYWpMelQ5UWc4X0k3VzBzWkdqMXl6VXp6MzhIVVAxcGM5VUFvcE5RTFRYUGhzQ3BUaVMxOW9Gck1EQ21lQUZXYUZfMTFaZHh4MjlJSHZSRFd1a1dmd1E4"
+      "value": "Cgt3Z3ZjbFRJUjJoYyiC07vXBjIKCgJVUxIEGgAgXkgBYrECCq4CQ3Q4QkNBVVNrUUVCREI2UERDWVNyS0tFbXFrT2R2TXVfNzNvd1B5TzdYUlBlTDlNY2dVOF9uUXluVElnWC1oQnI3a1EzQ0dVQmdZZmI0bzRNazZ1aUZ1ell2MDl1X195ZFczVlVINmVqNjNKY1lOZTd3U1F2WUM0a2NsdG00Y3JsOVdlUlpxMy1ZbnZnVGdRbmc1RTlWNW9TYVJLSHExWjYtSFpMNE9pT0RReUtDcUZ3NkZmbllseGNERGlyNjRpOGxCZndRdFRNbDhUS0FVeVJRRWNXUFZxTnRYbTF2QnZfdW1pd21XYkFENW10Q0Q5OGNHYUYtMzUwRnozaXJFQzJZWGVQazd3YVNvQ3hDUEFoV3JfNXZkS3BiMXVBWWJZSUZpMmZCbnN1VDBiQXc%3D"
      }
     ]
    },
@@ -43,7 +43,7 @@
      },
      {
       "key": "GetPlayer_rid",
-      "value": "0xfdeed3d85ea99b5d"
+      "value": "0xf3988fddbad18642"
      }
     ]
    },
@@ -73,9 +73,9 @@
   "maxAgeSeconds": 21540,
   "mainAppWebResponseContext": {
    "loggedOut": true,
-   "trackingParam": "k5_fmPxhoXZRO9uwhECYRZp8SCw0v1z7eHig4igncikTZirwTlu3b4TQpzRMkuMYNLBwOcCw59TLtslLKPQGSS"
+   "trackingParam": "k5_fmPxhoXZRnt1YSCgQxaQ0x_M4WGuIFflnbymE42Ff_6sH0lOkuMU7szRMkuMYNLBwOcCw59TLtslLKPQGSS"
   },
-  "responseId": "IhMIzLb5-b71lwMV-JrkBh0REwbg",
+  "responseId": "IhMI8uXUlMD1lwMV40hMCB3b2BGo",
   "webResponseContextExtensionData": {
    "webResponseContextPreloadData": {
     "preloadMessageNames": [
@@ -103,7 +103,7 @@
   "formats": [
    {
     "itag": 18,
-    "url": "https://rr1---sn-nx5e6nl7.googlevideo.com/videoplayback?expire=1794063518&ei=PujuasyfCfi1kucPkaaYgA4&ip=128.85.185.132&id=o-AHFbtOLSrLYdsn17N40LCKO0nBm8fYnYyEH38JwsJ8gu&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&met=1794041918%2C&mh=vd&mm=31%2C29&mn=sn-nx5e6nl7%2Csn-nx57ynz7&ms=au%2Crdu&mv=m&mvi=1&pl=16&rms=au%2Cau&ctier=SH&pcm2=no&initcwndbps=6649125&bui=AZFAFb9vzssRbdlCzb7T6x9z7pz8ovEONfWk0XjYfUR7XOAd3LYBhKfw9o43j1sFAmA260MgnWa3u-uT&spc=mpRQ_z-ec31cM0nIfbuZaABsly5x80HgOAHE8qeAA9wwZFqbK1h3MUKBiB8r&vprv=1&svpuc=1&mime=video%2Fmp4&ns=BD_tTS_3xpVIeweK9gzLFUkZ&rqh=1&gir=yes&clen=2557854&ratebypass=yes&dur=34.176&lmt=1791802114353797&mt=1794041636&fvip=5&epbp=1&fexp=51565116%2C52250119%2C52323638&c=WEB&sefc=1&txp=5430534&n=KsHY1DlCprTxn1oQ8t&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cctier%2Cpcm2%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AE0s2JYwRQIgH7oIEyDxQaq8dz2IB5O3Dps53aY0NTPXtYzTdpcXJxACIQDdMCLeyVOf7C0v38zU5lhUMPr-p7QR0q4rMjMGYStYlg%3D%3D&lsparams=met%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRAIgYTRj4tKT7VmTAq_RsmmJbPIj88ajFFdMvBmKo0bjdDwCIDxOCj7TnB5l79LraWVQUv1nEQv_OtfC4knGtvIujThT",
+    "url": "https://rr5---sn-2imern7r.googlevideo.com/videoplayback?expire=1794063842&ei=gunuavKcJeORsfIP27HHwAo&ip=20.171.3.183&id=o-AEhCEU-QuXFZthBKITrWH0vJjB72A-FmESOBnBTv2QbC&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=357&met=1794042242%2C&mh=vd&mm=31%2C29&mn=sn-2imern7r%2Csn-2o2imf-5j&ms=au%2Crdu&mv=m&mvi=5&pl=16&rms=au%2Cau&ctier=SH&pcm2=no&initcwndbps=11960625&bui=AZFAFb-HnA4SxzdDzEoNNVfEL8QNTHijAovA1CWyZhOF0Fcl-gNuV52KNGl3BvQiQ9JmYcu2T0oZ3Iwc&spc=mpRQ_47gXLuPOhFAjb90Ff9pz74aqYGxRxeDr18JbZColpPEX4DI4lZnjERu&vprv=1&svpuc=1&mime=video%2Fmp4&ns=RXgBhhX-3mmKTdCdGTxF2aAZ&rqh=1&gir=yes&clen=2557854&ratebypass=yes&dur=34.176&lmt=1791802114353797&mt=1794041838&fvip=5&epbp=1&fexp=51565116%2C52250119%2C52323638&c=WEB&sefc=1&txp=5430534&n=lYKBryxz2RGP-nHN4R&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cctier%2Cpcm2%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AE0s2JYwRQIgIv--dnRKzNx164HDm3dfyB3BzTkjZtN6x159Av62ABICIQDJ7s4HlfvKsAKuToC-55hH7oIL8JNREZ8scXk8K2UWkQ%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhALRPYDjhEyXgvjhXUaTG14o_4vTqXpAuRtcEVqreHXYXAiEA2E0S8JKBCFawmTlgXX98Hz0VzPRlcLpFPnCwE7gEPtE%3D",
     "mimeType": "video/mp4; codecs=\"avc1.42001E, mp4a.40.2\"",
     "bitrate": 600083,
     "width": 360,
@@ -1194,27 +1194,28 @@
     "vocalsBackgroundLoudnessDifferenceDb": 6.7199998
    }
   ],
-  "serverAbrStreamingUrl": "https://rr1---sn-nx5e6nl7.googlevideo.com/videoplayback?expire=1794063518&ei=PujuasyfCfi1kucPkaaYgA4&ip=128.85.185.132&id=o-AHFbtOLSrLYdsn17N40LCKO0nBm8fYnYyEH38JwsJ8gu&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&met=1794041918%2C&mh=vd&mm=31%2C29&mn=sn-nx5e6nl7%2Csn-nx57ynz7&ms=au%2Crdu&mv=m&mvi=1&pl=16&rms=au%2Cau&ctier=SH&pcm2=no&initcwndbps=6649125&spc=mpRQ_z-dc31cM0nIfbuZaABsly5x80HgOAHE8qeAA9wwZFqbK1h3MUKxjQ&svpuc=1&ns=A92lcxHnFBlKid5OYaO6HmgZ&sabr=1&rqh=1&mt=1794041636&fvip=5&epbp=1&keepalive=yes&fexp=51565116%2C52250119%2C52323638&c=WEB&n=n_KSuxoBK6VWIIyV4G&sparams=expire%2Cei%2Cip%2Cid%2Csource%2Crequiressl%2Cxpc%2Cctier%2Cpcm2%2Cspc%2Csvpuc%2Cns%2Csabr%2Crqh&sig=AE0s2JYwRgIhAM1N1haAAlTSe8oRkl9TGyBVOptgyk9JfAFr7AsC687TAiEAsBY38QxgzZi3ZCB9ic_YtRepMnVHgk7oU-Z1D5ovI-A%3D&lsparams=met%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRAIgYTRj4tKT7VmTAq_RsmmJbPIj88ajFFdMvBmKo0bjdDwCIDxOCj7TnB5l79LraWVQUv1nEQv_OtfC4knGtvIujThT"
+  "probeUrl": "https://r5---sn-42u-i5olz.googlevideo.com/videogoodput?id=o-ADF7ouaywV5Ayj0hmVOCHJ9VwX4VdO5LQp2QfHW1oMGT&source=goodput&range=0-4999&expire=1794045842&ip=20.171.3.183&ms=pm&mm=35&pl=24&sparams=id,source,range,expire,ip,ms,mm,pl&signature=16FAF4F5245877F98C9E8C14F14FCDA29EF7E647.5502EDD5904F1E00B33A8414DE928FDFFA0D2F75&key=cms1",
+  "serverAbrStreamingUrl": "https://rr5---sn-2imern7r.googlevideo.com/videoplayback?expire=1794063842&ei=gunuavKcJeORsfIP27HHwAo&ip=20.171.3.183&id=o-AEhCEU-QuXFZthBKITrWH0vJjB72A-FmESOBnBTv2QbC&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=357&met=1794042242%2C&mh=vd&mm=31%2C29&mn=sn-2imern7r%2Csn-2o2imf-5j&ms=au%2Crdu&mv=m&mvi=5&pl=16&rms=au%2Cau&ctier=SH&pcm2=no&initcwndbps=11960625&spc=mpRQ_47jXLuPOhFAjb90Ff9pz74aqYGxRxeDr18JbZColpPEX4DI4lZXiQ&svpuc=1&ns=T3i7oZNl4dxxBF1VdD4koB4Z&sabr=1&rqh=1&mt=1794041838&fvip=5&epbp=1&keepalive=yes&fexp=51565116%2C52250119%2C52323638&c=WEB&n=hDyX12tR4E7jbdB68a&sparams=expire%2Cei%2Cip%2Cid%2Csource%2Crequiressl%2Cxpc%2Cctier%2Cpcm2%2Cspc%2Csvpuc%2Cns%2Csabr%2Crqh&sig=AE0s2JYwRgIhAL7CDfuc2LFOh_eEoH-CahINGBvyOVkMHPSlz8f27VNXAiEA2e2GyzQ-Jf9DDo6UcmTECbiPc0BG0Ndhmb4_AZqOie4%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhALRPYDjhEyXgvjhXUaTG14o_4vTqXpAuRtcEVqreHXYXAiEA2E0S8JKBCFawmTlgXX98Hz0VzPRlcLpFPnCwE7gEPtE%3D"
  },
  "playbackTracking": {
   "videostatsPlaybackUrl": {
-   "baseUrl": "https://s.youtube.com/api/stats/playback?cl=1013377348&docid=bkGhmZLOAwI&ei=PujuasyfCfi1kucPkaaYgA4&fexp=&ns=yt&plid=AAZfq-8-f3hCFet4&delay=4&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRMRUJ1d3duVVN2SVgxc3NCRkVhUHZORm1zSVppZEJoQ1poUHBXbk9HMWtnd2JeQUNPdTRMUTIwZEtwWW0xdVMwcWxIWXpabVgyeGxOOGhIOGpVS0ZIQnBTb3BKaTM0d2hiY0g2TnpnaHNVNDRuMk15R05BY0VvMVFXNTRTM0FOclZhUGhnaUFSdFpHUQ"
+   "baseUrl": "https://s.youtube.com/api/stats/playback?cl=1013377348&docid=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&fexp=&ns=yt&plid=AAZfrAKVeWw81Xxi&delay=4&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRJVlBHTjlkN1JYV1hzb1dWanFUaDZCZHNJU0Z1SVdhUE5XZ3ZGdkQyeTctZ2JeQUJjV25zUU40YWZrVEJXSUY1dzB4bHpCd2x6QWhQR1dCallhUld0OVRUME0zZmRRTE1pMXBodzhET3pSeTF4SWF4SHdTal96c2ZJa0dRNFFuOFRnOFpnSDBldWtkQQ"
   },
   "videostatsDelayplayUrl": {
-   "baseUrl": "https://s.youtube.com/api/stats/delayplay?cl=1013377348&docid=bkGhmZLOAwI&ei=PujuasyfCfi1kucPkaaYgA4&fexp=&ns=yt&plid=AAZfq-8-f3hCFet4&delay=4&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRMRUJ1d3duVVN2SVgxc3NCRkVhUHZORm1zSVppZEJoQ1poUHBXbk9HMWtnd2JeQUNPdTRMUTIwZEtwWW0xdVMwcWxIWXpabVgyeGxOOGhIOGpVS0ZIQnBTb3BKaTM0d2hiY0g2TnpnaHNVNDRuMk15R05BY0VvMVFXNTRTM0FOclZhUGhnaUFSdFpHUQ",
+   "baseUrl": "https://s.youtube.com/api/stats/delayplay?cl=1013377348&docid=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&fexp=&ns=yt&plid=AAZfrAKVeWw81Xxi&delay=4&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRJVlBHTjlkN1JYV1hzb1dWanFUaDZCZHNJU0Z1SVdhUE5XZ3ZGdkQyeTctZ2JeQUJjV25zUU40YWZrVEJXSUY1dzB4bHpCd2x6QWhQR1dCallhUld0OVRUME0zZmRRTE1pMXBodzhET3pSeTF4SWF4SHdTal96c2ZJa0dRNFFuOFRnOFpnSDBldWtkQQ",
    "elapsedMediaTimeSeconds": 4
   },
   "videostatsWatchtimeUrl": {
-   "baseUrl": "https://s.youtube.com/api/stats/watchtime?cl=1013377348&docid=bkGhmZLOAwI&ei=PujuasyfCfi1kucPkaaYgA4&fexp=&ns=yt&plid=AAZfq-8-f3hCFet4&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRMRUJ1d3duVVN2SVgxc3NCRkVhUHZORm1zSVppZEJoQ1poUHBXbk9HMWtnd2JeQUNPdTRMUTIwZEtwWW0xdVMwcWxIWXpabVgyeGxOOGhIOGpVS0ZIQnBTb3BKaTM0d2hiY0g2TnpnaHNVNDRuMk15R05BY0VvMVFXNTRTM0FOclZhUGhnaUFSdFpHUQ"
+   "baseUrl": "https://s.youtube.com/api/stats/watchtime?cl=1013377348&docid=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&fexp=&ns=yt&plid=AAZfrAKVeWw81Xxi&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRJVlBHTjlkN1JYV1hzb1dWanFUaDZCZHNJU0Z1SVdhUE5XZ3ZGdkQyeTctZ2JeQUJjV25zUU40YWZrVEJXSUY1dzB4bHpCd2x6QWhQR1dCallhUld0OVRUME0zZmRRTE1pMXBodzhET3pSeTF4SWF4SHdTal96c2ZJa0dRNFFuOFRnOFpnSDBldWtkQQ"
   },
   "ptrackingUrl": {
-   "baseUrl": "https://www.youtube.com/ptracking?ei=PujuasyfCfi1kucPkaaYgA4&m=AqqcPb1_F0BffsPRALlRqdI9JJeMaXv1uUicWcaE72ZBLf0uusRn7PmgQJDKgP2qXxO1O08_vKY_bA17FVh7VaTq&plid=AAZfq-8-f3hCFet4&pltype=contentugc&ptk=youtube_none&video_id=bkGhmZLOAwI"
+   "baseUrl": "https://www.youtube.com/ptracking?ei=gunuavKcJeORsfIP27HHwAo&m=A7DrlZtCGDBPLOevbS7RcOeOslIWsBLb8b-dWTO6gbTv2DluawNBdnoefiOGCGmwBF0AlQTk-LUyXpPtK6JTxy4s&plid=AAZfrAKVeWw81Xxi&pltype=contentugc&ptk=youtube_none&video_id=bkGhmZLOAwI"
   },
   "qoeUrl": {
-   "baseUrl": "https://s.youtube.com/api/stats/qoe?cat=mta&cl=1013377348&docid=bkGhmZLOAwI&ei=PujuasyfCfi1kucPkaaYgA4&el=shortspage&event=streamingstats&fexp=&ns=yt&plid=AAZfq-8-f3hCFet4"
+   "baseUrl": "https://s.youtube.com/api/stats/qoe?cat=mta&cl=1013377348&docid=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&el=shortspage&event=streamingstats&fexp=&ns=yt&plid=AAZfrAKVeWw81Xxi"
   },
   "atrUrl": {
-   "baseUrl": "https://s.youtube.com/api/stats/atr?c=WEB&docid=bkGhmZLOAwI&ei=PujuasyfCfi1kucPkaaYgA4&len=35&ns=yt&plid=AAZfq-8-f3hCFet4&ver=2&vm=CAEQABgEOjJBSHFpSlRMRUJ1d3duVVN2SVgxc3NCRkVhUHZORm1zSVppZEJoQ1poUHBXbk9HMWtnd2JeQUNPdTRMUTIwZEtwWW0xdVMwcWxIWXpabVgyeGxOOGhIOGpVS0ZIQnBTb3BKaTM0d2hiY0g2TnpnaHNVNDRuMk15R05BY0VvMVFXNTRTM0FOclZhUGhnaUFSdFpHUQ",
+   "baseUrl": "https://s.youtube.com/api/stats/atr?c=WEB&docid=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&len=35&ns=yt&plid=AAZfrAKVeWw81Xxi&ver=2&vm=CAEQABgEOjJBSHFpSlRJVlBHTjlkN1JYV1hzb1dWanFUaDZCZHNJU0Z1SVdhUE5XZ3ZGdkQyeTctZ2JeQUJjV25zUU40YWZrVEJXSUY1dzB4bHpCd2x6QWhQR1dCallhUld0OVRUME0zZmRRTE1pMXBodzhET3pSeTF4SWF4SHdTal96c2ZJa0dRNFFuOFRnOFpnSDBldWtkQQ",
    "elapsedMediaTimeSeconds": 5
   },
   "videostatsScheduledFlushWalltimeSeconds": [
@@ -1228,7 +1229,7 @@
   "playerCaptionsTracklistRenderer": {
    "captionTracks": [
     {
-     "baseUrl": "https://www.youtube.com/api/timedtext?v=bkGhmZLOAwI&ei=PujuasyfCfi1kucPkaaYgA4&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xosf=1&xospf=1&hl=zh-CN&ip=0.0.0.0&ipbits=0&expire=1794067118&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=900362315E3318E7CF5313970FC3A7F9A886D885.CD33DFCD8103174EF2B67D5B5414A601C85FAD49&key=yt8&kind=asr&lang=en&variant=timing-optimized",
+     "baseUrl": "https://www.youtube.com/api/timedtext?v=bkGhmZLOAwI&ei=gunuavKcJeORsfIP27HHwAo&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xosf=1&xospf=1&hl=zh-CN&ip=0.0.0.0&ipbits=0&expire=1794067442&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=70E51FA8B777DEE03816DF1B11B524665E4136A2.22ED284B60AB5952054C49A52F4E723EFB7E994C&key=yt8&kind=asr&lang=en&variant=timing-optimized",
      "name": {
       "simpleText": "英语 (自动生成)"
      },
@@ -1244,13 +1245,19 @@
      "captionTrackIndices": [
       0
      ],
-     "audioTrackId": "en-US.10"
+     "defaultCaptionTrackIndex": 0,
+     "hasDefaultTrack": true,
+     "audioTrackId": "zh-Hant.4",
+     "captionsInitialState": "CAPTIONS_INITIAL_STATE_ON_RECOMMENDED"
     },
     {
      "captionTrackIndices": [
       0
      ],
-     "audioTrackId": "zh-Hant.4"
+     "defaultCaptionTrackIndex": 0,
+     "hasDefaultTrack": true,
+     "audioTrackId": "en-US.10",
+     "captionsInitialState": "CAPTIONS_INITIAL_STATE_ON_RECOMMENDED"
     }
    ],
    "translationLanguages": [
@@ -2191,7 +2198,7 @@
      }
     }
    ],
-   "defaultAudioTrackIndex": 1
+   "defaultAudioTrackIndex": 0
   }
  },
  "videoDetails": {
@@ -2205,22 +2212,22 @@
   "thumbnail": {
    "thumbnails": [
     {
-     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwE1CKgBEF5IVfKriqkDKAgBFQAAiEIYAHABwAEG8AEB-AG2CIACgA-KAgwIABABGFogXyhlMA8=&rs=AOn4CLBAMmoS2WWgQfVk71gm4GjYNVYLjg",
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwFACKgBEF5IWvKriqkDMwgBFQAAiEIYANgBAeIBCggYEAIYBjgBQAHwAQH4AbYIgAKAD4oCDAgAEAEYWiBfKGUwDw==&rs=AOn4CLCBjnWyw4qCjiVWkKIvfsIMj3e8BQ",
      "width": 168,
      "height": 94
     },
     {
-     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwE1CMQBEG5IVfKriqkDKAgBFQAAiEIYAHABwAEG8AEB-AG2CIACgA-KAgwIABABGFogXyhlMA8=&rs=AOn4CLB1Xxhk-q1cUomP5oxVJpz2PynHxw",
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwFACMQBEG5IWvKriqkDMwgBFQAAiEIYANgBAeIBCggYEAIYBjgBQAHwAQH4AbYIgAKAD4oCDAgAEAEYWiBfKGUwDw==&rs=AOn4CLBp60RNMWKnblgR1esG3uovil_f1A",
      "width": 196,
      "height": 110
     },
     {
-     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwE2CPYBEIoBSFXyq4qpAygIARUAAIhCGABwAcABBvABAfgBtgiAAoAPigIMCAAQARhaIF8oZTAP&rs=AOn4CLCs53N4eO7cB0NPlftLFtGGmGl2cg",
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwFBCPYBEIoBSFryq4qpAzMIARUAAIhCGADYAQHiAQoIGBACGAY4AUAB8AEB-AG2CIACgA-KAgwIABABGFogXyhlMA8=&rs=AOn4CLAGUJrF4affkVDW4ocrspB975K-Bw",
      "width": 246,
      "height": 138
     },
     {
-     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwE2CNACELwBSFXyq4qpAygIARUAAIhCGABwAcABBvABAfgBtgiAAoAPigIMCAAQARhaIF8oZTAP&rs=AOn4CLCCnq8oF4c5FDp0PDIysDQmYVV6hA",
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGADYAQHiAQoIGBACGAY4AUAB8AEB-AG2CIACgA-KAgwIABABGFogXyhlMA8=&rs=AOn4CLAGijp39frlGLbEk2G192B_Gy6jKA",
      "width": 336,
      "height": 188
     },
@@ -2299,7 +2306,7 @@
    }
   },
   "streamSelectionConfig": {
-   "maxBitrate": "53193000"
+   "maxBitrate": "95685000"
   },
   "playerControlsConfig": {
    "showCachedInTimebar": true
@@ -2314,7 +2321,7 @@
     "readAheadGrowthRateMs": 1000
    },
    "mediaUstreamerRequestConfig": {
-    "videoPlaybackUstreamerConfig": "Cr8QCuIECAAlAACAPy0zM3M_NT0Klz9yBAoAGACgAQGoAQC4AgHaAn0QsOoBGIDd2wEgoJwBKKCcAXCIJ4AB9APgAQOYAgzQAgLoAgSAAwKIA4gnqAMDwAMByAMBgAQB0AQB2AQB-AQHgAV9wAUByAUB4AXQD_gF0A-QBgHQBgHwBgGAB9APgAgBiAgBnQjNzEw-oAjoB-AIAegI____________AfoCRagB0IYDhQKamRk_jQIAAIA_wALfA_0CzczMPZADAZ0DCtcjPdUEAAAgQbUGvTeGNb0GMzODQMgHAeUHAIAJRPAHAYAIAagDAbADA9ADAdgDAcoEHAoTCMCpBxCYdRjoByUAAAAAKAAwABDg1AMY0A_SBA8KCAiwCRCwCSABIIgnKAHaBA0KBgjwLhDwLiDwLigBmAYBqAaAgALSBhQI6AcQZBoNCIgnFQAAAD8dzcxMP9gGAbgHAaAIAdIIBggBEAEYAakJAAAAAAAA8L-xCQAAAAAAAPC_0AkB2gkkYnBMcTRsZXZ1K3h4czB6TFpxblBabUdlamhyVWpsR3kzQVV0oAsB6gsEiwaMBoAMAagMkAHgDQHIDwHQDwGYEAHoEAGQEQGgEQHQEgHgEgGAEwGwEwHYEwDoEwGIFACRFAAAAAAAAPC_mRQAAAAAAADwv8oUEXYyMDI1MDkyMl8xMjI2LjAw2BSIJ-IUOAoAEjRDQU1TSXhVbXVMYkpESlVDblJ1ZUJhZnlEN29QQkFURUJ0WU8wQVRfQktJR3B3WVRpUVlBgRUAAAAAAADwv5gVAagVAbgVAcgVAYinocoLATIMCKsCEKjOgoaotJcDMgwIrwIQhcO6i6q0lwMyDAiPAxDFiLqdqrSXAzIMCIgBEOuwptGntJcDMgwI9wEQnY20qa60lwMyDAiqAhCt_PH1p7SXAzIMCK4CEPaRmJKqtJcDMgwIjgMQ94qInqm0lwMyDAiLBhCyo6-prrSXAzIMCIwGELGjrqmutJcDMgwIkwYQkcycsqe0lwMyDAiUBhDX-amfqLSXAzIMCIcBEOLx_rWntJcDMgwIhgEQ5ZvFtae0lwMyDAjzARD0tPSprrSXAzIMCIwDENTmzOqntJcDMgwIhQEQ_ba8uKe0lwMyDAjyARCk8cyqrrSXAzIMCIsDEKetjJCntJcDMgwIoAEQgJGnt6e0lwMyQAiMARDR-434nbSXAxoyQ2hRS0JXRmpiMjUwRWd0a2RXSmlaV1F0WVhWMGJ3b05DZ1JzWVc1bkVnVmxiaTFWVXcyTAiMARDi0Oa_nLSXAxo-Q2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvSUNnTmtjbU1TQVRFS0R3b0ViR0Z1WnhJSGVtZ3RTR0Z1ZEEyPgiMARChjtu9nLSXAxowQ2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvUENnUnNZVzVuRWdkNmFDMUlZVzUwMkoIjAEQlM-62Z20lwMaPENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MENnY0tBblppRWdFeDJACPkBEM7RjfidtJcDGjJDaFFLQldGamIyNTBFZ3RrZFdKaVpXUXRZWFYwYndvTkNnUnNZVzVuRWdWbGJpMVZVdzJMCPkBELzTgsKctJcDGj5DaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9JQ2dOa2NtTVNBVEVLRHdvRWJHRnVaeElIZW1ndFNHRnVkQTI-CPkBEIqbwr6ctJcDGjBDaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9QQ2dSc1lXNW5FZ2Q2YUMxSVlXNTAySgj5ARDi2pnbnbSXAxo8Q2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvUENnUnNZVzVuRWdkNmFDMUlZVzUwQ2djS0FuWmlFZ0V4MkAI-gEQjYCU-J20lwMaMkNoUUtCV0ZqYjI1MEVndGtkV0ppWldRdFlYVjBid29OQ2dSc1lXNW5FZ1ZsYmkxVlV3MkwI-gEQoMD3wZy0lwMaPkNoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb0lDZ05rY21NU0FURUtEd29FYkdGdVp4SUhlbWd0U0dGdWRBMj4I-gEQ3r3Cvpy0lwMaMENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MDJKCPoBEOC_mdudtJcDGjxDaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9QQ2dSc1lXNW5FZ2Q2YUMxSVlXNTBDZ2NLQW5aaUVnRXgyQAj7ARDVmY34nbSXAxoyQ2hRS0JXRmpiMjUwRWd0a2RXSmlaV1F0WVhWMGJ3b05DZ1JzWVc1bkVnVmxiaTFWVXcyTAj7ARD3i_nBnLSXAxo-Q2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvSUNnTmtjbU1TQVRFS0R3b0ViR0Z1WnhJSGVtZ3RTR0Z1ZEEyPgj7ARDUhsK-nLSXAxowQ2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvUENnUnNZVzVuRWdkNmFDMUlZVzUwMkoI-wEQyp2a2520lwMaPENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MENnY0tBblppRWdFeDoAUjEaACgAMhhVQ2p4YkVuWXFyNG9VY2wyVUdHVFhUaEFAAFgAYAFoAHgAgAEAwAEAyAEAoAEBsAEFugEDBAUxwgEIAQIDBAUIKjDQAQCAAgASTAB7zaR0MEUCIQDVLxr6LqGWM_sD60pUnb1aS59cTH0NPJ4s7xiXLNggcAIgdv5zgOlEpCF4Cbp-rcoqnsShpXEwWLGUgY2Ms_2VYrgaAmVp"
+    "videoPlaybackUstreamerConfig": "Cr8QCuIECAAlAACAPy0zM3M_NT0Klz9yBAoAGACgAQGoAQC4AgHaAn0QsOoBGIDd2wEgoJwBKKCcAXCIJ4AB9APgAQOYAgzQAgLoAgSAAwKIA4gnqAMDwAMByAMBgAQB0AQB2AQB-AQHgAV9wAUByAUB4AXQD_gF0A-QBgHQBgHwBgGAB9APgAgBiAgBnQjNzEw-oAjoB-AIAegI____________AfoCRagB0IYDhQKamRk_jQIAAIA_wALfA_0CzczMPZADAZ0DCtcjPdUEAAAgQbUGvTeGNb0GMzODQMgHAeUHAIAJRPAHAYAIAagDAbADA9ADAdgDAcoEHAoTCMCpBxCYdRjoByUAAAAAKAAwABDg1AMY0A_SBA8KCAiwCRCwCSABIIgnKAHaBA0KBgjwLhDwLiDwLigBmAYBqAaAgALSBhQI6AcQZBoNCIgnFQAAAD8dzcxMP9gGAbgHAaAIAdIIBggBEAEYAakJAAAAAAAA8L-xCQAAAAAAAPC_0AkB2gkkRGRuSzRxY2NKeXF4OTlwcVhRUE84aVpiOVJ2dGhRV2g2UVVWoAsB6gsEiwaMBoAMAagMkAHgDQHIDwHQDwGYEAHoEAGQEQGgEQHQEgHgEgGAEwGwEwHYEwDoEwGIFACRFAAAAAAAAPC_mRQAAAAAAADwv8oUEXYyMDI1MDkyMl8xMjI2LjAw2BSIJ-IUOAoAEjRDQU1TSXhVbXVMYkpESlVDblJ1ZUJhZnlEN29QQk1BRzFnN1FCUDBFcEFhakJnaVFCc2NEgRUAAAAAAADwv5gVAagVAbgVAcgVAYinocoLATIMCKsCEKjOgoaotJcDMgwIrwIQhcO6i6q0lwMyDAiPAxDFiLqdqrSXAzIMCIgBEOuwptGntJcDMgwI9wEQnY20qa60lwMyDAiqAhCt_PH1p7SXAzIMCK4CEPaRmJKqtJcDMgwIjgMQ94qInqm0lwMyDAiLBhCyo6-prrSXAzIMCIwGELGjrqmutJcDMgwIkwYQkcycsqe0lwMyDAiUBhDX-amfqLSXAzIMCIcBEOLx_rWntJcDMgwIhgEQ5ZvFtae0lwMyDAjzARD0tPSprrSXAzIMCIwDENTmzOqntJcDMgwIhQEQ_ba8uKe0lwMyDAjyARCk8cyqrrSXAzIMCIsDEKetjJCntJcDMgwIoAEQgJGnt6e0lwMyQAiMARDR-434nbSXAxoyQ2hRS0JXRmpiMjUwRWd0a2RXSmlaV1F0WVhWMGJ3b05DZ1JzWVc1bkVnVmxiaTFWVXcyTAiMARDi0Oa_nLSXAxo-Q2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvSUNnTmtjbU1TQVRFS0R3b0ViR0Z1WnhJSGVtZ3RTR0Z1ZEEyPgiMARChjtu9nLSXAxowQ2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvUENnUnNZVzVuRWdkNmFDMUlZVzUwMkoIjAEQlM-62Z20lwMaPENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MENnY0tBblppRWdFeDJACPkBEM7RjfidtJcDGjJDaFFLQldGamIyNTBFZ3RrZFdKaVpXUXRZWFYwYndvTkNnUnNZVzVuRWdWbGJpMVZVdzJMCPkBELzTgsKctJcDGj5DaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9JQ2dOa2NtTVNBVEVLRHdvRWJHRnVaeElIZW1ndFNHRnVkQTI-CPkBEIqbwr6ctJcDGjBDaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9QQ2dSc1lXNW5FZ2Q2YUMxSVlXNTAySgj5ARDi2pnbnbSXAxo8Q2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvUENnUnNZVzVuRWdkNmFDMUlZVzUwQ2djS0FuWmlFZ0V4MkAI-gEQjYCU-J20lwMaMkNoUUtCV0ZqYjI1MEVndGtkV0ppWldRdFlYVjBid29OQ2dSc1lXNW5FZ1ZsYmkxVlV3MkwI-gEQoMD3wZy0lwMaPkNoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb0lDZ05rY21NU0FURUtEd29FYkdGdVp4SUhlbWd0U0dGdWRBMj4I-gEQ3r3Cvpy0lwMaMENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MDJKCPoBEOC_mdudtJcDGjxDaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9QQ2dSc1lXNW5FZ2Q2YUMxSVlXNTBDZ2NLQW5aaUVnRXgyQAj7ARDVmY34nbSXAxoyQ2hRS0JXRmpiMjUwRWd0a2RXSmlaV1F0WVhWMGJ3b05DZ1JzWVc1bkVnVmxiaTFWVXcyTAj7ARD3i_nBnLSXAxo-Q2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvSUNnTmtjbU1TQVRFS0R3b0ViR0Z1WnhJSGVtZ3RTR0Z1ZEEyPgj7ARDUhsK-nLSXAxowQ2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvUENnUnNZVzVuRWdkNmFDMUlZVzUwMkoI-wEQyp2a2520lwMaPENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MENnY0tBblppRWdFeDoAUjEaACgAMhhVQ2p4YkVuWXFyNG9VY2wyVUdHVFhUaEFAAFgAYAFoAHgAgAEAwAEAyAEAoAEBsAEFugEDBAUxwgEIAQIDBAUIKjDQAQCAAgASTQB7zaR0MEYCIQCOdC_qbty4bMy55rhtaV-VfujzqXPuyD-YpSX3ryKoBQIhAKAoKWF-ChNur6fFXCZL20ruolgO4xliICV_dkMjJ19KGgJlaQ=="
    },
    "useServerDrivenAbr": true,
    "serverPlaybackStartConfig": {
@@ -2334,7 +2341,7 @@
    "useCobaltTvosDash": true,
    "webPlayerActionsPorting": {
     "getSharePanelCommand": {
-     "clickTrackingParams": "CAAQu2kiEwjMtvn5vvWXAxX4muQGHRETBuDKAQQGUHMh",
+     "clickTrackingParams": "CAAQu2kiEwjy5dSUwPWXAxXjSEwIHdvYEajKAQQnV3nw",
      "commandMetadata": {
       "webCommandMetadata": {
        "sendPost": true,
@@ -2346,7 +2353,7 @@
      }
     },
     "subscribeCommand": {
-     "clickTrackingParams": "CAAQu2kiEwjMtvn5vvWXAxX4muQGHRETBuDKAQQGUHMh",
+     "clickTrackingParams": "CAAQu2kiEwjy5dSUwPWXAxXjSEwIHdvYEajKAQQnV3nw",
      "commandMetadata": {
       "webCommandMetadata": {
        "sendPost": true,
@@ -2361,7 +2368,7 @@
      }
     },
     "unsubscribeCommand": {
-     "clickTrackingParams": "CAAQu2kiEwjMtvn5vvWXAxX4muQGHRETBuDKAQQGUHMh",
+     "clickTrackingParams": "CAAQu2kiEwjy5dSUwPWXAxXjSEwIHdvYEajKAQQnV3nw",
      "commandMetadata": {
       "webCommandMetadata": {
        "sendPost": true,
@@ -2376,7 +2383,7 @@
      }
     },
     "addToWatchLaterCommand": {
-     "clickTrackingParams": "CAAQu2kiEwjMtvn5vvWXAxX4muQGHRETBuDKAQQGUHMh",
+     "clickTrackingParams": "CAAQu2kiEwjy5dSUwPWXAxXjSEwIHdvYEajKAQQnV3nw",
      "commandMetadata": {
       "webCommandMetadata": {
        "sendPost": true,
@@ -2394,7 +2401,7 @@
      }
     },
     "removeFromWatchLaterCommand": {
-     "clickTrackingParams": "CAAQu2kiEwjMtvn5vvWXAxX4muQGHRETBuDKAQQGUHMh",
+     "clickTrackingParams": "CAAQu2kiEwjy5dSUwPWXAxXjSEwIHdvYEajKAQQnV3nw",
      "commandMetadata": {
       "webCommandMetadata": {
        "sendPost": true,
@@ -2427,12 +2434,12 @@
    "thumbnail": {
     "thumbnails": [
      {
-      "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/sardefault.jpg?sqp=-oaymwEdCJUDENAFSFWQAgHyq4qpAwwIARUAAIhCcAHAAQY=&rs=AOn4CLCHav90ofkw9C0I1GNE6oLTkoQoGg",
+      "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/sardefault.jpg?sqp=-oaymwEoCJUDENAFSFqQAgHyq4qpAxcIARUAAIhC2AEB4gEKCBgQAhgGOAFAAQ==&rs=AOn4CLDMuqcDh-7ss-NtR-BfDLt9D7pkig",
       "width": 405,
       "height": 720
      },
      {
-      "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/sardefault.jpg?sqp=-oaymwEgCJUDEOAESFWQAgHyq4qpAw8IARUAAIhCcAHAAQbIAQE=&rs=AOn4CLC0JFFHKk2D-G9EpSUdzNCvtlLBtg",
+      "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/sardefault.jpg?sqp=-oaymwErCJUDEOAESFqQAgHyq4qpAxoIARUAAIhCyAEB2AEB4gEKCBgQAhgGOAFAAQ==&rs=AOn4CLC2AHBJeCJBHu_oRh3rlGM7UP3Jvg",
       "width": 405,
       "height": 608
      }
@@ -2707,18 +2714,18 @@
    ],
    "isUnlisted": false,
    "hasYpcMetadata": false,
-   "viewCount": "44403",
+   "viewCount": "44497",
    "category": "People & Blogs",
    "publishDate": "2026-10-12T03:01:42-07:00",
    "ownerChannelName": "qingqing wang",
    "uploadDate": "2026-10-12T03:01:42-07:00",
    "isShortsEligible": true,
    "externalVideoId": "bkGhmZLOAwI",
-   "likeCount": "365",
+   "likeCount": "364",
    "canonicalUrl": "https://www.youtube.com/shorts/bkGhmZLOAwI"
   }
  },
- "trackingParams": "CAAQu2kiEwjMtvn5vvWXAxX4muQGHRETBuDKAQQGUHMh",
+ "trackingParams": "CAAQu2kiEwjy5dSUwPWXAxXjSEwIHdvYEajKAQQnV3nw",
  "adBreakHeartbeatParams": "Q0FBJTNE",
  "frameworkUpdates": {
   "entityBatchUpdate": {
@@ -2735,8 +2742,8 @@
     }
    ],
    "timestamp": {
-    "seconds": "1794041918",
-    "nanos": 179149215
+    "seconds": "1794042242",
+    "nanos": 647205530
    }
   }
  }
