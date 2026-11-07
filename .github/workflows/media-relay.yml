@@ -81,7 +81,9 @@ jobs:
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           mkdir -p media-raw
           cp -r "$SRC"/. media-raw/
-          python3 tools/media-library/purge_nonmedia.py media-raw
+          # 注意：这一步的 cwd 是 /tmp/mo，脚本在 checkout 出来的工作区里，
+          # 必须用绝对路径；bash -e 下任一命令失败都会让整个发布步骤跳过提交
+          python3 "$GITHUB_WORKSPACE/tools/media-library/purge_nonmedia.py" media-raw || true
           git add -A
           if git diff --cached --quiet; then
             echo "nothing new to commit"
