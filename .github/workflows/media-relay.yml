@@ -40,6 +40,9 @@ jobs:
           python -m pip install --upgrade bgutil-ytdlp-pot-provider || echo "bgutil install failed"
           # yt-dlp nightly：extractor 修得比正式版快，YouTube 基本每周都在变
           python -m pip install --upgrade --pre yt-dlp-nightly || echo "nightly install failed"
+          # Playwright + Chromium：小红书游客壳要真浏览器渲染才拿得到 feed 接口
+          python -m pip install --upgrade playwright || echo "playwright install failed"
+          python -m playwright install --with-deps chromium || python -m playwright install chromium || echo "chromium install failed"
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
           yt-dlp --version || true

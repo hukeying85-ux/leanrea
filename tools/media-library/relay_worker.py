@@ -358,6 +358,240 @@ def _xhs_urls_from_html(html):
     return out
 
 
+BROWSER_UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+              "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+
+def _seo_headers(referer="https://www.google.com/"):
+    """小红书 guestBrowsePolicy 只对 seo / direct 来源放行，
+    从自己站内跳过去（Referer: xiaohongshu.com）会拿到游客壳。
+    所以伪装成「从 Google 点进来」。"""
+    return {
+        "User-Agent": BROWSER_UA,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,"
+                  "image/avif,image/webp,image/apng,*/*;q=0.8",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+        "Referer": referer,
+        "sec-ch-ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "cross-site",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1",
+        "Cache-Control": "no-cache",
+    }
+
+
+def _images_from_any_json(obj, out):
+    """从小红书任意一份 JSON 里挖图片 URL：feed API / INITIAL_STATE 都吃。"""
+    found = []
+
+    def walk(node):
+        if isinstance(node, dict):
+            # feed API: items[].note_card.image_list[].{url_default,info_list}
+            if "info_list" in node or "infoList" in node:
+                lst = node.get("info_list") or node.get("infoList") or []
+                best, score = None, -1
+                for it in lst:
+                    u = it.get("url") or it.get("url_default")
+                    if not u:
+                        continue
+                    w = it.get("width") or 0
+                    sc = it.get("image_scene") or it.get("imageScene") or ""
+                    sc2 = (3 if sc in ("WB_DFT", "WB_PRV") else 0) + (2 if w >= 1000 else 0)
+                    if sc2 > score:
+                        best, score = u, sc2
+                if best:
+                    found.append(best)
+            if "url_default" in node and isinstance(node.get("url_default"), str):
+                found.append(node["url_default"])
+            if "urlDefault" in node and isinstance(node.get("urlDefault"), str):
+                found.append(node["urlDefault"])
+            for v in node.values():
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+
+    walk(obj)
+    for u in found:
+        if u and not any(b in u for b in BAD_IMG) and (("xhscdn" in u) or ("spectrum" in u)):
+            out.append(u)
+    return out
+
+
+def _clean_xhs(u):
+    u = u.replace("\\/", "/").replace("http://", "https://")
+    u = re.sub(r"!nd_dft\w+", "", u)
+    u = re.sub(r"\?imageView2/.*$", "", u)
+    u = re.sub(r"\?imageMogr2/.*$", "", u)
+    return u
+
+
+def _dedupe_keep_order(urls):
+    out, seen = [], set()
+    for u in urls:
+        key = re.sub(r"[!?].*$", "", u).rstrip("/").split("/")[-1]
+        if key and key not in seen:
+            seen.add(key)
+            out.append(u)
+    return out
+
+
+def try_xhs_ultimate(url, out):
+    """小红书原图终极通道：能试的路全试一遍，先到先得。
+
+    机房 IP 裸请求只能拿到「游客壳」（guestBrowsePolicy.enabled=true，
+    页面里 0 个图链）。已知可行的几种绕法：
+      A. 伪装 seo / direct 来源   —— 页面里给的放行名单就是这两个
+      B. r.jina.ai 文本代理        —— 第三方抓取，出口不是机房
+      C. Wayback Machine 归档     —— 抓别人存档过的页面
+      D. Playwright 真浏览器渲染   —— 客户端 JS 会去调 feed API，图片在响应里
+    """
+    DBG = os.path.join(RAW, "_debug", "xhs_ult_%s.txt" % os.path.basename(out))
+    _dbg(DBG, "=== ultimate %s ===" % url)
+    urls = []
+
+    # A. seo / direct 来源
+    for ref_name, ref in (("seo-google", "https://www.google.com/"),
+                          ("seo-bing", "https://www.bing.com/"),
+                          ("direct", None)):
+        try:
+            h = _seo_headers(ref) if ref else _seo_headers()
+            h.pop("Referer", None) if ref is None else None
+            r = requests.get(url, headers=h, timeout=45)
+            st = _extract_initial_state(r.text)
+            n_before = len(urls)
+            if st:
+                try:
+                    _images_from_any_json(json.loads(st), urls)
+                except Exception:
+                    urls += _xhs_urls_from_html(r.text)
+            _dbg(DBG, "[A/%s] http=%s bytes=%d state=%d urls+%d"
+                 % (ref_name, r.status_code, len(r.text), len(st), len(urls) - n_before))
+        except Exception as e:
+            _dbg(DBG, "[A/%s] %s: %s" % (ref_name, type(e).__name__, e))
+
+    # B. r.jina.ai 文本代理
+    for proxy in ("https://r.jina.ai/", "https://r.jina.ai/http://"):
+        try:
+            target = url if proxy.endswith("ai/") else url.replace("https://", "")
+            r = requests.get(proxy + target, timeout=90)
+            got = re.findall(r"https?://[^\s)\"']+?(?:xhscdn|spectrum)[^\s)\"']*", r.text)
+            got = [g for g in got if not any(b in g for b in BAD_IMG)]
+            _dbg(DBG, "[B] %s http=%s bytes=%d urls=%d" % (proxy[:24], r.status_code, len(r.text), len(got)))
+            for u in got[:12]:
+                _dbg(DBG, "     %s" % u[:150])
+            urls += got
+            if got:
+                break
+        except Exception as e:
+            _dbg(DBG, "[B] %s failed: %s" % (type(e).__name__, e))
+
+    # C. Wayback Machine 归档
+    try:
+        note_id = re.search(r"/(?:explore|discovery/item)/([0-9a-f]{16,32})", url)
+        note_id = note_id.group(1) if note_id else ""
+        cdx = ("https://web.archive.org/cdx/search/cdx?url=xiaohongshu.com*%s*"
+               "&output=json&limit=10&filter=statuscode:200" % note_id)
+        r = requests.get(cdx, timeout=60,
+                         headers={"User-Agent": BROWSER_UA})
+        snapshots = []
+        if r.status_code == 200 and r.text.strip().startswith("["):
+            rows = json.loads(r.text)
+            snapshots = [(row[1], row[2]) for row in rows[1:] if len(row) > 2]
+        _dbg(DBG, "[C] snapshots for %s: %d" % (note_id, len(snapshots)))
+        for ts, orig in snapshots[:3]:
+            try:
+                u2 = "https://web.archive.org/web/%sid_/%s" % (ts, orig)
+                r2 = requests.get(u2, timeout=90, headers={"User-Agent": BROWSER_UA})
+                got = re.findall(r"https?://[^\s)\"']+?(?:xhscdn|spectrum)[^\s)\"']*", r2.text)
+                got = [g for g in got if not any(b in g for b in BAD_IMG)]
+                _dbg(DBG, "     snapshot %s http=%s bytes=%d urls=%d" % (ts, r2.status_code, len(r2.text), len(got)))
+                urls += got
+                if got:
+                    break
+            except Exception as e:
+                _dbg(DBG, "     snapshot %s failed: %s" % (ts, type(e).__name__))
+    except Exception as e:
+        _dbg(DBG, "[C] wayback failed: %s" % type(e).__name__)
+
+    # D. Playwright 真浏览器（装了才试）
+    try:
+        from playwright.sync_api import sync_playwright
+    except Exception as e:
+        _dbg(DBG, "[D] playwright 未安装: %s" % type(e).__name__)
+        sync_playwright = None
+    if sync_playwright:
+        try:
+            captured = []
+            with sync_playwright() as pw:
+                br = pw.chromium.launch(args=["--no-sandbox", "--disable-blink-features=AutomationControlled"])
+                ctx = br.new_context(locale="zh-CN", user_agent=BROWSER_UA,
+                                     viewport={"width": 1440, "height": 900},
+                                     extra_http_headers={"Referer": "https://www.google.com/"})
+                pg = ctx.new_page()
+
+                def _on_resp(resp):
+                    u = resp.url
+                    if ("/api/sns/web/v1/feed" in u or "edith.xiaohongshu.com" in u
+                            or "/api/sns/web/v2/" in u):
+                        try:
+                            captured.append(resp.json())
+                        except Exception:
+                            pass
+
+                pg.on("response", _on_resp)
+                pg.goto(url, wait_until="domcontentloaded", timeout=90000)
+                pg.wait_for_timeout(6000)
+                try:
+                    pg.mouse.wheel(0, 1200)
+                    pg.wait_for_timeout(3000)
+                except Exception:
+                    pass
+                state_txt = pg.evaluate(
+                    "() => window.__INITIAL_STATE__ ? JSON.stringify(window.__INITIAL_STATE__) : ''")
+                dom_imgs = pg.eval_on_selector_all("img", "els => els.map(e => e.src || '')")
+                br.close()
+            _dbg(DBG, "[D] api responses captured: %d | state bytes: %d | dom imgs: %d"
+                 % (len(captured), len(state_txt or ""), len(dom_imgs)))
+            for c in captured:
+                _images_from_any_json(c, urls)
+            if state_txt:
+                try:
+                    _images_from_any_json(json.loads(state_txt), urls)
+                except Exception:
+                    pass
+            for u in dom_imgs:
+                if u and (("xhscdn" in u) or ("spectrum" in u)) and not any(b in u for b in BAD_IMG):
+                    urls.append(u)
+        except Exception as e:
+            _dbg(DBG, "[D] playwright failed: %s: %s" % (type(e).__name__, e))
+
+    cleaned = _dedupe_keep_order([_clean_xhs(u) for u in urls])
+    _dbg(DBG, "TOTAL candidate urls: %d" % len(cleaned))
+    for u in cleaned[:20]:
+        _dbg(DBG, "   %s" % u[:170])
+
+    got = []
+    for i, u in enumerate(cleaned[:60]):
+        try:
+            r = requests.get(u, headers={"User-Agent": BROWSER_UA,
+                                         "Referer": "https://www.xiaohongshu.com/"}, timeout=60)
+            if r.status_code == 200 and len(r.content) > 5000:
+                ext = ".jpg" if ("jpeg" in u.lower() or "jpg" in u.lower()) else (
+                    ".png" if "png" in u.lower() else ".webp")
+                pth = os.path.join(out, f"xhs_{i+1:02d}{ext}")
+                open(pth, "wb").write(r.content)
+                got.append(os.path.basename(pth))
+        except Exception:
+            continue
+        time.sleep(0.2)
+    _dbg(DBG, "TOTAL saved: %d" % len(got))
+    return len(got) >= 2, f"ultimate: {len(cleaned)} candidates, saved {len(got)}", got
+
+
 # --------------------------------------------------------------------------
 # 3. 小红书专用：yt-dlp 能解析页面，只是图片笔记没有 video format
 # --------------------------------------------------------------------------
@@ -814,8 +1048,10 @@ def handle(url):
     if folder in ("05_B站素材", "02_抖音素材"):
         chain.append(("proxy-relay", try_proxy_relay))
     if folder == "01_小红书素材":
-        # 图片笔记没有 video format，先走 dump-json 拿原图列表
-        chain.insert(0, ("xhs-dump", try_xhs_dump))
+        # 机房 IP 裸请求只有游客壳，先走终极通道（seo来源/代理/归档/真浏览器），
+        # 都失败再退回原来的 dump-json
+        chain.insert(0, ("xhs-ultimate", try_xhs_ultimate))
+        chain.insert(1, ("xhs-dump", try_xhs_dump))
     if folder == "05_B站素材":
         chain.insert(1, ("bilibili-api", try_bilibili_api))
     if folder == "02_抖音素材":
