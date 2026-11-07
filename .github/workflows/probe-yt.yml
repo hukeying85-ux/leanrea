@@ -34,7 +34,6 @@ jobs:
       - name: 探测
         run: |
           mkdir -p /tmp/p logs
-          python3 /tmp/probe.py 2>/dev/null || true
           cat > /tmp/probe.py <<'PYEOF'
           import json, os, re, subprocess, hashlib
           VID = os.environ["VID"]; OUT = "/tmp/p"
