@@ -446,6 +446,63 @@ def _dedupe_keep_order(urls):
 # 0. 小红书首选：JoeanAmier/XHS-Downloader（GitHub 12.9k star）
 #    用 curl_cffi 做浏览器 TLS 指纹伪装，2.2 版起官方说明「无需 cookie」即可取原图
 # --------------------------------------------------------------------------
+NON_IMG_EXT = (".pdf", ".js", ".css", ".json", ".html", ".htm", ".txt",
+               ".mp4", ".m4a", ".mp3", ".svg", ".woff", ".woff2")
+
+
+def _looks_like_image(b):
+    """只认真图片：靠文件头判断，PDF/JS 之类一律丢掉。"""
+    if len(b) < 12:
+        return False
+    if b[:3] == b"\xff\xd8\xff":                       # JPEG
+        return True
+    if b[:8] == b"\x89PNG\r\n\x1a\n":                 # PNG
+        return True
+    if b[:4] == b"RIFF" and b[8:12] == b"WEBP":        # WebP
+        return True
+    if b[4:8] in (b"ftyp", b"ftypheic", b"ftypmif1"):  # HEIC / HEIF
+        return True
+    if b[:4] == b"II*\x00" or b[:4] == b"MM\x00*":       # TIFF
+        return True
+    return False
+
+
+def _ext_of_image(b):
+    if b[:3] == b"\xff\xd8\xff":
+        return ".jpg"
+    if b[:8] == b"\x89PNG\r\n\x1a\n":
+        return ".png"
+    if b[:4] == b"RIFF":
+        return ".webp"
+    return ".jpg"
+
+
+def _is_garbage_url(u):
+    lu = u.split("?")[0].lower()
+    return any(lu.endswith(e) for e in NON_IMG_EXT)
+
+
+def _clean_out_dir(out):
+    """把上一轮误存的 PDF / JS 之类清掉，只留真图片。"""
+    removed = []
+    for rel in list_files_recursive(out):
+        p = os.path.join(out, rel)
+        if not os.path.isfile(p) or rel == "meta.json":
+            continue
+        try:
+            b = open(p, "rb").read(32)
+        except Exception:
+            continue
+        if not _looks_like_image(b) and not rel.lower().endswith(
+                (".mp4", ".m4v", ".webm", ".mov", ".mp3", ".m4a")):
+            try:
+                os.remove(p)
+                removed.append(rel)
+            except Exception:
+                pass
+    return removed
+
+
 XHSDL_REPO = "https://github.com/JoeanAmier/XHS-Downloader"
 XHSDL_DIR = "/tmp/xhsdl"
 XHSDL_OUT = "/tmp/xhsdl_dl"
@@ -493,15 +550,15 @@ asyncio.run(main())
 def _ensure_xhs_downloader(DBG):
     """把 XHS-Downloader 源码与依赖装到 /tmp（runner 每次都是干净的）"""
     if not os.path.isdir(os.path.join(XHSDL_DIR, "source")):
-        rc, out = run(["git", "clone", "--depth", "1", XHSDL_REPO, XHSDL_DIR], timeout=300)
-        _dbg(DBG, "[clone] rc=%s %s" % (rc, out[-300:]))
+        rc, out, err = run(["git", "clone", "--depth", "1", XHSDL_REPO, XHSDL_DIR], timeout=300)
+        _dbg(DBG, "[clone] rc=%s out=%s err=%s" % (rc, out[-300:], err[-300:]))
         if rc != 0:
             return False
     req = os.path.join(XHSDL_DIR, "requirements.txt")
     if os.path.isfile(req):
-        rc, out = run([sys.executable, "-m", "pip", "install", "-q",
-                       "--disable-pip-version-check", "-r", req], timeout=900)
-        _dbg(DBG, "[pip] rc=%s %s" % (rc, out[-400:]))
+        rc, out, err = run([sys.executable, "-m", "pip", "install", "-q",
+                            "--disable-pip-version-check", "-r", req], timeout=900)
+        _dbg(DBG, "[pip] rc=%s out=%s err=%s" % (rc, out[-400:], err[-400:]))
     return True
 
 
@@ -518,8 +575,8 @@ def try_xhs_downloader(url, out):
         os.remove("/tmp/xhs_detail.json")
     script = "/tmp/xhsdl_run.py"
     open(script, "w", encoding="utf-8").write(XHSDL_SCRIPT)
-    rc, log = run([sys.executable, script, url], timeout=600)
-    _dbg(DBG, "[run] rc=%s\n%s" % (rc, log[-2500:]))
+    rc, log, err = run([sys.executable, script, url], timeout=600)
+    _dbg(DBG, "[run] rc=%s\nSTDOUT %s\nSTDERR %s" % (rc, log[-2500:], err[-1500:]))
 
     # 1) 它自己下好的文件
     got = []
@@ -547,7 +604,8 @@ def try_xhs_downloader(url, out):
     cands = [u for u in cands
              if ("xhscdn" in u or "spectrum" in u)
              and not any(b in u for b in BAD_IMG)]
-    cands = _dedupe_keep_order([_clean_xhs(u) for u in cands])
+    cands = [u for u in _dedupe_keep_order([_clean_xhs(u) for u in cands])
+             if not _is_garbage_url(u)]
     _dbg(DBG, "detail urls: %d" % len(cands))
     for u in cands[:20]:
         _dbg(DBG, "   %s" % u[:170])
@@ -557,10 +615,8 @@ def try_xhs_downloader(url, out):
             r = requests.get(u, headers={"User-Agent": BROWSER_UA,
                                          "Referer": "https://www.xiaohongshu.com/"},
                              timeout=60)
-            if r.status_code == 200 and len(r.content) > 5000:
-                ext = (".jpg" if ("jpeg" in u.lower() or "jpg" in u.lower())
-                       else ".png" if "png" in u.lower() else ".webp")
-                dst = os.path.join(out, "xhs_%02d%s" % (len(got) + 1, ext))
+            if r.status_code == 200 and len(r.content) > 5000 and _looks_like_image(r.content):
+                dst = os.path.join(out, "xhs_%02d%s" % (len(got) + 1, _ext_of_image(r.content)))
                 open(dst, "wb").write(r.content)
                 got.append(os.path.basename(dst))
         except Exception:
@@ -749,7 +805,8 @@ def try_xhs_ultimate(url, out):
         except Exception as e:
             _dbg(DBG, "[D] playwright failed: %s: %s" % (type(e).__name__, e))
 
-    cleaned = _dedupe_keep_order([_clean_xhs(u) for u in urls])
+    cleaned = [u for u in _dedupe_keep_order([_clean_xhs(u) for u in urls])
+               if not _is_garbage_url(u)]
     _dbg(DBG, "TOTAL candidate urls: %d" % len(cleaned))
     for u in cleaned[:20]:
         _dbg(DBG, "   %s" % u[:170])
@@ -759,10 +816,8 @@ def try_xhs_ultimate(url, out):
         try:
             r = requests.get(u, headers={"User-Agent": BROWSER_UA,
                                          "Referer": "https://www.xiaohongshu.com/"}, timeout=60)
-            if r.status_code == 200 and len(r.content) > 5000:
-                ext = ".jpg" if ("jpeg" in u.lower() or "jpg" in u.lower()) else (
-                    ".png" if "png" in u.lower() else ".webp")
-                pth = os.path.join(out, f"xhs_{i+1:02d}{ext}")
+            if r.status_code == 200 and len(r.content) > 5000 and _looks_like_image(r.content):
+                pth = os.path.join(out, "xhs_%02d%s" % (i + 1, _ext_of_image(r.content)))
                 open(pth, "wb").write(r.content)
                 got.append(os.path.basename(pth))
         except Exception:
@@ -1237,6 +1292,10 @@ def handle(url):
         chain.insert(1, ("bilibili-api", try_bilibili_api))
     if folder == "02_抖音素材":
         chain.insert(1, ("douyin-api", try_douyin_api))
+
+    junk = _clean_out_dir(out)
+    if junk:
+        print("  清理非图片残留: %s" % junk)
 
     steps, ok = [], False
     for name, fn in chain:
