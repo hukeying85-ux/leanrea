@@ -1,0 +1,25 @@
+bvid: BV1suxg6MEJz
+url: https://www.bilibili.com/video/BV1suxg6MEJz/
+runner_utc: 2026-11-07T08:40:59Z
+yt_dlp: 2026.10.26
+ffmpeg: 
+ok: 0
+video_file: NONE
+--- attempt.log tail ---
+=================== yt-dlp ===================
+[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1suxg6MEJz/
+[BiliBili] 1suxg6MEJz: Downloading webpage
+ERROR: [BiliBili] 1suxg6MEJz: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
+[yt-dlp] exit=1
+=================== yt-dlp-hls ===================
+[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1suxg6MEJz/
+[BiliBili] 1suxg6MEJz: Downloading webpage
+ERROR: [BiliBili] 1suxg6MEJz: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
+[yt-dlp-hls] exit=1
+=================== yutto ===================
+yutto 2.3.1
+[yutto] exit=0
+OK=0
+total 8
+drwxr-xr-x  2 runner runner 4096 Nov  7 08:40 .
+drwxrwxrwt 14 root   root   4096 Nov  7 08:40 ..
