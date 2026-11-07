@@ -250,6 +250,45 @@ def try_gallerydl(url, out):
     return (rc == 0 and bool(files)), f"rc={rc} {se.strip()[-300:]}", files
 
 
+def _xhs_urls_from_html(html):
+    """从小红书笔记页里把整组原图 URL 抠出来。
+
+    页面把笔记数据塞在 window.__INITIAL_STATE__ 里：
+    note.noteDetailMap.<id>.note.images_list[].infoList[]（多档清晰度）。
+    拿不到再退回正则。返回顺序 = 图片顺序。
+    """
+    urls = []
+    html = html.replace("\\u002F", "/")
+    m = re.search(r"window\.__INITIAL_STATE__\s*=\s*(\{.*?\})\s*</script>", html, re.S)
+    if m:
+        try:
+            data = json.loads(m.group(1))
+            notes = ((data.get("note") or {}).get("noteDetailMap") or {})
+            for _, nv in notes.items():
+                note = (nv or {}).get("note") or nv or {}
+                lst = note.get("images_list") or note.get("imageList") or []
+                for im in lst:
+                    best, best_score = None, -1
+                    for info in (im.get("infoList") or []):
+                        u = info.get("url")
+                        if not u:
+                            continue
+                        w = info.get("width") or 0
+                        sc = info.get("imageScene") or ""
+                        score = (3 if sc == "WB_DFT" else 0) + (2 if w >= 1000 else 0) + (1 if w >= 600 else 0)
+                        if score > best_score:
+                            best, best_score = u, score
+                    urls.append(best or im.get("urlDefault") or im.get("urlPre") or "")
+        except Exception:
+            pass
+    if not any(urls):
+        for key in ("urlDefault", "urlPre", "url"):
+            urls += re.findall(rf'"{key}"\s*:\s*"(https?:[^"]+?xhscdn[^"]+?)"', html)
+    if not any(urls):
+        urls += re.findall(r'https?://[^"\s\\]+?xhscdn\.com/[^"\s\\]+', html)
+    return [u for u in urls if u]
+
+
 # --------------------------------------------------------------------------
 # 3. 小红书专用：yt-dlp 能解析页面，只是图片笔记没有 video format
 # --------------------------------------------------------------------------
@@ -271,18 +310,19 @@ def try_xhs_dump(url, out):
         except Exception:
             pass
 
-    # B. 直接解页面里的 __INITIAL_STATE__，拿 imageList（图片笔记走这条）
+    # B. 直接解页面里的 __INITIAL_STATE__，拿整组 imageList。
+    #    注意：不能只在 yt-dlp 失败时才走 —— yt-dlp 常常只吐出 1 张缩略图就收工，
+    #    那样整组图就只剩一张。两条路都跑，再合并去重。
+    page_note = ""
+    try:
+        r = requests.get(url, headers={"User-Agent": UA,
+                                       "Accept-Language": "zh-CN,zh;q=0.9",
+                                       "Referer": "https://www.xiaohongshu.com/"}, timeout=45)
+        urls += _xhs_urls_from_html(r.text)
+    except Exception as e:
+        page_note = f" | page: {type(e).__name__}"
     if not urls:
-        try:
-            r = requests.get(url, headers={"User-Agent": UA,
-                                           "Accept-Language": "zh-CN,zh;q=0.9"}, timeout=45)
-            html = r.text.replace("\\u002F", "/").replace("\\/", "/")
-            for key in ("urlDefault", "urlPre", "url"):
-                urls += re.findall(rf'"{key}"\s*:\s*"(https?:[^"]+?)"', html)
-            urls = [u for u in urls if "xhscdn" in u or "xiaohongshu" in u] or urls
-        except Exception as e:
-            if not urls:
-                return False, f"dump rc={rc} {se.strip()[-160:]} | page: {type(e).__name__}", []
+        return False, f"dump rc={rc} {se.strip()[-160:]}{page_note} | no image urls", []
 
     if not urls:
         return False, f"dump rc={rc} {se.strip()[-160:]} | no image urls in page", []
@@ -292,12 +332,14 @@ def try_xhs_dump(url, out):
         # 去掉小红书的降质后缀，拿原始大图
         u = re.sub(r"!nd_dft_\w+", "", u)
         u = re.sub(r"\?imageView2/.*$", "", u).replace("\\/", "/")
-        if u not in seen:
-            seen.add(u)
+        u = u.replace("http://", "https://")
+        key = re.sub(r"\?.*$", "", u)          # 同一张图的不同参数算同一张
+        if key not in seen:
+            seen.add(key)
             cleaned.append(u)
 
     got = []
-    for i, u in enumerate(cleaned[:30]):
+    for i, u in enumerate(cleaned[:60]):
         try:
             r = requests.get(u, headers={"User-Agent": UA, "Referer": "https://www.xiaohongshu.com/"},
                              timeout=60)
