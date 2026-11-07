@@ -9,6 +9,7 @@ on:
     paths:
       - 'tools/xhs-relay/queue.json'
       - 'tools/xhs-relay/xhs_fetch.py'
+      - 'tools/xhs-relay/secrets/*.enc'
       - '.github/workflows/xhs-relay.yml'
     branches:
       - '**'
