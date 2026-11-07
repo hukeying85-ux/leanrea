@@ -250,6 +250,14 @@ def try_gallerydl(url, out):
     return (rc == 0 and bool(files)), f"rc={rc} {se.strip()[-300:]}", files
 
 
+def _safe_json(t):
+    try:
+        json.loads(t)
+        return True
+    except Exception:
+        return False
+
+
 def _dbg(path, text):
     """沙箱读不到 Actions 日志（日志存在 azure，出口被墙），
     所以把诊断信息写成文件，跟素材一起 commit 到 media-out，本地 git 就能看。"""
@@ -261,21 +269,55 @@ def _dbg(path, text):
         pass
 
 
-def _xhs_urls_from_html(html):
-    """从小红书笔记页里把整组原图 URL 抠出来。
+def _extract_initial_state(html):
+    """XHS 把笔记数据塞在 window.__INITIAL_STATE__={...} 里。
+    用花括号配平（会跳过字符串里的括号）把它整段抠出来，
+    不能简单正则到第一个 </script> —— 那样 JSON 会被截断、解析必失败。"""
+    key = "window.__INITIAL_STATE__"
+    i = html.find(key)
+    if i < 0:
+        return ""
+    k = html.find("{", i)
+    if k < 0:
+        return ""
+    depth, in_str, esc = 0, False, False
+    for m in range(k, len(html)):
+        c = html[m]
+        if in_str:
+            if esc:
+                esc = False
+            elif c == "\\":
+                esc = True
+            elif c == '"':
+                in_str = False
+        else:
+            if c == '"':
+                in_str = True
+            elif c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                if depth == 0:
+                    return html[k:m + 1]
+    return ""
 
-    页面把笔记数据塞在 window.__INITIAL_STATE__ 里：
-    note.noteDetailMap.<id>.note.images_list[].infoList[]（多档清晰度）。
-    拿不到再退回正则。返回顺序 = 图片顺序。
-    """
+
+BAD_IMG = ("fe-static", "/as/v2/", ".js", ".css", "avatar", "icon")
+
+
+def _xhs_urls_from_html(html):
+    """从小红书笔记页里把整组原图 URL 抠出来。返回顺序 = 图片顺序。"""
+    html = html.replace("\\u002F", "/").replace("\\/", "/")
+    state = _extract_initial_state(html)
+    hay = state or html
+
     urls = []
-    html = html.replace("\\u002F", "/")
-    m = re.search(r"window\.__INITIAL_STATE__\s*=\s*(\{.*?\})\s*</script>", html, re.S)
-    if m:
+    # 1) 结构化：note.noteDetailMap.<id>.note.images_list[].infoList[]（多档清晰度）
+    if state:
         try:
-            data = json.loads(m.group(1))
+            data = json.loads(state)
             notes = ((data.get("note") or {}).get("noteDetailMap") or {})
-            for _, nv in notes.items():
+            for _, nv in (notes.items() if isinstance(notes, dict) else []):
                 note = (nv or {}).get("note") or nv or {}
                 lst = note.get("images_list") or note.get("imageList") or []
                 for im in lst:
@@ -289,15 +331,31 @@ def _xhs_urls_from_html(html):
                         score = (3 if sc == "WB_DFT" else 0) + (2 if w >= 1000 else 0) + (1 if w >= 600 else 0)
                         if score > best_score:
                             best, best_score = u, score
-                    urls.append(best or im.get("urlDefault") or im.get("urlPre") or "")
+                    u = best or im.get("urlDefault") or im.get("urlPre")
+                    if u:
+                        urls.append(u)
         except Exception:
-            pass
-    if not any(urls):
-        for key in ("urlDefault", "urlPre", "url"):
-            urls += re.findall(rf'"{key}"\s*:\s*"(https?:[^"]+?xhscdn[^"]+?)"', html)
-    if not any(urls):
-        urls += re.findall(r'https?://[^"\s\\]+?xhscdn\.com/[^"\s\\]+', html)
-    return [u for u in urls if u]
+            urls = []
+
+    # 2) 兜底：直接从 __INITIAL_STATE__ 文本里扫图链（结构变了也还能用）
+    if not urls:
+        cand = re.findall(r'https?://[^"\s\\<>]+?xhscdn\.com/[^"\s\\<>]+', hay)
+        cand += re.findall(r'https?://[^"\s\\<>]+?xiaohongshu\.com/spectrum/[^"\s\\<>]+', hay)
+        urls = [u for u in cand if not any(b in u for b in BAD_IMG)]
+
+    # 3) 还不行就退回整页
+    if not urls:
+        cand = re.findall(r'https?://[^"\s\\<>]+?xhscdn\.com/[^"\s\\<>]+', html)
+        urls = [u for u in cand if not any(b in u for b in BAD_IMG)]
+
+    # 按图片 ID 去重（同一张图的多档清晰度路径相同、后缀不同）
+    out, seen = [], set()
+    for u in urls:
+        key = re.sub(r"[!?].*$", "", u).rstrip("/").split("/")[-1]
+        if key and key not in seen:
+            seen.add(key)
+            out.append(u)
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -337,6 +395,10 @@ def try_xhs_dump(url, out):
         html = r.text
         _dbg(DBG, "page GET status=%s bytes=%d" % (r.status_code, len(html)))
         _dbg(DBG, "has __INITIAL_STATE__: %s" % bool(re.search(r"__INITIAL_STATE__", html)))
+        _st = _extract_initial_state(html)
+        _dbg(DBG, "initial_state bytes: %d" % len(_st))
+        _dbg(DBG, "initial_state parses as JSON: %s" % (bool(_st) and _safe_json(_st)))
+        _dbg(DBG, "initial_state head: %s" % re.sub(r"\s+", " ", _st[:400]))
         _dbg(DBG, "xhscdn hits in html: %d" % len(re.findall(r"xhscdn", html)))
         _dbg(DBG, "cookie wall: %s" % ("登录" in html or "login" in html.lower()))
         _dbg(DBG, "html head: %s" % re.sub(r"\s+", " ", html[:600]))
