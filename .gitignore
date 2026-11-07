@@ -5,3 +5,6 @@ __pycache__/
 
 # 工作用的临时下载目录
 google_drive/
+
+# 派生底图（art_shift.py 一条命令可重建）
+runs/*/art-fit/

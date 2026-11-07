@@ -205,6 +205,70 @@ python3 scripts/ocr_layout.py --verify-page pages/复刻02.png --spec spec.json
 
 ---
 
+## G. 视频源复刻（别人拍的「讲一个工具」视频 → 自己的一套 10 页 + 视频）
+
+适用：用户丢来一条 B 站 / 抖音视频链接（通常是「GitHub 刚开源就 XX Stars」这类工具讲解），要求「复刻一模一样的 10 张 + 视频」。做法不是逐帧照抄，而是**把视频的信息重排成 A–E 的产物**。
+
+### G1. 三步定位源视频讲的是什么
+
+1. **抓页面**：`fetch_page` 打开视频页能拿到标题、UP、发布时间、简介（沙箱里 `curl` 打不开 bilibili，`fetch_page` 走的是另一条出网通道，可以读）。
+2. **认工具**：标题里的「GitHub 刚发布就狂揽 X Stars」+ 简介/评论里的仓库名。认不出就 `web_search` 搜标题原文（搬运号会互相引用，通常能搜到 `github.com/owner/repo` 原文），再用 `api.github.com/repos/<owner>/<repo>/readme`（`-H "Accept: application/vnd.github.raw"`）核对 star / 创建时间 / LICENSE / 功能点，别信二手文案。
+3. **取事实，不取解说词**：功能点以 **README + 官网**为准；视频标题里的数字（2.6k★、免 root、30+ 机型）当钩子，落页时写「当前 6.8k★」这种可核实的说法。
+
+### G2. 下不了原片怎么办（默认情况）
+
+Agent 沙箱的出网白名单通常只有 github / npm / pypi，`*.bilibili.com`、`*.hdslb.com` 直接 TLS 失败——装 `yutto`/`BBDown`/`yt-dlp` 也没用。**先如实说「我这里下不了」，再把本机的下载脚本给出去**：`scripts/fetch_bilibili.sh <BV号> "<原始素材目录>"`（yt-dlp / BBDown 两条路，含 `--cookies-from-browser` 拿高码率）。
+明确写清本轮图是基于「视频标题 + 工具 README 事实」的重排，不是逐帧比对——**不要假装比对过帧**。
+
+### G3. 10 页的骨架（工具类视频专用）
+
+| 页 | 角色 | 内容 |
+|---|---|---|
+| 01 | 封面 | 标题两行（≤20 字）+ 副题（一句人话，写清「不用 root / 不用刷机」这类门槛） |
+| 02–06 | 痛点五连 | 每页一个具体场景（开屏、热搜、商店推广、推送、快应用），**一页只写一种烦**，读者逐条对号入座 |
+| 07–09 | 做法三段 | 怎么连（一根线）→ 安全性（不 root、只拨自带开关）→ 可逆（有备份、一条命令还原） |
+| 10 | 收尾 | 情绪落地（手机安静了），把工具名和仓库放文案，不放在图上 |
+
+痛点页的「触发句」抄读者心里那句话（「跳过键在哪，手指都找酸了」），做法页的「引导句」必须是**能照着做的动作**（「就一根线，插上点几下」）。**别在图上写仓库地址**：图上字越少越像原作，链接进简介和置顶评论。
+
+### G4. 三个脚本串起来（本轮新增，都可跨轮复用）
+
+```sh
+python3 scripts/art_shift.py --src runs/素材08-r1/art --out runs/素材08-r1/art-fit --dy 110
+python3 scripts/compose.py  runs/素材08-r1/spec.json --layout xhs2 --art-root runs/素材08-r1 \
+        --outdir runs/素材08-r1/pages --font <中文.ttf> --font-medium <中文.ttf> --html --contact-sheet
+python3 scripts/slideshow.py --spec runs/素材08-r1/spec.json --pages runs/素材08-r1/pages \
+        --out runs/素材08-r1/video/素材08-r1.mp4        # E 段配方：zoompan + xfade，40s
+python3 scripts/grid_preview.py --pages runs/素材08-r1/pages \
+        --out runs/素材08-r1/素材08-总预览图.jpg --font <中文.ttf> --cols 5   # 总预览图
+```
+
+- **art_shift.py**：生图模型老把角色画在中线（y≈0.55–0.65），正好被点题句压脸。整张底图下移 N px、顶部补暖纸色再裁回 1080×1447，**不消耗生图次数**。`--dy` 从 80 试到 140。
+- **slideshow.py**：把 E 段手工 ffmpeg 配方写成脚本。每张图只喂一帧，靠 `zoompan=d=<帧数>` 复制，**千万别用 `-loop 1 -t`**（见失败模式表）。
+- **grid_preview.py**：5×2 拼版，带标题和页码，用作「最后一张总预览图」。
+
+### G5. 一轮一个子文件夹（多轮迭代的落盘约定）
+
+```
+runs/素材NN-rK/
+  art/  art-fit/  pages/  video/  spec.json
+  copy-素材NN-主题.md      发布文案（标题/简介/话题/置顶评论/分镜表）
+  素材NN-总预览图.jpg       总预览
+  README.md               本轮报告：源视频、工具核实、踩坑、复现命令
+```
+同一素材要做下一版就开 `rK+1`，**不要覆盖上一轮**；四类文件（图 / 视频 / 预览 / 文案）必须同轮齐活。
+
+### G6. 上传到 Google Drive 的素材库
+
+用户常说「传到 G:\我的云端硬盘\一二和布布 - 原始素材\素材 NN」。G 盘就是 Google Drive 挂载，走 Drive connector：
+
+1. `list_files --q "name = '一二和布布 - 原始素材' and trashed = false"` 拿父目录 id；
+2. `list_files --q "'<父id>' in parents and trashed = false"` 找 `素材 NN`（可能已存在、可能为空文件夹）；
+3. 在它下面 `create_file` 建 `素材NN-rK` 子文件夹，再 `upload_file` 逐个上传成品页、视频、总预览图、文案、README；
+4. 上传的是**成品**，`art/` 原图可传可不传；单文件 ≤100MB。
+
+---
+
 ## 风格为什么好抄（量化拆解）
 
 | 特征 | 做法 | 省掉了什么 |
@@ -232,6 +296,9 @@ python3 scripts/ocr_layout.py --verify-page pages/复刻02.png --spec spec.json
 | 一批想拆两轮（先文案后图） | 想让用户先审文案 | A0-5 一批一回合：gate+OCR+页码返工三回路兜底，更快 |
 | 要商用 | 高相似版有 IP 风险 | 换 `examples/art-original/` |
 | 被限流 | 未标 AI | 发布勾选 AI 标识 |
+| 点题句压在角色脸上 | 生图模型把角色画在中线（y≈0.55–0.65） | `art_shift.py --dy 80~140` 整张下移，别重画 |
+| 轮播视频时长爆炸（40s → 10 分钟） | `-loop 1 -t N` 喂 zoompan，帧数按 `d` 倍放大 | 每张图只喂一帧，`zoompan=d=<帧数>` 复制，再 `-t 总时长` 兜底 |
+| 说「我把原视频逐帧比对过」 | 沙箱出网打不开 bilibili，只能读到页面文字 | 如实说明：按标题 + 工具 README 事实重排，并给本机下载脚本 |
 
 ## 范例索引（examples/ 每套对应的方法阶段）
 
@@ -245,5 +312,6 @@ python3 scripts/ocr_layout.py --verify-page pages/复刻02.png --spec spec.json
 | `spec-xhs8c.json` | 3.0 的 spec | label/reveal/bubbles+anchor 字段写法 |
 | `guide-map.md` + `spec-series01.json` + `copy-系列01-*.md` | **连载 13 批 ⭐** | A0 连载拆解：内容地图→拆解器→每批 10 张（①–④ 已完成，④ 起一批一回合） |
 | `art-original/` | 原创角色 | 商用替代 |
+| `runs/素材08-r1/` | **视频源复刻 ⭐** | G 段全流程：B 站视频 → 认工具 → 10 页（xhs2）→ 40s 视频 → 总预览图 → 文案 → Drive |
 
 完整调研（14 个 GitHub comic skill）、案例库、转换方案、3.7 与复刻版全套文案设计见 `references/`；测量数据见 `references/layout-xhs8.json`。

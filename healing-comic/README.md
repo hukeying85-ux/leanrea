@@ -17,6 +17,8 @@
 复刻其它帖子：`ocr_layout.py --refs 原图目录 --out layout.json` 量版式 → 底图做「去字编辑」→ `compose.py --layout xhs2`（spec 抄锚点）→ `ocr_layout.py --verify-page` 逐页验收。
 5. **其它样张** → 四条底线 6 页 [`examples/pages/`](examples/pages/)、3.7 承诺篇 3 页 [`examples/pages-37/`](examples/pages-37/)，文案设计在 [`references/copy-3.7-承诺要小而可兑现.md`](references/copy-3.7-承诺要小而可兑现.md)。
 
+6. **视频源复刻（素材08 第 1 轮）** → 用户丢来一条 B 站工具讲解视频（[BV1suxg6MEJz](https://www.bilibili.com/video/BV1suxg6MEJz/)），复刻成 10 页 + 40s 轮播视频：先认源视频讲的工具（[`rddmwmddr/android-ad-cleaner`](https://github.com/rddmwmddr/android-ad-cleaner)，免 root 关国产安卓系统广告），再按「痛点五连 → 做法三段 → 情绪收尾」排页。成品与文案见 [`runs/素材08-r1/`](runs/素材08-r1/)，全流程写进 SKILL.md 新增的 **G 段**；本轮新增三个脚本 `art_shift.py`（底图垂直微调，救「点题句压脸」）、`slideshow.py`（E 段 ffmpeg 配方自动化）、`grid_preview.py`（5×2 总预览图）。沙箱出网打不开 bilibili，原片下载脚本见 `scripts/fetch_bilibili.sh`（本机执行）。
+
 ## 先看成品
 
 - 整套预览：[`examples/pages/preview.html`](examples/pages/preview.html)（浏览器直接打开，v2 版式：80px 大标题、左对齐、无页眉标签/页码）
@@ -39,8 +41,13 @@ examples/
   spec.json                  排版输入（标题 / 台词 / 出处）
   art/*.png                  6 张零文字底图
   pages/*.png                6 张 1080×1440 成品 + preview.html + preview.jpg
+runs/素材NN-rK/              一轮一个子文件夹：art / art-fit / pages / video / 文案 / 总预览图 / README
 scripts/
   compose.py                 无字底图 + spec.json -> 成品页（Pillow，中文折行 / 气泡 / 预览）
+  art_shift.py               底图垂直微调（角色偏高时救点题句，不重画）
+  slideshow.py               pages -> 轮播视频（zoompan 缓推 + xfade，SKILL E 段配方）
+  grid_preview.py            pages -> 一张 5×2 总预览图
+  fetch_bilibili.sh          本机下载 B 站源视频（yt-dlp / BBDown）
   fetch_font.sh              可选：下载霞鹜文楷（SIL OFL 1.1）
 ```
 
