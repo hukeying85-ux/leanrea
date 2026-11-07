@@ -1,1 +1,27 @@
 === xhs-downloader https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share ===
+[pip] rc=0 out= err=
+[run] rc=0
+STDOUT 共 1 个小红书作品待处理...
+开始处理作品：6aedad8b0000000012019a2f
+文件 6aedad8b0000000012019a2f_2.png 下载成功
+文件 6aedad8b0000000012019a2f_1.png 下载成功
+文件 6aedad8b0000000012019a2f_3.png 下载成功
+文件 6aedad8b0000000012019a2f_4.png 下载成功
+文件 6aedad8b0000000012019a2f_5.png 下载成功
+文件 6aedad8b0000000012019a2f_7.png 下载成功
+文件 6aedad8b0000000012019a2f_6.png 下载成功
+作品处理完成：6aedad8b0000000012019a2f
+共处理 1 个作品，成功 1 个，失败 0 个，跳过 0 个
+detail keys: ['raw']
+
+STDERR 
+tool downloaded: 7 -> ['Download/6aedad8b0000000012019a2f/6aedad8b0000000012019a2f_1.png', 'Download/6aedad8b0000000012019a2f/6aedad8b0000000012019a2f_2.png', 'Download/6aedad8b0000000012019a2f/6aedad8b0000000012019a2f_3.png', 'Download/6aedad8b0000000012019a2f/6aedad8b0000000012019a2f_4.png', 'Download/6aedad8b0000000012019a2f/6aedad8b0000000012019a2f_5.png', 'Download/6aedad8b0000000012019a2f/6aedad8b0000000012019a2f_6.png', 'Download/6aedad8b0000000012019a2f/6aedad8b0000000012019a2f_7.png']
+detail urls: 7
+   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg9g5o18tfi09a4toh3q320
+   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg7g5o18tfi09a4tfj4jh9o
+   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg8g5o18tfi09a4t8upc2h0
+   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg805o18tfi09a4t4d6u9io
+   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg705o18tfi09a4tshku0e0
+   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg905o18tfi09a4tjkhr1c8
+   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mga05o18tfi09a4tid65a10
+TOTAL saved: 14
