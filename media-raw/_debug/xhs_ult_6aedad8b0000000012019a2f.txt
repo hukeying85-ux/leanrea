@@ -23,18 +23,18 @@
      state 不是合法 JSON，退化成文本扫描
 [A/direct] http=200 bytes=358299 state=21046 urls+6
 [B] https://r.jina.ai/ http=200 bytes=1214 urls=0
-[B] https://r.jina.ai/http:/ http=200 bytes=1127 urls=0
+[B] https://r.jina.ai/http:/ http=200 bytes=1213 urls=0
 [C] snapshots for 6aedad8b0000000012019a2f: 0
      [D] rendered html urls: 0
 [D] api responses captured: 3 | state bytes: 191 | dom imgs: 2
      dom https://fe-s10.rednotecdn.com/rednotelogo.png
-     dom data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAQAElEQVR4AeybgXobNw6E89/7v/OdZuEhQRK7WjdurtWyn+EBZwbgioIZJWn+8+vXr//+bvw3/Vf1smzN
+     dom data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAQAElEQVR4AeycgXrbNgyE++/933nzCT0RJCFZTrK0sbgvyIF3B0iiYdb19u2fX79+/fvZ+Lf4p+pZ2HYq
      api[0] keys=['code', 'success', 'msg', 'data']
      api[0] head={"code": -101, "success": false, "msg": "无登录信息，或登录信息为空", "data": {}}
      api[1] keys=['code', 'success', 'msg', 'data']
      api[1] head={"code": -101, "success": false, "msg": "无登录信息，或登录信息为空", "data": {}}
-     api[2] keys=['msg', 'data', 'code', 'success']
-     api[2] head={"msg": "成功", "data": {"user_id": "6aeee94800000000130215e0", "guest": true, "xsec_token": "AB4A9djtsnA9oCtM71DSbeJ_ZLWkCvLL311BJym2TiqPY="}, "code": 0, "success": true}
+     api[2] keys=['code', 'success', 'msg', 'data']
+     api[2] head={"code": 0, "success": true, "msg": "成功", "data": {"user_id": "6aeeead00000000013021633", "guest": true, "xsec_token": "ABKvVq2-sLOSDkGXpd7WaY8N23fMOSO9wGmnGfTyEyr5g="}}
 TOTAL candidate urls: 6
    https://fe-video-qc.xhscdn.com/fe-platform/5581076bd6b6af2e0e943abb024ad0e16f2ebff6.pdf
    https://fe-video-qc.xhscdn.com/fe-platform-file/104101b831hhkkll23u0678gtks7tu70004en2n231udpe

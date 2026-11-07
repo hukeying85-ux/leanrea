@@ -6,6 +6,11 @@
     "tool_used": "xhs-ultimate",
     "steps": [
       {
+        "tool": "xhs-downloader",
+        "ok": false,
+        "log": "ValueError: too many values to unpack (expected 2)"
+      },
+      {
         "tool": "xhs-ultimate",
         "ok": true,
         "log": "ultimate: 6 candidates, saved 6"
@@ -98,7 +103,7 @@
         "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
       }
     ],
-    "collected_at": "2026-11-07T09:02:11Z",
+    "collected_at": "2026-11-07T09:08:54Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -130,17 +135,17 @@
       {
         "tool": "proxy-relay",
         "ok": false,
-        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: non-json '<!DOCTYPE html>\\n<html lang=\"zh-cn\">\\n\\n<head>\\n    <meta http-e' | corsproxy.io: HTTP 401"
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401"
       }
     ],
     "files": [
       {
         "name": "_cookies.txt",
         "bytes": 760,
-        "sha256": "a6754804cabeb200b11dd615aa0fe2a008c9e1d1c7f67775e7f9d738c692bbca"
+        "sha256": "1d38a09ff90eab494a603b955d1598c14d4fc072cd2df5b102ef948d9d968c37"
       }
     ],
-    "collected_at": "2026-11-07T09:01:54Z",
+    "collected_at": "2026-11-07T09:08:37Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -172,17 +177,17 @@
       {
         "tool": "proxy-relay",
         "ok": false,
-        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 408 | corsproxy.io: HTTP 401"
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: non-json '<!DOCTYPE html>\\n<html lang=\"zh-cn\">\\n\\n<head>\\n    <meta http-e' | corsproxy.io: HTTP 401"
       }
     ],
     "files": [
       {
         "name": "_cookies.txt",
         "bytes": 760,
-        "sha256": "fc9d997953961b120e6dc25dbb948ac62063a29e12640ce8c2ba809679e3ca7f"
+        "sha256": "f7c7738adeb63cf4aa75ba62ea3743ab5c9e79dcfe4e29065d61b0010388979c"
       }
     ],
-    "collected_at": "2026-11-07T09:01:54Z",
+    "collected_at": "2026-11-07T09:08:27Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -214,11 +219,11 @@
       {
         "tool": "proxy-relay",
         "ok": false,
-        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401"
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
       }
     ],
     "files": [],
-    "collected_at": "2026-11-07T09:02:38Z",
+    "collected_at": "2026-11-07T09:09:14Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -245,7 +250,7 @@
       {
         "tool": "scrape",
         "ok": true,
-        "log": "found 45 candidate urls, saved 22"
+        "log": "found 44 candidate urls, saved 21"
       }
     ],
     "files": [
@@ -311,71 +316,71 @@
       },
       {
         "name": "img_18.webp",
-        "bytes": 26316,
-        "sha256": "66924ebd37ae16ce16a141b680ba1882f482851cc68a41d34cc196c9a037f1b8"
+        "bytes": 26450,
+        "sha256": "efe9af00ea2415653e7266e56a42b28faa81dc3954b3658bc0ecab5a7f685f14"
       },
       {
         "name": "img_19.webp",
-        "bytes": 17873,
-        "sha256": "fefa9f1f4d4ec91205d216d3aef10f72e4def5054a74b09b1ad4189fff39644a"
-      },
-      {
-        "name": "img_20.webp",
-        "bytes": 30321,
-        "sha256": "2895e11cada9fc8e252866d7a955662b6e71dd0288a6d41aa2ffe5fc10918013"
-      },
-      {
-        "name": "img_21.webp",
         "bytes": 20860,
         "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
       },
       {
-        "name": "img_22.webp",
+        "name": "img_20.webp",
+        "bytes": 25082,
+        "sha256": "1925a00976ce9fee75b1cefa66572551ad1fb47ea4b52742e40e1d8c27beca84"
+      },
+      {
+        "name": "img_21.webp",
         "bytes": 33918,
         "sha256": "5bd98475561ad7266b1867a6596308d334e25337ca533940de9640648f77be57"
       },
       {
+        "name": "img_22.webp",
+        "bytes": 40114,
+        "sha256": "7dc2c5d61b0289edf2f06a20247819a7d8d0e325cacdca97185f495b05946bd6"
+      },
+      {
         "name": "img_23.webp",
+        "bytes": 15895,
+        "sha256": "14813b607c3ff620fb3272335a73d9c9df81fbaa1e6d0cde13a6431a3ac56e29"
+      },
+      {
+        "name": "img_24.webp",
+        "bytes": 27604,
+        "sha256": "9a98b2885f3df51c56428e643adbbb8d4b757ed28fa0b52d39b6672d4485a45c"
+      },
+      {
+        "name": "img_25.webp",
+        "bytes": 32158,
+        "sha256": "fde96898fbf27735cf118efc220e2539ab2f4c344060cb8ae630340714abe0a0"
+      },
+      {
+        "name": "img_26.webp",
+        "bytes": 17762,
+        "sha256": "aa2d80774ac380a60ace0e9d440e761c46f188bde9f56e8f85e1101dabcddef4"
+      },
+      {
+        "name": "img_27.webp",
+        "bytes": 27503,
+        "sha256": "26d64831e032521a3217c74af7ef6c86ee08dcfe4010ae63f0bad011fb6b723c"
+      },
+      {
+        "name": "img_28.webp",
         "bytes": 34549,
         "sha256": "1cb9c2a3d4f2bc7571d845a4caae29114a245ce0812019ebbbfdecd814e0513f"
       },
       {
-        "name": "img_24.webp",
-        "bytes": 18576,
-        "sha256": "fd0ab0b4f4844165cd4d223fdd5e217aca200253e9536757cfd1256678b9cbc8"
-      },
-      {
-        "name": "img_25.webp",
-        "bytes": 16068,
-        "sha256": "aee77341b2b1a0d0f88eaa06125aea4d6d2c86d872a74d28833b38fc392fb6b5"
-      },
-      {
-        "name": "img_26.webp",
-        "bytes": 27252,
-        "sha256": "21302981a174d5cca1fadc2da4c6f081bfa227391bbce05247ae9edb5d52b638"
-      },
-      {
-        "name": "img_27.webp",
-        "bytes": 21507,
-        "sha256": "de01cbff297b0207ab0ecf331ce9f9f121331cd19604658313ba4870f11149e6"
-      },
-      {
-        "name": "img_28.webp",
-        "bytes": 29490,
-        "sha256": "503758ec09165e3ba7a4762c9982139c1ad3f070fd4b538fa3cb4026980d71ac"
-      },
-      {
         "name": "img_29.webp",
-        "bytes": 33670,
-        "sha256": "3e8c110b52450c9eee450804f2cd3264d4c5a87fc7fbe0a7de0e827514d6ea18"
+        "bytes": 16302,
+        "sha256": "af3a16b4c4760e317e3d0ee4066e770f61151355443768171e8878a97cf3e2c1"
       },
       {
         "name": "img_30.webp",
-        "bytes": 20426,
-        "sha256": "c57c0e3fa6041246a186606c324db164f92925a4fa601cd3c9c7dc5dfe4ac340"
+        "bytes": 15895,
+        "sha256": "14813b607c3ff620fb3272335a73d9c9df81fbaa1e6d0cde13a6431a3ac56e29"
       }
     ],
-    "collected_at": "2026-11-07T09:02:19Z",
+    "collected_at": "2026-11-07T09:09:04Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -402,7 +407,7 @@
         "sha256": "5d58665e5f1e9f82fe33e82591f0ebe719b9589858e8ef0a9caf3a00833112b2"
       }
     ],
-    "collected_at": "2026-11-07T09:02:12Z",
+    "collected_at": "2026-11-07T09:08:55Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -412,6 +417,11 @@
     "tool_used": "xhs-ultimate",
     "steps": [
       {
+        "tool": "xhs-downloader",
+        "ok": false,
+        "log": "ValueError: too many values to unpack (expected 2)"
+      },
+      {
         "tool": "xhs-ultimate",
         "ok": true,
         "log": "ultimate: 6 candidates, saved 6"
@@ -449,7 +459,7 @@
         "sha256": "1a719aae76344eab9bd4babba5ce24e62776347a90b5e1a44d186b86fa65c20d"
       }
     ],
-    "collected_at": "2026-11-07T09:02:49Z",
+    "collected_at": "2026-11-07T09:10:04Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
@@ -459,6 +469,11 @@
     "tool_used": "xhs-ultimate",
     "steps": [
       {
+        "tool": "xhs-downloader",
+        "ok": false,
+        "log": "ValueError: too many values to unpack (expected 2)"
+      },
+      {
         "tool": "xhs-ultimate",
         "ok": true,
         "log": "ultimate: 6 candidates, saved 6"
@@ -496,7 +511,7 @@
         "sha256": "1a719aae76344eab9bd4babba5ce24e62776347a90b5e1a44d186b86fa65c20d"
       }
     ],
-    "collected_at": "2026-11-07T09:03:16Z",
+    "collected_at": "2026-11-07T09:09:47Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   }
 ]

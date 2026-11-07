@@ -5,6 +5,11 @@
   "tool_used": "xhs-ultimate",
   "steps": [
     {
+      "tool": "xhs-downloader",
+      "ok": false,
+      "log": "ValueError: too many values to unpack (expected 2)"
+    },
+    {
       "tool": "xhs-ultimate",
       "ok": true,
       "log": "ultimate: 6 candidates, saved 6"
@@ -42,6 +47,6 @@
       "sha256": "1a719aae76344eab9bd4babba5ce24e62776347a90b5e1a44d186b86fa65c20d"
     }
   ],
-  "collected_at": "2026-11-07T09:03:16Z",
+  "collected_at": "2026-11-07T09:09:47Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

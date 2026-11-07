@@ -1,6 +1,6 @@
 # 最近一次中继下载
 
-时间：2026-11-07 09:03 UTC  
+时间：2026-11-07 09:10 UTC  
 任务：8 条，成功：5 条
 
 | 平台 | 结果 | 命中工具 | 文件数 | 体积 | 链接 |
@@ -37,6 +37,7 @@
 - `xhs_18.jpg` — 33,980 字节
 - `xhs_19.webp` — 37,337 字节
 - `xhs_21.webp` — 60,599 字节
+- ❌ xhs-downloader：`ValueError: too many values to unpack (expected 2)`
 
 ### https://www.bilibili.com/video/BV1SPNz6rEE8/
 
@@ -49,7 +50,7 @@
 - ❌ bilibili-api：`api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'`
 - ❌ scrape：`found 1 candidate urls, saved 0`
-- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: non-json '<!DOCTYPE html>\n<html lang="zh-cn">\n\n<head>\n    <meta http-e' | corsproxy.io: HTTP 401`
+- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401`
 
 ### https://www.bilibili.com/video/BV1bLhCe6Euk/
 
@@ -62,7 +63,7 @@
 - ❌ bilibili-api：`api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'`
 - ❌ scrape：`found 1 candidate urls, saved 0`
-- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 408 | corsproxy.io: HTTP 401`
+- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: non-json '<!DOCTYPE html>\n<html lang="zh-cn">\n\n<head>\n    <meta http-e' | corsproxy.io: HTTP 401`
 
 ### https://www.douyin.com/video/7525669126587026745
 
@@ -75,7 +76,7 @@
 - ❌ douyin-api：`www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\n<script data-sdk-glue-in="pre-handler" nonce="argus-csp-token" >    !fun'`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7525669126587026745'`
 - ❌ scrape：`found 0 candidate urls, saved 0`
-- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401`
+- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401`
 
 ### https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
@@ -93,19 +94,19 @@
 - `img_15.webp` — 35,878 字节
 - `img_16.webp` — 26,481 字节
 - `img_17.webp` — 39,360 字节
-- `img_18.webp` — 26,316 字节
-- `img_19.webp` — 17,873 字节
-- `img_20.webp` — 30,321 字节
-- `img_21.webp` — 20,860 字节
-- `img_22.webp` — 33,918 字节
-- `img_23.webp` — 34,549 字节
-- `img_24.webp` — 18,576 字节
-- `img_25.webp` — 16,068 字节
-- `img_26.webp` — 27,252 字节
-- `img_27.webp` — 21,507 字节
-- `img_28.webp` — 29,490 字节
-- `img_29.webp` — 33,670 字节
-- `img_30.webp` — 20,426 字节
+- `img_18.webp` — 26,450 字节
+- `img_19.webp` — 20,860 字节
+- `img_20.webp` — 25,082 字节
+- `img_21.webp` — 33,918 字节
+- `img_22.webp` — 40,114 字节
+- `img_23.webp` — 15,895 字节
+- `img_24.webp` — 27,604 字节
+- `img_25.webp` — 32,158 字节
+- `img_26.webp` — 17,762 字节
+- `img_27.webp` — 27,503 字节
+- `img_28.webp` — 34,549 字节
+- `img_29.webp` — 16,302 字节
+- `img_30.webp` — 15,895 字节
 - ❌ yt-dlp：`cookies: none
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden
 -f 18/22/43/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats
@@ -130,6 +131,7 @@
 - `xhs_04.webp` — 9,125,754 字节
 - `xhs_05.webp` — 590,703 字节
 - `xhs_06.webp` — 1,387,028 字节
+- ❌ xhs-downloader：`ValueError: too many values to unpack (expected 2)`
 
 ### https://www.xiaohongshu.com/explore/6aedad8b0000000012019a2f?xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share
 
@@ -141,3 +143,4 @@
 - `xhs_04.webp` — 9,125,754 字节
 - `xhs_05.webp` — 590,703 字节
 - `xhs_06.webp` — 1,387,028 字节
+- ❌ xhs-downloader：`ValueError: too many values to unpack (expected 2)`
