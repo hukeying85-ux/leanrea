@@ -70,14 +70,18 @@ def font(path, size, wght=None):
 
 
 # ------------------------------------------------------------------ 底图
-def fit_canvas(art: Image.Image, size=(W, H)) -> Image.Image:
-    """等比放大/裁切到 1440×3200，再轻微锐化（688×1536 → ×2.09）。"""
+def fit_canvas(art: Image.Image, size=(W, H), ax=0.5, ay=0.5) -> Image.Image:
+    """等比放大/裁切到 1440×3200，再轻微锐化（688×1536 → ×2.09）。
+
+    ax / ay = 裁切锚点（0=左/上，0.5=居中，1=右/下）。生图偶尔吐出偏宽的 848×1264，
+    按 9:20 要裁掉三成宽度时，用 spec 里每页的 "ax" 把主体留在画面里（见第 11 轮）。
+    """
     art = art.convert("RGB")
     aw, ah = art.size
     s = max(size[0] / aw, size[1] / ah)
     big = art.resize((round(aw * s), round(ah * s)), Image.LANCZOS)
-    x0 = (big.width - size[0]) // 2
-    y0 = (big.height - size[1]) // 2
+    x0 = round((big.width - size[0]) * min(max(ax, 0.0), 1.0))
+    y0 = round((big.height - size[1]) * min(max(ay, 0.0), 1.0))
     big = big.crop((x0, y0, x0 + size[0], y0 + size[1]))
     return big.filter(ImageFilter.UnsharpMask(radius=1.6, percent=55, threshold=2))
 
@@ -238,7 +242,7 @@ def cmd_build(a, spec):
         if not src.exists():
             print(f"[skip] {src} 不存在")
             continue
-        base = fit_canvas(Image.open(src))
+        base = fit_canvas(Image.open(src), ax=float(pg.get("ax", 0.5)), ay=float(pg.get("ay", 0.5)))
         name = page_name(spec, pg)
         save(base, out / f"{name}.{a.format}")                      # 干净壁纸 = 交付物
         if a.ui == "ios":
