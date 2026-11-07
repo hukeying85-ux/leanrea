@@ -1,17 +1,61 @@
-=================== yt-dlp ===================
+=== A. yt-dlp (headers + buvid) ===
+spi: {"code":0,"data":{"b_3":"EF9CD71A-0995-DE7B-2680-5B89CE4E8A6C51147infoc","b_4":"9D909329-A366-A4C5-B623-0BDE5B2DAEA551147-026110716-hGC/WFFENOnpTstza3b3dg=="},"message":"ok"}
+buvid3=46 chars
+[debug] Command-line config: ['-v', '--user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '--referer', 'https://www.bilibili.com/', '--add-header', 'Cookie:buvid3=EF9CD71A-0995-DE7B-2680-5B89CE4E8A6C51147infoc;', '-f', 'bv*+ba/b', '--merge-output-format', 'mp4', '--write-info-json', '-o', '/tmp/out/%(title).80s.%(ext)s', 'https://www.bilibili.com/video/BV1suxg6MEJz/']
+Deprecated Feature: Passing cookies as a header is a potential security risk; they will be scoped to the domain of the downloaded urls. Please consider loading cookies from a file or browser instead.
+[debug] Encodings: locale UTF-8, fs utf-8, pref UTF-8, out utf-8 (No ANSI), error utf-8 (No ANSI), screen utf-8 (No ANSI)
+[debug] yt-dlp version stable@2026.10.26 from yt-dlp/yt-dlp [c91f8de0b] (pip)
+[debug] Python 3.12.3 (CPython x86_64 64bit) - Linux-7.0.0-1017-azure-x86_64-with-glibc2.39 (OpenSSL 3.0.13 30 Jan 2024, glibc 2.39)
+[debug] exe versions: none
+[debug] Optional libraries: Cryptodome-3.24.2, certifi-2023.11.17, requests-2.34.2, sqlite3-3.45.1, urllib3-2.0.7, websockets-17.4
+[debug] JS runtimes: none
+[debug] Proxy map: {}
+[debug] Request Handlers: urllib, requests, websockets
+[debug] Plugin directories: none
+[debug] Loaded 1747 extractors
 [BiliBili] Extracting URL: https://www.bilibili.com/video/BV1suxg6MEJz/
 [BiliBili] 1suxg6MEJz: Downloading webpage
 ERROR: [BiliBili] 1suxg6MEJz: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
-[yt-dlp] exit=1
-=================== yt-dlp-hls ===================
-[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1suxg6MEJz/
-[BiliBili] 1suxg6MEJz: Downloading webpage
-ERROR: [BiliBili] 1suxg6MEJz: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
-[yt-dlp-hls] exit=1
-=================== yutto ===================
-yutto 2.3.1
-[yutto] exit=0
-OK=0
-total 8
-drwxr-xr-x  2 runner runner 4096 Nov  7 08:40 .
-drwxrwxrwt 14 root   root   4096 Nov  7 08:40 ..
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/extractor/common.py", line 764, in extract
+    ie_result = self._real_extract(url)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/extractor/bilibili.py", line 726, in _real_extract
+    webpage, urlh = self._download_webpage_handle(url, video_id, headers=headers)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/extractor/common.py", line 970, in _download_webpage_handle
+    urlh = self._request_webpage(url_or_request, video_id, note, errnote, fatal, data=data,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/extractor/common.py", line 919, in _request_webpage
+    raise ExtractorError(errmsg, cause=err, video_id=video_id)
+
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/extractor/common.py", line 906, in _request_webpage
+    return self._downloader.urlopen(self._create_request(url_or_request, data, headers, query, extensions))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/YoutubeDL.py", line 4300, in urlopen
+    return self._request_director.send(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/networking/common.py", line 117, in send
+    response = handler.send(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/networking/_helper.py", line 194, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/networking/common.py", line 359, in send
+    return self._send(request)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/yt_dlp/networking/_requests.py", line 361, in _send
+    raise HTTPError(res, redirect_loop=max_redirects_exceeded)
+yt_dlp.networking.exceptions.HTTPError: HTTP Error 412: Precondition Failed
+
+=== B. 纯 API ===
+spi: 200 b'{"code":0,"data":{"b_3":"DD815804-D980-1C66-5715-DEE4C34B9BE752252infoc","b_4":"4D53C474-86BC-2AED-24DE-DE9A3390E40C52252-026110716-hGC/WFFENOnpTstza3b3dg=="},"message":"ok"}'
+buvid3 len: 46
+view: 200 b'{"code":0,"message":"OK","ttl":1,"data":{"bvid":"BV1suxg6MEJz","aid":117512889043583,"videos":1,"tid":230,"tid_v2":2100,"tname":"","tname_v2":"","copyright":1,"pic":"http://i2.hdslb.com/bfs/archive/27'
+title: 来自民间大佬制作APP，GitHub刚发布就狂揽2.6k Stars！手机去广告这块最高的山来了！一款国产安卓手机去广告神器 | aid: 117512889043583 | cid: 43101327199 | dur: 63
+playurl: 412 bvid=BV1suxg6MEJz&cid=43101327199&qn=64&fnval=0&fnver=0&four | b'{"code":-412,"message":"request was banned","ttl":1}'
+playurl: 412 avid=117512889043583&cid=43101327199&qn=64&fnval=0&platform= | b'{"code":-412,"message":"request was banned","ttl":1}'
+playurl: 412 bvid=BV1suxg6MEJz&cid=43101327199&qn=32&fnval=16 | b'{"code":-412,"message":"request was banned","ttl":1}'
+playurl: 412 bvid=BV1suxg6MEJz&cid=43101327199&qn=16&fnval=1&platform=htm | b'{"code":-412,"message":"request was banned","ttl":1}'
+没有拿到播放地址
+=== C. BBDown ===
+/home/runner/work/_temp/0602bd42-cd88-4c58-b900-e2b66ea1cda5.sh: line 6: /tmp/BBDown: No such file or directory
