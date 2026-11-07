@@ -225,12 +225,15 @@ print([(t, round(c, 2)) for _, t, c in (r or [])])
 
 ### 1. 取素材
 
-沙箱出网常被限制。可行的路子：临时 GitHub Actions 工作流，让 runner 去抓
-（它有公网），抓完 `git add` 回分支，本地 `git pull`。
+**详见 [`下载小红书原图.md`](下载小红书原图.md)。** 一句话：别自己解析小红书页面，
+用 GitHub 上的 `JoeanAmier/XHS-Downloader`（curl_cffi 做 TLS 指纹伪装，无需 cookie），
+通过 GitHub Actions 中转跑到 `media-out` 分支再取回。
 
+- 机房 IP 裸请求只有「游客壳」（页面 0 个图链，接口回 `-101 无登录信息`），
+  yt-dlp / gallery-dl / jina / wayback / playwright 全都不行。
 - 笔记页的 CDN 链接带时间戳签名，会过期 —— **让 runner 现抓页面现提链接**，
   不要复用旧链接。
-- 下载带 `Referer: https://www.xiaohongshu.com/` 和桌面版 UA。
+- 落地前按内容 sha256 去重、按文件头确认是真图片（页脚的备案 PDF 会被误捞）。
 - **抓完立刻把图和 workflow 从仓库删掉**，别把二进制留在 git 历史里。
 
 ### 2. 量设计（别靠猜）
