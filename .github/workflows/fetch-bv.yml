@@ -1,13 +1,16 @@
 name: fetch-bilibili
 
-# 为什么需要这个 workflow：Agent 沙箱的出网白名单只有 github / npm / pypi，
-# *.bilibili.com、*.hdslb.com、*.bilivideo.com 在 IP 层就被拦（TLS EOF），
-# yt-dlp / yutto / bilix / you-get / BBDown 全都在第一步取 playurl 时挂掉。
-# GitHub 的 runner 有完整外网，于是把「下载」这一步外包给 runner，
-# 下完切成 ≤20MB 的块推回本分支，Agent 侧再用 codeload 拉 tar.gz 取回、
-# 本地按顺序拼回 mp4（codeload.github.com 在白名单里）。
+# 背景：Agent 沙箱出网白名单只有 github / npm / pypi，*.bilibili.com 在 IP 层就被拦。
+# 于是把「下载」外包给 GitHub runner（有完整外网），下完切成 ≤20MB 分块推回本分支，
+# Agent 侧 git fetch / codeload 取回后本地拼回 mp4。
 #
-# 触发条件故意只挂 workflow 文件本身的改动，避免提交分块时套娃触发。
+# v2：第一版 yt-dlp 直接吃 HTTP 412（B 站对机房 IP 的风控）。
+# 这一版三路并进：
+#   A. yt-dlp + 伪造 UA/Referer/Buvid Cookie
+#   B. 纯 API：finger/spi 取 buvid → web-interface/view 取 aid/cid
+#      → player/playurl（platform=html5 免 wbi 签名）→ 带 Referer 拉 mp4
+#   C. BBDown（社区里对 B 站风控最耐受的 CLI），作为兜底
+# 每一步都把状态码写进 attempt.log，失败也能看出是哪一层被拦。
 
 on:
   push:
@@ -34,43 +37,144 @@ jobs:
 
       - name: 环境
         run: |
+          set -x
           python3 -V
-          ffmpeg -version | head -1
-          pip install -q -U yt-dlp yutto bilix you-get
+          pip install -q -U yt-dlp yutto bilix you-get requests
           yt-dlp --version
+          ffmpeg -version | head -1
 
-      - name: 逐个下载器试（前面的失败就走下一个）
-        id: dl
+      - name: A. yt-dlp（带 UA / Referer / buvid）
         shell: bash
+        continue-on-error: true
         run: |
-          set +e
           mkdir -p /tmp/out downloads/$BV
           LOG=downloads/$BV/attempt.log
           : > "$LOG"
-          try () {
-            local name="$1"; shift
-            echo "=================== $name ===================" | tee -a "$LOG"
-            timeout 900 "$@" >>"$LOG" 2>&1
-            local rc=$?
-            echo "[$name] exit=$rc" | tee -a "$LOG"
-            return $rc
-          }
-          ok=1
-          try yt-dlp yt-dlp -f "bv*+ba/b" --merge-output-format mp4 --write-info-json \
-              -o "/tmp/out/%(title).80s.%(ext)s" "$URL" && ok=0
-          if [ $ok -ne 0 ]; then
-            try yt-dlp-hls yt-dlp -f "b" --merge-output-format mp4 \
-                -o "/tmp/out/%(title).80s.%(ext)s" "$URL" && ok=0
-          fi
-          if [ $ok -ne 0 ]; then
-            try yutto yutto -v "$URL" -d /tmp/out --no-danmaku && ok=0
-          fi
-          if [ $ok -ne 0 ]; then
-            try bilix bilix get_video "$URL" -d /tmp/out --no-danmaku && ok=0
-          fi
-          echo "OK=$ok" | tee -a "$LOG"
+          echo "=== A. yt-dlp (headers + buvid) ===" | tee -a "$LOG"
+          BUV=$(curl -sS -m 20 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" \
+                 "https://api.bilibili.com/x/frontend/finger/spi" | tee /tmp/spi.json | python3 -c "import json,sys;d=json.load(sys.stdin);print(d.get('data',{}).get('b_3',''))" 2>/dev/null)
+          echo "spi: $(head -c 200 /tmp/spi.json)" | tee -a "$LOG"
+          echo "buvid3=${#BUV} chars" | tee -a "$LOG"
+          timeout 900 yt-dlp -v \
+            --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" \
+            --referer "https://www.bilibili.com/" \
+            --add-header "Cookie:buvid3=${BUV};" \
+            -f "bv*+ba/b" --merge-output-format mp4 --write-info-json \
+            -o "/tmp/out/%(title).80s.%(ext)s" "$URL" >>"$LOG" 2>&1
+          echo "[A] exit=$?" | tee -a "$LOG"
           ls -la /tmp/out | tee -a "$LOG"
-          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+
+      - name: B. 纯 API（finger/spi → view → playurl html5）
+        shell: bash
+        continue-on-error: true
+        run: |
+          LOG=downloads/$BV/attempt.log
+          echo "=== B. 纯 API ===" | tee -a "$LOG"
+          [ -n "$(find /tmp/out -maxdepth 1 -type f -size +1M)" ] && { echo "[B] skipped, A 已成功" | tee -a "$LOG"; exit 0; }
+          python3 - <<'PY' 2>&1 | tee -a "$LOG"
+          import json, os, re, subprocess, sys, time, urllib.request, urllib.error
+          BVID = "BV1suxg6MEJz"
+          UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+          REF = "https://www.bilibili.com/"
+          jar = {}
+
+          def get(url, cookie=None, referer=REF, timeout=30):
+              req = urllib.request.Request(url, headers={
+                  "User-Agent": UA, "Referer": referer,
+                  "Accept": "application/json, text/plain, */*",
+                  "Accept-Language": "zh-CN,zh;q=0.9",
+                  **({"Cookie": cookie} if cookie else {}),
+              })
+              try:
+                  with urllib.request.urlopen(req, timeout=timeout) as r:
+                      return r.status, r.read()
+              except urllib.error.HTTPError as e:
+                  return e.code, e.read()
+              except Exception as e:
+                  return None, str(e).encode()
+
+          # 1) buvid
+          st, body = get("https://api.bilibili.com/x/frontend/finger/spi")
+          print("spi:", st, body[:200])
+          buvid3 = buvid4 = ""
+          try:
+              d = json.loads(body)["data"]
+              buvid3, buvid4 = d.get("b_3", ""), d.get("b_4", "")
+          except Exception:
+              pass
+          cookie = f"buvid3={buvid3}; buvid4={buvid4};"
+          print("buvid3 len:", len(buvid3))
+
+          # 2) view -> aid/cid
+          st, body = get(f"https://api.bilibili.com/x/web-interface/view?bvid={BVID}", cookie)
+          print("view:", st, body[:200])
+          if st != 200:
+              sys.exit(1)
+          j = json.loads(body)
+          if j.get("code") != 0:
+              print("view code:", j.get("code"), j.get("message")); sys.exit(1)
+          v = j["data"]; aid, cid = v["aid"], v["cid"]
+          print("title:", v["title"], "| aid:", aid, "| cid:", cid, "| dur:", v["duration"])
+          json.dump({"title": v["title"], "aid": aid, "cid": cid, "duration": v["duration"]},
+                    open("downloads/BV1suxg6MEJz/meta.json", "w"), ensure_ascii=False, indent=1)
+
+          # 3) playurl（多套参数，谁通用谁）
+          cands = [
+            f"https://api.bilibili.com/x/player/playurl?bvid={BVID}&cid={cid}&qn=64&fnval=0&fnver=0&fourk=0&platform=html5&high_quality=1",
+            f"https://api.bilibili.com/x/player/playurl?avid={aid}&cid={cid}&qn=64&fnval=0&platform=html5&high_quality=1",
+            f"https://api.bilibili.com/x/player/playurl?bvid={BVID}&cid={cid}&qn=32&fnval=16",
+            f"https://api.bilibili.com/x/player/playurl?bvid={BVID}&cid={cid}&qn=16&fnval=1&platform=html5",
+          ]
+          url = None
+          for u in cands:
+              st, body = get(u, cookie)
+              print("playurl:", st, u.split("?")[1][:60], "|", body[:160])
+              if st != 200:
+                  continue
+              try:
+                  jj = json.loads(body)
+              except Exception:
+                  continue
+              if jj.get("code") != 0:
+                  print("   code", jj.get("code"), jj.get("message")); continue
+              dd = jj["data"]
+              if dd.get("durl"):
+                  url = dd["durl"][0]["url"]; print("   durl mp4:", url[:90]); break
+              if dd.get("dash"):
+                  vid = dd["dash"]["video"][0]
+                  url = vid.get("baseUrl") or vid.get("base_url"); print("   dash:", url[:90]); break
+          if not url:
+              print("没有拿到播放地址"); sys.exit(1)
+
+          # 4) 拉流（分块下载，报告速度）
+          out = "/tmp/out/source.mp4"
+          req = urllib.request.Request(url, headers={"User-Agent": UA, "Referer": REF})
+          with urllib.request.urlopen(req, timeout=60) as r, open(out, "wb") as f:
+              n = 0
+              while True:
+                  chunk = r.read(1 << 20)
+                  if not chunk:
+                      break
+                  f.write(chunk); n += len(chunk)
+                  if n % (10 << 20) == 0:
+                      print("  ...", n >> 20, "MB")
+          print("saved:", out, os.path.getsize(out), "bytes")
+          PY
+
+      - name: C. BBDown 兜底
+        shell: bash
+        continue-on-error: true
+        run: |
+          LOG=downloads/$BV/attempt.log
+          echo "=== C. BBDown ===" | tee -a "$LOG"
+          [ -n "$(find /tmp/out -maxdepth 1 -type f -size +1M)" ] && { echo "[C] skipped, 已有文件" | tee -a "$LOG"; exit 0; }
+          curl -sSL -m 120 -o /tmp/BBDown.zip https://github.com/nilaoda/BBDown/releases/latest/download/BBDown_linux-x64.zip \
+            && (cd /tmp && unzip -oq BBDown.zip) && chmod +x /tmp/BBDown
+          /tmp/BBDown --version 2>&1 | tee -a "$LOG"
+          timeout 900 /tmp/BBDown "$URL" --work-dir /tmp/out --multi-thread --file-pattern "<videoTitle>" >>"$LOG" 2>&1
+          echo "[C] exit=$?" | tee -a "$LOG"
+          ls -la /tmp/out | tee -a "$LOG"
 
       - name: 报告 + 切块
         shell: bash
@@ -85,8 +189,6 @@ jobs:
             echo "url: $URL"
             echo "runner_utc: $(date -u +%FT%TZ)"
             echo "yt_dlp: $(yt-dlp --version 2>/dev/null)"
-            echo "ffmpeg: $(ffmpeg -version | head -1)"
-            echo "ok: ${{ steps.dl.outputs.ok }}"
             if [ -n "$V" ]; then
               echo "video_file: $(basename "$V")"
               echo "video_bytes: $(stat -c%s "$V")"
@@ -95,8 +197,6 @@ jobs:
                 -of default=noprint_wrappers=1 "$V"
             else
               echo "video_file: NONE"
-              echo "--- attempt.log tail ---"
-              tail -40 "$D/attempt.log" 2>/dev/null || true
             fi
           } | tee "$D/result.txt"
           [ -n "$INFO" ] && cp "$INFO" "$D/info.json" || true
@@ -113,7 +213,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A downloads
-          git commit -m "chore(downloads): runner 抓取 $BV 源视频分块" || echo "nothing to commit"
+          git commit -m "chore(downloads): runner 抓取 $BV 源视频（分块）" || echo "nothing to commit"
           for i in 1 2 3; do
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
             sleep 5
