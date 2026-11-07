@@ -589,6 +589,80 @@ def try_direct_image(url, out):
     return bool(got), f"saved {len(got)} direct image(s)", got
 
 
+def try_douyin_video(url, out):
+    """/video/ 专用：分享页拿 play_addr / og:video，再按 Range 拉 mp4。
+    抖音的 /video/ 在数据中心 IP 上经常 SSR 500，所以分享页和 aweme 接口都试。"""
+    m = re.search(r"/(?:video|note)/(\d{15,})", url) or re.search(r"(\d{15,})", url)
+    if not m:
+        return False, "no aweme id", []
+    aid = m.group(1)
+    h_html = {"User-Agent": MOBILE_UA, "Accept-Language": "zh-CN,zh;q=0.9",
+              "Referer": "https://www.douyin.com/"}
+    cands, diag = [], []
+
+    pages = [
+        f"https://www.iesdouyin.com/share/video/{aid}/?region=CN&mid=0",
+        f"https://m.douyin.com/share/video/{aid}",
+        f"https://www.douyin.com/video/{aid}",
+    ]
+    for pg in pages:
+        try:
+            r = requests.get(pg, headers=h_html, timeout=45)
+        except Exception as e:
+            diag.append(f"{pg.split('/')[2]}: {type(e).__name__}")
+            continue
+        html = (r.text or "").replace("\\u002F", "/").replace("\\/", "/")
+        found = []
+        for pat in (r'<meta[^>]+property="og:video[^"]*"[^>]+content="([^"]+)"',
+                    r'"play_addr"\s*:\s*\{[^}]*?"url_list"\s*:\s*\[([^\]]+)\]',
+                    r'"(?:playApi|play_addr_265|download_addr)"[^\[]*\[([^\]]+)\]'):
+            for hit in re.findall(pat, html):
+                found += re.findall(r'https?://[^"\s\\]+', hit)
+        for blob in _json_blobs(html):
+            acc = []
+            _walk_image_urls(blob, acc)
+            for node in json.dumps(blob, ensure_ascii=False).split('","'):
+                if "video_id=" in node:
+                    found.append(node.strip('"').split('","')[0])
+        found = [f.replace("\\u0026", "&").replace("\\/", "/") for f in found]
+        found = [f for f in found if re.search(r"aweme|douyinvod|snssdk|video_id", f)]
+        diag.append(f"{pg.split('/')[2]}: HTTP {r.status_code} len={len(html)} play_urls={len(found)}")
+        if found:
+            cands += found
+            break
+
+    # video_id -> 官方 play 接口（不需要签名，只要 uri）
+    ids = set(re.findall(r"video_id=([A-Za-z0-9]+)", " ".join(cands)))
+    for vid in list(ids)[:2]:
+        cands.append(f"https://aweme.snssdk.com/aweme/v1/play/?video_id={vid}&ratio=1080p&line=0")
+        cands.append(f"https://api.amemv.com/aweme/v1/play/?video_id={vid}&ratio=720p&line=0")
+
+    for u in cands[:8]:
+        for hdr in ({"User-Agent": MOBILE_UA, "Referer": "https://www.douyin.com/"},
+                    {"User-Agent": UA}):
+            try:
+                rr = requests.get(u, headers=hdr, timeout=180, stream=True, allow_redirects=True)
+            except Exception as e:
+                diag.append(f"dl {u[:48]}: {type(e).__name__}")
+                continue
+            ctype = (rr.headers.get("Content-Type") or "").lower()
+            if rr.status_code not in (200, 206) or ("text" in ctype or "json" in ctype):
+                diag.append(f"dl {u[:48]}: HTTP {rr.status_code} {ctype[:20]}")
+                continue
+            p = os.path.join(out, f"douyin_{aid}.mp4")
+            with open(p, "wb") as f:
+                for c in rr.iter_content(1 << 20):
+                    f.write(c)
+            size = os.path.getsize(p)
+            with open(p, "rb") as f:
+                head = f.read(32)
+            if size > 200_000 and (b"ftyp" in head[:16] or head[:4] == b"\x1aE\xdf\xa3"):
+                return True, f"saved {size/1048576:.2f} MB; " + "; ".join(diag), [os.path.basename(p)]
+            os.remove(p)
+            diag.append(f"dl {u[:48]}: not a video ({size} bytes, {ctype[:20]})")
+    return False, "; ".join(diag) or "no play url found", []
+
+
 def try_douyin_note(url, out):
     m = re.search(r"(?:/note/|/video/|item_ids=|/slides/)(\d{15,})", url)
     if not m:
@@ -885,6 +959,7 @@ def handle(url):
     if folder == "05_B站素材":
         chain.insert(1, ("bilibili-api", try_bilibili_api))
     if folder == "02_抖音素材":
+        chain.insert(0, ("douyin-video", try_douyin_video))
         chain.insert(0, ("douyin-note", try_douyin_note))
         chain.insert(1, ("douyin-api", try_douyin_api))
 
