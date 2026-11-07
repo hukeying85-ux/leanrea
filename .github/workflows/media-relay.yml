@@ -80,7 +80,30 @@ jobs:
           git config user.email "media-relay[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           mkdir -p media-raw
-          cp -r "$SRC"/. media-raw/
+          # 按「每个平台目录 / 每个笔记目录」做镜像同步：
+          # 单纯的 cp -r 删不掉上一轮留下的重复文件，会在结果分支里越积越多
+          cd "$SRC"
+          for plat in */ ; do
+            [ -d "$plat" ] || continue
+            mkdir -p "/tmp/mo/media-raw/$plat"
+            for note in "$plat"*/ ; do
+              [ -d "$note" ] || continue
+              dest="/tmp/mo/media-raw/$plat$(basename "$note")"
+              mkdir -p "$dest"
+              if command -v rsync >/dev/null 2>&1; then
+                rsync -a --delete "$note" "$dest/"
+              else
+                rm -rf "$dest" && cp -r "$note" "$dest"
+              fi
+            done
+            for f in "$plat"* ; do
+              [ -f "$f" ] && cp -f "$f" "/tmp/mo/media-raw/$plat"
+            done
+          done
+          for f in * ; do
+            [ -f "$f" ] && cp -f "$f" /tmp/mo/media-raw/
+          done
+          cd /tmp/mo
           # 注意：这一步的 cwd 是 /tmp/mo，脚本在 checkout 出来的工作区里，
           # 必须用绝对路径；bash -e 下任一命令失败都会让整个发布步骤跳过提交
           python3 "$GITHUB_WORKSPACE/tools/media-library/purge_nonmedia.py" media-raw || true
