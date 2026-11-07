@@ -2,7 +2,7 @@
 
 - 来源：https://www.xiaohongshu.com/discovery/item/6a4be129000000002101bf59?xsec_token=ABjd431Iyv8HKyZZC3T615b3mwIFIj66cCB5f0wKFpo-Y=&xsec_source=pc_feed
 - 作者：木可
-- 抓取时间（UTC）：2026-11-07T09:02:42Z
+- 抓取时间（UTC）：2026-11-07T09:19:39Z
 - 解析方式：regex；图片列表来源：page
 - 图片：1/1 张下载成功
 

@@ -11,7 +11,7 @@
  "images": [
   {
    "index": 1,
-   "url_default": "http://sns-web-i10.rednotecdn.com/202611071702/85a2e723a13bd1a4c1d612f56010ad8f/1040g0083229pfbt9nk005prnpnsm2o1nvf79m3g!nd_dft_wlteh_webp_3",
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611071710/2efec3148ade83bd9f7f1107dbfec86d/1040g0083229pfbt9nk005prnpnsm2o1nvf79m3g!nd_dft_wlteh_webp_3",
    "url_pre": "",
    "width": null,
    "height": null,
@@ -22,7 +22,7 @@
  "fetch": {
   "http_status": 200,
   "final_url": "https://www.rednote.com/discovery/item/6a4be129000000002101bf59?xsec_token=ABjd431Iyv8HKyZZC3T615b3mwIFIj66cCB5f0wKFpo-Y=&xsec_source=pc_feed",
-  "html_bytes": 352922,
+  "html_bytes": 352937,
   "json_error": "JSONDecodeError: Expecting value: line 1 column 17941 (char 17940)"
  },
  "type": "video",
@@ -84,7 +84,7 @@
     },
     {
      "variant": "display",
-     "url": "http://sns-web-i10.rednotecdn.com/202611071702/85a2e723a13bd1a4c1d612f56010ad8f/1040g0083229pfbt9nk005prnpnsm2o1nvf79m3g!nd_dft_wlteh_webp_3",
+     "url": "http://sns-web-i10.rednotecdn.com/202611071710/2efec3148ade83bd9f7f1107dbfec86d/1040g0083229pfbt9nk005prnpnsm2o1nvf79m3g!nd_dft_wlteh_webp_3",
      "ok": true,
      "bytes": 184336,
      "format": "WEBP",
@@ -127,5 +127,5 @@
   "bytes": 14635889
  },
  "source_url": "https://www.xiaohongshu.com/discovery/item/6a4be129000000002101bf59?xsec_token=ABjd431Iyv8HKyZZC3T615b3mwIFIj66cCB5f0wKFpo-Y=&xsec_source=pc_feed",
- "fetched_at_utc": "2026-11-07T09:02:42Z"
+ "fetched_at_utc": "2026-11-07T09:19:39Z"
 }
