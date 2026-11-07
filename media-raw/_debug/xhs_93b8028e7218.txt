@@ -1,7 +1,7 @@
 === https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share ===
 UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 yt-dlp rc=1 stdout=5 bytes stderr_tail=f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U
-page GET status=200 bytes=236059
+page GET status=200 bytes=236058
 has __INITIAL_STATE__: True
 initial_state bytes: 9865
 initial_state parses as JSON: False
@@ -12,4 +12,24 @@ og:image: ['//fe-s10.rednotecdn.com/fe-platform/e6214e4fbfae2cf14d634d4296916e8a
 has cookie header support: False
 cookie wall: True
 html head: <!doctype html><html lang="en"><head><script>window.__XHS_SEARCH_CRAWLER_FLAG__={"google":false,"bing":false};</script><script formula-runtime >!function(){"use strict";function e(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{},n=Object.keys(t);"function"==typeof Object.getOwnPropertySymbols&&(n=n.concat(Object.getOwnPropertySymbols(t).filter(function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),n.forEach(function(r){var n;n=t[r],r in e?Object.defineProperty(e,r,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[r]=n})}return e}function r(e,
-urls from page: 0
+urls from page: 6
+   https://fe-video-qc.xhscdn.com/fe-platform/5581076bd6b6af2e0e943abb024ad0e16f2ebff6.pdf
+   https://fe-video-qc.xhscdn.com/fe-platform-file/104101b831hhkkll23u0678gtks7tu70004en2n231udpe
+   https://fe-video-qc.xhscdn.com/fe-platform/410dce57bc12a6d7e5808060e47644fbe46f68ff.pdf
+   https://fe-video-qc.xhscdn.com/fe-platform/f37a08cacc088061beb38329c387c32fc48fc6fe.pdf
+   https://dc.xhscdn.com/06c2adb0-b353-11e9-9d0c-7be9ff8961c1/自营经营者信息公示.pdf
+   https://fe-video-qc.xhscdn.com/fe-platform/7970f6e8b70aedc995ba273d04b6b6751abcd63c.pdf
+cleaned urls: 6
+   clean https://fe-video-qc.xhscdn.com/fe-platform/5581076bd6b6af2e0e943abb024ad0e16f2ebff6.pdf
+   clean https://fe-video-qc.xhscdn.com/fe-platform-file/104101b831hhkkll23u0678gtks7tu70004en2n231udpe
+   clean https://fe-video-qc.xhscdn.com/fe-platform/410dce57bc12a6d7e5808060e47644fbe46f68ff.pdf
+   clean https://fe-video-qc.xhscdn.com/fe-platform/f37a08cacc088061beb38329c387c32fc48fc6fe.pdf
+   clean https://dc.xhscdn.com/06c2adb0-b353-11e9-9d0c-7be9ff8961c1/自营经营者信息公示.pdf
+   clean https://fe-video-qc.xhscdn.com/fe-platform/7970f6e8b70aedc995ba273d04b6b6751abcd63c.pdf
+saved xhs_01.webp (238245 bytes, http 200)
+saved xhs_02.webp (1834379 bytes, http 200)
+saved xhs_03.webp (197388 bytes, http 200)
+saved xhs_04.webp (9125754 bytes, http 200)
+saved xhs_05.webp (590703 bytes, http 200)
+saved xhs_06.webp (1387028 bytes, http 200)
+TOTAL saved: 6
