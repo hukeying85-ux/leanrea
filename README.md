@@ -118,6 +118,10 @@ MIT licensed.
 
 A second, unrelated skill that applies the same "one small file, no MCP" idea to a different problem: turning a long Chinese guide/PDF into a 6–9 page Xiaohongshu-style cute healing comic plus a slideshow video. The skill covers the full pipeline — content planning (topic selection, hooks, trigger→guidance dialogue design, publish copy), layout (Chinese-OCR-measured replica of a reference post with per-bubble anchors, or a taste-skill-audited poster mode), textless art generation, scripted Chinese composition with per-page OCR verification, an ffmpeg slideshow recipe, and publishing compliance. Start at [healing-comic/README.md](healing-comic/README.md), the skill itself at [healing-comic/SKILL.md](healing-comic/SKILL.md), or open [the replica gallery](healing-comic/examples/pages-xhs3/preview.html).
 
+## Also in this repo: xhs-wallpaper-replica + tools/xhs-relay
+
+A third skill: take a Xiaohongshu wallpaper note, download the original PNGs (via a GitHub Actions relay when the sandbox cannot reach the XHS CDN — [tools/xhs-relay](tools/xhs-relay/README.md)), have an image model repaint textless 9:20 art, then let a Pillow script add the iOS lock/home-screen overlay, a contact sheet and a two-phone cover, write the post copy and archive every round into its own Google Drive subfolder. Start at [xhs-wallpaper-replica/README.md](xhs-wallpaper-replica/README.md) or the skill itself, [xhs-wallpaper-replica/SKILL.md](xhs-wallpaper-replica/SKILL.md). Worked example: 弥弥壁纸's Crayon Shin-chan set (7 originals → 10 replicas).
+
 ## docs（额外）
 
 一个零依赖的情侣记录静态站：时间轴、相册、纪念日、清单、小纸条，数据全在 `docs/data/content.js`。部署方式见 [docs/README.md](docs/README.md)。

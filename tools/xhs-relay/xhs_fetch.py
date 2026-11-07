@@ -88,7 +88,7 @@ def fetch_note(url, cookie=""):
     data = None
     m = re.search(r"window\.__INITIAL_STATE__\s*=\s*(\{.*?\})\s*</script>", html, re.S)
     if m:
-        raw = re.sub(r":\s*undefined", ":null", m.group(1))
+        raw = re.sub(r"\bundefined\b", "null", m.group(1))  # JS 字面量里的 undefined（含数组元素）→ null
         try:
             data = json.loads(raw)
         except Exception as e:  # noqa: BLE001
