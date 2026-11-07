@@ -1,0 +1,14 @@
+=== https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user ===
+UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+yt-dlp rc=1 stdout=5 bytes stderr_tail=0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U
+page GET status=200 bytes=236058
+has __INITIAL_STATE__: True
+xhscdn hits in html: 7
+cookie wall: True
+html head: <!doctype html><html lang="en"><head><script>window.__XHS_SEARCH_CRAWLER_FLAG__={"google":false,"bing":false};</script><script formula-runtime >!function(){"use strict";function e(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{},n=Object.keys(t);"function"==typeof Object.getOwnPropertySymbols&&(n=n.concat(Object.getOwnPropertySymbols(t).filter(function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),n.forEach(function(r){var n;n=t[r],r in e?Object.defineProperty(e,r,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[r]=n})}return e}function r(e,
+urls from page: 1
+   https://fe-static.xhscdn.com/as/v2/ds/4c0bab9011f51d35ca6280649340e9b9.js
+cleaned urls: 1
+   clean https://fe-static.xhscdn.com/as/v2/ds/4c0bab9011f51d35ca6280649340e9b9.js
+saved xhs_01.webp (60599 bytes, http 200)
+TOTAL saved: 1
