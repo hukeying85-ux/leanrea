@@ -111,6 +111,10 @@ texture, portrait format. No text, no signature, no frame, no watermark.
   原帖多于 10 张时翻评论区「求图N」决定封面（第 11 轮「求图一」×4、「求图6」被作者亲自回图 → 封面左 01 右 06）。
   线条小狗类 IP 也写固定描述串：白狗 = fluffy white puppy drawn with loose scribbly broken black outline strokes, tiny dot eyes；黄狗 = round light-tan puppy, floppy ears, clean black outline, red collar。
   画面里本身带字母的原图（07「FLYING」）、主角换成别的狗的原图、同款衣服换个背景的重复图直接剔除，不要替它们改字。
+- 原帖是 9:16（1080×1920，第 12 轮噜噜噜妹写实毛绒渲染）：交付跟原帖 9:16 → 1440×2560（`painting_set.py`），生图输出 768×1376 ≈ 9:16.1 基本零裁切；
+  `phone_mockup.py build --ui ios` 的 9:20 居中裁切只去两侧各 ~10%，双人并排的构图也裁不到人，文案里提醒「填充/缩放」即可。
+  写实玩偶类 A 模式提示词：「Recreate this exact image as a faithful replica … Photorealistic plush-toy photography look: soft fleece texture, shallow depth of field, golden-hour backlight」+ 逐项点两只玩偶的服饰（头顶小橘子 / 西瓜花短裤 / 白荷叶边帽 / 草莓裙），复刻度极高；
+  B 模式新场景沿用同一组描述串 + 「Use the attached image only as the style and character reference … create a NEW scene」，风格锚按「坐姿锚坐姿图、背影锚背影图、面对面锚面对面图」配对，一次全过。
 - 生图输出 688×1536（≈9:20），一次 1 张；10 张可以并行 5+5。
 - 角色一致性提示：小新（黄上衣红短裤 / 睡衣 / 幼稚园绿短裤白 T）、小白（白色棉花糖狗）、广志（黑短发眼镜 / 蓝衬衫）、美冴（棕色短卷发）、小葵（橙色头发婴儿）、妮妮（双马尾粉裙）、风间（蓝色西瓜头）。
 - 常见翻车：留下了时钟（提示词没写 REMOVE）→ 重生成；出现日文/英文招牌字 → 提示词加 `no readable text on signs`；上半部分太满 → 加 calm top 15%；比例变 3:4 → 忘了传 images。
@@ -195,8 +199,10 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 │                                结果/（猫鼠01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第9轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
 ├─ 第10轮-日落灯塔油画壁纸/       原片/（9 张 PNG 原图 971×1619 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
 │                                结果/（灯塔01…10.png 1536×2560（3:5 跟原帖）· 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第10轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
-└─ 第11轮-线条小狗春天壁纸/       原片/（14 张原图 尺寸不一 ≈ 9:18.5 同上命名 · 原片总图.jpg（★ 标出选中的 10 张）· note.json · Doc「笔记信息」）
-                                 结果/（小狗01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第11轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+├─ 第11轮-线条小狗春天壁纸/       原片/（14 张原图 尺寸不一 ≈ 9:18.5 同上命名 · 原片总图.jpg（★ 标出选中的 10 张）· note.json · Doc「笔记信息」）
+│                                结果/（小狗01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第11轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+└─ 第12轮-噜噜噜妹奔夕阳壁纸/     原片/（5 张 PNG 原图 1080×1920 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
+                                 结果/（噜噜01…10.png 1440×2560（9:16 跟原帖）· 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第12轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -225,6 +231,7 @@ xhs-wallpaper-replica/
 ├─ references/copy-猫和老鼠停战.md 第9轮文案（猫鼠 10 张 + 锁屏备注）
 ├─ references/copy-日落灯塔.md     第10轮文案（灯塔 10 张 + 3:5 裁切备注）
 ├─ references/copy-线条小狗春天.md 第11轮文案（线条小狗 10 张 + 锁屏/ax 裁切备注）
+├─ references/copy-噜噜噜妹奔夕阳.md 第12轮文案（噜噜噜妹 10 张 + 9:16 装机备注）
 └─ examples/shinchan-6aedad8b/
    ├─ 01-原图/ 01–07.png, note.json, note.md
    ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
@@ -237,7 +244,8 @@ xhs-wallpaper-replica/
    ├─ ../cat-sakura-6ae8870f/   非 IP 的治愈系插画样例（4 原图 ≈ 9:20 → 标准 phone_mockup 流程）：01-原片/01–04 (850×1850)+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../tomjerry-6aed5b12/    （18 原图 1290×2796 ≈ 9:20 → 挑 10 张逐张复刻）：01-原片/01–18+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../lighthouse-6aede8e7/  厚涂油画 · 3:5 画幅样例（9 原图 971×1619 → 01–09 A 模式逐张复刻 + 10 B 模式新场景；painting_set 1536×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–09.png+note；02-复刻/ spec.json, art/01–10.png(800×1328), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
-   └─ ../linedog-69bec419/     线条小狗 · 14 原图尺寸不一 → 挑 10 张 A 模式逐张复刻；spec 每页 ax 锚点裁切偏宽输出：01-原片/01–14.jpg+note；02-复刻/ spec.json, art/01–10.png(768×1376 / 848×1264), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   ├─ ../linedog-69bec419/     线条小狗 · 14 原图尺寸不一 → 挑 10 张 A 模式逐张复刻；spec 每页 ax 锚点裁切偏宽输出：01-原片/01–14.jpg+note；02-复刻/ spec.json, art/01–10.png(768×1376 / 848×1264), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   └─ ../lulu-sunset-6ad212fc/  写实毛绒玩偶 · 9:16 画幅样例（5 原图 1080×1920 → 01–05 A 模式逐张复刻 + 06–10 B 模式新场景；painting_set 1440×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–05.png+note；02-复刻/ spec.json, art/01–10.png(768×1376), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
 ```
 
 ## 沙箱踩坑备忘
