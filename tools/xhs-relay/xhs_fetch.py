@@ -312,12 +312,81 @@ def download_video(video, out_dir, max_mb):
     return rec
 
 
+# ---------------------------------------------------------------- 大文件直传 Google Drive
+def drive_resumable_put(uri, path, chunk=8 * 1024 * 1024):
+    """把本地文件按块 PUT 到一次性的 Drive resumable 会话地址（由沙箱里的 Drive 连接器
+    initiate_resumable_upload 生成，7 天有效、只能用一次）。块大小必须是 256KiB 的倍数。
+    先按 Google 的 X-Goog-Upload-* 协议走，遇到 4xx 再退到标准 Content-Range 协议。"""
+    total = os.path.getsize(path)
+    rec = {"bytes": total, "protocol": None, "ok": False, "status": None, "response": None, "err": ""}
+    for proto in ("x-goog", "content-range"):
+        off, ok, err, last_resp = 0, False, "", None
+        with open(path, "rb") as f:
+            while off < total:
+                data = f.read(chunk)
+                last = off + len(data) >= total
+                if proto == "x-goog":
+                    h = {"X-Goog-Upload-Command": "upload, finalize" if last else "upload",
+                         "X-Goog-Upload-Offset": str(off), "X-Goog-Upload-Total-Size": str(total),
+                         "Content-Length": str(len(data))}
+                else:
+                    h = {"Content-Range": f"bytes {off}-{off + len(data) - 1}/{total}",
+                         "Content-Length": str(len(data))}
+                try:
+                    r = requests.put(uri, headers=h, data=data, timeout=600)
+                except Exception as e:  # noqa: BLE001
+                    err = f"{type(e).__name__}: {str(e)[:80]}"
+                    break
+                last_resp = r
+                st = r.headers.get("X-Goog-Upload-Status", "")
+                if r.status_code >= 400:
+                    err = f"HTTP {r.status_code} {r.text[:200]}"
+                    break
+                off += len(data)
+                if off % (64 * 1024 * 1024) < chunk or last:
+                    log(f"  [drive] {proto} {off/1e6:.0f}/{total/1e6:.0f} MB  http={r.status_code} status={st or '-'}")
+                if last:
+                    ok = (st == "final") or r.status_code in (200, 201)
+        rec.update({"protocol": proto, "ok": ok, "err": err,
+                    "status": last_resp.status_code if last_resp is not None else None})
+        if last_resp is not None:
+            try:
+                rec["response"] = last_resp.json()
+            except Exception:  # noqa: BLE001
+                rec["response"] = last_resp.text[:300]
+        if ok:
+            break
+        if off > 0 and not ok:
+            break  # 会话已经被部分写入，不能换协议重来
+        log(f"  [drive] {proto} failed at offset 0: {err}; trying next protocol")
+    return rec
+
+
+def push_origin_to_drive(note, uri, tmp="/tmp/xhs-origin.mp4"):
+    v = note.get("video") or {}
+    if not v.get("origin_key"):
+        return {"ok": False, "err": "no originVideoKey"}
+    url = f"https://sns-video-bd.xhscdn.com/{v['origin_key']}"
+    n, err = get_video(url, tmp, max_mb=4096, tries=3)
+    log(f"  [drive] origin download -> {n/1e6:.1f}MB {err}")
+    if not n:
+        return {"ok": False, "err": f"download failed: {err}", "url": url}
+    rec = drive_resumable_put(uri, tmp)
+    rec["url"] = url
+    try:
+        os.remove(tmp)
+    except OSError:
+        pass
+    return rec
+
+
 # ---------------------------------------------------------------- 主流程
 def run_job(job, cookie):
     url = job["note_url"]
     out_dir = os.path.join(ROOT, job["out_dir"])
     log(f"== {url}\n   -> {job['out_dir']}")
-    if os.path.exists(os.path.join(out_dir, "note.json")) and not job.get("force"):
+    force = job.get("force") or os.environ.get("FORCE", "").lower() in ("1", "true", "yes")
+    if os.path.exists(os.path.join(out_dir, "note.json")) and not force:
         log("   note.json already present -> skip (set \"force\": true in queue.json to refetch)")
         return
     try:
@@ -347,6 +416,15 @@ def run_job(job, cookie):
     note["downloads"] = results
     if is_video:
         note["video_download"] = download_video(note["video"], out_dir, job.get("max_video_mb", 60))
+        uri = os.environ.get("DRIVE_UPLOAD_URI", "").strip()
+        if uri:
+            log("  [drive] DRIVE_UPLOAD_URI present -> pushing origin video straight to Google Drive")
+            rec = push_origin_to_drive(note, uri)
+            rec["at_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            os.makedirs(out_dir, exist_ok=True)
+            with open(os.path.join(out_dir, "drive_upload.json"), "w", encoding="utf-8") as f:
+                json.dump(rec, f, ensure_ascii=False, indent=1)
+            log(f"  [drive] result ok={rec.get('ok')} protocol={rec.get('protocol')} err={rec.get('err')}")
         if results and results[0].get("file"):
             cov = results[0]["file"]
             os.replace(os.path.join(out_dir, cov), os.path.join(out_dir, "cover." + cov.split(".")[-1]))
@@ -397,8 +475,12 @@ def main():
         queue = json.load(f)
     cookie = os.environ.get("COOKIES_XHS", "").strip()
     log(f"queue: {len(queue.get('jobs', []))} job(s); cookie: {'yes' if cookie else 'no'}")
+    only = os.environ.get("ONLY_NOTE", "").strip()
     summary = []
     for job in queue.get("jobs", []):
+        if only and only not in job["note_url"]:
+            log(f"== skip (ONLY_NOTE={only}): {job['note_url'][:80]}")
+            continue
         try:
             ok, n = run_job(job, cookie)
         except Exception as e:  # noqa: BLE001

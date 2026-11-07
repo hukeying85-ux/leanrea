@@ -13,6 +13,19 @@ on:
     branches:
       - '**'
   workflow_dispatch:
+    inputs:
+      only_note:
+        description: '只跑 queue.json 里包含这个 note_id 的任务（可选）'
+        required: false
+        default: ''
+      force:
+        description: '忽略已存在的 note.json，重新抓取'
+        type: boolean
+        default: false
+      drive_upload_uri:
+        description: '一次性 Google Drive resumable 上传地址（可选；把无水印原片视频直传 Drive，不进 git）'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -41,7 +54,12 @@ jobs:
       - name: Fetch notes in queue
         env:
           COOKIES_XHS: ${{ secrets.COOKIES_XHS }}   # 可选：登录态 cookie 字符串
-        run: python tools/xhs-relay/xhs_fetch.py --queue tools/xhs-relay/queue.json 2>&1 | tee /tmp/xhs-relay.log
+          ONLY_NOTE: ${{ inputs.only_note }}
+          FORCE: ${{ inputs.force }}
+          DRIVE_UPLOAD_URI: ${{ inputs.drive_upload_uri }}
+        run: |
+          if [ -n "$DRIVE_UPLOAD_URI" ]; then echo "::add-mask::$DRIVE_UPLOAD_URI"; fi
+          python tools/xhs-relay/xhs_fetch.py --queue tools/xhs-relay/queue.json 2>&1 | tee /tmp/xhs-relay.log
 
       - name: Commit results back to this branch
         run: |
