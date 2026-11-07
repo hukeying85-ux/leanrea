@@ -11,7 +11,7 @@
  "images": [
   {
    "index": 1,
-   "url_default": "http://sns-web-i10.rednotecdn.com/202611071612/eab03b3af497a8240fd4aa96ed40b374/spectrum/1040g34o3277p5n58mg9g5o18tfi09a4toh3q320!nd_dft_wlteh_webp_3",
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611071649/835ec3a9a711909b94a14d3bcb0f5faf/spectrum/1040g34o3277p5n58mg9g5o18tfi09a4toh3q320!nd_dft_wlteh_webp_3",
    "url_pre": "",
    "width": null,
    "height": null,
@@ -19,7 +19,7 @@
   },
   {
    "index": 2,
-   "url_default": "http://sns-web-i10.rednotecdn.com/202611071612/568bedce3aed5f5c48905642e807f490/spectrum/1040g34o3277p5n58mg7g5o18tfi09a4tfj4jh9o!nd_dft_wlteh_webp_3",
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611071649/3559c0d460b81b3dcae6c9419b12eea6/spectrum/1040g34o3277p5n58mg7g5o18tfi09a4tfj4jh9o!nd_dft_wlteh_webp_3",
    "url_pre": "",
    "width": null,
    "height": null,
@@ -27,7 +27,7 @@
   },
   {
    "index": 3,
-   "url_default": "http://sns-web-i10.rednotecdn.com/202611071612/77ecf5c57af024c667d244b8241c3ccc/spectrum/1040g34o3277p5n58mg8g5o18tfi09a4t8upc2h0!nd_dft_wlteh_webp_3",
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611071649/faf5552287213b18ac796fb4ba54ba6e/spectrum/1040g34o3277p5n58mg8g5o18tfi09a4t8upc2h0!nd_dft_wlteh_webp_3",
    "url_pre": "",
    "width": null,
    "height": null,
@@ -35,7 +35,7 @@
   },
   {
    "index": 4,
-   "url_default": "http://sns-web-i10.rednotecdn.com/202611071612/38e871217eb9364582cf8eb9d4f2f6dd/spectrum/1040g34o3277p5n58mg805o18tfi09a4t4d6u9io!nd_dft_wlteh_webp_3",
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611071649/f351dcee36a403824d02c216a38db52d/spectrum/1040g34o3277p5n58mg805o18tfi09a4t4d6u9io!nd_dft_wlteh_webp_3",
    "url_pre": "",
    "width": null,
    "height": null,
@@ -43,7 +43,7 @@
   },
   {
    "index": 5,
-   "url_default": "http://sns-web-i10.rednotecdn.com/202611071612/3c90129481ba94171e986a88579bc04c/spectrum/1040g34o3277p5n58mg705o18tfi09a4tshku0e0!nd_dft_wlteh_webp_3",
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611071649/0120c23dd92a6c0df735d06458c3ab9d/spectrum/1040g34o3277p5n58mg705o18tfi09a4tshku0e0!nd_dft_wlteh_webp_3",
    "url_pre": "",
    "width": null,
    "height": null,
@@ -51,7 +51,7 @@
   },
   {
    "index": 6,
-   "url_default": "http://sns-web-i10.rednotecdn.com/202611071612/0e9bf6c00f7d92fee4e053eda2e1ee92/spectrum/1040g34o3277p5n58mg905o18tfi09a4tjkhr1c8!nd_dft_wlteh_webp_3",
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611071649/5af100bd2f1f2e0f973a751e76588edb/spectrum/1040g34o3277p5n58mg905o18tfi09a4tjkhr1c8!nd_dft_wlteh_webp_3",
    "url_pre": "",
    "width": null,
    "height": null,
@@ -59,7 +59,7 @@
   },
   {
    "index": 7,
-   "url_default": "http://sns-web-i10.rednotecdn.com/202611071612/5ce68ab05eb437e6c0dd5ee31c4b4d8e/spectrum/1040g34o3277p5n58mga05o18tfi09a4tid65a10!nd_dft_wlteh_webp_3",
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611071649/d965a207d5161195fbdf7ec22dca849c/spectrum/1040g34o3277p5n58mga05o18tfi09a4tid65a10!nd_dft_wlteh_webp_3",
    "url_pre": "",
    "width": null,
    "height": null,
@@ -70,7 +70,7 @@
  "fetch": {
   "http_status": 200,
   "final_url": "https://www.rednote.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
-  "html_bytes": 358315,
+  "html_bytes": 358333,
   "json_error": "JSONDecodeError: Expecting value: line 1 column 20368 (char 20367)"
  },
  "images_source": "page",
@@ -117,7 +117,7 @@
     },
     {
      "variant": "display",
-     "url": "http://sns-web-i10.rednotecdn.com/202611071612/eab03b3af497a8240fd4aa96ed40b374/spectrum/1040g34o3277p5n58mg9g5o18tfi09a4toh3q320!nd_dft_wlteh_webp_3",
+     "url": "http://sns-web-i10.rednotecdn.com/202611071649/835ec3a9a711909b94a14d3bcb0f5faf/spectrum/1040g34o3277p5n58mg9g5o18tfi09a4toh3q320!nd_dft_wlteh_webp_3",
      "ok": true,
      "bytes": 182244,
      "format": "WEBP",
@@ -179,7 +179,7 @@
     },
     {
      "variant": "display",
-     "url": "http://sns-web-i10.rednotecdn.com/202611071612/568bedce3aed5f5c48905642e807f490/spectrum/1040g34o3277p5n58mg7g5o18tfi09a4tfj4jh9o!nd_dft_wlteh_webp_3",
+     "url": "http://sns-web-i10.rednotecdn.com/202611071649/3559c0d460b81b3dcae6c9419b12eea6/spectrum/1040g34o3277p5n58mg7g5o18tfi09a4tfj4jh9o!nd_dft_wlteh_webp_3",
      "ok": true,
      "bytes": 156836,
      "format": "WEBP",
@@ -241,7 +241,7 @@
     },
     {
      "variant": "display",
-     "url": "http://sns-web-i10.rednotecdn.com/202611071612/77ecf5c57af024c667d244b8241c3ccc/spectrum/1040g34o3277p5n58mg8g5o18tfi09a4t8upc2h0!nd_dft_wlteh_webp_3",
+     "url": "http://sns-web-i10.rednotecdn.com/202611071649/faf5552287213b18ac796fb4ba54ba6e/spectrum/1040g34o3277p5n58mg8g5o18tfi09a4t8upc2h0!nd_dft_wlteh_webp_3",
      "ok": true,
      "bytes": 228032,
      "format": "WEBP",
@@ -303,7 +303,7 @@
     },
     {
      "variant": "display",
-     "url": "http://sns-web-i10.rednotecdn.com/202611071612/38e871217eb9364582cf8eb9d4f2f6dd/spectrum/1040g34o3277p5n58mg805o18tfi09a4t4d6u9io!nd_dft_wlteh_webp_3",
+     "url": "http://sns-web-i10.rednotecdn.com/202611071649/f351dcee36a403824d02c216a38db52d/spectrum/1040g34o3277p5n58mg805o18tfi09a4t4d6u9io!nd_dft_wlteh_webp_3",
      "ok": true,
      "bytes": 194560,
      "format": "WEBP",
@@ -365,7 +365,7 @@
     },
     {
      "variant": "display",
-     "url": "http://sns-web-i10.rednotecdn.com/202611071612/3c90129481ba94171e986a88579bc04c/spectrum/1040g34o3277p5n58mg705o18tfi09a4tshku0e0!nd_dft_wlteh_webp_3",
+     "url": "http://sns-web-i10.rednotecdn.com/202611071649/0120c23dd92a6c0df735d06458c3ab9d/spectrum/1040g34o3277p5n58mg705o18tfi09a4tshku0e0!nd_dft_wlteh_webp_3",
      "ok": true,
      "bytes": 80292,
      "format": "WEBP",
@@ -427,7 +427,7 @@
     },
     {
      "variant": "display",
-     "url": "http://sns-web-i10.rednotecdn.com/202611071612/0e9bf6c00f7d92fee4e053eda2e1ee92/spectrum/1040g34o3277p5n58mg905o18tfi09a4tjkhr1c8!nd_dft_wlteh_webp_3",
+     "url": "http://sns-web-i10.rednotecdn.com/202611071649/5af100bd2f1f2e0f973a751e76588edb/spectrum/1040g34o3277p5n58mg905o18tfi09a4tjkhr1c8!nd_dft_wlteh_webp_3",
      "ok": true,
      "bytes": 150036,
      "format": "WEBP",
@@ -489,7 +489,7 @@
     },
     {
      "variant": "display",
-     "url": "http://sns-web-i10.rednotecdn.com/202611071612/5ce68ab05eb437e6c0dd5ee31c4b4d8e/spectrum/1040g34o3277p5n58mga05o18tfi09a4tid65a10!nd_dft_wlteh_webp_3",
+     "url": "http://sns-web-i10.rednotecdn.com/202611071649/d965a207d5161195fbdf7ec22dca849c/spectrum/1040g34o3277p5n58mga05o18tfi09a4tid65a10!nd_dft_wlteh_webp_3",
      "ok": true,
      "bytes": 133838,
      "format": "WEBP",
@@ -511,5 +511,5 @@
   }
  ],
  "source_url": "https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
- "fetched_at_utc": "2026-11-07T08:13:52Z"
+ "fetched_at_utc": "2026-11-07T08:50:11Z"
 }

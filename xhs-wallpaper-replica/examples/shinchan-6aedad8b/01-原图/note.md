@@ -2,7 +2,7 @@
 
 - 来源：https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share
 - 作者：弥弥壁纸
-- 抓取时间（UTC）：2026-11-07T08:13:52Z
+- 抓取时间（UTC）：2026-11-07T08:50:11Z
 - 解析方式：regex；图片列表来源：page
 - 图片：7/7 张下载成功
 
