@@ -464,12 +464,28 @@ def try_xhs_ultimate(url, out):
             st = _extract_initial_state(r.text)
             n_before = len(urls)
             if st:
-                try:
-                    _images_from_any_json(json.loads(st), urls)
-                except Exception:
+                obj = None
+                for txt in (st, re.sub(r"\bundefined\b", "null", st),
+                            re.sub(r",\s*\}", "}", st)):
+                    try:
+                        obj = json.loads(txt)
+                        break
+                    except Exception:
+                        continue
+                if obj is not None:
+                    _images_from_any_json(obj, urls)
+                else:
+                    _dbg(DBG, "     state 不是合法 JSON，退化成文本扫描")
                     urls += _xhs_urls_from_html(r.text)
             _dbg(DBG, "[A/%s] http=%s bytes=%d state=%d urls+%d"
                  % (ref_name, r.status_code, len(r.text), len(st), len(urls) - n_before))
+            if st and ref_name == "seo-google":
+                for kw in ("images_list", "imageList", "xhscdn", "url_default",
+                           "urlDefault", "info_list", "noteDetailMap", "undefined"):
+                    _dbg(DBG, "     kw %-14s x%d" % (kw, st.count(kw)))
+                _dbg(DBG, "     state tail: %s" % re.sub(r"\s+", " ", st[-500:]))
+                _dbg(DBG, "     raw xhscdn in html: %d"
+                     % len(re.findall(r"xhscdn", r.text)))
         except Exception as e:
             _dbg(DBG, "[A/%s] %s: %s" % (ref_name, type(e).__name__, e))
 
@@ -550,15 +566,42 @@ def try_xhs_ultimate(url, out):
                     pg.wait_for_timeout(3000)
                 except Exception:
                     pass
-                state_txt = pg.evaluate(
-                    "() => window.__INITIAL_STATE__ ? JSON.stringify(window.__INITIAL_STATE__) : ''")
-                dom_imgs = pg.eval_on_selector_all("img", "els => els.map(e => e.src || '')")
+                html_rendered = ""
+                try:
+                    html_rendered = pg.content()
+                except Exception as e:
+                    _dbg(DBG, "     [D] content() failed: %s" % type(e).__name__)
+                dom_imgs = []
+                try:
+                    # Vue 的响应式对象带循环引用，直接 stringify 会抛异常 —— 各步单独兜住
+                    dom_imgs = pg.eval_on_selector_all(
+                        "img",
+                        "els => els.map(e => e.currentSrc || e.src || e.dataset.src || '')")
+                except Exception as e:
+                    _dbg(DBG, "     [D] dom img failed: %s" % type(e).__name__)
+                state_txt = ""
+                try:
+                    state_txt = pg.evaluate(
+                        "() => { try { return JSON.stringify(window.__INITIAL_STATE__); }"
+                        " catch (e) { return 'ERR:' + e.message; } }")
+                except Exception as e:
+                    _dbg(DBG, "     [D] state eval failed: %s" % type(e).__name__)
                 br.close()
+                if html_rendered:
+                    _rend = [u for u in re.findall(
+                        r'https?://[^"\s\\<>]+?(?:xhscdn|spectrum)[^"\s\\<>]*', html_rendered)
+                        if not any(bd in u for bd in BAD_IMG)]
+                    _dbg(DBG, "     [D] rendered html urls: %d" % len(_rend))
+                    for _u in _rend[:12]:
+                        _dbg(DBG, "        %s" % _u[:150])
+                    urls += _rend
             _dbg(DBG, "[D] api responses captured: %d | state bytes: %d | dom imgs: %d"
                  % (len(captured), len(state_txt or ""), len(dom_imgs)))
+            for u in dom_imgs[:12]:
+                _dbg(DBG, "     dom %s" % str(u)[:150])
             for c in captured:
                 _images_from_any_json(c, urls)
-            if state_txt:
+            if state_txt and not state_txt.startswith("ERR:"):
                 try:
                     _images_from_any_json(json.loads(state_txt), urls)
                 except Exception:
