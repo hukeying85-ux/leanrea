@@ -1,81 +1,121 @@
 # 最近一次中继下载
 
-时间：2026-11-07 08:19 UTC  
-任务：7 条，成功：6 条
+时间：2026-11-07 08:24 UTC  
+任务：7 条，成功：4 条
 
 | 平台 | 结果 | 命中工具 | 文件数 | 体积 | 链接 |
 |---|---|---|---|---|---|
-| 02_抖音素材 | ❌ | - | 0 | 0.00 MB | https://www.douyin.com/note/7645624036777334882 |
-| 02_抖音素材 | ✅ | direct-image | 1 | 0.03 MB | https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/oQGxfABD |
-| 02_抖音素材 | ✅ | direct-image | 2 | 0.07 MB | https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c001/oYoa |
-| 02_抖音素材 | ✅ | direct-image | 4 | 0.19 MB | https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/ocoae1A0 |
-| 02_抖音素材 | ✅ | direct-image | 3 | 0.10 MB | https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/oQBaACAE |
-| 02_抖音素材 | ✅ | direct-image | 5 | 0.22 MB | https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c001/oQfe |
-| 02_抖音素材 | ✅ | direct-image | 6 | 0.24 MB | https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/ogxiSACA |
+| 01_小红书素材 | ✅ | xhs-dump | 12 | 0.40 MB | https://www.xiaohongshu.com/explore/6ae333e700000000290 |
+| 05_B站素材 | ❌ | - | 1 | 0.00 MB | https://www.bilibili.com/video/BV1SPNz6rEE8/ |
+| 05_B站素材 | ❌ | - | 1 | 0.00 MB | https://www.bilibili.com/video/BV1bLhCe6Euk/ |
+| 02_抖音素材 | ❌ | - | 0 | 0.00 MB | https://www.douyin.com/video/7525669126587026745 |
+| 03_YouTube素材 | ✅ | scrape | 25 | 1.62 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
+| 07_TikTok素材 | ✅ | yt-dlp | 2 | 3.26 MB | https://www.tiktok.com/@tiktok/video/710659431229245367 |
+| 01_小红书素材 | ✅ | xhs-dump | 1 | 0.06 MB | https://www.xiaohongshu.com/discovery/item/6aedad8b0000 |
 
 ## 逐条明细
 
-### https://www.douyin.com/note/7645624036777334882
+### https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user
+
+- 平台目录：`01_小红书素材`
+- 状态：ok，命中工具：xhs-dump
+- `xhs_01.webp` — 60,599 字节
+- `xhs_10.jpg` — 27,537 字节
+- `xhs_11.jpg` — 26,470 字节
+- `xhs_12.jpg` — 28,502 字节
+- `xhs_13.jpg` — 25,709 字节
+- `xhs_14.jpg` — 31,584 字节
+- `xhs_15.jpg` — 27,834 字节
+- `xhs_16.jpg` — 28,011 字节
+- `xhs_17.jpg` — 32,385 字节
+- `xhs_18.jpg` — 33,980 字节
+- `xhs_19.webp` — 37,337 字节
+- `xhs_21.webp` — 60,599 字节
+
+### https://www.bilibili.com/video/BV1SPNz6rEE8/
+
+- 平台目录：`05_B站素材`
+- 状态：failed，命中工具：无
+- `_cookies.txt` — 764 字节
+- ❌ yt-dlp：`cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1SPNz6rEE8/_cookies.txt
+-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
+-f 18/22/43/b -> rc=1 ER`
+- ❌ bilibili-api：`api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json`
+- ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'`
+- ❌ scrape：`found 1 candidate urls, saved 0`
+- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401`
+
+### https://www.bilibili.com/video/BV1bLhCe6Euk/
+
+- 平台目录：`05_B站素材`
+- 状态：failed，命中工具：无
+- `_cookies.txt` — 764 字节
+- ❌ yt-dlp：`cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1bLhCe6Euk/_cookies.txt
+-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
+-f 18/22/43/b -> rc=1 ER`
+- ❌ bilibili-api：`api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json`
+- ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'`
+- ❌ scrape：`found 1 candidate urls, saved 0`
+- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401`
+
+### https://www.douyin.com/video/7525669126587026745
 
 - 平台目录：`02_抖音素材`
 - 状态：failed，命中工具：无
-- ❌ douyin-note：`www.iesdouyin.com: HTTP 200 len=25875 imgs=0; www.iesdouyin.com: HTTP 200 len=32229 imgs=0; m.douyin.com: HTTP 200 len=33273 imgs=0; www.douyin.com: HTTP 200 len=72914 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0; api www.tikwm.com: HTTP 200 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0`
-- ❌ douyin-api：`www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\n<script data-sdk-glue-in="pre-handler" nonce="argus-csp-token" >    !fun'`
 - ❌ yt-dlp：`cookies: none
--f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882
--f 18/22/43/b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882
--f b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/764562403`
-- ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/note/7645624036777334882'`
+-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed
+-f 18/22/43/b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed
+-f b -> rc=1 ERROR: [Douyin] 752566912`
+- ❌ douyin-api：`www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\n<script data-sdk-glue-in="pre-handler" nonce="argus-csp-token" >    !fun'`
+- ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7525669126587026745'`
 - ❌ scrape：`found 0 candidate urls, saved 0`
-- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401`
+- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401`
 
-### https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/oQGxfABDOtAAoieu10xEtACAgEhaCBlIAAyViA~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=IJ0qzo5sq6GOeh13AyZXtmQvDJw%3D
+### https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
-- 平台目录：`02_抖音素材`
-- 状态：ok，命中工具：direct-image
-- `frame_oQGxfABDOtAAoi.webp` — 30,250 字节
+- 平台目录：`03_YouTube素材`
+- 状态：ok，命中工具：scrape
+- `Rick Astley - Never Gonna Give You Up (Official Vi_dQw4w9WgXcQ.jpg` — 37,593 字节
+- `img_05.jpg` — 21,011 字节
+- `img_06.jpg` — 65,324 字节
+- `img_07.webp` — 28,620 字节
+- `img_10.png` — 11,507 字节
+- `img_11.webp` — 11,564 字节
+- `img_12.webp` — 11,564 字节
+- `img_13.webp` — 72,501 字节
+- `img_14.webp` — 19,760 字节
+- `img_15.webp` — 35,878 字节
+- `img_16.webp` — 26,481 字节
+- `img_17.webp` — 39,360 字节
+- `img_18.webp` — 22,948 字节
+- `img_19.webp` — 69,668 字节
+- `img_20.webp` — 25,076 字节
+- `img_21.webp` — 144,548 字节
+- `img_22.webp` — 20,860 字节
+- `img_23.webp` — 30,002 字节
+- `img_24.webp` — 278,435 字节
+- `img_25.webp` — 17,085 字节
+- `img_26.webp` — 34,549 字节
+- `img_27.webp` — 345,904 字节
+- `img_28.webp` — 27,604 字节
+- `img_29.webp` — 278,059 字节
+- `img_30.webp` — 26,450 字节
+- ❌ yt-dlp：`cookies: none
+-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden
+-f 18/22/43/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats
+-f b -> rc=1 ERROR: [youtube] dQw4w9Wg`
+- ❌ invidious：`inv.nadeko.net: HTTP 403 | invidious.nerdvpn.de: HTTP 401 | yewtu.be: HTTP 403 | iv.melmac.space: ConnectionError | invidious.privacyredirect.com: HTTP 404 | invidious.f5.si: HTTP 530`
+- ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'`
 
-### https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c001/oYoae1A0DABiAtZSAAIAxytfEungiiEBAACCPV~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=ZyfLWcjD%2B3YRpdWQx8sOpojNViA%3D
+### https://www.tiktok.com/@tiktok/video/7106594312292453675
 
-- 平台目录：`02_抖音素材`
-- 状态：ok，命中工具：direct-image
-- `frame_oQGxfABDOtAAoi.webp` — 30,250 字节
-- `frame_oYoae1A0DABiAt.webp` — 45,064 字节
+- 平台目录：`07_TikTok素材`
+- 状态：ok，命中工具：yt-dlp
+- `how many frogs did you find？ 🐸 check out tiktok’s _7106594312292453675.jpg` — 57,822 字节
+- `how many frogs did you find？ 🐸 check out tiktok’s _7106594312292453675.mp4` — 3,360,445 字节
 
-### https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/ocoae1A0DABiAtGbAAIAxytfEungaiEBAACCNV~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=QZKKcilU8iQrg%2FFwLjBde%2FoE9p4%3D
+### https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share
 
-- 平台目录：`02_抖音素材`
-- 状态：ok，命中工具：direct-image
-- `frame_oQBaACAEICADuE.webp` — 31,988 字节
-- `frame_oQGxfABDOtAAoi.webp` — 30,250 字节
-- `frame_oYoae1A0DABiAt.webp` — 45,064 字节
-- `frame_ocoae1A0DABiAt.webp` — 89,896 字节
-
-### https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/oQBaACAEICADuEihofetAmyALtIQVgxBA0AAi1~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=renQHp2KA277aUWhy47d9W8GZfY%3D
-
-- 平台目录：`02_抖音素材`
-- 状态：ok，命中工具：direct-image
-- `frame_oQBaACAEICADuE.webp` — 31,988 字节
-- `frame_oQGxfABDOtAAoi.webp` — 30,250 字节
-- `frame_oYoae1A0DABiAt.webp` — 45,064 字节
-
-### https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c001/oQfeEAt0RyEgAABax0ClIEutgAioA1AVDABCAi~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=M5pYG41cUNM76ytEviL5E82jUzI%3D
-
-- 平台目录：`02_抖音素材`
-- 状态：ok，命中工具：direct-image
-- `frame_oQBaACAEICADuE.webp` — 31,988 字节
-- `frame_oQGxfABDOtAAoi.webp` — 30,250 字节
-- `frame_oQfeEAt0RyEgAA.webp` — 30,706 字节
-- `frame_oYoae1A0DABiAt.webp` — 45,064 字节
-- `frame_ocoae1A0DABiAt.webp` — 89,896 字节
-
-### https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/ogxiSACAETeCAtAECfy0aIVu1oAtBBkYDAigAA~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=%2FvmztJQERCuAlHvVmCsAT%2F6dq%2BE%3D
-
-- 平台目录：`02_抖音素材`
-- 状态：ok，命中工具：direct-image
-- `frame_oQBaACAEICADuE.webp` — 31,988 字节
-- `frame_oQGxfABDOtAAoi.webp` — 30,250 字节
-- `frame_oQfeEAt0RyEgAA.webp` — 30,706 字节
-- `frame_oYoae1A0DABiAt.webp` — 45,064 字节
-- `frame_ocoae1A0DABiAt.webp` — 89,896 字节
-- `frame_ogxiSACAETeCAt.webp` — 28,610 字节
+- 平台目录：`01_小红书素材`
+- 状态：ok，命中工具：xhs-dump
+- `xhs_01.webp` — 60,599 字节

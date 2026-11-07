@@ -1,14 +1,175 @@
 [
   {
-    "source_url": "https://www.douyin.com/note/7645624036777334882",
+    "source_url": "https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user",
+    "platform_folder": "01_小红书素材",
+    "status": "ok",
+    "tool_used": "xhs-dump",
+    "steps": [
+      {
+        "tool": "xhs-dump",
+        "ok": true,
+        "log": "dumped 1 urls, saved 1"
+      }
+    ],
+    "files": [
+      {
+        "name": "xhs_01.webp",
+        "bytes": 60599,
+        "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
+      },
+      {
+        "name": "xhs_10.jpg",
+        "bytes": 27537,
+        "sha256": "82dae1ede1be123ececb6db2da20d2bc881a07eae2bd168d99f94deff3ec3b01"
+      },
+      {
+        "name": "xhs_11.jpg",
+        "bytes": 26470,
+        "sha256": "843c2c670c01b7f767be0f3548f651f437291beaf9e3cb61c73ad2b39b9515f0"
+      },
+      {
+        "name": "xhs_12.jpg",
+        "bytes": 28502,
+        "sha256": "18c330cba23c9e0d6c1eefe181426e94b4d79463562202eff6059bfd98cdb11e"
+      },
+      {
+        "name": "xhs_13.jpg",
+        "bytes": 25709,
+        "sha256": "919a83dfbff880d62bda7af4f12c65e857f5550268468ac6111164f2ae5322f0"
+      },
+      {
+        "name": "xhs_14.jpg",
+        "bytes": 31584,
+        "sha256": "a4c804560f76982167df8956305b9021c54487985ead1e3fff4443421593b236"
+      },
+      {
+        "name": "xhs_15.jpg",
+        "bytes": 27834,
+        "sha256": "2e540d59166dbd01ed2c5eeba36ee3c20946bfc7fb0fee321075a23305310408"
+      },
+      {
+        "name": "xhs_16.jpg",
+        "bytes": 28011,
+        "sha256": "d97fde9e209beba91ab64787983464d635251aeb80c4223abb437d90a2154e6f"
+      },
+      {
+        "name": "xhs_17.jpg",
+        "bytes": 32385,
+        "sha256": "789649a0c6b0023a027ed1d4208bea2ba1dab722ba56413f23e0f01c2ed6a959"
+      },
+      {
+        "name": "xhs_18.jpg",
+        "bytes": 33980,
+        "sha256": "8393fa6928cb6c858460ff669b4b240f987391414caf27020bb3837e2311dcdb"
+      },
+      {
+        "name": "xhs_19.webp",
+        "bytes": 37337,
+        "sha256": "93b41f85800f736bc71e24e596fccb111e7740b51a437f58c4c33dcf0c7abb2e"
+      },
+      {
+        "name": "xhs_21.webp",
+        "bytes": 60599,
+        "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
+      }
+    ],
+    "collected_at": "2026-11-07T08:23:43Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.bilibili.com/video/BV1SPNz6rEE8/",
+    "platform_folder": "05_B站素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1SPNz6rEE8/_cookies.txt\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f 18/22/43/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
+      },
+      {
+        "tool": "bilibili-api",
+        "ok": false,
+        "log": "api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 1 candidate urls, saved 0"
+      },
+      {
+        "tool": "proxy-relay",
+        "ok": false,
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401"
+      }
+    ],
+    "files": [
+      {
+        "name": "_cookies.txt",
+        "bytes": 764,
+        "sha256": "b0986650847e60b0434d000c405c9dde39a860e393e864646fa25cd1b6371948"
+      }
+    ],
+    "collected_at": "2026-11-07T08:24:18Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.bilibili.com/video/BV1bLhCe6Euk/",
+    "platform_folder": "05_B站素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1bLhCe6Euk/_cookies.txt\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f 18/22/43/b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
+      },
+      {
+        "tool": "bilibili-api",
+        "ok": false,
+        "log": "api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 1 candidate urls, saved 0"
+      },
+      {
+        "tool": "proxy-relay",
+        "ok": false,
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
+      }
+    ],
+    "files": [
+      {
+        "name": "_cookies.txt",
+        "bytes": 764,
+        "sha256": "c729c5a49df4b176254b3c995548e64cce4886f24306e1c68cb5f23ef6832bcf"
+      }
+    ],
+    "collected_at": "2026-11-07T08:24:25Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.douyin.com/video/7525669126587026745",
     "platform_folder": "02_抖音素材",
     "status": "failed",
     "tool_used": null,
     "steps": [
       {
-        "tool": "douyin-note",
+        "tool": "yt-dlp",
         "ok": false,
-        "log": "www.iesdouyin.com: HTTP 200 len=25875 imgs=0; www.iesdouyin.com: HTTP 200 len=32229 imgs=0; m.douyin.com: HTTP 200 len=33273 imgs=0; www.douyin.com: HTTP 200 len=72914 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0; api www.tikwm.com: HTTP 200 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0"
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f 18/22/43/b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f bv*+ba/b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f worst -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed"
       },
       {
         "tool": "douyin-api",
@@ -16,14 +177,9 @@
         "log": "www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\\n<script data-sdk-glue-in=\"pre-handler\" nonce=\"argus-csp-token\" >    !fun'"
       },
       {
-        "tool": "yt-dlp",
-        "ok": false,
-        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f 18/22/43/b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f bv*+ba/b -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882\n-f worst -> rc=1 ERROR: Unsupported URL: https://www.douyin.com/note/7645624036777334882"
-      },
-      {
         "tool": "gallery-dl",
         "ok": false,
-        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/note/7645624036777334882'"
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7525669126587026745'"
       },
       {
         "tool": "scrape",
@@ -33,218 +189,217 @@
       {
         "tool": "proxy-relay",
         "ok": false,
-        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401"
       }
     ],
     "files": [],
-    "collected_at": "2026-11-07T08:19:50Z",
+    "collected_at": "2026-11-07T08:24:19Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
-    "source_url": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/oQGxfABDOtAAoieu10xEtACAgEhaCBlIAAyViA~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=IJ0qzo5sq6GOeh13AyZXtmQvDJw%3D",
-    "platform_folder": "02_抖音素材",
+    "source_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "platform_folder": "03_YouTube素材",
     "status": "ok",
-    "tool_used": "direct-image",
+    "tool_used": "scrape",
     "steps": [
       {
-        "tool": "direct-image",
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden\n-f 18/22/43/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats\n-f b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats\n-f bv*+ba/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: The page needs to be reloaded.\n-f worst -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats"
+      },
+      {
+        "tool": "invidious",
+        "ok": false,
+        "log": "inv.nadeko.net: HTTP 403 | invidious.nerdvpn.de: HTTP 401 | yewtu.be: HTTP 403 | iv.melmac.space: ConnectionError | invidious.privacyredirect.com: HTTP 404 | invidious.f5.si: HTTP 530"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'"
+      },
+      {
+        "tool": "scrape",
         "ok": true,
-        "log": "saved 1 direct image(s)"
+        "log": "found 61 candidate urls, saved 22"
       }
     ],
     "files": [
       {
-        "name": "frame_oQGxfABDOtAAoi.webp",
-        "bytes": 30250,
-        "sha256": "79816b07143c06cfe933da8a1a09b79a1975c7cba579cf4bf9b4da9ec75df7b5"
+        "name": "Rick Astley - Never Gonna Give You Up (Official Vi_dQw4w9WgXcQ.jpg",
+        "bytes": 37593,
+        "sha256": "b11f6d999adad43cd6bd2169831f24d5e1797a34127a75e82540efc4239835ea"
+      },
+      {
+        "name": "img_05.jpg",
+        "bytes": 21011,
+        "sha256": "2fc77b4a0620f5dca2d3cae6d917af3acdeb3b2e5558ba1727f8d651351fc692"
+      },
+      {
+        "name": "img_06.jpg",
+        "bytes": 65324,
+        "sha256": "263dedc00c8521ab388aa6385c36c28be9e02c8e7bb6f8edbe6240f5cdd9bdbd"
+      },
+      {
+        "name": "img_07.webp",
+        "bytes": 28620,
+        "sha256": "15e68d2a9d25570ba52b91a5abf7fe8edf6ffc41f331761061b1709c61c57226"
+      },
+      {
+        "name": "img_10.png",
+        "bytes": 11507,
+        "sha256": "32565a681f5420b051f863e20a723490d94d07306de7b379862f0ec4a0d6676c"
+      },
+      {
+        "name": "img_11.webp",
+        "bytes": 11564,
+        "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
+      },
+      {
+        "name": "img_12.webp",
+        "bytes": 11564,
+        "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
+      },
+      {
+        "name": "img_13.webp",
+        "bytes": 72501,
+        "sha256": "ff6175b5482cb45abcc7abb03e177f5418d585f6641412f6e01d93de32c2f20d"
+      },
+      {
+        "name": "img_14.webp",
+        "bytes": 19760,
+        "sha256": "749e6ae20bc9e2aa84aa6856ac6137e89a39a1d01e319d7004581817bcad3250"
+      },
+      {
+        "name": "img_15.webp",
+        "bytes": 35878,
+        "sha256": "e14937fa2e3eef4f8957fe4320b4be3d5bc9546302d8edbe514f68b9974f1d0d"
+      },
+      {
+        "name": "img_16.webp",
+        "bytes": 26481,
+        "sha256": "1df0462c1fa97f84ac84eba8901f529c1e5bb246ee449d3ca99471160b5d8124"
+      },
+      {
+        "name": "img_17.webp",
+        "bytes": 39360,
+        "sha256": "f2ce4ce30923ca8d67e25e8e7a0a07025fb0d64d4c0ebdae130a7754b92d4289"
+      },
+      {
+        "name": "img_18.webp",
+        "bytes": 22948,
+        "sha256": "ae377ff102e13da69b0274079e9bd04cf83d03b784df9db044c0b417cdeeafbf"
+      },
+      {
+        "name": "img_19.webp",
+        "bytes": 69668,
+        "sha256": "956e1f63ba8ef6d65c31faf212bbd95e364fbdd0bdc9403543f307d57acb8d6d"
+      },
+      {
+        "name": "img_20.webp",
+        "bytes": 25076,
+        "sha256": "b5c6b8dfbe198aa7fa183d9d25790b9ce3ff2ad04d2d14fd7f305ed054d54dde"
+      },
+      {
+        "name": "img_21.webp",
+        "bytes": 144548,
+        "sha256": "5cdbda43b75421c593fcf28985bffffedcdb42a0aee8ba32dc11eae902b4d4ce"
+      },
+      {
+        "name": "img_22.webp",
+        "bytes": 20860,
+        "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
+      },
+      {
+        "name": "img_23.webp",
+        "bytes": 30002,
+        "sha256": "efc1a05c434aa6e36040a673d3f98bf25f324e7eddb7a75868870ede9aceb109"
+      },
+      {
+        "name": "img_24.webp",
+        "bytes": 278435,
+        "sha256": "7a03c9268f3b631501dd4d80487f1d52eb8930831e5bf5ce1a8e2d452d0e4de1"
+      },
+      {
+        "name": "img_25.webp",
+        "bytes": 17085,
+        "sha256": "6b09b42c14dece5c80c087a59fe6fc861e37b7a1efd82bd0c0a37d6b30fabc9f"
+      },
+      {
+        "name": "img_26.webp",
+        "bytes": 34549,
+        "sha256": "1cb9c2a3d4f2bc7571d845a4caae29114a245ce0812019ebbbfdecd814e0513f"
+      },
+      {
+        "name": "img_27.webp",
+        "bytes": 345904,
+        "sha256": "d54ca4bc693e80795c7f22dc3508b5eb2b6d4bb137625bd084642f614d39b9ea"
+      },
+      {
+        "name": "img_28.webp",
+        "bytes": 27604,
+        "sha256": "9a98b2885f3df51c56428e643adbbb8d4b757ed28fa0b52d39b6672d4485a45c"
+      },
+      {
+        "name": "img_29.webp",
+        "bytes": 278059,
+        "sha256": "ed9c889b6b28b41f9915180896d2b7a7bcb1830be2f6ee962ad1775e297fbfdb"
+      },
+      {
+        "name": "img_30.webp",
+        "bytes": 26450,
+        "sha256": "efe9af00ea2415653e7266e56a42b28faa81dc3954b3658bc0ecab5a7f685f14"
       }
     ],
-    "collected_at": "2026-11-07T08:18:56Z",
+    "collected_at": "2026-11-07T08:24:41Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
-    "source_url": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c001/oYoae1A0DABiAtZSAAIAxytfEungiiEBAACCPV~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=ZyfLWcjD%2B3YRpdWQx8sOpojNViA%3D",
-    "platform_folder": "02_抖音素材",
+    "source_url": "https://www.tiktok.com/@tiktok/video/7106594312292453675",
+    "platform_folder": "07_TikTok素材",
     "status": "ok",
-    "tool_used": "direct-image",
+    "tool_used": "yt-dlp",
     "steps": [
       {
-        "tool": "direct-image",
+        "tool": "yt-dlp",
         "ok": true,
-        "log": "saved 1 direct image(s)"
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [TikTok] 7106594312292453675: Requested format is not available. Use --list-formats for a list of available formats"
       }
     ],
     "files": [
       {
-        "name": "frame_oQGxfABDOtAAoi.webp",
-        "bytes": 30250,
-        "sha256": "79816b07143c06cfe933da8a1a09b79a1975c7cba579cf4bf9b4da9ec75df7b5"
+        "name": "how many frogs did you find？ 🐸 check out tiktok’s _7106594312292453675.jpg",
+        "bytes": 57822,
+        "sha256": "6bfece455c3ae7dec2625f890deee92995b5d9357dd6be711b8b4148328020a6"
       },
       {
-        "name": "frame_oYoae1A0DABiAt.webp",
-        "bytes": 45064,
-        "sha256": "1162ef97bf2a0c2f31f7b71ceeed05057e9e3fb3408fbd413f48961fbfe5488f"
+        "name": "how many frogs did you find？ 🐸 check out tiktok’s _7106594312292453675.mp4",
+        "bytes": 3360445,
+        "sha256": "5d58665e5f1e9f82fe33e82591f0ebe719b9589858e8ef0a9caf3a00833112b2"
       }
     ],
-    "collected_at": "2026-11-07T08:18:56Z",
+    "collected_at": "2026-11-07T08:24:20Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
-    "source_url": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/ocoae1A0DABiAtGbAAIAxytfEungaiEBAACCNV~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=QZKKcilU8iQrg%2FFwLjBde%2FoE9p4%3D",
-    "platform_folder": "02_抖音素材",
+    "source_url": "https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
+    "platform_folder": "01_小红书素材",
     "status": "ok",
-    "tool_used": "direct-image",
+    "tool_used": "xhs-dump",
     "steps": [
       {
-        "tool": "direct-image",
+        "tool": "xhs-dump",
         "ok": true,
-        "log": "saved 1 direct image(s)"
+        "log": "dumped 1 urls, saved 1"
       }
     ],
     "files": [
       {
-        "name": "frame_oQBaACAEICADuE.webp",
-        "bytes": 31988,
-        "sha256": "5d08773a022eb73417d8972da2b30347205e3dc110469d7483796ca33c785548"
-      },
-      {
-        "name": "frame_oQGxfABDOtAAoi.webp",
-        "bytes": 30250,
-        "sha256": "79816b07143c06cfe933da8a1a09b79a1975c7cba579cf4bf9b4da9ec75df7b5"
-      },
-      {
-        "name": "frame_oYoae1A0DABiAt.webp",
-        "bytes": 45064,
-        "sha256": "1162ef97bf2a0c2f31f7b71ceeed05057e9e3fb3408fbd413f48961fbfe5488f"
-      },
-      {
-        "name": "frame_ocoae1A0DABiAt.webp",
-        "bytes": 89896,
-        "sha256": "64309c0c066aec5326477d2292649ec3b86cdca77751e4ddc1bf15977681a8ea"
+        "name": "xhs_01.webp",
+        "bytes": 60599,
+        "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
       }
     ],
-    "collected_at": "2026-11-07T08:18:56Z",
-    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
-  },
-  {
-    "source_url": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/oQBaACAEICADuEihofetAmyALtIQVgxBA0AAi1~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=renQHp2KA277aUWhy47d9W8GZfY%3D",
-    "platform_folder": "02_抖音素材",
-    "status": "ok",
-    "tool_used": "direct-image",
-    "steps": [
-      {
-        "tool": "direct-image",
-        "ok": true,
-        "log": "saved 1 direct image(s)"
-      }
-    ],
-    "files": [
-      {
-        "name": "frame_oQBaACAEICADuE.webp",
-        "bytes": 31988,
-        "sha256": "5d08773a022eb73417d8972da2b30347205e3dc110469d7483796ca33c785548"
-      },
-      {
-        "name": "frame_oQGxfABDOtAAoi.webp",
-        "bytes": 30250,
-        "sha256": "79816b07143c06cfe933da8a1a09b79a1975c7cba579cf4bf9b4da9ec75df7b5"
-      },
-      {
-        "name": "frame_oYoae1A0DABiAt.webp",
-        "bytes": 45064,
-        "sha256": "1162ef97bf2a0c2f31f7b71ceeed05057e9e3fb3408fbd413f48961fbfe5488f"
-      }
-    ],
-    "collected_at": "2026-11-07T08:18:56Z",
-    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
-  },
-  {
-    "source_url": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813c001/oQfeEAt0RyEgAABax0ClIEutgAioA1AVDABCAi~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=M5pYG41cUNM76ytEviL5E82jUzI%3D",
-    "platform_folder": "02_抖音素材",
-    "status": "ok",
-    "tool_used": "direct-image",
-    "steps": [
-      {
-        "tool": "direct-image",
-        "ok": true,
-        "log": "saved 1 direct image(s)"
-      }
-    ],
-    "files": [
-      {
-        "name": "frame_oQBaACAEICADuE.webp",
-        "bytes": 31988,
-        "sha256": "5d08773a022eb73417d8972da2b30347205e3dc110469d7483796ca33c785548"
-      },
-      {
-        "name": "frame_oQGxfABDOtAAoi.webp",
-        "bytes": 30250,
-        "sha256": "79816b07143c06cfe933da8a1a09b79a1975c7cba579cf4bf9b4da9ec75df7b5"
-      },
-      {
-        "name": "frame_oQfeEAt0RyEgAA.webp",
-        "bytes": 30706,
-        "sha256": "7134ceef34dd6a1e3788888242ff660367055914cb23043127bdddf973e10527"
-      },
-      {
-        "name": "frame_oYoae1A0DABiAt.webp",
-        "bytes": 45064,
-        "sha256": "1162ef97bf2a0c2f31f7b71ceeed05057e9e3fb3408fbd413f48961fbfe5488f"
-      },
-      {
-        "name": "frame_ocoae1A0DABiAt.webp",
-        "bytes": 89896,
-        "sha256": "64309c0c066aec5326477d2292649ec3b86cdca77751e4ddc1bf15977681a8ea"
-      }
-    ],
-    "collected_at": "2026-11-07T08:18:56Z",
-    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
-  },
-  {
-    "source_url": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/ogxiSACAETeCAtAECfy0aIVu1oAtBBkYDAigAA~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=%2FvmztJQERCuAlHvVmCsAT%2F6dq%2BE%3D",
-    "platform_folder": "02_抖音素材",
-    "status": "ok",
-    "tool_used": "direct-image",
-    "steps": [
-      {
-        "tool": "direct-image",
-        "ok": true,
-        "log": "saved 1 direct image(s)"
-      }
-    ],
-    "files": [
-      {
-        "name": "frame_oQBaACAEICADuE.webp",
-        "bytes": 31988,
-        "sha256": "5d08773a022eb73417d8972da2b30347205e3dc110469d7483796ca33c785548"
-      },
-      {
-        "name": "frame_oQGxfABDOtAAoi.webp",
-        "bytes": 30250,
-        "sha256": "79816b07143c06cfe933da8a1a09b79a1975c7cba579cf4bf9b4da9ec75df7b5"
-      },
-      {
-        "name": "frame_oQfeEAt0RyEgAA.webp",
-        "bytes": 30706,
-        "sha256": "7134ceef34dd6a1e3788888242ff660367055914cb23043127bdddf973e10527"
-      },
-      {
-        "name": "frame_oYoae1A0DABiAt.webp",
-        "bytes": 45064,
-        "sha256": "1162ef97bf2a0c2f31f7b71ceeed05057e9e3fb3408fbd413f48961fbfe5488f"
-      },
-      {
-        "name": "frame_ocoae1A0DABiAt.webp",
-        "bytes": 89896,
-        "sha256": "64309c0c066aec5326477d2292649ec3b86cdca77751e4ddc1bf15977681a8ea"
-      },
-      {
-        "name": "frame_ogxiSACAETeCAt.webp",
-        "bytes": 28610,
-        "sha256": "21cf801f43c2bfd574ac7a43b9cc95a70b9025ed9ff832f7056ce3e02a4b1a90"
-      }
-    ],
-    "collected_at": "2026-11-07T08:18:56Z",
+    "collected_at": "2026-11-07T08:24:24Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   }
 ]

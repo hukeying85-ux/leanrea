@@ -22,7 +22,7 @@
     {
       "tool": "scrape",
       "ok": true,
-      "log": "found 63 candidate urls, saved 21"
+      "log": "found 61 candidate urls, saved 22"
     }
   ],
   "files": [
@@ -47,136 +47,111 @@
       "sha256": "15e68d2a9d25570ba52b91a5abf7fe8edf6ffc41f331761061b1709c61c57226"
     },
     {
+      "name": "img_10.png",
+      "bytes": 11507,
+      "sha256": "32565a681f5420b051f863e20a723490d94d07306de7b379862f0ec4a0d6676c"
+    },
+    {
       "name": "img_11.webp",
       "bytes": 11564,
       "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
     },
     {
       "name": "img_12.webp",
+      "bytes": 11564,
+      "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
+    },
+    {
+      "name": "img_13.webp",
       "bytes": 72501,
       "sha256": "ff6175b5482cb45abcc7abb03e177f5418d585f6641412f6e01d93de32c2f20d"
     },
     {
-      "name": "img_13.webp",
+      "name": "img_14.webp",
       "bytes": 19760,
       "sha256": "749e6ae20bc9e2aa84aa6856ac6137e89a39a1d01e319d7004581817bcad3250"
     },
     {
-      "name": "img_14.webp",
+      "name": "img_15.webp",
       "bytes": 35878,
       "sha256": "e14937fa2e3eef4f8957fe4320b4be3d5bc9546302d8edbe514f68b9974f1d0d"
     },
     {
-      "name": "img_15.webp",
+      "name": "img_16.webp",
       "bytes": 26481,
       "sha256": "1df0462c1fa97f84ac84eba8901f529c1e5bb246ee449d3ca99471160b5d8124"
     },
     {
-      "name": "img_16.webp",
+      "name": "img_17.webp",
       "bytes": 39360,
       "sha256": "f2ce4ce30923ca8d67e25e8e7a0a07025fb0d64d4c0ebdae130a7754b92d4289"
     },
     {
-      "name": "img_17.webp",
-      "bytes": 26697,
-      "sha256": "bd6c964b1af07f8044e437d505e5ae27f3b3f364764227d99fa08e5375af8c30"
-    },
-    {
-      "name": "img_18.jpg",
-      "bytes": 26748,
-      "sha256": "97a733f214bfbbfc6c1bf1421791000ae830fc7a48462b410bc8e042f63c04f0"
-    },
-    {
       "name": "img_18.webp",
+      "bytes": 22948,
+      "sha256": "ae377ff102e13da69b0274079e9bd04cf83d03b784df9db044c0b417cdeeafbf"
+    },
+    {
+      "name": "img_19.webp",
+      "bytes": 69668,
+      "sha256": "956e1f63ba8ef6d65c31faf212bbd95e364fbdd0bdc9403543f307d57acb8d6d"
+    },
+    {
+      "name": "img_20.webp",
+      "bytes": 25076,
+      "sha256": "b5c6b8dfbe198aa7fa183d9d25790b9ce3ff2ad04d2d14fd7f305ed054d54dde"
+    },
+    {
+      "name": "img_21.webp",
+      "bytes": 144548,
+      "sha256": "5cdbda43b75421c593fcf28985bffffedcdb42a0aee8ba32dc11eae902b4d4ce"
+    },
+    {
+      "name": "img_22.webp",
       "bytes": 20860,
       "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
     },
     {
-      "name": "img_19.webp",
-      "bytes": 282172,
-      "sha256": "eb11f9adc1e8e6af8e82cb756d01d08c9cce7a24e752e6ac30a891f255df6670"
-    },
-    {
-      "name": "img_20.jpg",
-      "bytes": 29801,
-      "sha256": "ef907ed6b02e1a11ebc6393f1c090c36ba766a3107194666dec500415a3670da"
-    },
-    {
-      "name": "img_20.webp",
-      "bytes": 30321,
-      "sha256": "2895e11cada9fc8e252866d7a955662b6e71dd0288a6d41aa2ffe5fc10918013"
-    },
-    {
-      "name": "img_21.webp",
-      "bytes": 139715,
-      "sha256": "1bbf00847a430cd68be13dd10201e24e0fc52977c98aa36b50293c1cb5fc9585"
-    },
-    {
-      "name": "img_22.jpg",
-      "bytes": 16451,
-      "sha256": "bdb4c8a2884a0cecf34ddfb7e00eeef63396d371220f353ae5859ca153654da4"
-    },
-    {
-      "name": "img_22.webp",
-      "bytes": 20887,
-      "sha256": "3700c97acf25a30e523e7b2e6922f7bc60417199ed93d00941df229534fdc53f"
-    },
-    {
       "name": "img_23.webp",
-      "bytes": 85523,
-      "sha256": "05b633ffbbcae50063cd81c6c66008e65b0fdebd3ca744aede3ab1629f92081e"
-    },
-    {
-      "name": "img_24.jpg",
-      "bytes": 19979,
-      "sha256": "3186ccc143e1fb5428e75e716ae11f011ccd8ba956575f46898722725f1d1377"
+      "bytes": 30002,
+      "sha256": "efc1a05c434aa6e36040a673d3f98bf25f324e7eddb7a75868870ede9aceb109"
     },
     {
       "name": "img_24.webp",
-      "bytes": 15163,
-      "sha256": "71d734215d97a152617b429f6aed4dd6c90cf873612fb6026d1db4c81d776831"
+      "bytes": 278435,
+      "sha256": "7a03c9268f3b631501dd4d80487f1d52eb8930831e5bf5ce1a8e2d452d0e4de1"
     },
     {
       "name": "img_25.webp",
-      "bytes": 259629,
-      "sha256": "d362e1ac88d13f0dca7bf6118b9414795a06285092c3ccae683b8f639826d9a7"
+      "bytes": 17085,
+      "sha256": "6b09b42c14dece5c80c087a59fe6fc861e37b7a1efd82bd0c0a37d6b30fabc9f"
     },
     {
       "name": "img_26.webp",
-      "bytes": 20937,
-      "sha256": "e18a2b506b9da34b75d86901dfe1c20f00387edad00bf2abcdc7880a95fb8379"
-    },
-    {
-      "name": "img_27.jpg",
-      "bytes": 50577,
-      "sha256": "b257dd1b3620959cfbd2c3169f61c60d6133651016d5338af7d37c2e5a49fe23"
+      "bytes": 34549,
+      "sha256": "1cb9c2a3d4f2bc7571d845a4caae29114a245ce0812019ebbbfdecd814e0513f"
     },
     {
       "name": "img_27.webp",
-      "bytes": 27503,
-      "sha256": "26d64831e032521a3217c74af7ef6c86ee08dcfe4010ae63f0bad011fb6b723c"
-    },
-    {
-      "name": "img_28.jpg",
-      "bytes": 29096,
-      "sha256": "9a4c9352ec45b05cae5909f5a09c4cc3b82ea3e8828d5ce2f33f554c3a487dbd"
+      "bytes": 345904,
+      "sha256": "d54ca4bc693e80795c7f22dc3508b5eb2b6d4bb137625bd084642f614d39b9ea"
     },
     {
       "name": "img_28.webp",
-      "bytes": 24605,
-      "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
+      "bytes": 27604,
+      "sha256": "9a98b2885f3df51c56428e643adbbb8d4b757ed28fa0b52d39b6672d4485a45c"
     },
     {
       "name": "img_29.webp",
-      "bytes": 144949,
-      "sha256": "0f2a058dc558906f83e9b59bc10073770eb84054b58ddecd009f89e1372364d1"
+      "bytes": 278059,
+      "sha256": "ed9c889b6b28b41f9915180896d2b7a7bcb1830be2f6ee962ad1775e297fbfdb"
     },
     {
       "name": "img_30.webp",
-      "bytes": 18327,
-      "sha256": "91d57e95700c190f60cd776301b59c34c6da570f1cd42755db7ab63c9c9c5351"
+      "bytes": 26450,
+      "sha256": "efe9af00ea2415653e7266e56a42b28faa81dc3954b3658bc0ecab5a7f685f14"
     }
   ],
-  "collected_at": "2026-11-05T12:22:43Z",
+  "collected_at": "2026-11-07T08:24:41Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
