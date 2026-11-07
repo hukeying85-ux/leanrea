@@ -31,7 +31,7 @@ QUEUE = os.path.join(ROOT, ".mediaqueue", "urls.txt")
 
 PLATFORM_OF = [
     ("01_小红书素材", ["xiaohongshu.com", "xhscdn.com"]),
-    ("02_抖音素材", ["douyin.com", "iesdouyin.com"]),
+    ("02_抖音素材", ["douyin.com", "iesdouyin.com", "douyinpic.com"]),
     ("03_YouTube素材", ["youtube.com", "youtu.be"]),
     ("05_B站素材", ["bilibili.com"]),
     ("06_快手素材", ["kuaishou.com", "chenzhongtech.com"]),
@@ -558,6 +558,37 @@ def _download_images(urls, out, referer="https://www.douyin.com/"):
     return got
 
 
+def try_direct_image(url, out):
+    """队列里直接给 CDN 图片直链时用（抖音签名直链有效期约 1 个月）。
+    只认「下下来真的是图片」——按魔数判断，不看扩展名。"""
+    if not re.search(r"\.(?:jpg|jpeg|png|webp)(?:\?|$)", url, re.I):
+        return False, "not an image url", []
+    got = []
+    # 签名直链必须原样请求（去掉 x-signature 就 403），原图变体只作补充
+    for i, cand in enumerate([url] + (_variants(url) or [])):
+        try:
+            rr = requests.get(cand, headers={"User-Agent": MOBILE_UA,
+                                             "Referer": "https://www.douyin.com/",
+                                             "Accept": "image/avif,image/webp,image/*,*/*;q=0.8"},
+                              timeout=60)
+        except Exception as e:
+            if i == 0:
+                return False, f"{type(e).__name__}: {e}", []
+            continue
+        head = rr.content[:16]
+        if rr.status_code == 200 and len(rr.content) > 8000 and (
+                head[:3] == b"\xff\xd8\xff" or head[:4] == b"\x89PNG"
+                or (head[:4] == b"RIFF" and rr.content[8:12] == b"WEBP")):
+            ext = ".jpg" if head[:3] == b"\xff\xd8\xff" else (
+                ".png" if head[:4] == b"\x89PNG" else ".webp")
+            slug = re.sub(r"[^A-Za-z0-9]+", "", _canon(url))[:14] or "img"
+            p = os.path.join(out, f"frame_{slug}{ext}")
+            open(p, "wb").write(rr.content)
+            got.append(os.path.basename(p))
+            break
+    return bool(got), f"saved {len(got)} direct image(s)", got
+
+
 def try_douyin_note(url, out):
     m = re.search(r"(?:/note/|/video/|item_ids=|/slides/)(\d{15,})", url)
     if not m:
@@ -818,6 +849,27 @@ def handle(url):
     if not url or url.startswith("#"):
         return None
     folder = platform_of(url)
+    if "douyinpic.com" in url and re.search(r"\.(?:jpg|jpeg|png|webp)", url, re.I):
+        out = os.path.join(RAW, folder, "direct_images")
+        os.makedirs(out, exist_ok=True)
+        good, log, _ = try_direct_image(url, out)
+        real = []
+        for rel in list_files_recursive(out):
+            if rel == "meta.json":
+                continue
+            pp = os.path.join(out, rel)
+            if os.path.isfile(pp):
+                real.append({"name": rel, "bytes": os.path.getsize(pp), "sha256": sha256(pp)})
+        json.dump({"source_url": url, "platform_folder": folder,
+                   "status": "ok" if good else "failed",
+                   "tool_used": "direct-image" if good else None,
+                   "steps": [{"tool": "direct-image", "ok": bool(good), "log": log}],
+                   "files": real,
+                   "collected_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"},
+                  open(os.path.join(out, "meta.json"), "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=2)
+        return json.load(open(os.path.join(out, "meta.json"), encoding="utf-8"))
     out = os.path.join(RAW, folder, slug_of(url))
     os.makedirs(out, exist_ok=True)
 
