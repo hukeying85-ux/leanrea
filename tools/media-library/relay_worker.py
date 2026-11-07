@@ -442,6 +442,134 @@ def _dedupe_keep_order(urls):
     return out
 
 
+# --------------------------------------------------------------------------
+# 0. 小红书首选：JoeanAmier/XHS-Downloader（GitHub 12.9k star）
+#    用 curl_cffi 做浏览器 TLS 指纹伪装，2.2 版起官方说明「无需 cookie」即可取原图
+# --------------------------------------------------------------------------
+XHSDL_REPO = "https://github.com/JoeanAmier/XHS-Downloader"
+XHSDL_DIR = "/tmp/xhsdl"
+XHSDL_OUT = "/tmp/xhsdl_dl"
+
+XHSDL_SCRIPT = r"""
+import asyncio, json, os, sys
+sys.path.insert(0, "%s")
+os.chdir("%s")
+from source import XHS
+
+FULL = dict(work_path="%s", folder_name="Download", name_format="作品ID",
+            impersonate="chrome146", cookie="", proxy=None, timeout=20,
+            chunk=1024 * 1024 * 10, max_retry=3, avg_delay=0.5,
+            record_data=False, image_format="AUTO", folder_mode=True,
+            image_download=True, video_download=False,
+            video_cover_download=False, live_download=False,
+            download_record=False, language="zh_CN", author_archive=False,
+            write_mtime=False, note_format="")
+MINIMAL = dict(work_path="%s", folder_name="Download", cookie="",
+               timeout=20, image_format="AUTO", folder_mode=True,
+               image_download=True, video_download=False,
+               download_record=False)
+
+
+async def main():
+    url = sys.argv[1]
+    try:
+        x = XHS(**FULL)
+    except TypeError as e:
+        print("kwargs trimmed: %%s" %% e)
+        x = XHS(**MINIMAL)
+    async with x as xhs:
+        data = await xhs.extract(url, True)
+    if not isinstance(data, dict):
+        data = {"raw": str(data)}
+    json.dump(data, open("/tmp/xhs_detail.json", "w", encoding="utf-8"),
+              ensure_ascii=False, default=str)
+    print("detail keys: %%s" %% list(data.keys())[:20])
+
+
+asyncio.run(main())
+""" % (XHSDL_DIR, XHSDL_DIR, XHSDL_OUT, XHSDL_OUT)
+
+
+def _ensure_xhs_downloader(DBG):
+    """把 XHS-Downloader 源码与依赖装到 /tmp（runner 每次都是干净的）"""
+    if not os.path.isdir(os.path.join(XHSDL_DIR, "source")):
+        rc, out = run(["git", "clone", "--depth", "1", XHSDL_REPO, XHSDL_DIR], timeout=300)
+        _dbg(DBG, "[clone] rc=%s %s" % (rc, out[-300:]))
+        if rc != 0:
+            return False
+    req = os.path.join(XHSDL_DIR, "requirements.txt")
+    if os.path.isfile(req):
+        rc, out = run([sys.executable, "-m", "pip", "install", "-q",
+                       "--disable-pip-version-check", "-r", req], timeout=900)
+        _dbg(DBG, "[pip] rc=%s %s" % (rc, out[-400:]))
+    return True
+
+
+def try_xhs_downloader(url, out):
+    """调用 XHS-Downloader 的 extract()，拿下载地址后自己下原图。"""
+    DBG = os.path.join(RAW, "_debug", "xhs_dl_%s.txt" % os.path.basename(out))
+    _dbg(DBG, "=== xhs-downloader %s ===" % url)
+    if not _ensure_xhs_downloader(DBG):
+        return False, "xhs-downloader: 源码没装好", []
+
+    shutil.rmtree(XHSDL_OUT, ignore_errors=True)
+    os.makedirs(XHSDL_OUT, exist_ok=True)
+    if os.path.exists("/tmp/xhs_detail.json"):
+        os.remove("/tmp/xhs_detail.json")
+    script = "/tmp/xhsdl_run.py"
+    open(script, "w", encoding="utf-8").write(XHSDL_SCRIPT)
+    rc, log = run([sys.executable, script, url], timeout=600)
+    _dbg(DBG, "[run] rc=%s\n%s" % (rc, log[-2500:]))
+
+    # 1) 它自己下好的文件
+    got = []
+    for rel in list_files_recursive(XHSDL_OUT):
+        p = os.path.join(XHSDL_OUT, rel)
+        if not os.path.isfile(p) or os.path.getsize(p) < 5000:
+            continue
+        ext = os.path.splitext(rel)[1].lower() or ".jpg"
+        if ext not in (".jpg", ".jpeg", ".png", ".webp", ".heic"):
+            continue
+        shutil.copy(p, os.path.join(out, "xhs_%02d%s" % (len(got) + 1, ".jpg"
+                                                          if ext == ".heic" else ext)))
+        got.append(rel)
+    _dbg(DBG, "tool downloaded: %d -> %s" % (len(got), got[:20]))
+
+    # 2) 从返回的详情里再抠一遍直链，按原图规格自己下（双保险）
+    detail = {}
+    if os.path.exists("/tmp/xhs_detail.json"):
+        try:
+            detail = json.load(open("/tmp/xhs_detail.json", encoding="utf-8"))
+        except Exception as e:
+            _dbg(DBG, "detail json bad: %s" % e)
+    raw = json.dumps(detail, ensure_ascii=False)
+    cands = re.findall(r'https?://[^"\s\\<>\']+', raw)
+    cands = [u for u in cands
+             if ("xhscdn" in u or "spectrum" in u)
+             and not any(b in u for b in BAD_IMG)]
+    cands = _dedupe_keep_order([_clean_xhs(u) for u in cands])
+    _dbg(DBG, "detail urls: %d" % len(cands))
+    for u in cands[:20]:
+        _dbg(DBG, "   %s" % u[:170])
+
+    for u in cands[:60]:
+        try:
+            r = requests.get(u, headers={"User-Agent": BROWSER_UA,
+                                         "Referer": "https://www.xiaohongshu.com/"},
+                             timeout=60)
+            if r.status_code == 200 and len(r.content) > 5000:
+                ext = (".jpg" if ("jpeg" in u.lower() or "jpg" in u.lower())
+                       else ".png" if "png" in u.lower() else ".webp")
+                dst = os.path.join(out, "xhs_%02d%s" % (len(got) + 1, ext))
+                open(dst, "wb").write(r.content)
+                got.append(os.path.basename(dst))
+        except Exception:
+            continue
+        time.sleep(0.2)
+    _dbg(DBG, "TOTAL saved: %d" % len(got))
+    return len(got) >= 2, "xhs-downloader: saved %d" % len(got), got
+
+
 def try_xhs_ultimate(url, out):
     """小红书原图终极通道：能试的路全试一遍，先到先得。
 
@@ -1102,8 +1230,9 @@ def handle(url):
     if folder == "01_小红书素材":
         # 机房 IP 裸请求只有游客壳，先走终极通道（seo来源/代理/归档/真浏览器），
         # 都失败再退回原来的 dump-json
-        chain.insert(0, ("xhs-ultimate", try_xhs_ultimate))
-        chain.insert(1, ("xhs-dump", try_xhs_dump))
+        chain.insert(0, ("xhs-downloader", try_xhs_downloader))
+        chain.insert(1, ("xhs-ultimate", try_xhs_ultimate))
+        chain.insert(2, ("xhs-dump", try_xhs_dump))
     if folder == "05_B站素材":
         chain.insert(1, ("bilibili-api", try_bilibili_api))
     if folder == "02_抖音素材":
