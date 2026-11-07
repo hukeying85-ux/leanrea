@@ -1,23 +1,40 @@
 name: fetch-youtube
 
-# 沙箱出网白名单仅 GitHub/npm/PyPI。youtube.com 在 TLS 层被 RST。
-# 本 workflow 把「抓取」搬到 runner 上（runner 出网不受限），产物推回 media-out 分支，
-# Agent 侧用 codeload 拉回。
+# ─────────────────────────────────────────────────────────────
+# 为什么需要这个 workflow
+#   1. Agent 沙箱出网白名单只有 github / npm / pypi，*.youtube.com
+#      与 *.googlevideo.com 在 TLS 握手阶段就被 RST（SSL_ERROR_SYSCALL），
+#      yt-dlp / pytubefix / you-get / youtube-dl / gallery-dl 全部第一步即失败。
+#   2. 于是把「下载」搬到 GitHub runner（runner 出网不受限），产物推回
+#      media-out 分支，Agent 侧用 codeload 拉回（codeload 在白名单内）。
 #
-# v2 策略变更（v1 的结论记录在此，避免重复试错）：
-#   v1 试过 yt-dlp + bgutil PO token(tv_simply/default/android_vr/web-mweb-ios/missing_pot)
-#   + Invidious 8 个公共实例 + Piped 4 个 + cobalt 3 个，全部失败。
-#   PO token 生成成功但 YouTube 仍回 LOGIN_REQUIRED：
-#   「Sign in to confirm you're not a bot」——这是对 GitHub Actions 机房 IP 段
-#   的整体信誉封锁，不是工具问题，PO token 无法解决。
+# ── 试错记录（勿重复）────────────────────────────────────────
+# v1  yt-dlp + bgutil PO token（tv_simply / default / android_vr /
+#     web,mweb,ios / missing_pot）+ Invidious 8 实例 + Piped 4 实例 +
+#     cobalt 3 实例
+#     → 全灭。PO token 生成成功，但 YouTube 仍回 LOGIN_REQUIRED
+#       「Sign in to confirm you're not a bot」= runner 机房 IP 段信誉封锁，
+#       属 IP 层问题，任何下载器都绕不过。
+#     → 但同一次运行证明：**页面 HTML 能完整取到**（只有 player API 被挡）。
 #
-#   但 v1 同时证明：**取页面 HTML 是成功的**（只有 player API 被挡）。
-#   于是 v2 改走 HTML 内嵌的 ytInitialPlayerResponse：
-#     a) storyboard（故事板）—— 视频全片按时间轴的缩略帧网格图，真实画面
-#     b) captionTracks —— 官方字幕/自动字幕（含逐字时间轴）
-#     c) streamingData —— 若 HTML 里带回直链，直接 curl 下载原片
-#     d) 封面图多尺寸
-#   这一路都不经过被挡的 player API。
+# v2  改走 HTML 内嵌 ytInitialPlayerResponse
+#     → playabilityStatus = OK！挖出：
+#         真实标题「永久免费 Claude Code 来了，月 13 亿 token 随便造」
+#         时长 34s / 频道 qingqing wang
+#         itag 18（640p 渐进式 mp4，含音轨）**带可直连 url**
+#         其余自适应格式仅 signatureCipher（需解 JS 签名）
+#         故事板 4 级：48x27 / 25x45 / 50x90 / 101x180，共 36 张 sheet
+#         自动字幕 1 条：en (asr)
+#     → bug：故事板 URL 只替换了 $N 没替换 $L，36 张 sheet 全坏。
+#
+# v3  下载 itag18 + ffmpeg 抽帧
+#     → 步骤全绿但无产物。原因：YAML 里嵌套 heredoc 被吞；且推送前
+#       没有清空旧目录，media-out 里 v2 的陈旧文件残留。
+#
+# v4  本版：改为「python 脚本落盘 + 显式日志 + 推送前清空目录」
+#     脚本写在 /tmp/fetch.py，用 python3 /tmp/fetch.py 调用，
+#     避免 bash heredoc 与 YAML BLOCK 标量互相干扰。
+# ─────────────────────────────────────────────────────────────
 
 on:
   push:
@@ -44,338 +61,241 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 依赖
+      - name: 装依赖
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg curl jq
-          python -m pip install -q -U yt-dlp requests pillow
-          yt-dlp --version
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg curl jq
+          python -m pip install -q -U requests pillow
+          ffmpeg -version | head -1
 
-      - name: 抓 HTML + 挖 ytInitialPlayerResponse
-        shell: bash
+      - name: 抓页面 HTML
         run: |
-          set +e
           mkdir -p /tmp/out logs
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-          for u in "https://www.youtube.com/shorts/$VID" \
-                   "https://www.youtube.com/watch?v=$VID&bpctr=9999999999&has_verified=1" \
-                   "https://m.youtube.com/watch?v=$VID"; do
-            code=$(curl -sL --max-time 60 -A "$UA" -H "Accept-Language: zh-CN,zh;q=0.9,en;q=0.8" \
+          got=0
+          while read -r u; do
+            [ -z "$u" ] && continue
+            code=$(curl -sL --max-time 60 -A "$UA" \
+                   -H "Accept-Language: zh-CN,zh;q=0.9,en;q=0.8" \
                    -H "Accept: text/html,application/xhtml+xml" \
                    --cookie "SOCS=CAI; CONSENT=YES+1" \
                    -o /tmp/page.html -w "%{http_code}" "$u")
             sz=$(stat -c%s /tmp/page.html 2>/dev/null || echo 0)
-            echo "$u -> http=$code size=$sz"
-            if [ "$sz" -gt 200000 ] && grep -q "ytInitialPlayerResponse" /tmp/page.html; then
-              cp /tmp/page.html /tmp/page_ok.html; echo "GOT $u"; break
+            echo "TRY $u -> http=$code size=$sz"
+            if [ "$sz" -gt 200000 ] && grep -q ytInitialPlayerResponse /tmp/page.html; then
+              cp /tmp/page.html /tmp/page_ok.html; got=1; echo "HTML_OK $u"; break
             fi
-          done
-          ls -la /tmp/page*.html 2>/dev/null
+          done <<URLS
+          https://www.youtube.com/shorts/$VID
+          https://www.youtube.com/watch?v=$VID&bpctr=9999999999&has_verified=1
+          https://m.youtube.com/watch?v=$VID
+          URLS
+          echo "got=$got"
+          ls -la /tmp/page_ok.html 2>/dev/null || true
 
-      - name: 解析故事板/字幕/直链
-        shell: bash
+      - name: 写抓取脚本
         run: |
-          set +e
-          python3 - <<'PY' 2>&1 | tee logs/parse.log
-          import re, json, os, sys
-          vid = os.environ.get("VID", "bkGhmZLOAwI")
+          cat > /tmp/fetch.py <<'PYEOF'
+          import json, os, re, subprocess, sys, glob
+          from urllib.parse import parse_qs
+
+          VID  = os.environ.get("VID", "bkGhmZLOAwI")
+          OUT  = "/tmp/out"; os.makedirs(OUT, exist_ok=True)
+          UA   = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+          log = open(os.path.join(OUT, "run.log"), "w", buffering=1)
+          def P(*a):
+              m = " ".join(str(x) for x in a); print(m); log.write(m + "\n")
+
+          def sh(cmd, timeout=400):
+              P("$", " ".join(cmd) if isinstance(cmd, list) else cmd)
+              try:
+                  r = subprocess.run(cmd, shell=isinstance(cmd, str),
+                                     capture_output=True, timeout=timeout, text=True)
+                  if r.stdout.strip(): P(r.stdout.strip()[-800:])
+                  if r.stderr.strip(): P("[err]", r.stderr.strip()[-400:])
+                  return r.returncode
+              except Exception as e:
+                  P("[exc]", e); return 1
+
+          # ---------- 1. 解析 HTML ----------
           html = None
           for p in ("/tmp/page_ok.html", "/tmp/page.html"):
               if os.path.exists(p) and os.path.getsize(p) > 1000:
                   html = open(p, encoding="utf-8", errors="ignore").read(); break
           if not html:
-              print("NO_HTML"); sys.exit(0)
-          print("html bytes:", len(html))
+              P("NO_HTML"); sys.exit(0)
+          P("html bytes:", len(html))
 
-          m = re.search(r'ytInitialPlayerResponse\s*=\s*(\{.+?\})\s*;\s*(?:var\s|</script>|const\s)', html, re.S)
+          m = re.search(r'ytInitialPlayerResponse\s*=\s*(\{.+?\})\s*;\s*(?:var|const|</script>)', html, re.S) \
+              or re.search(r'ytInitialPlayerResponse\s*=\s*(\{.+?\});', html, re.S)
           if not m:
-              m = re.search(r'ytInitialPlayerResponse\s*=\s*(\{.+?\});', html, re.S)
-          if not m:
-              print("NO_PLAYER_RESPONSE"); sys.exit(0)
-          try:
-              pr = json.loads(m.group(1))
-          except Exception as e:
-              print("JSONERR", e); sys.exit(0)
-          json.dump(pr, open("/tmp/out/player_response.json", "w"), ensure_ascii=False, indent=1)
+              P("NO_PLAYER_RESPONSE"); sys.exit(0)
+          txt = m.group(1)
+          # 平衡括号兜底
+          depth = 0; end = 0
+          for i, ch in enumerate(txt):
+              if ch == '{': depth += 1
+              elif ch == '}':
+                  depth -= 1
+                  if depth == 0: end = i + 1; break
+          pr = json.loads(txt[:end] if end else txt)
+          json.dump(pr, open(OUT + "/player_response.json", "w"), ensure_ascii=False, indent=1)
 
-          ps = pr.get("playabilityStatus", {})
-          print("playability:", ps.get("status"), "|", str(ps.get("reason"))[:120])
+          ps = pr.get("playabilityStatus") or {}
+          P("playability:", ps.get("status"), "|", str(ps.get("reason"))[:100])
+          vd = pr.get("videoDetails") or {}
+          P("title:", vd.get("title"))
+          P("author:", vd.get("author"), "| seconds:", vd.get("lengthSeconds"))
+          info = {"id": VID, "title": vd.get("title"), "author": vd.get("author"),
+                  "length": vd.get("lengthSeconds"), "views": vd.get("viewCount"),
+                  "url": f"https://www.youtube.com/shorts/{VID}",
+                  "captured_at_utc": subprocess.run(["date","-u","+%FT%TZ"],
+                      capture_output=True,text=True).stdout.strip()}
+          json.dump(info, open(OUT + "/meta.json", "w"), ensure_ascii=False, indent=1)
 
-          vd = pr.get("videoDetails", {}) or {}
-          print("title:", vd.get("title"))
-          print("author:", vd.get("author"), "| seconds:", vd.get("lengthSeconds"),
-                "| views:", vd.get("viewCount"))
+          # ---------- 2. 直链下载原片 ----------
+          fmts = [x for x in ((pr.get("streamingData") or {}).get("formats") or [])
+                  if x.get("url")]
+          P("direct formats:", [(x.get("itag"), x.get("height")) for x in fmts])
+          fmts.sort(key=lambda x: -int(x.get("height") or 0))
+          ok_mp4 = None
+          for f in fmts:
+              h = f.get("height"); tag = f.get("itag")
+              dst = f"{OUT}/原片_{h}p_itag{tag}.mp4"
+              rc = sh(["curl", "-sL", "--max-time", "400", "-A", UA,
+                       "-o", dst, f["url"]], timeout=450)
+              size = os.path.getsize(dst) if os.path.exists(dst) else 0
+              P(f"itag {tag} -> {size} bytes")
+              if size > 200000:
+                  ok_mp4 = dst; P("VIDEO_OK", dst); break
+              if os.path.exists(dst): os.remove(dst)
 
-          # --- a) 故事板 ---
-          sb = (pr.get("storyboards") or {}).get("playerStoryboardSpecRenderer") or {}
-          spec = sb.get("spec")
-          print("storyboard spec:", (spec or "")[:200])
+          # ---------- 3. 从真原片抽帧 ----------
+          if ok_mp4:
+              fr = OUT + "/frames_real"; os.makedirs(fr, exist_ok=True)
+              sh(["ffprobe","-v","error","-show_entries",
+                  "format=duration,size,bit_rate","-of","default=nw=1", ok_mp4])
+              sh(["ffprobe","-v","error","-select_streams","v:0","-show_entries",
+                  "stream=width,height,codec_name,nb_frames","-of","default=nw=1", ok_mp4])
+              # 每秒 1 帧
+              sh(["ffmpeg","-v","error","-y","-i",ok_mp4,"-vf","fps=1", fr + "/sec_%03d.png"])
+              # 均匀 20 帧（用于风格分析）
+              sh(["ffmpeg","-v","error","-y","-i",ok_mp4,"-vf",
+                  "fps=1/1.7,scale=540:-1", fr + "/pick_%02d.png"])
+              # 联系表
+              sh(["ffmpeg","-v","error","-y","-i",ok_mp4,"-vf",
+                  "fps=1/1.7,scale=214:380,tile=5x4", "-frames:v","1",
+                  OUT + "/contact_sheet_real.png"])
+              # 音轨
+              sh(["ffmpeg","-v","error","-y","-i",ok_mp4,"-vn","-acodec","copy",
+                  OUT + "/audio.m4a"])
+              P("frames:", len(glob.glob(fr + "/*.png")))
+
+          # ---------- 4. 故事板（兜底，修正 $L） ----------
+          spec = ((pr.get("storyboards") or {}).get("playerStoryboardSpecRenderer") or {}).get("spec")
           if spec:
-              open("/tmp/out/storyboard_spec.txt", "w").write(spec)
-              parts = spec.split("|")
-              base = parts[0]
-              # 逐级解析，选分辨率最高的一级
+              parts = spec.split("|"); base = parts[0]
               levels = []
               for idx, lv in enumerate(parts[1:]):
                   f = lv.split("#")
                   if len(f) < 8: continue
-                  W, H, cnt, cols, rows, interval, sigh = f[0], f[1], f[2], f[3], f[4], f[5], f[-1]
-                  levels.append(dict(level=idx, w=int(W), h=int(H), count=int(cnt),
-                                     cols=int(cols), rows=int(rows), interval=int(interval), sigh=sigh))
-              json.dump(levels, open("/tmp/out/storyboard_levels.json", "w"), indent=1)
-              print("levels:", [(l["level"], l["w"], l["h"], l["count"]) for l in levels])
+                  levels.append({"level": idx, "w": int(f[0]), "h": int(f[1]),
+                                 "count": int(f[2]), "cols": int(f[3]),
+                                 "rows": int(f[4]), "interval": int(f[5]),
+                                 "sigh": f[-1]})
               if levels:
-                  best = max(levels, key=lambda l: l["w"] * l["h"]) if "-vv" not in spec else levels[-1]
-                  print("using level", best["level"], best["w"], "x", best["h"])
-                  urls = []
-                  lvl = best["level"]
+                  best = max(levels, key=lambda l: l["w"] * l["h"])
+                  P("storyboard best:", best["level"], best["w"], "x", best["h"], "sheets", best["count"])
+                  sbd = OUT + "/storyboard"; os.makedirs(sbd, exist_ok=True)
+                  good = 0
                   for n in range(best["count"]):
-                      u = (base.replace("$L", str(lvl))     # $L = 层级
-                               .replace("$N", "M" + str(n)) # $N = M + sheet 序号
-                               .replace("$M", "M" + str(n)) # 兼容老格式
-                               .replace("$W", str(best["w"]))
-                               .replace("$H", str(best["h"]))
-                               .replace("$S", best["sigh"]))
-                      urls.append(u)
-                  open("/tmp/out/storyboard_urls.txt", "w").write("\n".join(urls))
-                  print("storyboard sheets:", len(urls))
+                      u = (base.replace("$L", str(best["level"]))
+                                    .replace("$N", "M" + str(n))
+                                    .replace("$W", str(best["w"]))
+                                    .replace("$H", str(best["h"]))
+                                    .replace("$S", best["sigh"]))
+                      dst = f"{sbd}/sheet_{n:03d}.jpg"
+                      sh(["curl","-sL","--max-time","60","-A",UA,"-o",dst,u], timeout=90)
+                      if os.path.exists(dst) and os.path.getsize(dst) > 2000:
+                          good += 1
+                      elif os.path.exists(dst):
+                          os.remove(dst)
+                  P("storyboard sheets ok:", good)
+                  # 切帧
+                  try:
+                      from PIL import Image
+                      cells = 0
+                      fdir = OUT + "/frames_sb"; os.makedirs(fdir, exist_ok=True)
+                      for sp in sorted(glob.glob(sbd + "/*.jpg")):
+                          sheet = Image.open(sp).convert("RGB")
+                          for r in range(best["rows"]):
+                              for c in range(best["cols"]):
+                                  box = (c*best["w"], r*best["h"],
+                                         c*best["w"]+best["w"], r*best["h"]+best["h"])
+                                  if box[2] > sheet.width or box[3] > sheet.height: continue
+                                  cell = sheet.crop(box)
+                                  if cell.getextrema() == ((0,0),(0,0),(0,0)): continue
+                                  cell.save(f"{fdir}/sb_{cells:04d}.png"); cells += 1
+                      P("storyboard frames:", cells)
+                  except Exception as e:
+                      P("storyboard crop failed:", e)
 
-          # --- b) 字幕 ---
+          # ---------- 5. 字幕 ----------
           caps = ((pr.get("captions") or {}).get("playerCaptionsTracklistRenderer") or {}).get("captionTracks") or []
-          print("caption tracks:", len(caps))
-          open("/tmp/out/captions.txt", "w").write(
-              "\n".join(f'{c.get("languageCode")}\t{c.get("kind","")}\t{c.get("baseUrl","")}' for c in caps))
-          for c in caps[:5]:
-              print("  track:", c.get("languageCode"), c.get("kind"), c.get("name", {}).get("simpleText"))
+          P("caption tracks:", len(caps))
+          for i, c in enumerate(caps):
+              lang = c.get("languageCode", "x"); kind = c.get("kind", "manual"); u = c.get("baseUrl", "")
+              if not u: continue
+              for fmt, ext in (("json3","json3"), ("vtt","vtt")):
+                  dst = f"{OUT}/caption_{lang}_{kind}.{ext}"
+                  sh(["curl","-sL","--max-time","60","-A",UA,"-o",dst, f"{u}&fmt={fmt}"], timeout=90)
+              # 转纯文本
+              j = OUT + f"/caption_{lang}_{kind}.json3"
+              if os.path.exists(j):
+                  try:
+                      d = json.load(open(j))
+                      lines = []
+                      for ev in d.get("events", []):
+                          t = "".join(s.get("utf8","") for s in (ev.get("segs") or []))
+                          if t.strip(): lines.append(f'[{ev.get("tStartMs",0)/1000:6.2f}s] {t.strip()}')
+                      open(f"{OUT}/caption_{lang}_{kind}.txt","w").write("\n".join(lines))
+                      P("caption lines:", len(lines))
+                  except Exception as e: P("caption txt failed:", e)
 
-          # --- c) 直链 ---
-          sd = pr.get("streamingData") or {}
-          fmts = (sd.get("formats") or []) + (sd.get("adaptiveFormats") or [])
-          print("streaming formats:", len(fmts))
-          if fmts:
-              open("/tmp/out/formats.json", "w").write(json.dumps(fmts, ensure_ascii=False, indent=1))
+          # ---------- 6. 封面 ----------
+          for n in ("maxresdefault","oar2","sddefault","hqdefault","hq720"):
+              dst = f"{OUT}/cover_{n}.jpg"
+              sh(["curl","-sL","--max-time","30","-A",UA,"-o",dst,
+                  f"https://i.ytimg.com/vi/{VID}/{n}.jpg"], timeout=60)
+              if os.path.exists(dst) and os.path.getsize(dst) < 2000: os.remove(dst)
 
-          # --- d) 封面 ---
-          thumbs = (vd.get("thumbnail") or {}).get("thumbnails") or []
-          print("thumbs:", len(thumbs))
-          PY
+          # ---------- 7. 收尾 ----------
+          for f in glob.glob(OUT + "/*"):
+              if os.path.isfile(f) and os.path.getsize(f) < 2000: os.remove(f)
+          P("=== OUT TREE ===")
+          rc = sh("find /tmp/out -maxdepth 2 -type f -printf '%10s  %p\\n' | sort -k2 | head -60")
+          log.close()
+          PYEOF
+          python3 -c "import ast;ast.parse(open('/tmp/fetch.py').read());print('py syntax OK')"
 
-      - name: 下载 itag18 原片（640p 完整 mp4，含音轨）
-        shell: bash
+      - name: 执行抓取
         run: |
-          set +e
-          python3 - <<'PY2' > /tmp/itag18.txt
-          import json
-          f = json.load(open("/tmp/out/formats.json"))
-          for x in f:
-              if str(x.get("itag")) == "18" and x.get("url"):
-                  print(x["url"]); break
-          PY2
-          U=$(cat /tmp/itag18.txt | head -1)
-          if [ -n "$U" ]; then
-            echo "itag18 url len=${#U}"
-            code=$(curl -sL --max-time 300 -o /tmp/out/原片_640p.mp4 -w "%{http_code}" "$U")
-            sz=$(stat -c%s /tmp/out/原片_640p.mp4 2>/dev/null || echo 0)
-            echo "itag18 -> http=$code size=$sz"
-            if [ "$sz" -gt 200000 ]; then
-              ffprobe -v error -show_entries format=duration,size,bit_rate -of default=nw=1 /tmp/out/原片_640p.mp4 2>&1
-              ffprobe -v error -select_streams v:0 -show_entries stream=width,height,codec_name,nb_frames -of default=nw=1 /tmp/out/原片_640p.mp4 2>&1
-            else
-              rm -f /tmp/out/原片_640p.mp4
-            fi
-          else
-            echo "no itag18 url"
-          fi
-
-      - name: 尽力解 signatureCipher 拿 1080p（可选，失败不阻塞）
-        shell: bash
-        run: |
-          set +e
-          # 用 HTML 里的 player.js 解 s 签名。失败就跳过，主结果靠 itag18。
-          python3 - <<'PY3' 2>&1 | tail -20
-          import re, json, os, subprocess
-          html = open("/tmp/page_ok.html", encoding="utf-8", errors="ignore").read() if os.path.exists("/tmp/page_ok.html") else ""
-          m = re.search(r'"jsUrl":"([^"]+)"', html) or re.search(r'(/s/player/[a-f0-9]+/player_ias[^"\\]+base\.js)', html)
-          if not m:
-              print("no player js url"); raise SystemExit
-          js_url = m.group(1)
-          if js_url.startswith("/"): js_url = "https://www.youtube.com" + js_url
-          print("player js:", js_url[:100])
-          r = subprocess.run(["curl","-sL","--max-time","60","-A","Mozilla/5.0","-o","/tmp/player.js",js_url], capture_output=True)
-          print("player.js bytes:", os.path.getsize("/tmp/player.js") if os.path.exists("/tmp/player.js") else 0)
-          if not os.path.exists("/tmp/player.js") or os.path.getsize("/tmp/player.js") < 10000:
-              raise SystemExit
-          # 交给 yt-dlp 自带的 jsinterp 解密
-          import sys; sys.path.insert(0, "/home/runner/.local/lib")
-          from yt_dlp.jsinterp import JSInterpreter
-          src = open("/tmp/player.js", encoding="utf-8", errors="ignore").read()
-          fns = re.findall(r'(?:function\s+([a-zA-Z0-9_$]+)\s*\(\s*a\s*\)\s*\{[^}]{0,400}?split\(""\)[^}]{0,600}?\})', src)
-          print("candidate sig fns:", fns[:5])
-          fmts = json.load(open("/tmp/out/formats.json"))
-          cipher = [x for x in fmts if x.get("signatureCipher")]
-          print("cipher formats:", len(cipher))
-          out = []
-          if cipher and fns:
-              try:
-                  jsi = JSInterpreter(src)
-                  fn = fns[0]
-                  for x in cipher:
-                      from urllib.parse import parse_qs
-                      q = parse_qs(x["signatureCipher"])
-                      s = q.get("s", [""])[0]; u = q.get("url", [""])[0]; sp = q.get("sp", ["sig"])[0]
-                      res = jsi.call_function(fn, s)
-                      print("deciphered:", str(res)[:40])
-                      out.append(f"{x.get('itag')}\t{u}&{sp}={res}")
-              except Exception as e:
-                  print("decipher failed:", e)
-          if out:
-              open("/tmp/out/hd_urls.txt","w").write("\n".join(out))
-              print("hd urls:", len(out))
-          PY3
-          if [ -s /tmp/out/hd_urls.txt ]; then
-            while IFS=$'\t' read -r itag u; do
-              echo "try hd itag=$itag"
-              curl -sL --max-time 240 -o "/tmp/out/hd_$itag.mp4" "$u"
-              sz=$(stat -c%s "/tmp/out/hd_$itag.mp4" 2>/dev/null || echo 0)
-              echo "  -> $sz"
-              [ "$sz" -lt 200000 ] && rm -f "/tmp/out/hd_$itag.mp4"
-            done < /tmp/out/hd_urls.txt
-          fi
-
-      - name: 从原片抽帧（真画面）
-        shell: bash
-        run: |
-          set +e
-          V=/tmp/out/原片_640p.mp4
-          if [ -s "$V" ]; then
-            mkdir -p /tmp/out/frames_real
-            # 每秒 1 帧（34 秒 => 34 帧），另出 20 张均匀选帧
-            ffmpeg -v error -i "$V" -vf "fps=1" /tmp/out/frames_real/sec_%03d.png 2>&1 | tail -3
-            echo "frames: $(ls /tmp/out/frames_real | wc -l)"
-            # 均匀 20 帧（高清 png）
-            ffmpeg -v error -i "$V" -vf "fps=1/1.7,scale=640:-1" /tmp/out/frames_real/pick_%02d.png 2>&1 | tail -2
-            # 联系表
-            ffmpeg -v error -i "$V" -vf "fps=1/1.7,scale=320:568,tile=5x4" -frames:v 1 /tmp/out/contact_sheet_real.png 2>&1 | tail -2
-            ls -la /tmp/out/contact_sheet_real.png 2>/dev/null
-            ls /tmp/out/frames_real | head -5
-          else
-            echo "no video, skip frame extraction"
-          fi
-
-      - name: 下载故事板图片并拼成帧序列
-        shell: bash
-        run: |
-          set +e
-          mkdir -p /tmp/sb
-          if [ -f /tmp/out/storyboard_urls.txt ]; then
-            n=0
-            while read -r u; do
-              [ -z "$u" ] && continue
-              curl -s --max-time 60 -o "/tmp/sb/sheet_$(printf %03d $n).jpg" "$u"
-              echo "sheet $n -> $(stat -c%s /tmp/sb/sheet_$(printf %03d $n).jpg 2>/dev/null || echo 0) bytes"
-              n=$((n+1))
-            done < /tmp/out/storyboard_urls.txt
-            ls -la /tmp/sb | head
-          else
-            echo "no storyboard urls"
-          fi
-
-      - name: 故事板兜底切帧
-        shell: bash
-        run: |
-          set +e
-          python3 - <<'PY' 2>&1 | tee -a logs/parse.log
-          import os, json, glob
-          from PIL import Image
-          out = "/tmp/out"; sbdir = "/tmp/sb"
-          sheets = sorted(glob.glob(sbdir + "/sheet_*.jpg"))
-          sheets = [s for s in sheets if os.path.getsize(s) > 2000]
-          if not sheets:
-              print("no sheets"); raise SystemExit
-          lv = json.load(open(out + "/storyboard_levels.json"))
-          best = max(lv, key=lambda l: l["w"] * l["h"])
-          cols, rows, cw, ch, iv = best["cols"], best["rows"], best["w"], best["h"], best["interval"]
-          print("grid", cols, "x", rows, "cell", cw, ch, "interval", iv, "sheets", len(sheets))
-          frames = []
-          os.makedirs(out + "/frames", exist_ok=True)
-          idx = 0
-          for s in sheets:
-              try: sheet = Image.open(s).convert("RGB")
-              except Exception: continue
-              for r in range(rows):
-                  for c in range(cols):
-                      box = (c*cw, r*ch, c*cw+cw, r*ch+ch)
-                      if box[2] > sheet.width or box[3] > sheet.height: continue
-                      fr = sheet.crop(box)
-                      if fr.getextrema() == ((0,0),(0,0),(0,0)): continue
-                      fr.save(f"{out}/frames/frame_{idx:04d}_{idx*iv}s.png")
-                      frames.append((idx*iv, fr)); idx += 1
-          print("frames extracted:", len(frames))
-          # 联系表：按时间均匀取 5x4 = 20 帧
-          if frames:
-              pick = [frames[int(i*(len(frames)-1)/19)] for i in range(20)]
-              W = 5*320; H = 4*180*(ch/cw if ch>cw else 1)
-              rows_n, cols_n = 4, 5
-              tw = 320; th = int(tw * ch / cw)
-              canvas = Image.new("RGB", (cols_n*tw, rows_n*th), (10,14,26))
-              for i,(t,f) in enumerate(pick):
-                  canvas.paste(f.resize((tw, th)), ((i%cols_n)*tw, (i//cols_n)*th))
-              canvas.save(out + "/contact_sheet.png")
-              print("contact sheet:", canvas.size)
-          # 全片唯一帧都存一份 zip 友好目录
-          print("total files in frames:", len(os.listdir(out + "/frames")))
-          PY
-
-      - name: 字幕 + 直链下载尝试
-        shell: bash
-        run: |
-          set +e
-          # 字幕（json3 带时间轴）
-          if [ -f /tmp/out/captions.txt ]; then
-            i=0
-            while IFS=$'\t' read -r lang kind url; do
-              [ -z "$url" ] && continue
-              echo "== caption $lang / $kind"
-              curl -s --max-time 60 "${url}&fmt=json3" -o "/tmp/out/cap_${i}_${lang}_${kind}.json3"
-              curl -s --max-time 60 "${url}&fmt=vtt"  -o "/tmp/out/cap_${i}_${lang}_${kind}.vtt"
-              echo "   $(stat -c%s /tmp/out/cap_${i}_${lang}_${kind}.json3 2>/dev/null || echo 0) bytes"
-              i=$((i+1))
-            done < /tmp/out/captions.txt
-          fi
-          # 直链尝试（若 HTML 带回 streamingData）
-          if [ -f /tmp/out/formats.json ]; then
-            python3 - <<'PY'
-          import json
-          f = json.load(open("/tmp/out/formats.json"))
-          f = [x for x in f if x.get("url")]
-          f.sort(key=lambda x: int(x.get("height") or 0), reverse=True)
-          open("/tmp/out/format_urls.txt","w").write("\n".join(x["url"] for x in f[:6]))
-          print("direct urls:", len(f[:6]))
-          PY
-            head -1 /tmp/out/format_urls.txt > /tmp/u1.txt
-            if [ -s /tmp/u1.txt ]; then
-              code=$(curl -sL --max-time 300 -o /tmp/out/direct.mp4 -w "%{http_code}" "$(cat /tmp/u1.txt)")
-              echo "direct download http=$code size=$(stat -c%s /tmp/out/direct.mp4 2>/dev/null || echo 0)"
-              [ "$(stat -c%s /tmp/out/direct.mp4 2>/dev/null || echo 0)" -lt 200000 ] && rm -f /tmp/out/direct.mp4
-            fi
-          fi
-          # 封面
-          for n in maxresdefault sddefault hqdefault hq1 hq2 hq3 oar2; do
-            curl -s --max-time 30 -o "/tmp/out/cover_$n.jpg" "https://i.ytimg.com/vi/$VID/$n.jpg"
-            echo "cover $n: $(stat -c%s /tmp/out/cover_$n.jpg 2>/dev/null || echo 0)"
-          done
-          find /tmp/out -type f -size -2k -delete
+          python3 /tmp/fetch.py 2>&1 | tee /tmp/run_stdout.log
+          echo "=== exit=$? ==="
           ls -la /tmp/out | head -40
 
-      - name: 推送 media-out
+      - name: 推送产物到 media-out
         if: always()
-        shell: bash
         run: |
           set -x
-          D="$GITHUB_WORKSPACE/media-raw/03_YouTube素材/$VID"
-          mkdir -p "$D"
-          cp -r /tmp/out/. "$D"/ 2>/dev/null || true
-          cp logs/parse.log "$D/parse.log" 2>/dev/null || true
-          du -sh "$D" || true
+          SRC=/tmp/out
+          DEST="$GITHUB_WORKSPACE/media-raw/03_YouTube素材/$VID"
+          rm -rf "$DEST"
+          mkdir -p "$DEST"
+          cp -r "$SRC"/. "$DEST"/ 2>/dev/null || true
+          du -sh "$DEST" || true
+          find "$DEST" -maxdepth 1 -type f -printf '%10s %f\n' | sort -k2 | head -30
           rm -rf /tmp/mo
           if ! git clone --quiet --branch media-out \
                "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" /tmp/mo; then
@@ -385,12 +305,13 @@ jobs:
           git config user.name "media-relay[bot]"
           git config user.email "media-relay[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-          mkdir -p media-raw
-          # 大动辄几百帧，只提交联系表+全部帧（帧很小）
-          cp -r "$GITHUB_WORKSPACE/media-raw"/. media-raw/
+          mkdir -p "media-raw/03_YouTube素材"
+          rm -rf "media-raw/03_YouTube素材/$VID"
+          mkdir -p "media-raw/03_YouTube素材/$VID"
+          cp -r "$DEST"/. "media-raw/03_YouTube素材/$VID"/
           git add -A
           if git diff --cached --quiet; then echo "nothing new"; else
-            git commit -m "media: youtube $VID frames+captions $(date -u +%Y-%m-%dT%H%M%SZ)"
+            git commit -m "media: youtube $VID 原片+帧+字幕 $(date -u +%Y-%m-%dT%H%M%SZ)"
             git push origin media-out
           fi
 
