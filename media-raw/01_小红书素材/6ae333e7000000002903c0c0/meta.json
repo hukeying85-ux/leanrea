@@ -1,40 +1,45 @@
 {
   "source_url": "https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user",
   "platform_folder": "01_小红书素材",
-  "status": "failed",
-  "tool_used": null,
+  "status": "ok",
+  "tool_used": "xhs-ultimate",
   "steps": [
     {
       "tool": "xhs-ultimate",
-      "ok": false,
-      "log": "ultimate: 0 candidates, saved 0"
-    },
-    {
-      "tool": "xhs-dump",
-      "ok": false,
-      "log": "dump rc=1 t this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U | no image urls"
-    },
-    {
-      "tool": "yt-dlp",
-      "ok": false,
-      "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f 18/22/43/b -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f b -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f bv*+ba/b -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f worst -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U"
-    },
-    {
-      "tool": "gallery-dl",
-      "ok": false,
-      "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user'"
-    },
-    {
-      "tool": "scrape",
-      "ok": false,
-      "log": "found 0 candidate urls, saved 0"
+      "ok": true,
+      "log": "ultimate: 6 candidates, saved 6"
     }
   ],
   "files": [
     {
       "name": "xhs_01.webp",
-      "bytes": 60599,
-      "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
+      "bytes": 238245,
+      "sha256": "641b34589341550c2b37e5c8b3468a846d803553a684861688e4b90486378565"
+    },
+    {
+      "name": "xhs_02.webp",
+      "bytes": 1834379,
+      "sha256": "5356cbd0ccc02adaf89b7a706e40f1b07513cb2724a9911a4e55240e89e7aae1"
+    },
+    {
+      "name": "xhs_03.webp",
+      "bytes": 197388,
+      "sha256": "e8479061c2f11f849b4ff64f0cc3f61c5f3be63fa85f3a9d400b1293034be542"
+    },
+    {
+      "name": "xhs_04.webp",
+      "bytes": 9125754,
+      "sha256": "9a6dd0cf812d9e5dbfd5189a2f88d222801b92ff6f5b59615269733097fb844f"
+    },
+    {
+      "name": "xhs_05.webp",
+      "bytes": 590703,
+      "sha256": "dd60ce2367d7761071e07d31845988a4af229e9953334029f28ddb8afc27f5a0"
+    },
+    {
+      "name": "xhs_06.webp",
+      "bytes": 1387028,
+      "sha256": "1a719aae76344eab9bd4babba5ce24e62776347a90b5e1a44d186b86fa65c20d"
     },
     {
       "name": "xhs_10.jpg",
@@ -92,6 +97,6 @@
       "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
     }
   ],
-  "collected_at": "2026-11-07T08:57:30Z",
+  "collected_at": "2026-11-07T09:02:11Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

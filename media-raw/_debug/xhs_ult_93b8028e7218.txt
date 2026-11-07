@@ -1,6 +1,6 @@
 === ultimate https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share ===
      state 不是合法 JSON，退化成文本扫描
-[A/seo-google] http=200 bytes=358353 state=21084 urls+0
+[A/seo-google] http=200 bytes=358353 state=21084 urls+6
      kw images_list    x0
      kw imageList      x1
      kw xhscdn         x7
@@ -11,16 +11,35 @@
      kw undefined      x24
      state tail: },"liveAbExp":{},"notification":{"isFetching":false,"activeTabKey":-1,"notificationCount":{"unreadCount":0,"mentions":0,"likes":0,"connections":0},"notificationMap":{"mentions":{"messageList":[],"hasMore":true,"strCursor":""},"likes":{"messageList":[],"hasMore":true,"strCursor":""},"connections":{"messageList":[],"hasMore":true,"strCursor":""}}},"downloadAttribution":{"record":null,"initialized":false,"storageMode":"memory"},"redMoji":{"mojiData":{"version":"","redmojiTabs":[],"redmojiMap":{}}}}
      raw xhscdn in html: 7
+     ctx> se},"NIO":true,"ICPInfoList":[{"label":"沪ICP备13030189号","link":"\u002F\u002Fbeian.miit.gov.cn\u002F","title":"小红书_沪ICP备"},{"label":"营业执照","link":"\u002F\u002Ffe-video-qc.xhscdn.com\u002Ffe-platform\u002F5581076bd6b6af2e0e943abb024ad0e16f2ebff6.pdf","title":"小红书_营业执照"},{"label":"2024沪公网安备31010102002533号","link":"\u002F\u002Fwww.beian.gov.c
+     ctx> Fwww.beian.gov.cn\u002Fportal\u002FregisterSystemInfo?recordcode=31010102002533","title":"小红书_沪公网安备"},{"label":"增值电信业务经营许可证：沪B2-20150021","link":"\u002F\u002Ffe-video-qc.xhscdn.com\u002Ffe-platform-file\u002F104101b831hhkkll23u0678gtks7tu70004en2n231udpe","title":"小红书_网文"},{"label":"医疗器械网络交易服务第三方平台备案：(沪)网械平台备字[2019]第00006号","link":"\u002F
+     ctx> -platform-file\u002F104101b831hhkkll23u0678gtks7tu70004en2n231udpe","title":"小红书_网文"},{"label":"医疗器械网络交易服务第三方平台备案：(沪)网械平台备字[2019]第00006号","link":"\u002F\u002Ffe-video-qc.xhscdn.com\u002Ffe-platform\u002F410dce57bc12a6d7e5808060e47644fbe46f68ff.pdf","title":"小红书_医疗器械网络交易服务"},{"label":"互联网药品信息服务资格证书：(沪)-经营性-2023-0144","link":"\u002F\u002Ffe
+     ctx> \u002Ffe-platform\u002F410dce57bc12a6d7e5808060e47644fbe46f68ff.pdf","title":"小红书_医疗器械网络交易服务"},{"label":"互联网药品信息服务资格证书：(沪)-经营性-2023-0144","link":"\u002F\u002Ffe-video-qc.xhscdn.com\u002Ffe-platform\u002Ff37a08cacc088061beb38329c387c32fc48fc6fe.pdf","title":"小红书_互联网药品信息服务"},{"label":"违法不良信息举报电话：4006676810","link":"\u002F\u002Fwww.shjbzx.cn
+     ctx> 02F\u002Fwww.shjbzx.cn","title":"小红书_上海市互联网举报中心"},{"label":"网上有害信息举报专区","link":"\u002F\u002Fwww.12377.cn","title":"网上有害信息举报专区"},{"label":"自营经营者信息","link":"\u002F\u002Fdc.xhscdn.com\u002F06c2adb0-b353-11e9-9d0c-7be9ff8961c1\u002F自营经营者信息公示.pdf","title":"小红书_沪公网安备"},{"label":"网络文化经营许可证：沪网文(2024)1344-086号","link":"\u002F\u002Ffe-video-qc.xhsc
+     ctx> Fdc.xhscdn.com\u002F06c2adb0-b353-11e9-9d0c-7be9ff8961c1\u002F自营经营者信息公示.pdf","title":"小红书_沪公网安备"},{"label":"网络文化经营许可证：沪网文(2024)1344-086号","link":"\u002F\u002Ffe-video-qc.xhscdn.com\u002Ffe-platform\u002F7970f6e8b70aedc995ba273d04b6b6751abcd63c.pdf","title":"小红书_网络文化经营许可"},{"label":"个性化推荐算法 网信算备310101216601302230019号","link":"https:\u002F\
+     ctx> TooltipContent":"开启后将搜索全网内容"},"searchHintConfig":{"homePageSearchInputHint":"搜索或输入任何问题"},"sugConfig":{"maxSugCount":10}},"signConfig":{"url":"https:\u002F\u002Ffe-static.xhscdn.com\u002Fas\u002Fv2\u002Fds\u002F4c0bab9011f51d35ca6280649340e9b9.js"},"webPlayerConfig":{},"pcRelatedSearch":{"useWidget":"enable"},"feedApiUseIntGateway":"enable
      state 不是合法 JSON，退化成文本扫描
-[A/seo-bing] http=200 bytes=358351 state=21082 urls+0
+[A/seo-bing] http=200 bytes=358351 state=21082 urls+6
      state 不是合法 JSON，退化成文本扫描
-[A/direct] http=200 bytes=358315 state=21046 urls+0
+[A/direct] http=200 bytes=358332 state=21046 urls+6
 [B] https://r.jina.ai/ http=200 bytes=1157 urls=0
 [B] https://r.jina.ai/http:/ http=200 bytes=1301 urls=0
 [C] snapshots for 6aedad8b0000000012019a2f: 0
      [D] rendered html urls: 0
 [D] api responses captured: 3 | state bytes: 191 | dom imgs: 2
      dom https://fe-s10.rednotecdn.com/rednotelogo.png
-     dom data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAQAElEQVR4AeyagZrbOA6D++/7v/NdEQ4sWKadpN1221j3LRcUAFK2wuoy0/3n27dv//vZ+F/zv65nY7uk
-TOTAL candidate urls: 0
-TOTAL saved: 0
+     dom data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAQAElEQVR4AezagZrbtq4E4P59/3c+d2FkREqibCdtetu1zhdkwJkBKNFYHnfbP//444///dX43+J/q54L
+     api[0] keys=['code', 'success', 'msg', 'data']
+     api[0] head={"code": -101, "success": false, "msg": "无登录信息，或登录信息为空", "data": {}}
+     api[1] keys=['code', 'success', 'msg', 'data']
+     api[1] head={"code": -101, "success": false, "msg": "无登录信息，或登录信息为空", "data": {}}
+     api[2] keys=['code', 'success', 'msg', 'data']
+     api[2] head={"code": 0, "success": true, "msg": "成功", "data": {"user_id": "6aeee92c000000001302154f", "guest": true, "xsec_token": "AB0GPqJQSQGvZjn6x4G2ffgQqqiGskP00Jahb0g71K8k0="}}
+TOTAL candidate urls: 6
+   https://fe-video-qc.xhscdn.com/fe-platform/5581076bd6b6af2e0e943abb024ad0e16f2ebff6.pdf
+   https://fe-video-qc.xhscdn.com/fe-platform-file/104101b831hhkkll23u0678gtks7tu70004en2n231udpe
+   https://fe-video-qc.xhscdn.com/fe-platform/410dce57bc12a6d7e5808060e47644fbe46f68ff.pdf
+   https://fe-video-qc.xhscdn.com/fe-platform/f37a08cacc088061beb38329c387c32fc48fc6fe.pdf
+   https://dc.xhscdn.com/06c2adb0-b353-11e9-9d0c-7be9ff8961c1/自营经营者信息公示.pdf
+   https://fe-video-qc.xhscdn.com/fe-platform/7970f6e8b70aedc995ba273d04b6b6751abcd63c.pdf
+TOTAL saved: 6
