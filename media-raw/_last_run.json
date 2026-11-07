@@ -1,46 +1,475 @@
 [
   {
-    "source_url": "https://v11-coldf.douyinvod.com/7ae051b4ad4239b22bbf8fcda86c986a/6aef119f/video/tos/cn/tos-cn-ve-15/oIsVsgDDpBn1qiQFED9pUAQxAA5efvbgs9ITNA/?a=1128&ch=256&cr=13&dr=0&lr=all&cd=0%7C0%7C0%7C&cv=1&br=269&bt=269&cs=2&ds=6&eid=45312&ft=G48rZq0PaCCv5M8lIwV09wG0TnWKeUFDY0a9T4RSO7T9wiX4-fu8Zgo&mime_type=video_mp4&qs=11&rc=Mzo2O2llPDNpNDRpOmY8OkBpM29sZ3Q5cmo8OTMzNGkzM0A1Mi5hNWJiNi4xXjNjLV9eYSNfZGdwMmQ0XnNhLS1kLTBzcw%3D%3D&btag=c0010e400ad008&cdn_type=1&cquery=103R_103S_100b_104i_103Q&dy_q=1794041651&feature_id=27703fba0430012a7c1570f68d3f2948&l=20261107165411FBEA6339163F40ABC2A7&n80=1&n80_dm=bjk4LXYtbmNkbmFiMy5kb3V5aW52b2QuY29t&n80_tk=15f2e9c9555ad2dcc637cedf794f6fe5&pdp=online_xy&pwid=314&req_cdn_type=r",
-    "platform_folder": "02_抖音素材",
-    "status": "ok",
-    "tool_used": "direct-media",
+    "source_url": "https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user",
+    "platform_folder": "01_小红书素材",
+    "status": "failed",
+    "tool_used": null,
     "steps": [
       {
-        "tool": "direct-media",
-        "ok": true,
-        "log": "saved 1.98 MB (video/mp4)"
+        "tool": "xhs-ultimate",
+        "ok": false,
+        "log": "ultimate: 0 candidates, saved 0"
+      },
+      {
+        "tool": "xhs-dump",
+        "ok": false,
+        "log": "dump rc=1 t this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U | no image urls"
+      },
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f 18/22/43/b -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f b -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f bv*+ba/b -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f worst -> rc=1 0: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 0 candidate urls, saved 0"
       }
     ],
     "files": [
       {
-        "name": "douyin_video.mp4",
-        "bytes": 2074441,
-        "sha256": "573ce574a1ec6ce2742a064bde137fa83b42e61105dcaa7a267744c5236f6a9d"
+        "name": "xhs_01.webp",
+        "bytes": 60599,
+        "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
+      },
+      {
+        "name": "xhs_10.jpg",
+        "bytes": 27537,
+        "sha256": "82dae1ede1be123ececb6db2da20d2bc881a07eae2bd168d99f94deff3ec3b01"
+      },
+      {
+        "name": "xhs_11.jpg",
+        "bytes": 26470,
+        "sha256": "843c2c670c01b7f767be0f3548f651f437291beaf9e3cb61c73ad2b39b9515f0"
+      },
+      {
+        "name": "xhs_12.jpg",
+        "bytes": 28502,
+        "sha256": "18c330cba23c9e0d6c1eefe181426e94b4d79463562202eff6059bfd98cdb11e"
+      },
+      {
+        "name": "xhs_13.jpg",
+        "bytes": 25709,
+        "sha256": "919a83dfbff880d62bda7af4f12c65e857f5550268468ac6111164f2ae5322f0"
+      },
+      {
+        "name": "xhs_14.jpg",
+        "bytes": 31584,
+        "sha256": "a4c804560f76982167df8956305b9021c54487985ead1e3fff4443421593b236"
+      },
+      {
+        "name": "xhs_15.jpg",
+        "bytes": 27834,
+        "sha256": "2e540d59166dbd01ed2c5eeba36ee3c20946bfc7fb0fee321075a23305310408"
+      },
+      {
+        "name": "xhs_16.jpg",
+        "bytes": 28011,
+        "sha256": "d97fde9e209beba91ab64787983464d635251aeb80c4223abb437d90a2154e6f"
+      },
+      {
+        "name": "xhs_17.jpg",
+        "bytes": 32385,
+        "sha256": "789649a0c6b0023a027ed1d4208bea2ba1dab722ba56413f23e0f01c2ed6a959"
+      },
+      {
+        "name": "xhs_18.jpg",
+        "bytes": 33980,
+        "sha256": "8393fa6928cb6c858460ff669b4b240f987391414caf27020bb3837e2311dcdb"
+      },
+      {
+        "name": "xhs_19.webp",
+        "bytes": 37337,
+        "sha256": "93b41f85800f736bc71e24e596fccb111e7740b51a437f58c4c33dcf0c7abb2e"
+      },
+      {
+        "name": "xhs_21.webp",
+        "bytes": 60599,
+        "sha256": "469f6bb3807bcc65974d955d54924578e23ae9c57866b93a6cfe76a41bd9be3a"
       }
     ],
-    "collected_at": "2026-11-07T08:55:07Z",
+    "collected_at": "2026-11-07T08:57:30Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   },
   {
-    "source_url": "https://p95-zjwztc-sign.douyinpic.com/tos-cn-p-0015/okxpXcV58Ar1E9NGgQFsvlDDAfsqQhpEAABNeQ~tplv-dy-360p.jpeg?lk3s=138a59ce&x-expires=1795248000&x-signature=4vR87Tnimn6BtSdFu0BZKDkr7mg%3D&from=327834062&s=PackSourceEnum_LONG_VIDEO&se=false&sc=origin_cover&biz_tag=aweme_video",
-    "platform_folder": "02_抖音素材",
-    "status": "ok",
-    "tool_used": "direct-image",
+    "source_url": "https://www.bilibili.com/video/BV1SPNz6rEE8/",
+    "platform_folder": "05_B站素材",
+    "status": "failed",
+    "tool_used": null,
     "steps": [
       {
-        "tool": "direct-image",
-        "ok": true,
-        "log": "saved 1 direct image(s)"
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1SPNz6rEE8/_cookies.txt\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f 18/22/43/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
+      },
+      {
+        "tool": "bilibili-api",
+        "ok": false,
+        "log": "api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 1 candidate urls, saved 0"
+      },
+      {
+        "tool": "proxy-relay",
+        "ok": false,
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
       }
     ],
     "files": [
       {
-        "name": "frame_okxpXcV58Ar1E9.jpg",
-        "bytes": 53010,
-        "sha256": "ddfcabda6afc5790cdd1fa83209c7db2a93a50d5ca6240b08c5924af3943887b"
+        "name": "_cookies.txt",
+        "bytes": 761,
+        "sha256": "3876c59e4396ffbda9688f221e3087cb50c9f9b2000603db49d1ddbee21edf93"
       }
     ],
-    "collected_at": "2026-11-07T08:55:07Z",
+    "collected_at": "2026-11-07T08:57:25Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.bilibili.com/video/BV1bLhCe6Euk/",
+    "platform_folder": "05_B站素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1bLhCe6Euk/_cookies.txt\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f 18/22/43/b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f bv*+ba/b -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)\n-f worst -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)"
+      },
+      {
+        "tool": "bilibili-api",
+        "ok": false,
+        "log": "api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 1 candidate urls, saved 0"
+      },
+      {
+        "tool": "proxy-relay",
+        "ok": false,
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401"
+      }
+    ],
+    "files": [
+      {
+        "name": "_cookies.txt",
+        "bytes": 761,
+        "sha256": "1e05f3770f3f911b2ada3ac6c74e04880cbd0a7f9643c64d44ab3795bb57b2dc"
+      }
+    ],
+    "collected_at": "2026-11-07T08:57:06Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.douyin.com/video/7525669126587026745",
+    "platform_folder": "02_抖音素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f 18/22/43/b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f bv*+ba/b -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed\n-f worst -> rc=1 ERROR: [Douyin] 7525669126587026745: Fresh cookies (not necessarily logged in) are needed"
+      },
+      {
+        "tool": "douyin-api",
+        "ok": false,
+        "log": "www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\\n<script data-sdk-glue-in=\"pre-handler\" nonce=\"argus-csp-token\" >    !fun'"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7525669126587026745'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 0 candidate urls, saved 0"
+      },
+      {
+        "tool": "proxy-relay",
+        "ok": false,
+        "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
+      }
+    ],
+    "files": [],
+    "collected_at": "2026-11-07T08:57:53Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "platform_folder": "03_YouTube素材",
+    "status": "ok",
+    "tool_used": "scrape",
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden\n-f 18/22/43/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats\n-f b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats\n-f bv*+ba/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: The page needs to be reloaded.\n-f worst -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats"
+      },
+      {
+        "tool": "invidious",
+        "ok": false,
+        "log": "inv.nadeko.net: HTTP 403 | invidious.nerdvpn.de: HTTP 401 | yewtu.be: HTTP 403 | iv.melmac.space: ConnectionError | invidious.privacyredirect.com: HTTP 404 | invidious.f5.si: HTTP 530"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'"
+      },
+      {
+        "tool": "scrape",
+        "ok": true,
+        "log": "found 45 candidate urls, saved 21"
+      }
+    ],
+    "files": [
+      {
+        "name": "Rick Astley - Never Gonna Give You Up (Official Vi_dQw4w9WgXcQ.jpg",
+        "bytes": 37593,
+        "sha256": "b11f6d999adad43cd6bd2169831f24d5e1797a34127a75e82540efc4239835ea"
+      },
+      {
+        "name": "img_05.jpg",
+        "bytes": 21011,
+        "sha256": "2fc77b4a0620f5dca2d3cae6d917af3acdeb3b2e5558ba1727f8d651351fc692"
+      },
+      {
+        "name": "img_06.jpg",
+        "bytes": 65324,
+        "sha256": "263dedc00c8521ab388aa6385c36c28be9e02c8e7bb6f8edbe6240f5cdd9bdbd"
+      },
+      {
+        "name": "img_07.webp",
+        "bytes": 28620,
+        "sha256": "15e68d2a9d25570ba52b91a5abf7fe8edf6ffc41f331761061b1709c61c57226"
+      },
+      {
+        "name": "img_10.png",
+        "bytes": 11507,
+        "sha256": "32565a681f5420b051f863e20a723490d94d07306de7b379862f0ec4a0d6676c"
+      },
+      {
+        "name": "img_11.webp",
+        "bytes": 11564,
+        "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
+      },
+      {
+        "name": "img_12.webp",
+        "bytes": 11564,
+        "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
+      },
+      {
+        "name": "img_13.webp",
+        "bytes": 72501,
+        "sha256": "ff6175b5482cb45abcc7abb03e177f5418d585f6641412f6e01d93de32c2f20d"
+      },
+      {
+        "name": "img_14.webp",
+        "bytes": 19760,
+        "sha256": "749e6ae20bc9e2aa84aa6856ac6137e89a39a1d01e319d7004581817bcad3250"
+      },
+      {
+        "name": "img_15.webp",
+        "bytes": 35878,
+        "sha256": "e14937fa2e3eef4f8957fe4320b4be3d5bc9546302d8edbe514f68b9974f1d0d"
+      },
+      {
+        "name": "img_16.webp",
+        "bytes": 26481,
+        "sha256": "1df0462c1fa97f84ac84eba8901f529c1e5bb246ee449d3ca99471160b5d8124"
+      },
+      {
+        "name": "img_17.webp",
+        "bytes": 39360,
+        "sha256": "f2ce4ce30923ca8d67e25e8e7a0a07025fb0d64d4c0ebdae130a7754b92d4289"
+      },
+      {
+        "name": "img_18.webp",
+        "bytes": 16753,
+        "sha256": "f18394167cfc65e98d8ae8373cd87e08b141021723c3db192433ed067ec8e262"
+      },
+      {
+        "name": "img_19.webp",
+        "bytes": 33918,
+        "sha256": "5bd98475561ad7266b1867a6596308d334e25337ca533940de9640648f77be57"
+      },
+      {
+        "name": "img_20.webp",
+        "bytes": 20860,
+        "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
+      },
+      {
+        "name": "img_21.webp",
+        "bytes": 26450,
+        "sha256": "efe9af00ea2415653e7266e56a42b28faa81dc3954b3658bc0ecab5a7f685f14"
+      },
+      {
+        "name": "img_22.webp",
+        "bytes": 40114,
+        "sha256": "7dc2c5d61b0289edf2f06a20247819a7d8d0e325cacdca97185f495b05946bd6"
+      },
+      {
+        "name": "img_23.webp",
+        "bytes": 15895,
+        "sha256": "14813b607c3ff620fb3272335a73d9c9df81fbaa1e6d0cde13a6431a3ac56e29"
+      },
+      {
+        "name": "img_24.webp",
+        "bytes": 24605,
+        "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
+      },
+      {
+        "name": "img_25.webp",
+        "bytes": 27723,
+        "sha256": "f5eb41f7b84967468f977f55b1c947a2624dd02ce0616f36289101379141e6cd"
+      },
+      {
+        "name": "img_26.webp",
+        "bytes": 20937,
+        "sha256": "e18a2b506b9da34b75d86901dfe1c20f00387edad00bf2abcdc7880a95fb8379"
+      },
+      {
+        "name": "img_27.webp",
+        "bytes": 20426,
+        "sha256": "c57c0e3fa6041246a186606c324db164f92925a4fa601cd3c9c7dc5dfe4ac340"
+      },
+      {
+        "name": "img_28.webp",
+        "bytes": 9337,
+        "sha256": "34fc13aff72093135b7c3d24fb498a2eee3027916f377bf09735cc548d253ed0"
+      },
+      {
+        "name": "img_29.webp",
+        "bytes": 22318,
+        "sha256": "f5f74ee9e2e7abc782ea7e75a4b1c5fc97d627cb8c84e0d36c365f0a40e27070"
+      },
+      {
+        "name": "img_30.webp",
+        "bytes": 27604,
+        "sha256": "9a98b2885f3df51c56428e643adbbb8d4b757ed28fa0b52d39b6672d4485a45c"
+      }
+    ],
+    "collected_at": "2026-11-07T08:57:50Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.tiktok.com/@tiktok/video/7106594312292453675",
+    "platform_folder": "07_TikTok素材",
+    "status": "ok",
+    "tool_used": "yt-dlp",
+    "steps": [
+      {
+        "tool": "yt-dlp",
+        "ok": true,
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [TikTok] 7106594312292453675: Requested format is not available. Use --list-formats for a list of available formats"
+      }
+    ],
+    "files": [
+      {
+        "name": "how many frogs did you find？ 🐸 check out tiktok’s _7106594312292453675.jpg",
+        "bytes": 57822,
+        "sha256": "6bfece455c3ae7dec2625f890deee92995b5d9357dd6be711b8b4148328020a6"
+      },
+      {
+        "name": "how many frogs did you find？ 🐸 check out tiktok’s _7106594312292453675.mp4",
+        "bytes": 3360445,
+        "sha256": "5d58665e5f1e9f82fe33e82591f0ebe719b9589858e8ef0a9caf3a00833112b2"
+      }
+    ],
+    "collected_at": "2026-11-07T08:57:31Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
+    "platform_folder": "01_小红书素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "xhs-ultimate",
+        "ok": false,
+        "log": "ultimate: 0 candidates, saved 0"
+      },
+      {
+        "tool": "xhs-dump",
+        "ok": false,
+        "log": "dump rc=1 t this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U | no image urls"
+      },
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f 18/22/43/b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f bv*+ba/b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f worst -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 0 candidate urls, saved 0"
+      }
+    ],
+    "files": [],
+    "collected_at": "2026-11-07T08:58:19Z",
+    "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+  },
+  {
+    "source_url": "https://www.xiaohongshu.com/explore/6aedad8b0000000012019a2f?xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
+    "platform_folder": "01_小红书素材",
+    "status": "failed",
+    "tool_used": null,
+    "steps": [
+      {
+        "tool": "xhs-ultimate",
+        "ok": false,
+        "log": "ultimate: 0 candidates, saved 0"
+      },
+      {
+        "tool": "xhs-dump",
+        "ok": false,
+        "log": "dump rc=1 t this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U | no image urls"
+      },
+      {
+        "tool": "yt-dlp",
+        "ok": false,
+        "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f 18/22/43/b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f bv*+ba/b -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n-f worst -> rc=1 f: No video formats found!; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U"
+      },
+      {
+        "tool": "gallery-dl",
+        "ok": false,
+        "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.xiaohongshu.com/explore/6aedad8b0000000012019a2f?xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share'"
+      },
+      {
+        "tool": "scrape",
+        "ok": false,
+        "log": "found 0 candidate urls, saved 0"
+      }
+    ],
+    "files": [],
+    "collected_at": "2026-11-07T08:58:33Z",
     "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
   }
 ]

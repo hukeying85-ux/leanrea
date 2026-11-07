@@ -1,18 +1,26 @@
 === ultimate https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user ===
+     state 不是合法 JSON，退化成文本扫描
 [A/seo-google] http=200 bytes=359761 state=22639 urls+0
-[A/seo-bing] http=200 bytes=359781 state=22637 urls+0
-[A/direct] http=200 bytes=359745 state=22601 urls+0
+     kw images_list    x0
+     kw imageList      x1
+     kw xhscdn         x7
+     kw url_default    x0
+     kw urlDefault     x9
+     kw info_list      x0
+     kw noteDetailMap  x1
+     kw undefined      x24
+     state tail: },"liveAbExp":{},"notification":{"isFetching":false,"activeTabKey":-1,"notificationCount":{"unreadCount":0,"mentions":0,"likes":0,"connections":0},"notificationMap":{"mentions":{"messageList":[],"hasMore":true,"strCursor":""},"likes":{"messageList":[],"hasMore":true,"strCursor":""},"connections":{"messageList":[],"hasMore":true,"strCursor":""}}},"downloadAttribution":{"record":null,"initialized":false,"storageMode":"memory"},"redMoji":{"mojiData":{"version":"","redmojiTabs":[],"redmojiMap":{}}}}
+     raw xhscdn in html: 7
+     state 不是合法 JSON，退化成文本扫描
+[A/seo-bing] http=200 bytes=359759 state=22637 urls+0
+     state 不是合法 JSON，退化成文本扫描
+[A/direct] http=200 bytes=359723 state=22601 urls+0
 [B] https://r.jina.ai/ http=200 bytes=1212 urls=0
 [B] https://r.jina.ai/http:/ http=200 bytes=1211 urls=0
 [C] snapshots for 6ae333e7000000002903c0c0: 0
-[D] playwright failed: Error: Page.evaluate: TypeError: Converting circular structure to JSON
-    --> starting at object with constructor 'e'
-    |     property 'dep' -> object with constructor 'e'
-    --- property 'computed' closes the circle
-    at stringify (<anonymous>)
-    at JSON.stringify (https://fe-platform-s10.rednotecdn.com/formula-static/xhs-pc-web/public/resource/js/library-polyfill.0af0ed9e.js:1:96784)
-    at eval (eval at evaluate (:370:30), <anonymous>:1:39)
-    at UtilityScript.evaluate (<anonymous>:377:18)
-    at UtilityScript.<anonymous> (<anonymous>:1:44)
+     [D] rendered html urls: 0
+[D] api responses captured: 3 | state bytes: 191 | dom imgs: 2
+     dom https://fe-s10.rednotecdn.com/rednotelogo.png
+     dom data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAQAElEQVR4AeycgXbjyg1D977//+fWEAINNaJkO+lu91nqMRccAKSkMTNxkrb//Pr16z8/jf80/+l6NraW
 TOTAL candidate urls: 0
 TOTAL saved: 0
