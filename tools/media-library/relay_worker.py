@@ -589,78 +589,81 @@ def try_direct_image(url, out):
     return bool(got), f"saved {len(got)} direct image(s)", got
 
 
+def _douyin_play_candidates(html):
+    """从任何抖音页面 HTML 里刮播放地址：og:video / url_list / douyinvod / uri。"""
+    html = (html.replace("\\u002F", "/").replace("\\/", "/")
+                .replace("\\u0026", "&").replace("&amp;", "&"))
+    out = []
+    # 1) 任意 CDN 视频直链
+    out += re.findall(r'https?://[^"\s\\<>]*?(?:douyinvod|zjcdn|snssdk|amemv|bytecdn|ixigua|\\.mp4)[^"\s\\<>]*', html)
+    # 2) og:video / content 顺序任意
+    for tag in re.findall(r'<meta[^>]*og:video[^>]*>', html):
+        out += re.findall(r'content="([^"]+)"', tag)
+    # 3) play_addr 之后 1500 字内的所有 http 地址
+    for mt in re.finditer(r'"(?:play_addr|play_addr_h264|download_addr|playApi)"', html):
+        seg = html[mt.end(): mt.end() + 1500]
+        out += re.findall(r'https?://[^"\s\\<>]+', seg)
+    # 4) uri -> 官方 play 接口
+    for uri in set(re.findall(r'"uri"\s*:\s*"(v[0-9a-zA-Z]{10,})"', html)) | \
+               set(re.findall(r'video_id=(v[0-9a-zA-Z]{10,})', html)):
+        for ratio in ("1080p", "720p"):
+            out.append(f"https://aweme.snssdk.com/aweme/v1/play/?video_id={uri}&ratio={ratio}&line=0")
+    seen, uniq = set(), []
+    for u in out:
+        u = u.strip().strip('"')
+        if u.startswith("http") and u not in seen:
+            seen.add(u)
+            uniq.append(u)
+    return uniq
+
+
 def try_douyin_video(url, out):
-    """/video/ 专用：分享页拿 play_addr / og:video，再按 Range 拉 mp4。
-    抖音的 /video/ 在数据中心 IP 上经常 SSR 500，所以分享页和 aweme 接口都试。"""
+    """/video/ 专用：分享页/详情页刮播放地址 -> Range 拉 mp4（ftyp 魔数校验）。"""
     m = re.search(r"/(?:video|note)/(\d{15,})", url) or re.search(r"(\d{15,})", url)
     if not m:
         return False, "no aweme id", []
     aid = m.group(1)
     h_html = {"User-Agent": MOBILE_UA, "Accept-Language": "zh-CN,zh;q=0.9",
               "Referer": "https://www.douyin.com/"}
-    cands, diag = [], []
-
-    pages = [
-        f"https://www.iesdouyin.com/share/video/{aid}/?region=CN&mid=0",
-        f"https://m.douyin.com/share/video/{aid}",
-        f"https://www.douyin.com/video/{aid}",
-    ]
-    for pg in pages:
+    cands, diag, seen_pages = [], [], set()
+    for pg in (f"https://www.iesdouyin.com/share/video/{aid}/?region=CN&mid=0",
+               f"https://www.douyin.com/video/{aid}",
+               f"https://m.douyin.com/share/video/{aid}"):
         try:
             r = requests.get(pg, headers=h_html, timeout=45)
         except Exception as e:
             diag.append(f"{pg.split('/')[2]}: {type(e).__name__}")
             continue
-        html = (r.text or "").replace("\\u002F", "/").replace("\\/", "/")
-        found = []
-        for pat in (r'<meta[^>]+property="og:video[^"]*"[^>]+content="([^"]+)"',
-                    r'"play_addr"\s*:\s*\{[^}]*?"url_list"\s*:\s*\[([^\]]+)\]',
-                    r'"(?:playApi|play_addr_265|download_addr)"[^\[]*\[([^\]]+)\]'):
-            for hit in re.findall(pat, html):
-                found += re.findall(r'https?://[^"\s\\]+', hit)
-        for blob in _json_blobs(html):
-            acc = []
-            _walk_image_urls(blob, acc)
-            for node in json.dumps(blob, ensure_ascii=False).split('","'):
-                if "video_id=" in node:
-                    found.append(node.strip('"').split('","')[0])
-        found = [f.replace("\\u0026", "&").replace("\\/", "/") for f in found]
-        found = [f for f in found if re.search(r"aweme|douyinvod|snssdk|video_id", f)]
-        diag.append(f"{pg.split('/')[2]}: HTTP {r.status_code} len={len(html)} play_urls={len(found)}")
-        if found:
-            cands += found
-            break
+        found = _douyin_play_candidates(r.text or "")
+        diag.append(f"{pg.split('/')[2]}: HTTP {r.status_code} len={len(r.text or '')} urls={len(found)}")
+        for u in found:
+            if u not in seen_pages:
+                seen_pages.add(u)
+                cands.append(u)
 
-    # video_id -> 官方 play 接口（不需要签名，只要 uri）
-    ids = set(re.findall(r"video_id=([A-Za-z0-9]+)", " ".join(cands)))
-    for vid in list(ids)[:2]:
-        cands.append(f"https://aweme.snssdk.com/aweme/v1/play/?video_id={vid}&ratio=1080p&line=0")
-        cands.append(f"https://api.amemv.com/aweme/v1/play/?video_id={vid}&ratio=720p&line=0")
-
-    for u in cands[:8]:
-        for hdr in ({"User-Agent": MOBILE_UA, "Referer": "https://www.douyin.com/"},
-                    {"User-Agent": UA}):
-            try:
-                rr = requests.get(u, headers=hdr, timeout=180, stream=True, allow_redirects=True)
-            except Exception as e:
-                diag.append(f"dl {u[:48]}: {type(e).__name__}")
-                continue
-            ctype = (rr.headers.get("Content-Type") or "").lower()
-            if rr.status_code not in (200, 206) or ("text" in ctype or "json" in ctype):
-                diag.append(f"dl {u[:48]}: HTTP {rr.status_code} {ctype[:20]}")
-                continue
-            p = os.path.join(out, f"douyin_{aid}.mp4")
-            with open(p, "wb") as f:
-                for c in rr.iter_content(1 << 20):
-                    f.write(c)
-            size = os.path.getsize(p)
-            with open(p, "rb") as f:
-                head = f.read(32)
-            if size > 200_000 and (b"ftyp" in head[:16] or head[:4] == b"\x1aE\xdf\xa3"):
-                return True, f"saved {size/1048576:.2f} MB; " + "; ".join(diag), [os.path.basename(p)]
-            os.remove(p)
-            diag.append(f"dl {u[:48]}: not a video ({size} bytes, {ctype[:20]})")
-    return False, "; ".join(diag) or "no play url found", []
+    for u in cands[:10]:
+        try:
+            rr = requests.get(u, headers={"User-Agent": MOBILE_UA,
+                                          "Referer": "https://www.douyin.com/"},
+                              timeout=240, stream=True, allow_redirects=True)
+        except Exception as e:
+            diag.append(f"dl {u[:40]}: {type(e).__name__}")
+            continue
+        ctype = (rr.headers.get("Content-Type") or "").lower()
+        if rr.status_code not in (200, 206) or "text" in ctype or "json" in ctype:
+            diag.append(f"dl {u[:40]}: HTTP {rr.status_code} {ctype[:18]}")
+            continue
+        p = os.path.join(out, f"douyin_{aid}.mp4")
+        with open(p, "wb") as f:
+            for c in rr.iter_content(1 << 20):
+                f.write(c)
+        size = os.path.getsize(p)
+        head = open(p, "rb").read(32)
+        if size > 200_000 and (b"ftyp" in head[:16] or head[:4] == b"\x1aE\xdf\xa3"):
+            return True, f"saved {size/1048576:.2f} MB; " + "; ".join(diag), [os.path.basename(p)]
+        os.remove(p)
+        diag.append(f"dl {u[:40]}: not video ({size}B {ctype[:18]})")
+    return False, "; ".join(diag) or "no play url", []
 
 
 def try_douyin_note(url, out):
