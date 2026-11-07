@@ -7,7 +7,7 @@
     {
       "tool": "xhs-downloader",
       "ok": true,
-      "log": "xhs-downloader: saved 14"
+      "log": "xhs-downloader: saved 7"
     }
   ],
   "files": [
@@ -45,43 +45,8 @@
       "name": "xhs_07.png",
       "bytes": 3132989,
       "sha256": "2a538bb6f677f948404def2c4a2cb836eb09504516df3a1f26aeac0a0050920b"
-    },
-    {
-      "name": "xhs_08.png",
-      "bytes": 4756418,
-      "sha256": "616521174b506601b9669323a28eae4ad17ee517654a1037cef95d82a929008c"
-    },
-    {
-      "name": "xhs_09.png",
-      "bytes": 4256550,
-      "sha256": "31d5ec9c1bc1474d50ad25646b4905b7b9d5329fa95b8ee6318908784f6349b5"
-    },
-    {
-      "name": "xhs_10.png",
-      "bytes": 4882135,
-      "sha256": "9ee431656dd97cb86dfdabe92075c572a5cb76aef7508356b0876b209fff1083"
-    },
-    {
-      "name": "xhs_11.png",
-      "bytes": 4719101,
-      "sha256": "950bcba8ce2df5d0b2b7fd12b7a7c400ef06a83d363c7c9babc25dfbf178a190"
-    },
-    {
-      "name": "xhs_12.png",
-      "bytes": 1653881,
-      "sha256": "75ef24d4f266aa601de8b57e33db0be60d9fb2d6372ef9af675b34dd94993463"
-    },
-    {
-      "name": "xhs_13.png",
-      "bytes": 4155798,
-      "sha256": "76541cd00bcbb12d7e1b11adac26b6fe8f1a57636e13a55f96c769c12108ae43"
-    },
-    {
-      "name": "xhs_14.png",
-      "bytes": 3132989,
-      "sha256": "2a538bb6f677f948404def2c4a2cb836eb09504516df3a1f26aeac0a0050920b"
     }
   ],
-  "collected_at": "2026-11-07T09:14:24Z",
+  "collected_at": "2026-11-07T09:35:52Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

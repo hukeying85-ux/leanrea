@@ -5,21 +5,21 @@
 [run] rc=0
 STDOUT 共 1 个小红书作品待处理...
 开始处理作品：6ae333e7000000002903c0c0
-文件 6ae333e7000000002903c0c0_4.png 下载成功
-文件 6ae333e7000000002903c0c0_2.png 下载成功
-文件 6ae333e7000000002903c0c0_3.png 下载成功
-文件 6ae333e7000000002903c0c0_7.png 下载成功
 文件 6ae333e7000000002903c0c0_1.png 下载成功
+文件 6ae333e7000000002903c0c0_2.png 下载成功
+文件 6ae333e7000000002903c0c0_4.png 下载成功
+文件 6ae333e7000000002903c0c0_3.png 下载成功
+文件 6ae333e7000000002903c0c0_6.png 下载成功
 文件 6ae333e7000000002903c0c0_5.png 下载成功
 文件 6ae333e7000000002903c0c0_8.png 下载成功
-文件 6ae333e7000000002903c0c0_6.png 下载成功
+文件 6ae333e7000000002903c0c0_7.png 下载成功
 文件 6ae333e7000000002903c0c0_9.png 下载成功
 作品处理完成：6ae333e7000000002903c0c0
 共处理 1 个作品，成功 1 个，失败 0 个，跳过 0 个
 detail keys: ['raw']
 
 STDERR 
-tool downloaded: 9 -> ['Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_1.png', 'Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_2.png', 'Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_3.png', 'Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_4.png', 'Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_5.png', 'Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_6.png', 'Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_7.png', 'Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_8.png', 'Download/6ae333e7000000002903c0c0/6ae333e7000000002903c0c0_9.png']
+tool downloaded: 9 -> ['xhs_01.png', 'xhs_02.png', 'xhs_03.png', 'xhs_04.png', 'xhs_05.png', 'xhs_06.png', 'xhs_07.png', 'xhs_08.png', 'xhs_09.png']
 detail urls: 9
    https://sns-img-bd.xhscdn.com/notes_pre_post/1040g3k0326ti8enuk66g5o43h81gbrpp8ov3jbg
    https://sns-img-bd.xhscdn.com/notes_pre_post/1040g3k8326ti8epk469g5o43h81gbrppch7ovt0
@@ -30,4 +30,5 @@ detail urls: 9
    https://sns-img-bd.xhscdn.com/notes_pre_post/1040g3k8326ti8epk46b05o43h81gbrpp0ml4nro
    https://sns-img-bd.xhscdn.com/notes_pre_post/1040g3k8326ti8epk46cg5o43h81gbrppg8e9i20
    https://sns-img-bd.xhscdn.com/notes_pre_post/1040g3k8326ti8epk46d05o43h81gbrpp1qbvbo8
-TOTAL saved: 18
+工具已下够 9 张，跳过直链补下
+TOTAL saved: 9
