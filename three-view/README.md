@@ -45,7 +45,7 @@ python3 scripts/contact_sheet.py preview --indir examples/round-01 \
   --note "源：抖音 @爱一二的布布《一二布布的三视图》6 张"
 
 python3 scripts/contact_sheet.py turnaround --indir examples/round-01 \
-  --out examples/round-01/10_六视图汇总.png --cell 900
+  --out examples/round-01/10_六视图汇总.jpg --cell 900
 ```
 
 ## 三条硬规则

@@ -84,7 +84,7 @@ S1 取源  →  S2 角色卡  →  S3 复刻六视图  →  S4 补视角  →  S
 ```sh
 # 10 六视图汇总：2×3，无字，直接当参考图喂下游
 python3 scripts/contact_sheet.py turnaround --indir examples/round-01 \
-  --out examples/round-01/10_六视图汇总.png --cell 900
+  --out examples/round-01/10_六视图汇总.jpg --cell 900
 
 # 11 总预览：带编号 + 标题 + 来源脚注，交付/发布用
 SHEET_FONT=~/.fonts/LXGWWenKaiLite-Regular.ttf python3 scripts/contact_sheet.py preview \
