@@ -92,6 +92,9 @@ texture, portrait format. No text, no signature, no frame, no watermark.
 名画清单先定 10 幅再出图（梵高给 3–4 幅压住「原帖气质」，其余换莫奈 / 北斋 / 克里姆特 / 蒙克 / 维米尔 / 达芬奇拉开差异）。
 人像类名画（珍珠耳环 / 蒙娜丽莎）要写清「把整个人换成熊」，否则容易出「熊头 + 人身」的梗图（第 6 轮 #10 就是，留着当梗图也行，正经路线就重画）。
 
+- 原帖本身就是干净壁纸（没有锁屏 UI，如第 7 轮一二布布鲜花）时，A 模式提示词把「REMOVE the lock-screen overlay」换成「same portrait format and composition」+ 逐项描述画面即可，复刻度很高；
+  原帖只有 5 张而用户要 10 张 → 01–05 用 A 逐张复刻、06–10 用 B 出新场景，B 的风格锚轮换用不同原图（田野场景锚田野图、庭院场景锚庭院图），构图不会串。
+  原帖画幅不是 9:20 时交付画幅跟原帖（第 7 轮 1536×2752），用 `painting_set.py`，不要硬裁成 1440×3200。
 - 生图输出 688×1536（≈9:20），一次 1 张；10 张可以并行 5+5。
 - 角色一致性提示：小新（黄上衣红短裤 / 睡衣 / 幼稚园绿短裤白 T）、小白（白色棉花糖狗）、广志（黑短发眼镜 / 蓝衬衫）、美冴（棕色短卷发）、小葵（橙色头发婴儿）、妮妮（双马尾粉裙）、风间（蓝色西瓜头）。
 - 常见翻车：留下了时钟（提示词没写 REMOVE）→ 重生成；出现日文/英文招牌字 → 提示词加 `no readable text on signs`；上半部分太满 → 加 calm top 15%；比例变 3:4 → 忘了传 images。
@@ -154,13 +157,15 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 ├─ 第3轮-视频下载测试/            原片/（runner 直传的无水印原片 + 网页码流 + 封面 + note.json）· 结果/（关键帧总图、音频、信息 Doc）
 ├─ 第4轮-新画10张/               新画01…10.png（全新场景，非复刻）· 总图.jpg · 封面-双机预览.jpg · Doc「第4轮 · 小红书文案」· spec.json
 ├─ 第5轮-新画10张/               新画2-01…10.png（第二套全新场景）· 总图.jpg · 封面-双机预览.jpg · Doc「第5轮 · 小红书文案」· spec.json
-└─ 第6轮-一二布布名画风/          原片/（小红书无水印 webp · 转PNG · note.json · Doc「笔记信息」）
-                                 结果/（名画01…10.png 1532×2560 · 总图.jpg · spec.json · Doc「第6轮 · 小红书文案」）
+├─ 第6轮-一二布布名画风/          原片/（小红书无水印 webp · 转PNG · note.json · Doc「笔记信息」）
+│                                结果/（名画01…10.png 1532×2560 · 总图.jpg · spec.json · Doc「第6轮 · 小红书文案」）
+└─ 第7轮-一二布布鲜花壁纸/        原片/（5 张原图 `<标题>_<n>_<作者>_来自小红书网页版.*` · 原片总图.jpg · note.json · Doc「笔记信息」）
+                                 结果/（鲜花01…10.png 1536×2752 · 总图.jpg · spec.json · Doc「第7轮 · 小红书文案」）
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
 以后再来一轮就 `第3轮-…`，不要往旧文件夹里混。
-用户要求「原片和结果分开」时（第 3 / 6 轮），轮文件夹下再开 `原片/` 与 `结果/` 两个子文件夹，原片按下载原格式（webp 就传 webp）再附一份转 PNG。
+用户要求「原片和结果分开」时（第 3 / 6 / 7 轮），轮文件夹下再开 `原片/` 与 `结果/` 两个子文件夹，原片按下载原格式（webp 就传 webp）再附一份转 PNG。
 
 ## 合规三句话
 
@@ -179,13 +184,15 @@ xhs-wallpaper-replica/
 ├─ references/github-tools.md    小红书下载工具盘点 + token 取法
 ├─ references/copy-小新壁纸.md    第2轮文案 + 第1轮原帖文案存档
 ├─ references/copy-一二布布名画.md 第6轮文案（名画 10 张）
+├─ references/copy-一二布布鲜花.md 第7轮文案（鲜花 10 张）
 └─ examples/shinchan-6aedad8b/
    ├─ 01-原图/ 01–07.png, note.json, note.md
    ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
    ├─ 03-新画10张/ 同上结构；模式 B（新场景）的完整样例，风格锚用的是 02-复刻/art 里的干净底图
    ├─ 04-新画10张-第5轮/ 第二套新场景；文件前缀改成「新画2-」避免和上一套同名
    ├─ ../video-test-6a4be129/01-原片/ video.mp4(网页码流), cover.jpg, note.json, drive_upload.json
-   └─ ../vangogh-bubu-6aeeecba/ 模式 C 样例：01-原片/01.webp(1532×2560)+note；02-复刻/ spec.json, ref-原图.jpg, art/01–10.png, 成图/ ×10 (jpg), 总图.jpg
+   ├─ ../vangogh-bubu-6aeeecba/ 模式 C 样例：01-原片/01.webp(1532×2560)+note；02-复刻/ spec.json, ref-原图.jpg, art/01–10.png, 成图/ ×10 (jpg), 总图.jpg
+   └─ ../flowers-bubu-6ae3391a/ 模式 A+B 混合样例（原帖本身就是干净壁纸）：01-原片/01–05 (1536×2752)+note；02-复刻/ spec.json, art/01–10.png, 成图/ ×10 (jpg), 总图.jpg
 ```
 
 ## 沙箱踩坑备忘
