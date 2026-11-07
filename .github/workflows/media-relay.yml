@@ -1,0 +1,96 @@
+name: media-relay
+
+# 沙箱出口只放行 GitHub/PyPI/npm，抓不到小红书/抖音/B站/YouTube。
+# 这里把下载任务搬到 runner 上跑（runner 出网不受限），结果 commit 回来。
+on:
+  push:
+    paths:
+      - '.mediaqueue/**'
+      - 'tools/media-library/**'
+      - '.github/workflows/media-relay.yml'
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: media-relay
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install downloaders
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade yt-dlp gallery-dl requests
+          # bgutil PO-token 插件：专治 YouTube 对数据中心 IP 的 403 / "format not available"
+          python -m pip install --upgrade bgutil-ytdlp-pot-provider || echo "bgutil install failed"
+          # yt-dlp nightly：extractor 修得比正式版快，YouTube 基本每周都在变
+          python -m pip install --upgrade --pre yt-dlp-nightly || echo "nightly install failed"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          yt-dlp --version || true
+          gallery-dl --version || true
+          python -c "import bgutil_ytdlp_pot_provider; print('bgutil PO provider: OK')" || true
+
+      - name: Fetch everything in the queue
+        run: |
+          python tools/media-library/relay_worker.py 2>&1 | tee /tmp/relay.log
+
+      - name: Publish results to the dedicated media-out branch
+        if: always()
+        env:
+          COOKIES_DOUYIN: ${{ secrets.COOKIES_DOUYIN }}
+          COOKIES_YOUTUBE: ${{ secrets.COOKIES_YOUTUBE }}
+          COOKIES_BILIBILI: ${{ secrets.COOKIES_BILIBILI }}
+          COOKIES_XHS: ${{ secrets.COOKIES_XHS }}
+          COOKIES_INSTAGRAM: ${{ secrets.COOKIES_INSTAGRAM }}
+          COOKIES_WEIBO: ${{ secrets.COOKIES_WEIBO }}
+          COOKIES_KUAISHOU: ${{ secrets.COOKIES_KUAISHOU }}
+        run: |
+          # 结果放独立分支 media-out，不写回工作分支。
+          # 做法：把 media-out 单独 clone 到 /tmp 再提交推送 —— 在工作区里
+          # checkout 分支会因为已 staged 的产物而失败。
+          set -x
+          SRC="$GITHUB_WORKSPACE/media-raw"
+          ls -la "$SRC" | head -5
+          rm -rf /tmp/mo
+          if ! git clone --quiet --branch media-out \
+               "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" /tmp/mo; then
+            mkdir -p /tmp/mo && cd /tmp/mo && git init -q && git checkout -q -b media-out
+          fi
+          cd /tmp/mo
+          git config user.name  "media-relay[bot]"
+          git config user.email "media-relay[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          mkdir -p media-raw
+          cp -r "$SRC"/. media-raw/
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing new to commit"
+          else
+            git commit -m "media: relay run $(date -u +%Y-%m-%dT%H%M%SZ)"
+            git push origin media-out
+          fi
+          set +x
+
+      - name: Upload as artifact too
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: media-raw
+          path: media-raw
+          if-no-files-found: ignore
