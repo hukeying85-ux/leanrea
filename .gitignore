@@ -5,3 +5,6 @@ __pycache__/
 
 # 工作用的临时下载目录
 google_drive/
+
+# 图片搜索结果临时目录（工作用）
+image-search/
