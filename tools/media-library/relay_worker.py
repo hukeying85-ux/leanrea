@@ -31,7 +31,7 @@ QUEUE = os.path.join(ROOT, ".mediaqueue", "urls.txt")
 
 PLATFORM_OF = [
     ("01_小红书素材", ["xiaohongshu.com", "xhscdn.com"]),
-    ("02_抖音素材", ["douyin.com", "iesdouyin.com", "douyinpic.com"]),
+    ("02_抖音素材", ["douyin.com", "iesdouyin.com", "douyinpic.com", "douyinvod.com"]),
     ("03_YouTube素材", ["youtube.com", "youtu.be"]),
     ("05_B站素材", ["bilibili.com"]),
     ("06_快手素材", ["kuaishou.com", "chenzhongtech.com"]),
@@ -558,6 +558,32 @@ def _download_images(urls, out, referer="https://www.douyin.com/"):
     return got
 
 
+def try_direct_media(url, out):
+    """直链视频（douyinvod / amemv / 任意带 mime_type=video_mp4 的地址）。
+    验证：>200KB 且头部含 ftyp / EBML 魔数。"""
+    aid = re.search(r"item_id=(\d{15,})", url)
+    name = f"douyin_{aid.group(1)}.mp4" if aid else "douyin_video.mp4"
+    try:
+        rr = requests.get(url, headers={"User-Agent": MOBILE_UA,
+                                        "Referer": "https://www.douyin.com/"},
+                          timeout=300, stream=True, allow_redirects=True)
+    except Exception as e:
+        return False, f"{type(e).__name__}: {e}", []
+    ctype = (rr.headers.get("Content-Type") or "").lower()
+    if rr.status_code not in (200, 206) or "text" in ctype or "json" in ctype:
+        return False, f"HTTP {rr.status_code} {ctype[:24]}", []
+    p = os.path.join(out, name)
+    with open(p, "wb") as f:
+        for c in rr.iter_content(1 << 20):
+            f.write(c)
+    size = os.path.getsize(p)
+    head = open(p, "rb").read(32)
+    if size > 200_000 and (b"ftyp" in head[:16] or head[:4] == b"\x1aE\xdf\xa3"):
+        return True, f"saved {size/1048576:.2f} MB ({ctype})", [name]
+    os.remove(p)
+    return False, f"not a video ({size}B {ctype[:24]})", []
+
+
 def try_direct_image(url, out):
     """队列里直接给 CDN 图片直链时用（抖音签名直链有效期约 1 个月）。
     只认「下下来真的是图片」——按魔数判断，不看扩展名。"""
@@ -987,6 +1013,31 @@ def handle(url):
     if not url or url.startswith("#"):
         return None
     folder = platform_of(url)
+    is_dy_cdn = re.search(r"douyin(?:pic|vod)\.com", url, re.I) is not None
+    is_video = ("mime_type=video_mp4" in url or re.search(r"\.mp4(?:\?|$)", url, re.I) is not None
+                or "douyinvod.com" in url)
+    if is_dy_cdn and is_video:
+        out = os.path.join(RAW, folder, "direct_media")
+        os.makedirs(out, exist_ok=True)
+        good, log, _ = try_direct_media(url, out)
+        real = []
+        for rel in list_files_recursive(out):
+            if rel == "meta.json":
+                continue
+            pp = os.path.join(out, rel)
+            if os.path.isfile(pp):
+                real.append({"name": rel, "bytes": os.path.getsize(pp), "sha256": sha256(pp)})
+        json.dump({"source_url": url, "platform_folder": folder,
+                   "status": "ok" if good else "failed",
+                   "tool_used": "direct-media" if good else None,
+                   "steps": [{"tool": "direct-media", "ok": bool(good), "log": log}],
+                   "files": real,
+                   "collected_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"},
+                  open(os.path.join(out, "meta.json"), "w", encoding="utf-8"),
+                  ensure_ascii=False, indent=2)
+        return json.load(open(os.path.join(out, "meta.json"), encoding="utf-8"))
+
     if "douyinpic.com" in url and re.search(r"\.(?:jpg|jpeg|png|webp)", url, re.I):
         out = os.path.join(RAW, folder, "direct_images")
         os.makedirs(out, exist_ok=True)
