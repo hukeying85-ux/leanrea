@@ -92,7 +92,7 @@ jobs:
           echo "=== C. BBDown ===" | tee -a "$LOG"
           [ -n "$(find /tmp/out -maxdepth 1 -type f -size +1M)" ] && { echo "[C] skipped, 已有文件" | tee -a "$LOG"; exit 0; }
           ASSET=$(curl -sS -m 60 https://api.github.com/repos/nilaoda/BBDown/releases/latest \
-            | python3 -c "import json,sys;d=json.load(sys.stdin);print(next((a['browser_download_url'] for a in d['assets'] if 'linux' in a['name'].lower()),''))")
+            | python3 -c "import json,sys;d=json.load(sys.stdin);c=[a for a in d['assets'] if 'linux' in a['name'].lower() and 'arm' not in a['name'].lower()];print(c[0]['browser_download_url'] if c else '')")
           echo "asset: $ASSET" | tee -a "$LOG"
           [ -n "$ASSET" ] && curl -sSL -m 180 -o /tmp/bb $ASSET
           if file /tmp/bb | grep -q Zip; then (cd /tmp && unzip -oq bb); else cp /tmp/bb /tmp/BBDown; fi
@@ -103,35 +103,45 @@ jobs:
           echo "[C] exit=$?" | tee -a "$LOG"
           ls -la /tmp/out | tee -a "$LOG"
 
-      - name: 报告 + 切块
+      - name: 报告 + 切块（永不失败，日志全部提交）
         shell: bash
         run: |
-          set -e
+          set -uo pipefail
           D=downloads/$BV
           mkdir -p "$D"
-          V=$(find /tmp/out -maxdepth 1 -type f \( -name '*.mp4' -o -name '*.mkv' -o -name '*.flv' \) -size +1M | head -1)
-          INFO=$(find /tmp/out -maxdepth 1 -name '*.info.json' | head -1)
+          {
+            echo "--- which ---"
+            for c in ffmpeg ffprobe split sha256sum du stat find python3 yt-dlp; do
+              printf '%-10s %s\n' "$c" "$(command -v "$c" || echo MISSING)"
+            done
+            echo "--- files in /tmp/out ---"
+            ls -la /tmp/out || true
+          } >> "$D/attempt.log" 2>&1
+
+          V=$(find /tmp/out -maxdepth 1 -type f \( -name '*.mp4' -o -name '*.mkv' -o -name '*.flv' -o -name '*.m4s' \) -size +100k 2>/dev/null | head -1)
           {
             echo "bvid: $BV"
             echo "url: $URL"
             echo "runner_utc: $(date -u +%FT%TZ)"
-            echo "yt_dlp: $(yt-dlp --version 2>/dev/null)"
-            if [ -n "$V" ]; then
+            echo "yt_dlp: $(yt-dlp --version 2>/dev/null || echo n/a)"
+            if [ -n "${V:-}" ]; then
               echo "video_file: $(basename "$V")"
               echo "video_bytes: $(stat -c%s "$V")"
               echo "sha256: $(sha256sum "$V" | cut -d' ' -f1)"
-              ffprobe -v error -show_entries format=duration,size,bit_rate:stream=codec_name,width,height,r_frame_rate,codec_type \
-                -of default=noprint_wrappers=1 "$V"
+              (ffprobe -v error -show_entries format=duration,size,bit_rate \
+                 -show_entries stream=codec_name,width,height,r_frame_rate,codec_type \
+                 -of default=noprint_wrappers=1 "$V" 2>&1 || true)
             else
               echo "video_file: NONE"
             fi
           } | tee "$D/result.txt"
-          [ -n "$INFO" ] && cp "$INFO" "$D/info.json" || true
-          if [ -n "$V" ]; then
-            split -b "$CHUNK" -d -a 3 "$V" "$D/part-"
-            ( cd "$D" && sha256sum part-* > parts.sha256 && ls -l part-* > parts.list )
+
+          if [ -n "${V:-}" ]; then
+            split -b "$CHUNK" -d -a 3 "$V" "$D/part-" && \
+              ( cd "$D" && sha256sum part-* > parts.sha256 && ls -l part-* > parts.list ) || true
           fi
-          du -sh "$D"
+          du -sh "$D" || true
+          echo "[report] done"
 
       - name: 推回分支
         shell: bash
