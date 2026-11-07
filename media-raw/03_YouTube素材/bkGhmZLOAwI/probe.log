@@ -1,0 +1,63 @@
+############ A. Invidious local=true ##########
+https://inv.nadeko.net                       itag18 -> 500 26 text/plain; charset=utf-8 size=       26 video=False head=b'500 Inte'
+https://inv.nadeko.net                       itag22 -> 500 26 text/plain; charset=utf-8 size=       26 video=False head=b'500 Inte'
+https://invidious.nerdvpn.de                 itag18 -> 000 0          size=       26 video=False head=b'500 Inte'
+https://invidious.nerdvpn.de                 itag22 -> 000 0          size=       26 video=False head=b'500 Inte'
+https://yewtu.be                             itag18 -> 200 11354 text/html size=    11354 video=False head=b'<!doctyp'
+https://yewtu.be                             itag22 -> 200 11354 text/html size=    11354 video=False head=b'<!doctyp'
+https://iv.melmac.space                      itag18 -> 000 0          size=    11354 video=False head=b'<!doctyp'
+https://iv.melmac.space                      itag22 -> 000 0          size=    11354 video=False head=b'<!doctyp'
+https://invidious.f5.si                      itag18 -> 530 17 text/plain; charset=UTF-8 size=       17 video=False head=b'error co'
+https://invidious.f5.si                      itag22 -> 530 17 text/plain; charset=UTF-8 size=       17 video=False head=b'error co'
+https://inv.tux.pizza                        itag18 -> 000 0          size=       17 video=False head=b'error co'
+https://inv.tux.pizza                        itag22 -> 000 0          size=       17 video=False head=b'error co'
+https://invidious.jing.rocks                 itag18 -> 000 0          size=       17 video=False head=b'error co'
+https://invidious.jing.rocks                 itag22 -> 000 0          size=       17 video=False head=b'error co'
+https://iv.datura.network                    itag18 -> 000 0          size=       17 video=False head=b'error co'
+https://iv.datura.network                    itag22 -> 000 0          size=       17 video=False head=b'error co'
+https://invidious.privacydev.net             itag18 -> 000 0          size=       17 video=False head=b'error co'
+https://invidious.privacydev.net             itag22 -> 000 0          size=       17 video=False head=b'error co'
+https://yt.artemislena.eu                    itag18 -> 000 0          size=       17 video=False head=b'error co'
+https://yt.artemislena.eu                    itag22 -> 000 0          size=       17 video=False head=b'error co'
+https://invidious.perennialte.ch             itag18 -> 404 204 text/plain; charset=utf-8 size=      204 video=False head=b'The requ'
+https://invidious.perennialte.ch             itag22 -> 404 204 text/plain; charset=utf-8 size=      204 video=False head=b'The requ'
+https://inv.us.projectsegfau.lt              itag18 -> 000 0          size=      204 video=False head=b'The requ'
+https://inv.us.projectsegfau.lt              itag22 -> 000 0          size=      204 video=False head=b'The requ'
+https://invidious.einfachzocken.eu           itag18 -> 000 0          size=      204 video=False head=b'The requ'
+https://invidious.einfachzocken.eu           itag22 -> 000 0          size=      204 video=False head=b'The requ'
+https://iv.catgirl.cloud                     itag18 -> 200 2812 text/html size=     2812 video=False head=b'<!doctyp'
+https://iv.catgirl.cloud                     itag22 -> 200 3762 text/html size=     3762 video=False head=b'<!doctyp'
+https://invidious.materialio.us              itag18 -> 500 6086 text/html size=     6086 video=False head=b'\n<!DOCTY'
+https://invidious.materialio.us              itag22 -> 500 6086 text/html size=     6086 video=False head=b'\n<!DOCTY'
+WINS_A: []
+############ B. Invidious API 探测 ##########
+https://inv.nadeko.net                       http=403 size=17 fmts=parse-fail
+https://invidious.nerdvpn.de                 http=401 size=35 fmts=[]
+https://yewtu.be                             http=403 size=150 fmts=parse-fail
+https://iv.melmac.space                      http=000 size=150 fmts=parse-fail
+https://invidious.f5.si                      http=530 size=17 fmts=parse-fail
+https://inv.tux.pizza                        http=000 size=17 fmts=parse-fail
+https://invidious.jing.rocks                 http=000 size=17 fmts=parse-fail
+https://iv.datura.network                    http=000 size=17 fmts=parse-fail
+https://invidious.privacydev.net             http=000 size=17 fmts=parse-fail
+https://yt.artemislena.eu                    http=000 size=17 fmts=parse-fail
+https://invidious.perennialte.ch             http=404 size=204 fmts=parse-fail
+https://inv.us.projectsegfau.lt              http=000 size=204 fmts=parse-fail
+https://invidious.einfachzocken.eu           http=000 size=204 fmts=parse-fail
+https://iv.catgirl.cloud                     http=500 size=56 fmts=[]
+https://invidious.materialio.us              http=500 size=65 fmts=parse-fail
+WINS_B: []
+############ C. i.ytimg.com /vi/ 三帧 ##########
+  /vi/hq1.jpg -> 200 11911 image/jpeg size=   11911 jpeg=True
+  /vi/hq2.jpg -> 200 12331 image/jpeg size=   12331 jpeg=True
+  /vi/hq3.jpg -> 200 11911 image/jpeg size=   11911 jpeg=True
+  /vi/0.jpg -> 200 19726 image/jpeg size=   19726 jpeg=True
+  /vi/1.jpg -> 200 2892 image/jpeg size=    2892 jpeg=False
+  /vi/2.jpg -> 200 2926 image/jpeg size=    2926 jpeg=False
+  /vi/3.jpg -> 200 2892 image/jpeg size=    2892 jpeg=False
+  /vi/mq1.jpg -> 200 6208 image/jpeg size=    6208 jpeg=True
+  /vi/sd1.jpg -> 200 39552 image/jpeg size=   39552 jpeg=True
+  /vi/maxres1.jpg -> 200 79743 image/jpeg size=   79743 jpeg=True
+  /vi/maxres2.jpg -> 200 78807 image/jpeg size=   78807 jpeg=True
+  /vi/maxres3.jpg -> 200 79743 image/jpeg size=   79743 jpeg=True
+############ D. hqdefault 系列 ##########
