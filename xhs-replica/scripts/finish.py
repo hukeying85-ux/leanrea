@@ -75,6 +75,21 @@ def film_grade(im, grain=0.010, rng=None):
     return Image.fromarray((a * 255 + 0.5).astype(np.uint8))
 
 
+def tone(im, sat=1.0, warm=0.0):
+    """整轮色调微调：sat>1 加饱和，warm>0 往暖褐推。
+    用来把新画的一轮拉回某一版老配色（比如第2轮那种低饱和胶片暖调）。"""
+    if sat == 1.0 and warm == 0.0:
+        return im
+    a = np.asarray(im).astype(np.float32) / 255.0
+    if sat != 1.0:
+        lum = a @ np.array([0.2126, 0.7152, 0.0722], dtype=np.float32)
+        a = np.clip(lum[..., None] + (a - lum[..., None]) * sat, 0, 1)
+    if warm:
+        a[..., 0] = np.clip(a[..., 0] * (1 + warm), 0, 1)
+        a[..., 2] = np.clip(a[..., 2] * (1 - warm * 0.8), 0, 1)
+    return Image.fromarray((a * 255 + 0.5).astype(np.uint8))
+
+
 # ---------------------------------------------------------------- lettering
 def flattest_patch(im, bw, bh):
     """Find the lowest-detail bw x bh block in the lower band of the frame."""
@@ -184,6 +199,7 @@ def main():
         im = im.crop((l, t, l + nw, t + nh)).resize((TW, TH), Image.LANCZOS)
         im = im.filter(ImageFilter.UnsharpMask(radius=2, percent=60, threshold=3))
         im = film_grade(im, grain=grain, rng=np.random.default_rng(7 + i))
+        im = tone(im, float(spec.get("sat", 1.0)), float(spec.get("warm", 0.0)))
         if it.get("word"):
             im, box = stamp_word(im, it["word"], i,
                                  scale=float(it.get("scale", 1.35)),
