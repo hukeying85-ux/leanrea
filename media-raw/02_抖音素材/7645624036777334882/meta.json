@@ -7,7 +7,7 @@
     {
       "tool": "douyin-note",
       "ok": false,
-      "log": "www.iesdouyin.com: HTTP 200 len=25863 imgs=0; www.iesdouyin.com: HTTP 200 len=32227 imgs=0; m.douyin.com: HTTP 200 len=33202 imgs=0; www.douyin.com: HTTP 200 len=2397 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0; api www.tikwm.com: HTTP 200 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0"
+      "log": "www.iesdouyin.com: HTTP 200 len=25875 imgs=0; www.iesdouyin.com: HTTP 200 len=32229 imgs=0; m.douyin.com: HTTP 200 len=33273 imgs=0; www.douyin.com: HTTP 200 len=72914 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0; api www.tikwm.com: HTTP 200 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0"
     },
     {
       "tool": "douyin-api",
@@ -32,10 +32,10 @@
     {
       "tool": "proxy-relay",
       "ok": false,
-      "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 408 | corsproxy.io: HTTP 401"
+      "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
     }
   ],
   "files": [],
-  "collected_at": "2026-11-07T08:17:28Z",
+  "collected_at": "2026-11-07T08:19:50Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

@@ -1,0 +1,47 @@
+{
+  "source_url": "https://p3-pc-sign.douyinpic.com/tos-cn-i-0813/ogxiSACAETeCAtAECfy0aIVu1oAtBBkYDAigAA~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=327834062&lk3s=138a59ce&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1796630400&x-signature=%2FvmztJQERCuAlHvVmCsAT%2F6dq%2BE%3D",
+  "platform_folder": "02_抖音素材",
+  "status": "ok",
+  "tool_used": "direct-image",
+  "steps": [
+    {
+      "tool": "direct-image",
+      "ok": true,
+      "log": "saved 1 direct image(s)"
+    }
+  ],
+  "files": [
+    {
+      "name": "frame_oQBaACAEICADuE.webp",
+      "bytes": 31988,
+      "sha256": "5d08773a022eb73417d8972da2b30347205e3dc110469d7483796ca33c785548"
+    },
+    {
+      "name": "frame_oQGxfABDOtAAoi.webp",
+      "bytes": 30250,
+      "sha256": "79816b07143c06cfe933da8a1a09b79a1975c7cba579cf4bf9b4da9ec75df7b5"
+    },
+    {
+      "name": "frame_oQfeEAt0RyEgAA.webp",
+      "bytes": 30706,
+      "sha256": "7134ceef34dd6a1e3788888242ff660367055914cb23043127bdddf973e10527"
+    },
+    {
+      "name": "frame_oYoae1A0DABiAt.webp",
+      "bytes": 45064,
+      "sha256": "1162ef97bf2a0c2f31f7b71ceeed05057e9e3fb3408fbd413f48961fbfe5488f"
+    },
+    {
+      "name": "frame_ocoae1A0DABiAt.webp",
+      "bytes": 89896,
+      "sha256": "64309c0c066aec5326477d2292649ec3b86cdca77751e4ddc1bf15977681a8ea"
+    },
+    {
+      "name": "frame_ogxiSACAETeCAt.webp",
+      "bytes": 28610,
+      "sha256": "21cf801f43c2bfd574ac7a43b9cc95a70b9025ed9ff832f7056ce3e02a4b1a90"
+    }
+  ],
+  "collected_at": "2026-11-07T08:18:56Z",
+  "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+}
