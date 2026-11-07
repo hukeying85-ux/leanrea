@@ -1,22 +1,20 @@
 #!/usr/bin/env python3
 """
-phone_mockup.py — 把生图模型吐出的「无字底图」变成和参考帖一模一样的手机壁纸预览图。
+phone_mockup.py — 把生图模型吐出的「无字底图」变成可交付的手机壁纸（默认：干净版，没有任何手机 UI）。
 
-生图模型只负责画画；时间/日期/手电筒/相机/Home 条/毛玻璃图标/拼版全部由本脚本画，
-所以每张图的字都对、位置都一致、日期随时可改（healing-comic 同款铁律：中文/数字不交给生图模型）。
+默认 --ui none：壁纸就是壁纸——不加时间/日期/手电筒/相机/Home 条/图标，这些都是手机自带的。
+可选 --ui ios：额外输出一份带 iOS 锁屏/主屏覆盖层的「效果预览图」（仿壁纸博主的预览帖），仅作展示。
 
 用法（spec.json 见 examples/*/02-复刻/spec.json）：
-  python3 scripts/phone_mockup.py build  SPEC --art-dir ART --out OUT [--date "Saturday, November 7"] [--time 05:20]
-      ART/01.png … → OUT/壁纸/复刻图01-xxx.png (1440×3200 干净版)
-                   → OUT/预览/复刻图01-xxx.png (加锁屏 / 主屏覆盖层，和参考帖同款)
+  python3 scripts/phone_mockup.py build  SPEC --art-dir ART --out OUT [--format png|jpg] [--ui none|ios] [--date ...] [--time ...]
+      ART/01.png … → OUT/复刻图01-xxx.png (1440×3200 干净壁纸)
+                   → OUT/预览-iOS/复刻图01-xxx.png（仅 --ui ios）
   python3 scripts/phone_mockup.py sheet  SPEC --out OUT          → OUT/总图.jpg（2×5 拼版）
-  python3 scripts/phone_mockup.py cover  SPEC --out OUT          → OUT/封面-双机预览.jpg（米色底双机，仿参考帖第 7 图）
+  python3 scripts/phone_mockup.py cover  SPEC --out OUT          → OUT/封面-双机预览.jpg（米色底两张竖图）
   python3 scripts/phone_mockup.py all    SPEC --art-dir ART --out OUT
 
-依赖：Pillow。字体：时钟用 Inter（或任意无衬线 .ttf），中文标题用霞鹜文楷；
-通过 --clock-font / --cjk-font 或环境变量 CLOCK_FONT / CJK_FONT 指定。
-
-几何常量来自对参考帖原图（1440×3200）的逐像素测量，见 SKILL.md「锁屏几何表」。
+依赖：Pillow。字体：中文标题用霞鹜文楷（--cjk-font / CJK_FONT）；--ui ios 时时钟用 Inter（--clock-font / CLOCK_FONT）。
+锁屏几何常量来自对参考帖原图（1440×3200）的逐像素测量，见 SKILL.md。
 """
 import argparse
 import json
@@ -182,12 +180,13 @@ def phone_frame(im, size, r, border=4, shadow=True, bg=None):
     m = rounded_mask(size, r)
     frame = Image.new("RGBA", size, (0, 0, 0, 0))
     frame.paste(body, (0, 0), m)
-    ImageDraw.Draw(frame).rounded_rectangle((0, 0, w - 1, h - 1), r, outline=(52, 44, 40, 255), width=border)
+    if border:
+        ImageDraw.Draw(frame).rounded_rectangle((0, 0, w - 1, h - 1), r, outline=(52, 44, 40, 255), width=border)
     tile.alpha_composite(frame, (pad, pad))
     return tile
 
 
-def contact_sheet(spec, previews, out, cjk_font):
+def contact_sheet(spec, previews, out, cjk_font, bezel=False):
     cols, tw = 5, 300
     th = round(tw * H / W)
     gap, margin, header = 36, 60, 120
@@ -199,7 +198,7 @@ def contact_sheet(spec, previews, out, cjk_font):
     d.text((margin, margin - 6), spec["title"], font=font(cjk_font, 46), fill=(58, 46, 42))
     d.text((margin, margin + 60), spec["subtitle"], font=font(cjk_font, 24), fill=(120, 100, 92))
     for i, p in enumerate(previews):
-        tile = phone_frame(Image.open(p), (tw, th), r=34, border=3)
+        tile = phone_frame(Image.open(p), (tw, th), r=28, border=3 if bezel else 0)
         x = margin + (i % cols) * (tw + gap) - 40
         y = margin + header + (i // cols) * (th + gap) - 40
         sheet.alpha_composite(tile, (x, y))
@@ -207,14 +206,14 @@ def contact_sheet(spec, previews, out, cjk_font):
     return out
 
 
-def cover(spec, left_img, right_img, out):
+def cover(spec, left_img, right_img, out, bezel=False):
     S = 1600
     bg = Image.new("RGBA", (S, S), (241, 222, 203, 255))
     pw = 560
     ph = round(pw * H / W)
     y = (S - ph) // 2
     for im, x in ((left_img, 170), (right_img, 870)):
-        bg.alpha_composite(phone_frame(Image.open(im), (pw, ph), r=84, border=5), (x - 40, y - 40))
+        bg.alpha_composite(phone_frame(Image.open(im), (pw, ph), r=72 if bezel else 48, border=5 if bezel else 0), (x - 40, y - 40))
     bg.convert("RGB").save(out, "JPEG", quality=93)
     return out
 
@@ -225,13 +224,14 @@ def page_name(spec, pg):
 
 
 def cmd_build(a, spec):
-    clock = find_font(a.clock_font, "CLOCK_FONT", CLOCK_CANDS)
-    if not clock:
-        sys.exit("找不到时钟字体：--clock-font 或 CLOCK_FONT（推荐 Inter）")
     out = Path(a.out)
-    if not a.no_clean:
-        (out / "壁纸").mkdir(parents=True, exist_ok=True)
-    (out / "预览").mkdir(parents=True, exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
+    clock = None
+    if a.ui == "ios":
+        clock = find_font(a.clock_font, "CLOCK_FONT", CLOCK_CANDS)
+        if not clock:
+            sys.exit("--ui ios 需要时钟字体：--clock-font 或 CLOCK_FONT（推荐 Inter）")
+        (out / "预览-iOS").mkdir(parents=True, exist_ok=True)
     date, time = a.date or spec.get("date"), a.time or spec.get("time", "05:20")
     for pg in spec["pages"]:
         src = Path(a.art_dir) / f"{pg['n']:02d}.png"
@@ -240,12 +240,11 @@ def cmd_build(a, spec):
             continue
         base = fit_canvas(Image.open(src))
         name = page_name(spec, pg)
-        prev = lock_overlay(base, date, time, clock) if pg["overlay"] == "lock" else home_overlay(base)
-        for sub, im in (("壁纸", base), ("预览", prev)):
-            if sub == "壁纸" and a.no_clean:
-                continue
-            save(im, out / sub / f"{name}.{a.format}")
-        print(f"[build] {name}  overlay={pg['overlay']}")
+        save(base, out / f"{name}.{a.format}")                      # 干净壁纸 = 交付物
+        if a.ui == "ios":
+            prev = lock_overlay(base, date, time, clock) if pg.get("overlay") == "lock" else home_overlay(base)
+            save(prev, out / "预览-iOS" / f"{name}.{a.format}")
+        print(f"[build] {name}" + (f"  ios-overlay={pg.get('overlay')}" if a.ui == "ios" else ""))
 
 
 def save(im, path):
@@ -256,36 +255,39 @@ def save(im, path):
         im.save(path, "PNG", compress_level=6)
 
 
-def previews_of(spec, out):
-    found = []
-    for pg in spec["pages"]:
-        for ext in ("png", "jpg"):
-            p = Path(out) / "预览" / f"{page_name(spec, pg)}.{ext}"
-            if p.exists():
-                found.append(p)
-                break
-    return found
+def page_file(spec, out, pg, ui="none"):
+    base = Path(out) / "预览-iOS" if ui == "ios" else Path(out)
+    for ext in ("png", "jpg"):
+        p = base / f"{page_name(spec, pg)}.{ext}"
+        if p.exists():
+            return p
+    return None
+
+
+def previews_of(spec, out, ui="none"):
+    return [p for p in (page_file(spec, out, pg, ui) for pg in spec["pages"]) if p]
 
 
 def cmd_sheet(a, spec):
     cjk = find_font(a.cjk_font, "CJK_FONT", CJK_CANDS)
     if not cjk:
         sys.exit("找不到中文字体：--cjk-font 或 CJK_FONT（霞鹜文楷：healing-comic/scripts/fetch_font.sh）")
-    files = [p for p in previews_of(spec, a.out) if p.exists()]
-    print("[sheet]", contact_sheet(spec, files, Path(a.out) / "总图.jpg", cjk))
+    files = previews_of(spec, a.out, a.ui)
+    if not files:
+        sys.exit("sheet: 没找到壁纸文件，先跑 build")
+    print("[sheet]", contact_sheet(spec, files, Path(a.out) / "总图.jpg", cjk, bezel=(a.ui == "ios")))
 
 
 def cmd_cover(a, spec):
     byn = {pg["n"]: pg for pg in spec["pages"]}
     c = spec.get("cover", {"left": 1, "right": 2})
     def pick(n):
-        for ext in ("png", "jpg"):
-            p = Path(a.out) / "预览" / f"{page_name(spec, byn[n])}.{ext}"
-            if p.exists():
-                return p
-        sys.exit(f"cover: 找不到第 {n} 页预览图")
+        p = page_file(spec, a.out, byn[n], a.ui)
+        if not p:
+            sys.exit(f"cover: 找不到第 {n} 页")
+        return p
     l, r = pick(c["left"]), pick(c["right"])
-    print("[cover]", cover(spec, l, r, Path(a.out) / "封面-双机预览.jpg"))
+    print("[cover]", cover(spec, l, r, Path(a.out) / "封面-双机预览.jpg", bezel=(a.ui == "ios")))
 
 
 def main():
@@ -298,8 +300,8 @@ def main():
     ap.add_argument("--time", default=None)
     ap.add_argument("--clock-font", default=None)
     ap.add_argument("--cjk-font", default=None)
-    ap.add_argument("--format", choices=["png", "jpg"], default="png", help="壁纸/预览输出格式（仓库留档用 jpg，交付用 png）")
-    ap.add_argument("--no-clean", action="store_true", help="只出预览版，不写干净壁纸")
+    ap.add_argument("--format", choices=["png", "jpg"], default="png", help="输出格式（交付用 png，仓库留档用 jpg）")
+    ap.add_argument("--ui", choices=["none", "ios"], default="none", help="none=干净壁纸（默认）；ios=额外输出带锁屏/主屏覆盖层的效果预览")
     a = ap.parse_args()
     spec = json.loads(Path(a.spec).read_text(encoding="utf-8"))
     if a.cmd in ("build", "all"):

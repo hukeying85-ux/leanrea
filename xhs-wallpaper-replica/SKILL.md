@@ -8,9 +8,11 @@ description: 给一条小红书壁纸笔记链接，下载原图 → 拆解版�
 一个 SKILL.md + 一个脚本（`scripts/phone_mockup.py`）+ 一个代下 workflow（`tools/xhs-relay/`）。
 不需要 MCP，不需要 Photoshop，**不让生图模型写任何字或画任何 UI**。
 
-**核心原则：模型只画画，锁屏时间 / 日期 / 手电筒 / 相机 / Home 条 / 毛玻璃图标 / 拼版全部由脚本画。**
-参考帖里那些「05:20」「Friday, November 6」是壁纸博主自己 P 的 iOS 预览效果，不是画的一部分；
-只要几何量对了（见下表），复刻出来的预览图和原帖肉眼不可分，而且日期随时能换。
+**核心原则一：壁纸就是壁纸。** 参考帖里的「05:20」「Friday, November 6」、手电筒/相机圆钮、Home 条、主屏毛玻璃图标，
+全是壁纸博主 P 上去的 iOS 预览效果——那些东西手机自带，**交付件里一律不要**。交付 = 1440×3200 的干净底图。
+
+**核心原则二：模型只画画，字和 UI 永远不交给生图模型。** 如果确实要做一张「带手机界面的效果预览图」（比如封面），
+用 `phone_mockup.py --ui ios` 由脚本按下表几何画，日期随时能换，而且绝不混进壁纸本体。
 
 ## 何时用 / 何时别用
 
@@ -22,15 +24,17 @@ description: 给一条小红书壁纸笔记链接，下载原图 → 拆解版�
 ```
 ① 抓图           ② 拆解            ③ 底图              ④ 合成+验收            ⑤ 文案        ⑥ 归档
 fetch_page/      量几何、列场景、    generate_image      phone_mockup.py        copy-*.md     Drive 第N轮/
-xhs-relay        分锁屏/主屏        688×1536 无字图     1440×3200 + 覆盖层                   + SKILL + 文案Doc
-01-原图/         spec.json          02-复刻/art/        预览/ 壁纸/ 总图 封面
+xhs-relay        记录原帖 UI 几何    688×1536 无字图     放大到 1440×3200 干净壁纸              + SKILL + 文案Doc
+01-原图/         spec.json          02-复刻/art/        壁纸/ 总图 封面（--ui ios 另出预览）
 ```
 
 ### ① 抓图（原图，不是 1080 webp 预览）
 
 1. `fetch_page` 打开带 `xsec_token` 的分享链接，抄下标题/正文/标签/作者和每张图的 URL（`…/spectrum/<token>!nd_dft_wlteh_webp_3`）。
 2. 能直连 CDN 的机器：`https://sns-img-bd.xhscdn.com/<token>` 就是无水印 PNG 原图（token = `spectrum/1040g…`，去掉 `!` 后缀）。
+   视频笔记同理：`https://sns-video-bd.xhscdn.com/<originVideoKey>` 是作者上传的无水印原片（可能几百 MB），网页 `masterUrl` 只是 720p 码流。
 3. Arena 沙箱直连不了 → 写 `tools/xhs-relay/queue.json`，push，等 workflow 把原图 commit 回同一分支（`tools/xhs-relay/README.md`）。
+   超大的视频原片不进 git：沙箱用 Drive 连接器开一个 resumable 上传会话，用 `relay_pubkey.pem` 加密后放到 `secrets/*.enc`，runner 解密后直传 Drive。
 4. 存成 `examples/<slug>/01-原图/01.png…` + `note.json` + `note.md`。Drive 侧按小红书网页版下载命名：`<标题>_<n>_<作者>_来自小红书网页版.png`。
 5. 更多工具（XHS-Downloader 13k★ 等）和取 token 的办法见 `references/github-tools.md`。
 
@@ -83,14 +87,15 @@ no signature, no border.
 ### ④ 合成 + 验收（`scripts/phone_mockup.py`）
 
 ```bash
-# 字体：时钟 Inter（variable），中文 霞鹜文楷；放 ~/.fonts 或 --clock-font/--cjk-font
+# 字体：中文 霞鹜文楷（--cjk-font）；只有 --ui ios 才需要时钟字体 Inter（--clock-font）
 python3 scripts/phone_mockup.py all  examples/<slug>/02-复刻/spec.json \
-        --art-dir examples/<slug>/02-复刻/art --out <交付目录> --format png          # Drive 交付：PNG
-python3 scripts/phone_mockup.py all  … --out examples/<slug>/02-复刻 --format jpg --no-clean   # 仓库留档：JPG 预览
-python3 scripts/phone_mockup.py build … --date "Saturday, November 7" --time 05:20              # 换日期
+        --art-dir examples/<slug>/02-复刻/art --out <交付目录> --format png     # Drive 交付：干净 PNG
+python3 scripts/phone_mockup.py all  … --out examples/<slug>/02-复刻/壁纸 --format jpg   # 仓库留档：JPG
+python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" --time 05:20   # 可选：另出一份 iOS 效果预览
 ```
 
-产出：`壁纸/复刻图NN-<场景>.png`（1440×3200 干净版）、`预览/复刻图NN-<场景>.png`（加覆盖层，发帖用）、`总图.jpg`（2×5 拼版，米色底手机圆角）、`封面-双机预览.jpg`。
+产出（默认 `--ui none`）：`复刻图NN-<场景>.png`（1440×3200 干净壁纸，就是交付物）、`总图.jpg`（2×5 拼版，米色底圆角卡片）、`封面-双机预览.jpg`（两张竖图并排）。
+`--ui ios` 时额外多一个 `预览-iOS/` 子目录，仅作展示，不要当壁纸交付。
 
 放大说明：688×1536 → 1440×3200 用 Lanczos ×2.09 + 轻锐化，手机上看没问题，放到 100% 会比原帖软一点。
 要更锐利就在本机跑一次 `realesrgan-ncnn-vulkan -n realesrgan-x4plus-anime -s 2 -i art -o art_up` 再喂给脚本。
@@ -100,7 +105,7 @@ python3 scripts/phone_mockup.py build … --date "Saturday, November 7" --time 0
 - [ ] 顶部 15% 没有被角色/招牌占住，时钟和日期压在干净背景上
 - [ ] 无任何文字、签名、水印；无残留 UI
 - [ ] 角色特征对（眉毛、发型、服装颜色），画风和其余 9 张统一
-- [ ] 锁屏/主屏分配和原帖同比例（本例 7 锁 3 主）
+- [ ] 交付件里没有任何手机 UI（时间/日期/图标/Home 条）
 - [ ] 10 张尺寸一致 1440×3200；总图里一眼看出是一套
 
 ### ⑤ 文案（`references/copy-小新壁纸.md`）
@@ -113,8 +118,9 @@ python3 scripts/phone_mockup.py build … --date "Saturday, November 7" --time 0
 ```
 素材 05/
 ├─ 第1轮-原版7张（小红书下载）/   <标题>_<n>_<作者>_来自小红书网页版.png ×7 · 总图.jpg · note.json · Doc「第1轮 · 小红书文案」
-└─ 第2轮-复刻10张/               复刻图01…10.png（预览版）· 壁纸干净版/ ×10 · 总图.jpg · 封面-双机预览.jpg
-                                 · Doc「第2轮 · 小红书文案」· 小新壁纸复刻方案-SKILL.md · spec.json
+├─ 第2轮-复刻10张/               复刻图01…10.png（1440×3200 干净壁纸）· 总图.jpg · 封面-双机预览.jpg
+│                                · Doc「第2轮 · 小红书文案」· 小新壁纸复刻方案-SKILL.md · spec.json
+└─ 第3轮-视频下载测试/            原片/（runner 直传的无水印原片 + 网页码流 + 封面 + note.json）· 结果/（关键帧总图、音频、信息 Doc）
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -137,5 +143,6 @@ xhs-wallpaper-replica/
 ├─ references/copy-小新壁纸.md    第2轮文案 + 第1轮原帖文案存档
 └─ examples/shinchan-6aedad8b/
    ├─ 01-原图/ 01–07.png, note.json, note.md
-   └─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 预览/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
+   ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
+   └─ ../video-test-6a4be129/01-原片/ video.mp4(网页码流), cover.jpg, note.json, drive_upload.json
 ```

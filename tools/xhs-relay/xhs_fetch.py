@@ -24,6 +24,7 @@ xhs_fetch.py — 在 GitHub Actions runner 里跑（runner 出网不受限）。
   ]
 }
 """
+import hashlib
 import json
 import os
 import re
@@ -88,7 +89,9 @@ def fetch_note(url, cookie=""):
     data = None
     m = re.search(r"window\.__INITIAL_STATE__\s*=\s*(\{.*?\})\s*</script>", html, re.S)
     if m:
-        raw = re.sub(r"\bundefined\b", "null", m.group(1))  # JS 字面量里的 undefined（含数组元素）→ null
+        # rednote 页面吐的是 JS 字面量，不是严格 JSON：undefined / new Set([]) / new Map([]) 都要先规整
+        raw = re.sub(r"\bundefined\b", "null", m.group(1))
+        raw = re.sub(r"new\s+(?:Set|Map)\(\s*(\[.*?\])\s*\)", r"\1", raw, flags=re.S)
         try:
             data = json.loads(raw)
         except Exception as e:  # noqa: BLE001
@@ -162,8 +165,11 @@ def fetch_note(url, cookie=""):
 
 def video_info(v):
     """note.video → 原片 key + 各码流（XHS-Downloader 同款字段）。"""
+    mv = ((v.get("media") or {}).get("video") or {})
     info = {"origin_key": ((v.get("consumer") or {}).get("originVideoKey")) or "",
-            "duration": ((v.get("capa") or {}).get("duration")) or ((v.get("media") or {}).get("video") or {}).get("duration"),
+            "duration": ((v.get("capa") or {}).get("duration")) or mv.get("duration"),
+            "origin_md5": mv.get("md5") or "",          # 作者上传原片的 md5，可用来校验直传 Drive 的文件
+            "hdr_type": mv.get("hdrType"), "video_id": mv.get("videoId") or (v.get("media") or {}).get("videoId"),
             "streams": []}
     stream = ((v.get("media") or {}).get("stream")) or {}
     for codec, items in stream.items():
@@ -319,6 +325,11 @@ def drive_resumable_put(uri, path, chunk=8 * 1024 * 1024):
     标准 Content-Range 协议（中间块回 308，最后一块回 200/201 + 文件元数据）；首块就 4xx 时再试 X-Goog-Upload-* 协议。"""
     total = os.path.getsize(path)
     rec = {"bytes": total, "protocol": None, "ok": False, "status": None, "response": None, "err": ""}
+    h5 = hashlib.md5()
+    with open(path, "rb") as f:
+        for blk in iter(lambda: f.read(8 * 1024 * 1024), b""):
+            h5.update(blk)
+    rec["md5"] = h5.hexdigest()
     for proto in ("content-range", "x-goog"):   # Drive v3 resumable 端点：标准 Content-Range 协议优先
         off, ok, err, last_resp = 0, False, "", None
         with open(path, "rb") as f:
@@ -373,6 +384,9 @@ def push_origin_to_drive(note, uri, tmp="/tmp/xhs-origin.mp4"):
         return {"ok": False, "err": f"download failed: {err}", "url": url}
     rec = drive_resumable_put(uri, tmp)
     rec["url"] = url
+    if v.get("origin_md5"):
+        rec["origin_md5"] = v["origin_md5"]
+        rec["md5_match"] = (rec.get("md5") == v["origin_md5"])
     try:
         os.remove(tmp)
     except OSError:
@@ -457,8 +471,12 @@ def run_job(job, cookie):
         v = note["video"]
         lines += ["## 视频", "",
                   f"- 文件：{vd.get('file') or '❌ 下载失败'}（{vd.get('variant', '')}，{vd.get('bytes', 0)/1e6:.1f} MB）",
-                  f"- 时长：{v.get('duration') or '?'} s；原片 key：`{v.get('origin_key') or '-'}`",
-                  "- 码流：" + "；".join(f"{st.get('codec')} {st.get('width')}×{st.get('height')} {((st.get('size') or 0)/1e6):.1f}MB" for st in (v.get('streams') or [])[:4]),
+                  f"- 时长：{v.get('duration') or '?'} s；原片 key：`{v.get('origin_key') or '-'}`"
+                  + (f"；原片 md5：`{v['origin_md5']}`" if v.get('origin_md5') else ""),
+                  "- 码流：" + ("；".join(
+                      f"{st.get('codec')} {st.get('width') or '?'}×{st.get('height') or '?'}"
+                      + (f" {st['size']/1e6:.1f}MB" if st.get('size') else "")
+                      for st in (v.get('streams') or [])[:4]) or "（页面未给出码流参数）"),
                   ""]
     lines += ["## 图片", "", "| # | 文件 | 变体 | 尺寸 | 体积 |", "|---|---|---|---|---|"]
     for r in results:

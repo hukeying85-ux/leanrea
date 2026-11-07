@@ -19,7 +19,7 @@
       "out_dir": "xhs-wallpaper-replica/examples/video-test-6a4be129/01-原片",
       "max_total_mb": 20,
       "max_video_mb": 60,
-      "keep_html": true
+      "keep_html": false
     }
   ]
 }
