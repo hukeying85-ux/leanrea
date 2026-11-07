@@ -115,12 +115,17 @@ texture, portrait format. No text, no signature, no frame, no watermark.
   `phone_mockup.py build --ui ios` 的 9:20 居中裁切只去两侧各 ~10%，双人并排的构图也裁不到人，文案里提醒「填充/缩放」即可。
   写实玩偶类 A 模式提示词：「Recreate this exact image as a faithful replica … Photorealistic plush-toy photography look: soft fleece texture, shallow depth of field, golden-hour backlight」+ 逐项点两只玩偶的服饰（头顶小橘子 / 西瓜花短裤 / 白荷叶边帽 / 草莓裙），复刻度极高；
   B 模式新场景沿用同一组描述串 + 「Use the attached image only as the style and character reference … create a NEW scene」，风格锚按「坐姿锚坐姿图、背影锚背影图、面对面锚面对面图」配对，一次全过。
+- 原帖是「景深 / 裸眼 3D」壁纸（第 13 轮沐子兮，9 张转载图源，尺寸不一但都 ≈ 9:20，画面上部有一层前景：拱门 / 苹果 / 树冠 / 荷叶 / 樱花枝）：壁纸本体还是普通干净图，
+  交付 1440×3200 走标准 `phone_mockup.py`；「3D」只发生在 iOS 16+ 锁屏开「景深效果」时——前景主体压在时钟前面。所以多做一步：`depth_mask.py` 抠前景 → `phone_mockup.py --ui ios --mask-dir` 让预览图也把主体贴回时钟前（见 ④″）。
+  写实 A 模式提示词开头「Recreate this exact photo-realistic image as a faithful replica … same composition, same camera angle」，复刻度极高；带路牌文字的原图（09「Welcome」）提示词写 blank wooden signboards, no letters；图源水印不复刻。
+  ISNet 抠的是「显著主体」不是「前景」：拱门（01）、整棵大树（07）、樱花枝（10 抠成了栈桥）会失败 → spec 那页写 `"depth": false` 退回普通叠层；只有主体和时钟（y≈319–553）重叠的页面（03/04/05/08）开了才看得出区别。
 - 生图输出 688×1536（≈9:20），一次 1 张；10 张可以并行 5+5。
 - 角色一致性提示：小新（黄上衣红短裤 / 睡衣 / 幼稚园绿短裤白 T）、小白（白色棉花糖狗）、广志（黑短发眼镜 / 蓝衬衫）、美冴（棕色短卷发）、小葵（橙色头发婴儿）、妮妮（双马尾粉裙）、风间（蓝色西瓜头）。
 - 常见翻车：留下了时钟（提示词没写 REMOVE）→ 重生成；出现日文/英文招牌字 → 提示词加 `no readable text on signs`；上半部分太满 → 加 calm top 15%；比例变 3:4 → 忘了传 images。
 - 道具上的小字（罐子 "SUGAR"、海报）最容易漏：提示词写 `no letters on jars / packaging / posters`；已经生成的，用 edit 模式只改那一处，
   或者直接 Pillow 按精确坐标用两侧颜色线性插值抹掉（`03-新画10张/art/03.png` 就是这么修的）。
 - 生图每轮上限 10 张，10 张一套正好用完——留 1 张余量给返工更稳（先出 9 张或分两轮）。
+  **失败的调用也计数**（第 13 轮 09 报 "Image generation failed. Try again."，重试直接撞上限 → 09 只能下一轮补）：10 张一套时第 10 张留到最后发，前 9 张全过再出。
 - 多轮出图时每轮换一个文件前缀（`复刻图` / `新画` / `新画2-`），Drive 里不同轮的文件名才不会撞；场景清单先对着前几轮查重再写提示词。
 - 新场景的风格锚：优先用自己上一轮的干净底图（`02-复刻/art/*.png`）而不是带 UI 的原图，既保 9:20 又不会把时钟带进来。
 
@@ -155,6 +160,7 @@ python3 scripts/phone_mockup.py all  examples/<slug>/02-复刻/spec.json \
         --art-dir examples/<slug>/02-复刻/art --out <交付目录> --format png     # Drive 交付：干净 PNG
 python3 scripts/phone_mockup.py all  … --out examples/<slug>/02-复刻/壁纸 --format jpg   # 仓库留档：JPG
 python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" --time 05:20   # 必做：手机UI预览 → OUT/预览-iOS/ + 总图（带机框）
+python3 scripts/phone_mockup.py all  … --ui ios --mask-dir examples/<slug>/02-复刻/masks   # 景深壁纸：锁屏页把前景主体贴回时钟前（④″）
 # 非 9:20 画幅（第 6/7 轮 1532×2560 / 1536×2752）：先用 painting_set.py 出干净图，再用一份 overlay 全 lock 的临时 spec 把 art/ 喂给
 # phone_mockup.py build --ui ios → fit_canvas 会按 9:20 居中放大裁切，正好等于手机「填充」行为；只取 预览-iOS/ 与总图，1440×3200 的干净版不要交付
 ```
@@ -173,6 +179,27 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 - [ ] 干净交付件里没有任何手机 UI（时间/日期/图标/Home 条）
 - [ ] `手机UI预览/` 齐 10 张 + 预览总图；逐张看时钟（y≈319–553）有没有压到脸，非 9:20 画幅看两侧被裁后主体还在不在
 - [ ] 10 张尺寸一致 1440×3200；总图里一眼看出是一套
+
+### ④″ 景深 / 裸眼 3D 预览（`scripts/depth_mask.py` + `phone_mockup.py --mask-dir`）
+
+iOS 16+ 锁屏「景深效果」= 系统把壁纸的前景主体抠出来盖在时钟前面。壁纸文件本身不含任何 3D 信息，所以交付物不变（1440×3200 干净图），
+只是 `手机UI预览/` 的锁屏页要把主体贴回时钟前，用户才看得出「为什么叫 3D」。
+
+```bash
+# 模型：ISNet（@imgly/background-removal-data，npm 可达；GitHub release 资产 / HF 都被墙）。约 136 MB tgz，解出 small 44 MB / medium 88 MB
+pip install --break-system-packages onnxruntime pillow numpy
+cd ~/.u2net && curl -LO https://registry.npmjs.org/@imgly/background-removal-data/-/background-removal-data-1.4.5.tgz && mkdir -p imgly && tar xzf background-removal-data-1.4.5.tgz -C imgly
+python3 scripts/depth_mask.py --assemble ~/.u2net/imgly/package/dist      # 按 resources.json 把 4 MB 分片拼回 isnet_small.onnx / isnet_medium.onnx
+# 抠蒙版：输入干净底图目录，输出 masks/NN.png（L 模式，白 = 前景）+ 预览.jpg；--min-area 0.02 过滤抠到碎片的页
+python3 scripts/depth_mask.py examples/<slug>/02-复刻/art --out examples/<slug>/02-复刻/masks --model ~/.u2net/isnet_medium.onnx
+# 预览：锁屏页先画时钟，再把 mask 内的主体贴回去；spec 某页写 "depth": false 可单独关掉
+python3 scripts/phone_mockup.py all examples/<slug>/02-复刻/spec.json --art-dir examples/<slug>/02-复刻/art \
+        --out /tmp/prev/<slug> --ui ios --format jpg --mask-dir examples/<slug>/02-复刻/masks
+```
+
+- 先看 `masks/预览.jpg`：抠对主体（苹果 / 船 / 拱门洞口外的建筑）才开；抠成背景或整幅都是白的页面一律 `"depth": false`。
+- 封面用 `cover --ui ios --mask-dir` 的景深版（第 13 轮左 04 拱门 右 03 苹果），比干净版更能说明「景深」是什么。
+- 沙箱快照回滚会把 `~/.u2net/`、onnxruntime 一起清掉，按上面三条命令重装即可（~2 分钟）。
 
 ### ⑤ 文案（`references/copy-小新壁纸.md`）
 
@@ -201,8 +228,10 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 │                                结果/（灯塔01…10.png 1536×2560（3:5 跟原帖）· 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第10轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
 ├─ 第11轮-线条小狗春天壁纸/       原片/（14 张原图 尺寸不一 ≈ 9:18.5 同上命名 · 原片总图.jpg（★ 标出选中的 10 张）· note.json · Doc「笔记信息」）
 │                                结果/（小狗01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第11轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
-└─ 第12轮-噜噜噜妹奔夕阳壁纸/     原片/（5 张 PNG 原图 1080×1920 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
-                                 结果/（噜噜01…10.png 1440×2560（9:16 跟原帖）· 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第12轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+├─ 第12轮-噜噜噜妹奔夕阳壁纸/     原片/（5 张 PNG 原图 1080×1920 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
+│                                结果/（噜噜01…10.png 1440×2560（9:16 跟原帖）· 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第12轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+└─ 第13轮-iPhone景深裸眼3D壁纸/   原片/（9 张原图 尺寸不一 ≈ 9:20 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
+                                 结果/（景深01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg（iOS 景深效果版）· spec.json · Doc「第13轮 · 小红书文案」· 手机UI预览/ 10 jpg（锁屏页主体压时钟前）+ 预览总图.jpg）
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -223,6 +252,7 @@ xhs-wallpaper-replica/
 ├─ README.md                     这次跑的结果 + 复现命令
 ├─ scripts/phone_mockup.py       放大 / 锁屏 / 主屏 / 总图 / 双机封面
 ├─ scripts/painting_set.py       名画风 / 同画幅交付：cover 裁切到 spec.canvas + 带图注总图
+├─ scripts/depth_mask.py         景深预览：ISNet 抠前景蒙版（--assemble 从 npm 分片拼模型）
 ├─ references/github-tools.md    小红书下载工具盘点 + token 取法
 ├─ references/copy-小新壁纸.md    第2轮文案 + 第1轮原帖文案存档
 ├─ references/copy-一二布布名画.md 第6轮文案（名画 10 张）
@@ -232,6 +262,7 @@ xhs-wallpaper-replica/
 ├─ references/copy-日落灯塔.md     第10轮文案（灯塔 10 张 + 3:5 裁切备注）
 ├─ references/copy-线条小狗春天.md 第11轮文案（线条小狗 10 张 + 锁屏/ax 裁切备注）
 ├─ references/copy-噜噜噜妹奔夕阳.md 第12轮文案（噜噜噜妹 10 张 + 9:16 装机备注）
+├─ references/copy-景深裸眼3D.md   第13轮文案（景深 10 张 + 景深效果开法备注）
 └─ examples/shinchan-6aedad8b/
    ├─ 01-原图/ 01–07.png, note.json, note.md
    ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
@@ -245,7 +276,8 @@ xhs-wallpaper-replica/
    ├─ ../tomjerry-6aed5b12/    （18 原图 1290×2796 ≈ 9:20 → 挑 10 张逐张复刻）：01-原片/01–18+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../lighthouse-6aede8e7/  厚涂油画 · 3:5 画幅样例（9 原图 971×1619 → 01–09 A 模式逐张复刻 + 10 B 模式新场景；painting_set 1536×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–09.png+note；02-复刻/ spec.json, art/01–10.png(800×1328), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../linedog-69bec419/     线条小狗 · 14 原图尺寸不一 → 挑 10 张 A 模式逐张复刻；spec 每页 ax 锚点裁切偏宽输出：01-原片/01–14.jpg+note；02-复刻/ spec.json, art/01–10.png(768×1376 / 848×1264), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
-   └─ ../lulu-sunset-6ad212fc/  写实毛绒玩偶 · 9:16 画幅样例（5 原图 1080×1920 → 01–05 A 模式逐张复刻 + 06–10 B 模式新场景；painting_set 1440×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–05.png+note；02-复刻/ spec.json, art/01–10.png(768×1376), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   ├─ ../lulu-sunset-6ad212fc/  写实毛绒玩偶 · 9:16 画幅样例（5 原图 1080×1920 → 01–05 A 模式逐张复刻 + 06–10 B 模式新场景；painting_set 1440×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–05.png+note；02-复刻/ spec.json, art/01–10.png(768×1376), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   └─ ../depth3d-6aec24fa/    景深裸眼 3D · 9 原图尺寸不一 ≈ 9:20 → 01–09 A 模式逐张复刻 + 10 B 模式新场景；标准 1440×3200 + depth_mask/--mask-dir 景深预览：01-原片/01–09.jpg+note；02-复刻/ spec.json(每页 depth 开关), art/*.png(688×1536), masks/NN.png+预览.jpg, 壁纸/ (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
 ```
 
 ## 沙箱踩坑备忘
