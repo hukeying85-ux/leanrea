@@ -7,99 +7,42 @@ on:
 permissions:
   contents: write
 jobs:
-  probe:
+  grab:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 12
     env: {VID: bkGhmZLOAwI}
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0, ref: "${{ github.ref }}"}
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.11'}
-      - name: deps
+      - name: grab all i.ytimg frames
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq curl jq
-          python -m pip install -q -U curl_cffi pillow requests
-          mkdir -p /tmp/p
-      - name: write
-        run: |
-          cat > /tmp/probe.py <<'PYEOF'
-          import os, json, subprocess, glob
-          VID=os.environ["VID"]
-          def sh(c,t=120):
-              try:
-                  r=subprocess.run(c,capture_output=True,text=True,timeout=t)
-                  return (r.stdout or "").strip()
-              except Exception as e: return "EXC"
-          def tryget(url,dst,t=120):
-              o=sh(["curl","-sL","--max-time",str(t),"-A","Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/131.0.0.0",
-                    "-H","Accept: */*","-w","%{http_code} %{size_download} %{content_type}","-o",dst,url],t+20)
-              sz=os.path.getsize(dst) if os.path.exists(dst) else 0
-              head=open(dst,"rb").read(12) if sz else b""
-              isvid = head[4:8]==b"ftyp" or head[:4]==b"\x1aE\xdf\xa3"
-              return o, sz, isvid, head[:8]
-
-          INST=["https://inv.nadeko.net","https://invidious.nerdvpn.de","https://yewtu.be",
-                "https://iv.melmac.space","https://invidious.f5.si","https://inv.tux.pizza",
-                "https://invidious.jing.rocks","https://iv.datura.network","https://invidious.privacydev.net",
-                "https://yt.artemislena.eu","https://invidious.perennialte.ch","https://inv.us.projectsegfau.lt",
-                "https://invidious.einfachzocken.eu","https://iv.catgirl.cloud","https://invidious.materialio.us"]
-          print("############ A. Invidious local=true ##########",flush=True)
-          wins=[]
-          for base in INST:
-            for itag in ("18","22"):
-              u=f"{base}/latest_version?id={VID}&itag={itag}&local=true"
-              o,sz,iv,hd=tryget(u,"/tmp/p/a.mp4",150)
-              print(f"{base:44s} itag{itag} -> {o:14s} size={sz:9d} video={iv} head={hd}",flush=True)
-              if iv and sz>200000:
-                wins.append((base,itag,u)); break
-            if wins: break
-          print("WINS_A:",wins,flush=True)
-
-          if not wins:
-            print("############ B. Invidious API 探测 ##########",flush=True)
-            for base in INST:
-              o=sh(["curl","-sL","--max-time","25","-A","Mozilla/5.0",
-                    "-w","\n%{http_code}","-o","/tmp/p/api.json",f"{base}/api/v1/videos/{VID}"])
-              code=o.splitlines()[-1] if o else "?"
-              sz=os.path.getsize("/tmp/p/api.json") if os.path.exists("/tmp/p/api.json") else 0
-              fmts=""
-              try:
-                d=json.load(open("/tmp/p/api.json"))
-                fmts=str([(f.get("itag"),f.get("height"),"url" if f.get("url") else "-") for f in (d.get("formatStreams") or [])])
-              except Exception: fmts="parse-fail"
-              print(f"{base:44s} http={code} size={sz} fmts={fmts[:120]}",flush=True)
-              if code=="200" and sz>1000 and "url" in fmts:
-                wins.append((base,"api",f"{base}/latest_version?id={VID}&itag=18&local=true"))
-                break
-          print("WINS_B:",wins,flush=True)
-
-          print("############ C. i.ytimg.com /vi/ 三帧 ##########",flush=True)
-          for n in ("hq1","hq2","hq3","0","1","2","3","mq1","sd1","maxres1","maxres2","maxres3"):
-            dst=f"/tmp/p/vi_{n}.jpg"
-            o,sz,iv,hd=tryget(f"https://i.ytimg.com/vi/{VID}/{n}.jpg",dst,40)
-            ok = sz>5000 and hd[:2]==b"\xff\xd8"
-            print(f"  /vi/{n}.jpg -> {o:14s} size={sz:8d} jpeg={ok}",flush=True)
-            if not ok and os.path.exists(dst): os.remove(dst)
-          print("############ D. hqdefault 系列 ##########",flush=True)
-          for n in ("hqdefault","hq720","maxresdefault","sddefault","oar2","oar3","0","1","2","3"):
-            pass
-          PYEOF
-          python3 -c "import ast;ast.parse(open('/tmp/probe.py').read());print('py OK')"
-      - name: run
-        run: python3 /tmp/probe.py 2>&1 | tee /tmp/probe.log
+          mkdir -p /tmp/g
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36"
+          : > /tmp/g/try.log
+          for n in maxresdefault maxres1 maxres2 maxres3 sddefault sd1 sd2 sd3 \
+                   hqdefault hq1 hq2 hq3 mqdefault mq1 mq2 mq3 default 0 1 2 3; do
+            code=$(curl -sL --max-time 30 -A "$UA" -w "%{http_code} %{size_download}" \
+                   -o "/tmp/g/$n.jpg" "https://i.ytimg.com/vi/$VID/$n.jpg")
+            sz=$(stat -c%s "/tmp/g/$n.jpg" 2>/dev/null || echo 0)
+            if [ "$sz" -gt 5000 ] && [ "$(head -c2 /tmp/g/$n.jpg | od -An -tx1 | tr -d ' \n')" = "ffd8" ]; then
+              echo "OK   $n -> $code" | tee -a /tmp/g/try.log
+            else
+              rm -f "/tmp/g/$n.jpg"; echo "MISS $n -> $code" | tee -a /tmp/g/try.log
+            fi
+          done
+          ls -la /tmp/g
       - name: save
         if: always()
         run: |
           D="media-raw/03_YouTube素材/$VID"; mkdir -p "$D"
-          cp /tmp/probe.log "$D/probe.log" 2>/dev/null||true
-          cp /tmp/p/*.jpg "$D"/ 2>/dev/null||true
+          cp /tmp/g/*.jpg "$D"/ 2>/dev/null || true
+          cp /tmp/g/try.log "$D"/ 2>/dev/null || true
           rm -rf /tmp/mo
           if ! git clone --quiet --branch media-out "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" /tmp/mo; then
             mkdir -p /tmp/mo && cd /tmp/mo && git init -q && git checkout -q -b media-out
           fi
           cd /tmp/mo && git config user.name relay && git config user.email r@x
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-          mkdir -p "$D"; cp /tmp/probe.log "$D"/ 2>/dev/null||true; cp /tmp/p/*.jpg "$D"/ 2>/dev/null||true
-          git add -A && { git diff --cached --quiet || git commit -q -m "probe invidious local $(date -u +%FT%TZ)"; }
+          mkdir -p "$D"; cp /tmp/g/*.jpg "$D"/ 2>/dev/null || true; cp /tmp/g/try.log "$D"/ 2>/dev/null || true
+          git add -A && { git diff --cached --quiet || git commit -q -m "frames: ytimg all $(date -u +%FT%TZ)"; }
           git push origin media-out || true
