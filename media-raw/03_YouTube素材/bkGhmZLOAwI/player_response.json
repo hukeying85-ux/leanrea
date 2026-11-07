@@ -1,0 +1,2741 @@
+{
+ "responseContext": {
+  "serviceTrackingParams": [
+   {
+    "service": "GFEEDBACK",
+    "params": [
+     {
+      "key": "is_alc_surface",
+      "value": "false"
+     },
+     {
+      "key": "ipcc",
+      "value": "0"
+     },
+     {
+      "key": "is_viewed_live",
+      "value": "False"
+     },
+     {
+      "key": "logged_in",
+      "value": "0"
+     },
+     {
+      "key": "visitor_data",
+      "value": "CgtYYzQyMWJMdjZOayiPzLvXBjIKCgJVUxIEGgAgbmKtAgqqAkN0d0JDQVVTamdFQkRCNlBESGVOUjNIZ0RWbnlzZTQzSW1kM3Q4UGxsVjV5VWl4Z0JxU2NMV0Vmb3MtNkRORUhSbEFkMzNXeXlQd0ZEM3hub0VMN3cxeGlBQ0paSDVQTmVWeXRxbHdxMGRYdEdaSzJhU1hWeGhGdWgxaWJJYzJHMVc3VWlEZU8tUThTRHlMSXRhTWhCeXUtOThIRDZyUExnZ3JrdHZERGhHb3F3bXJxVWU3dXU5ZGNPNjIwbU5HbkxmZ0ZPTUdUS0FVeVJRRWNXUFZxVV9XQjlXS2JxRVo5S0lrSlZiaVYzc3M2NDNxQXNOMmI0UWNsaWE0Mm9KbXhBVkxaOGtwWWxwYUEyeTRUZTRDam8xNzhQZTRTZmU3Y2s5U0VUSjgwQlE%3D"
+     }
+    ]
+   },
+   {
+    "service": "CSI",
+    "params": [
+     {
+      "key": "c",
+      "value": "WEB"
+     },
+     {
+      "key": "cver",
+      "value": "2.20261105.05.01"
+     },
+     {
+      "key": "yt_li",
+      "value": "0"
+     },
+     {
+      "key": "GetPlayer_rid",
+      "value": "0x97709a1023a0c31a"
+     }
+    ]
+   },
+   {
+    "service": "GUIDED_HELP",
+    "params": [
+     {
+      "key": "logged_in",
+      "value": "0"
+     }
+    ]
+   },
+   {
+    "service": "ECATCHER",
+    "params": [
+     {
+      "key": "client.version",
+      "value": "2.20261105"
+     },
+     {
+      "key": "client.name",
+      "value": "WEB"
+     }
+    ]
+   }
+  ],
+  "maxAgeSeconds": 21540,
+  "mainAppWebResponseContext": {
+   "loggedOut": true,
+   "trackingParam": "k5_fmPxhoXZRiEBcSQgXAFesK9FgsT_oVTjcOsbYRSmEtvssplvgvpUkZzRMkuMYNLBwOcCw59TLtslLKPQGSS"
+  },
+  "responseId": "IhMIi7vG77z1lwMVIoPkBh128jQ8",
+  "webResponseContextExtensionData": {
+   "webResponseContextPreloadData": {
+    "preloadMessageNames": [
+     "miniplayerRenderer",
+     "playerCaptionsTracklistRenderer",
+     "playerStoryboardSpecRenderer",
+     "playerMicroformatRenderer"
+    ]
+   },
+   "hasDecorated": true
+  }
+ },
+ "playabilityStatus": {
+  "status": "OK",
+  "playableInEmbed": true,
+  "miniplayer": {
+   "miniplayerRenderer": {
+    "playbackMode": "PLAYBACK_MODE_ALLOW"
+   }
+  },
+  "contextParams": "Q0FFU0FnZ0M="
+ },
+ "streamingData": {
+  "expiresInSeconds": "21540",
+  "formats": [
+   {
+    "itag": 18,
+    "url": "https://rr4---sn-qjp5q5-5x.googlevideo.com/videoplayback?expire=1794062959&ei=D-buasv3HKKGkucP9uTT4QM&ip=48.217.228.209&id=o-AJJD0Ce10c7BEv4-_pNsdqFK2wUQXWCY-P45eaJnzvcp&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&met=1794041359%2C&mh=vd&mm=31%2C29&mn=sn-qjp5q5-5x%2Csn-p5qs7nd7&ms=au%2Crdu&mv=u&mvi=4&pl=15&rms=au%2Cau&ctier=SH&pcm2=no&bui=AZFAFb-GwhtaWSekMCAvR17cei3oPz2xbmV6EyK-g4ZI4Y3vYP401kdfz9zu5kKroW6mmsd7I-hOlJso&spc=mpRQ_0AB4XG8rn6gfjMNkFbJYyoywf88jDHOMEp29mANZn8nY9y_QJ491e4Q&vprv=1&svpuc=1&mime=video%2Fmp4&ns=uvT6bUM1A_61ONHQnDKivMMZ&rqh=1&gir=yes&clen=2557854&ratebypass=yes&dur=34.176&lmt=1791802114353797&mt=1794040589&fvip=2&epbp=1&fexp=51565116%2C52250120%2C52323638&c=WEB&sefc=1&txp=5430534&n=3SZ6GOPCZftmv3jix4&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cctier%2Cpcm2%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AE0s2JYwRQIgOvBzZnUYPazlHbDkbyQc1cEvkcbTP6B2fbWIAt5j-wMCIQCxeb8MWOBmwvT5kGqNzAWMZkpvIs1Aq8wBkuK4XA4d5Q%3D%3D&lsparams=met%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms&lsig=APaTxxMwRQIhAJm9vNeYV85apRfDIIUm23pHswrL8QFueojkr014a0XOAiBMu0vinbsEEBHZBoIweEoXS4VEurhIjxs7_xMnTHun3A%3D%3D",
+    "mimeType": "video/mp4; codecs=\"avc1.42001E, mp4a.40.2\"",
+    "bitrate": 600083,
+    "width": 360,
+    "height": 640,
+    "lastModified": "1791802114353797",
+    "contentLength": "2557854",
+    "quality": "medium",
+    "fps": 30,
+    "qualityLabel": "360p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 598748,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34176",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "qualityOrdinal": "QUALITY_ORDINAL_360P"
+   }
+  ],
+  "adaptiveFormats": [
+   {
+    "itag": 299,
+    "mimeType": "video/mp4; codecs=\"avc1.64002A\"",
+    "bitrate": 5775891,
+    "width": 1080,
+    "height": 1920,
+    "initRange": {
+     "start": "0",
+     "end": "741"
+    },
+    "indexRange": {
+     "start": "742",
+     "end": "857"
+    },
+    "lastModified": "1791802386458408",
+    "contentLength": "22251916",
+    "quality": "hd1080",
+    "fps": 60,
+    "qualityLabel": "1080p60",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 5220543,
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_1080P"
+   },
+   {
+    "itag": 303,
+    "mimeType": "video/webm; codecs=\"vp9\"",
+    "bitrate": 4409947,
+    "width": 1080,
+    "height": 1920,
+    "initRange": {
+     "start": "0",
+     "end": "218"
+    },
+    "indexRange": {
+     "start": "219",
+     "end": "333"
+    },
+    "lastModified": "1791802934731141",
+    "contentLength": "17125626",
+    "quality": "hd1080",
+    "fps": 60,
+    "qualityLabel": "1080p60",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 4017859,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_1080P"
+   },
+   {
+    "itag": 399,
+    "mimeType": "video/mp4; codecs=\"av01.0.09M.08\"",
+    "bitrate": 2902476,
+    "width": 1080,
+    "height": 1920,
+    "initRange": {
+     "start": "0",
+     "end": "699"
+    },
+    "indexRange": {
+     "start": "700",
+     "end": "815"
+    },
+    "lastModified": "1791802972472389",
+    "contentLength": "10001003",
+    "quality": "hd1080",
+    "fps": 60,
+    "qualityLabel": "1080p60",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 2346345,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_1080P"
+   },
+   {
+    "itag": 136,
+    "mimeType": "video/mp4; codecs=\"avc1.4D401F\"",
+    "bitrate": 2312145,
+    "width": 720,
+    "height": 1280,
+    "initRange": {
+     "start": "0",
+     "end": "739"
+    },
+    "indexRange": {
+     "start": "740",
+     "end": "855"
+    },
+    "lastModified": "1791802275895403",
+    "contentLength": "8115818",
+    "quality": "hd720",
+    "fps": 30,
+    "qualityLabel": "720p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 1904060,
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_720P"
+   },
+   {
+    "itag": 247,
+    "mimeType": "video/webm; codecs=\"vp9\"",
+    "bitrate": 1515657,
+    "width": 720,
+    "height": 1280,
+    "initRange": {
+     "start": "0",
+     "end": "219"
+    },
+    "indexRange": {
+     "start": "220",
+     "end": "334"
+    },
+    "lastModified": "1791804071282333",
+    "contentLength": "5786037",
+    "quality": "hd720",
+    "fps": 30,
+    "qualityLabel": "720p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 1357428,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34100",
+    "qualityOrdinal": "QUALITY_ORDINAL_720P"
+   },
+   {
+    "itag": 298,
+    "mimeType": "video/mp4; codecs=\"avc1.4D4020\"",
+    "bitrate": 3468172,
+    "width": 720,
+    "height": 1280,
+    "initRange": {
+     "start": "0",
+     "end": "739"
+    },
+    "indexRange": {
+     "start": "740",
+     "end": "855"
+    },
+    "lastModified": "1791802352631341",
+    "contentLength": "12717454",
+    "quality": "hd720",
+    "fps": 60,
+    "qualityLabel": "720p60",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 2983654,
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_720P"
+   },
+   {
+    "itag": 302,
+    "mimeType": "video/webm; codecs=\"vp9\"",
+    "bitrate": 2477762,
+    "width": 720,
+    "height": 1280,
+    "initRange": {
+     "start": "0",
+     "end": "218"
+    },
+    "indexRange": {
+     "start": "219",
+     "end": "333"
+    },
+    "lastModified": "1791802948847862",
+    "contentLength": "8546499",
+    "quality": "hd720",
+    "fps": 60,
+    "qualityLabel": "720p60",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 2005102,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_720P"
+   },
+   {
+    "itag": 398,
+    "mimeType": "video/mp4; codecs=\"av01.0.08M.08\"",
+    "bitrate": 1722451,
+    "width": 720,
+    "height": 1280,
+    "initRange": {
+     "start": "0",
+     "end": "699"
+    },
+    "indexRange": {
+     "start": "700",
+     "end": "815"
+    },
+    "lastModified": "1791802705315191",
+    "contentLength": "5381355",
+    "quality": "hd720",
+    "fps": 60,
+    "qualityLabel": "720p60",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 1262525,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_720P"
+   },
+   {
+    "itag": 779,
+    "mimeType": "video/webm; codecs=\"vp9\"",
+    "bitrate": 494599,
+    "width": 608,
+    "height": 1080,
+    "initRange": {
+     "start": "0",
+     "end": "218"
+    },
+    "indexRange": {
+     "start": "219",
+     "end": "333"
+    },
+    "lastModified": "1791804071203250",
+    "contentLength": "1836343",
+    "quality": "large",
+    "fps": 30,
+    "qualityLabel": "480p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 430813,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34100",
+    "qualityOrdinal": "QUALITY_ORDINAL_608P_SAVER"
+   },
+   {
+    "itag": 780,
+    "mimeType": "video/webm; codecs=\"vp9\"",
+    "bitrate": 878014,
+    "width": 608,
+    "height": 1080,
+    "initRange": {
+     "start": "0",
+     "end": "219"
+    },
+    "indexRange": {
+     "start": "220",
+     "end": "334"
+    },
+    "lastModified": "1791804071186865",
+    "contentLength": "3226013",
+    "quality": "large",
+    "fps": 30,
+    "qualityLabel": "480p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 756835,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34100",
+    "qualityOrdinal": "QUALITY_ORDINAL_608P"
+   },
+   {
+    "itag": 787,
+    "mimeType": "video/mp4; codecs=\"av01.0.04M.08\"",
+    "bitrate": 389650,
+    "width": 608,
+    "height": 1080,
+    "initRange": {
+     "start": "0",
+     "end": "699"
+    },
+    "indexRange": {
+     "start": "700",
+     "end": "815"
+    },
+    "lastModified": "1791802210723345",
+    "contentLength": "1289496",
+    "quality": "large",
+    "fps": 30,
+    "qualityLabel": "480p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 302529,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_608P_SAVER"
+   },
+   {
+    "itag": 788,
+    "mimeType": "video/mp4; codecs=\"av01.0.04M.08\"",
+    "bitrate": 610633,
+    "width": 608,
+    "height": 1080,
+    "initRange": {
+     "start": "0",
+     "end": "699"
+    },
+    "indexRange": {
+     "start": "700",
+     "end": "815"
+    },
+    "lastModified": "1791802439531735",
+    "contentLength": "2074275",
+    "quality": "large",
+    "fps": 30,
+    "qualityLabel": "480p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 486647,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_608P"
+   },
+   {
+    "itag": 135,
+    "mimeType": "video/mp4; codecs=\"avc1.4D401F\"",
+    "bitrate": 598949,
+    "width": 480,
+    "height": 854,
+    "initRange": {
+     "start": "0",
+     "end": "740"
+    },
+    "indexRange": {
+     "start": "741",
+     "end": "856"
+    },
+    "lastModified": "1791802218625250",
+    "contentLength": "2269444",
+    "quality": "large",
+    "fps": 30,
+    "qualityLabel": "480p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 532436,
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_480P"
+   },
+   {
+    "itag": 134,
+    "mimeType": "video/mp4; codecs=\"avc1.4D401E\"",
+    "bitrate": 362390,
+    "width": 360,
+    "height": 640,
+    "initRange": {
+     "start": "0",
+     "end": "740"
+    },
+    "indexRange": {
+     "start": "741",
+     "end": "856"
+    },
+    "lastModified": "1791802217680357",
+    "contentLength": "1144066",
+    "quality": "medium",
+    "fps": 30,
+    "qualityLabel": "360p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 268410,
+    "highReplication": true,
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_360P"
+   },
+   {
+    "itag": 243,
+    "mimeType": "video/webm; codecs=\"vp9\"",
+    "bitrate": 194888,
+    "width": 360,
+    "height": 640,
+    "initRange": {
+     "start": "0",
+     "end": "218"
+    },
+    "indexRange": {
+     "start": "219",
+     "end": "333"
+    },
+    "lastModified": "1791804072335988",
+    "contentLength": "691260",
+    "quality": "medium",
+    "fps": 30,
+    "qualityLabel": "360p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 162172,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34100",
+    "qualityOrdinal": "QUALITY_ORDINAL_360P_SAVER"
+   },
+   {
+    "itag": 396,
+    "mimeType": "video/mp4; codecs=\"av01.0.01M.08\"",
+    "bitrate": 260853,
+    "width": 360,
+    "height": 640,
+    "initRange": {
+     "start": "0",
+     "end": "699"
+    },
+    "indexRange": {
+     "start": "700",
+     "end": "815"
+    },
+    "lastModified": "1791802328953684",
+    "contentLength": "919110",
+    "quality": "medium",
+    "fps": 30,
+    "qualityLabel": "360p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 215633,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_360P"
+   },
+   {
+    "itag": 133,
+    "mimeType": "video/mp4; codecs=\"avc1.4D4015\"",
+    "bitrate": 131696,
+    "width": 240,
+    "height": 426,
+    "initRange": {
+     "start": "0",
+     "end": "739"
+    },
+    "indexRange": {
+     "start": "740",
+     "end": "855"
+    },
+    "lastModified": "1791802223827837",
+    "contentLength": "436673",
+    "quality": "small",
+    "fps": 30,
+    "qualityLabel": "240p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 102448,
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_240P"
+   },
+   {
+    "itag": 242,
+    "mimeType": "video/webm; codecs=\"vp9\"",
+    "bitrate": 94089,
+    "width": 240,
+    "height": 426,
+    "initRange": {
+     "start": "0",
+     "end": "217"
+    },
+    "indexRange": {
+     "start": "218",
+     "end": "331"
+    },
+    "lastModified": "1791804073785508",
+    "contentLength": "335998",
+    "quality": "small",
+    "fps": 30,
+    "qualityLabel": "240p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 78826,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34100",
+    "qualityOrdinal": "QUALITY_ORDINAL_240P_SAVER"
+   },
+   {
+    "itag": 395,
+    "mimeType": "video/mp4; codecs=\"av01.0.00M.08\"",
+    "bitrate": 80318,
+    "width": 240,
+    "height": 426,
+    "initRange": {
+     "start": "0",
+     "end": "699"
+    },
+    "indexRange": {
+     "start": "700",
+     "end": "815"
+    },
+    "lastModified": "1791802139154087",
+    "contentLength": "286473",
+    "quality": "small",
+    "fps": 30,
+    "qualityLabel": "240p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 67209,
+    "colorInfo": {
+     "primaries": "COLOR_PRIMARIES_BT709",
+     "transferCharacteristics": "COLOR_TRANSFER_CHARACTERISTICS_BT709",
+     "matrixCoefficients": "COLOR_MATRIX_COEFFICIENTS_BT709"
+    },
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_240P"
+   },
+   {
+    "itag": 160,
+    "mimeType": "video/mp4; codecs=\"avc1.4D400C\"",
+    "bitrate": 55336,
+    "width": 144,
+    "height": 256,
+    "initRange": {
+     "start": "0",
+     "end": "738"
+    },
+    "indexRange": {
+     "start": "739",
+     "end": "854"
+    },
+    "lastModified": "1791802221381760",
+    "contentLength": "203012",
+    "quality": "tiny",
+    "fps": 30,
+    "qualityLabel": "144p",
+    "projectionType": "RECTANGULAR",
+    "averageBitrate": 47628,
+    "approxDurationMs": "34099",
+    "qualityOrdinal": "QUALITY_ORDINAL_144P"
+   },
+   {
+    "itag": 140,
+    "mimeType": "audio/mp4; codecs=\"mp4a.40.2\"",
+    "bitrate": 130285,
+    "initRange": {
+     "start": "0",
+     "end": "722"
+    },
+    "indexRange": {
+     "start": "723",
+     "end": "802"
+    },
+    "lastModified": "1791799672929745",
+    "contentLength": "555109",
+    "quality": "tiny",
+    "xtags": "ChQKBWFjb250EgtkdWJiZWQtYXV0bwoNCgRsYW5nEgVlbi1VUw",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "英语 (US)",
+     "id": "en-US.10",
+     "audioIsDefault": false,
+     "isAutoDubbed": true
+    },
+    "averageBitrate": 129664,
+    "highReplication": true,
+    "audioQuality": "AUDIO_QUALITY_MEDIUM",
+    "approxDurationMs": "34249",
+    "audioSampleRate": "44100",
+    "audioChannels": 2,
+    "loudnessDb": 0.68000031,
+    "trackAbsoluteLoudnessLkfs": -13.32,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 140,
+    "mimeType": "audio/mp4; codecs=\"mp4a.40.2\"",
+    "bitrate": 130496,
+    "initRange": {
+     "start": "0",
+     "end": "722"
+    },
+    "indexRange": {
+     "start": "723",
+     "end": "802"
+    },
+    "lastModified": "1791799286409314",
+    "contentLength": "553985",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoICgNkcmMSATEKDwoEbGFuZxIHemgtSGFudA",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 129754,
+    "highReplication": true,
+    "audioQuality": "AUDIO_QUALITY_MEDIUM",
+    "approxDurationMs": "34156",
+    "audioSampleRate": "44100",
+    "audioChannels": 2,
+    "loudnessDb": 0,
+    "isDrc": true,
+    "trackAbsoluteLoudnessLkfs": -14,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 140,
+    "mimeType": "audio/mp4; codecs=\"mp4a.40.2\"",
+    "bitrate": 130485,
+    "initRange": {
+     "start": "0",
+     "end": "722"
+    },
+    "indexRange": {
+     "start": "723",
+     "end": "802"
+    },
+    "lastModified": "1791799282026273",
+    "contentLength": "553987",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoPCgRsYW5nEgd6aC1IYW50",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 129754,
+    "highReplication": true,
+    "audioQuality": "AUDIO_QUALITY_MEDIUM",
+    "approxDurationMs": "34156",
+    "audioSampleRate": "44100",
+    "audioChannels": 2,
+    "loudnessDb": 3.4200001,
+    "trackAbsoluteLoudnessLkfs": -10.58,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 140,
+    "mimeType": "audio/mp4; codecs=\"mp4a.40.2\"",
+    "bitrate": 130438,
+    "initRange": {
+     "start": "0",
+     "end": "722"
+    },
+    "indexRange": {
+     "start": "723",
+     "end": "802"
+    },
+    "lastModified": "1791799608649620",
+    "contentLength": "554133",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoPCgRsYW5nEgd6aC1IYW50CgcKAnZiEgEx",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 129788,
+    "highReplication": true,
+    "audioQuality": "AUDIO_QUALITY_MEDIUM",
+    "approxDurationMs": "34156",
+    "audioSampleRate": "44100",
+    "audioChannels": 2,
+    "loudnessDb": -0.079999924,
+    "trackAbsoluteLoudnessLkfs": -14.08,
+    "isVb": true,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN",
+    "appliedDrcTargetCenterForBackgroundDb": -19.77,
+    "appliedVocalsGainFactor": 1,
+    "vocalsBackgroundLoudnessDifferenceDb": 6.7199998
+   },
+   {
+    "itag": 249,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 55496,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799672924366",
+    "contentLength": "233883",
+    "quality": "tiny",
+    "xtags": "ChQKBWFjb250EgtkdWJiZWQtYXV0bwoNCgRsYW5nEgVlbi1VUw",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "英语 (US)",
+     "id": "en-US.10",
+     "audioIsDefault": false,
+     "isAutoDubbed": true
+    },
+    "averageBitrate": 54675,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34221",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 0.68000031,
+    "trackAbsoluteLoudnessLkfs": -13.32,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 249,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 50498,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "324"
+    },
+    "lastModified": "1791799291062716",
+    "contentLength": "211732",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoICgNkcmMSATEKDwoEbGFuZxIHemgtSGFudA",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 49642,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 0,
+    "isDrc": true,
+    "trackAbsoluteLoudnessLkfs": -14,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 249,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 50686,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "324"
+    },
+    "lastModified": "1791799283715466",
+    "contentLength": "212028",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoPCgRsYW5nEgd6aC1IYW50",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 49712,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 3.4200001,
+    "trackAbsoluteLoudnessLkfs": -10.58,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 249,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 50718,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "324"
+    },
+    "lastModified": "1791799612304738",
+    "contentLength": "208989",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoPCgRsYW5nEgd6aC1IYW50CgcKAnZiEgEx",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 48999,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": -0.079999924,
+    "trackAbsoluteLoudnessLkfs": -14.08,
+    "isVb": true,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN",
+    "appliedDrcTargetCenterForBackgroundDb": -19.77,
+    "appliedVocalsGainFactor": 1,
+    "vocalsBackgroundLoudnessDifferenceDb": 6.7199998
+   },
+   {
+    "itag": 250,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 71150,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799673028621",
+    "contentLength": "297951",
+    "quality": "tiny",
+    "xtags": "ChQKBWFjb250EgtkdWJiZWQtYXV0bwoNCgRsYW5nEgVlbi1VUw",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "英语 (US)",
+     "id": "en-US.10",
+     "audioIsDefault": false,
+     "isAutoDubbed": true
+    },
+    "averageBitrate": 69653,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34221",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 0.68000031,
+    "trackAbsoluteLoudnessLkfs": -13.32,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 250,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 66280,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799290880032",
+    "contentLength": "278929",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoICgNkcmMSATEKDwoEbGFuZxIHemgtSGFudA",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 65397,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 0,
+    "isDrc": true,
+    "trackAbsoluteLoudnessLkfs": -14,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 250,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 66318,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799283719902",
+    "contentLength": "279307",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoPCgRsYW5nEgd6aC1IYW50",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 65486,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 3.4200001,
+    "trackAbsoluteLoudnessLkfs": -10.58,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 250,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 64637,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799612301280",
+    "contentLength": "268848",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoPCgRsYW5nEgd6aC1IYW50CgcKAnZiEgEx",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 63034,
+    "audioQuality": "AUDIO_QUALITY_LOW",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": -0.079999924,
+    "trackAbsoluteLoudnessLkfs": -14.08,
+    "isVb": true,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN",
+    "appliedDrcTargetCenterForBackgroundDb": -19.77,
+    "appliedVocalsGainFactor": 1,
+    "vocalsBackgroundLoudnessDifferenceDb": 6.7199998
+   },
+   {
+    "itag": 251,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 126236,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799672917205",
+    "contentLength": "531599",
+    "quality": "tiny",
+    "xtags": "ChQKBWFjb250EgtkdWJiZWQtYXV0bwoNCgRsYW5nEgVlbi1VUw",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "英语 (US)",
+     "id": "en-US.10",
+     "audioIsDefault": false,
+     "isAutoDubbed": true
+    },
+    "averageBitrate": 124274,
+    "audioQuality": "AUDIO_QUALITY_MEDIUM",
+    "approxDurationMs": "34221",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 0.68000031,
+    "trackAbsoluteLoudnessLkfs": -13.32,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 251,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 135273,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799290906103",
+    "contentLength": "565823",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoICgNkcmMSATEKDwoEbGFuZxIHemgtSGFudA",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 132662,
+    "audioQuality": "AUDIO_QUALITY_MEDIUM",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 0,
+    "isDrc": true,
+    "trackAbsoluteLoudnessLkfs": -14,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 251,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 135319,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799283712852",
+    "contentLength": "565942",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoPCgRsYW5nEgd6aC1IYW50",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 132690,
+    "audioQuality": "AUDIO_QUALITY_MEDIUM",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": 3.4200001,
+    "trackAbsoluteLoudnessLkfs": -10.58,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN"
+   },
+   {
+    "itag": 251,
+    "mimeType": "audio/webm; codecs=\"opus\"",
+    "bitrate": 127658,
+    "initRange": {
+     "start": "0",
+     "end": "258"
+    },
+    "indexRange": {
+     "start": "259",
+     "end": "325"
+    },
+    "lastModified": "1791799612313290",
+    "contentLength": "535156",
+    "quality": "tiny",
+    "xtags": "ChEKBWFjb250EghvcmlnaW5hbAoPCgRsYW5nEgd6aC1IYW50CgcKAnZiEgEx",
+    "projectionType": "RECTANGULAR",
+    "audioTrack": {
+     "displayName": "中文（繁体）原始",
+     "id": "zh-Hant.4",
+     "audioIsDefault": true
+    },
+    "averageBitrate": 125472,
+    "audioQuality": "AUDIO_QUALITY_MEDIUM",
+    "approxDurationMs": "34121",
+    "audioSampleRate": "48000",
+    "audioChannels": 2,
+    "loudnessDb": -0.079999924,
+    "trackAbsoluteLoudnessLkfs": -14.08,
+    "isVb": true,
+    "qualityOrdinal": "QUALITY_ORDINAL_UNKNOWN",
+    "appliedDrcTargetCenterForBackgroundDb": -19.77,
+    "appliedVocalsGainFactor": 1,
+    "vocalsBackgroundLoudnessDifferenceDb": 6.7199998
+   }
+  ],
+  "probeUrl": "https://r2---sn-42u-jmg6.googlevideo.com/videogoodput?id=o-AKpkKzHa0_E_awcxWzcoADX-I5I3tUP7BxE9m3kAekoX&source=goodput&range=0-4999&expire=1794044959&ip=48.217.228.209&ms=pm&mm=35&pl=24&sparams=id,source,range,expire,ip,ms,mm,pl&signature=3EF4C45EDE4C0286CB82E18E27767C6BD576688F.83B0E416C801B37F6A11BD5AC9D659CFCB09A43C&key=cms1",
+  "serverAbrStreamingUrl": "https://rr4---sn-qjp5q5-5x.googlevideo.com/videoplayback?expire=1794062959&ei=D-buasv3HKKGkucP9uTT4QM&ip=48.217.228.209&id=o-AJJD0Ce10c7BEv4-_pNsdqFK2wUQXWCY-P45eaJnzvcp&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&met=1794041359%2C&mh=vd&mm=31%2C29&mn=sn-qjp5q5-5x%2Csn-p5qs7nd7&ms=au%2Crdu&mv=u&mvi=4&pl=15&rms=au%2Cau&ctier=SH&pcm2=no&spc=mpRQ_0AC4XG8rn6gfjMNkFbJYyoywf88jDHOMEp29mANZn8nY9y_QJ4N0A&svpuc=1&ns=hqH7Nh72--2MLt83aRxoZJEZ&sabr=1&rqh=1&mt=1794040589&fvip=2&epbp=1&keepalive=yes&fexp=51565116%2C52250120%2C52323638&c=WEB&n=66gkSeaTtlDxrGeesp&sparams=expire%2Cei%2Cip%2Cid%2Csource%2Crequiressl%2Cxpc%2Cctier%2Cpcm2%2Cspc%2Csvpuc%2Cns%2Csabr%2Crqh&sig=AE0s2JYwRAIgH7hTUjqsjmiEKGyQjv6UdVD70Ek0vkCM9zrDesypTbwCIA3NYv2tbhBtEpJ6AOS4Gk3as-5rdSAD401KYRoed9el&lsparams=met%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms&lsig=APaTxxMwRQIhAJm9vNeYV85apRfDIIUm23pHswrL8QFueojkr014a0XOAiBMu0vinbsEEBHZBoIweEoXS4VEurhIjxs7_xMnTHun3A%3D%3D"
+ },
+ "playbackTracking": {
+  "videostatsPlaybackUrl": {
+   "baseUrl": "https://s.youtube.com/api/stats/playback?cl=1013377348&docid=bkGhmZLOAwI&ei=D-buasv3HKKGkucP9uTT4QM&fexp=&ns=yt&plid=AAZfq83xw5DFRRNe&delay=4&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRKVEpPREs5ZFhtS3d5STI5M3dHVFZrTzlMR0hsOGMxX3F6MnJQcXFRNmY0QWJaQUNPdTRMUmZKUExnaWU0VkozalFCYTl5eS1fczNCV05RYjlCNFJpM3RBU3V1NFV4SGg1R3dJNmpnWTZyQ2hUUXhqQ2tOeWNhRW5FSnhHbFVEMHRHY0FMNE5B"
+  },
+  "videostatsDelayplayUrl": {
+   "baseUrl": "https://s.youtube.com/api/stats/delayplay?cl=1013377348&docid=bkGhmZLOAwI&ei=D-buasv3HKKGkucP9uTT4QM&fexp=&ns=yt&plid=AAZfq83xw5DFRRNe&delay=4&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRKVEpPREs5ZFhtS3d5STI5M3dHVFZrTzlMR0hsOGMxX3F6MnJQcXFRNmY0QWJaQUNPdTRMUmZKUExnaWU0VkozalFCYTl5eS1fczNCV05RYjlCNFJpM3RBU3V1NFV4SGg1R3dJNmpnWTZyQ2hUUXhqQ2tOeWNhRW5FSnhHbFVEMHRHY0FMNE5B",
+   "elapsedMediaTimeSeconds": 4
+  },
+  "videostatsWatchtimeUrl": {
+   "baseUrl": "https://s.youtube.com/api/stats/watchtime?cl=1013377348&docid=bkGhmZLOAwI&ei=D-buasv3HKKGkucP9uTT4QM&fexp=&ns=yt&plid=AAZfq83xw5DFRRNe&el=shortspage&len=35&of=wbAUJoLFDaeeOSJrHXH1sg&vm=CAEQABgEOjJBSHFpSlRKVEpPREs5ZFhtS3d5STI5M3dHVFZrTzlMR0hsOGMxX3F6MnJQcXFRNmY0QWJaQUNPdTRMUmZKUExnaWU0VkozalFCYTl5eS1fczNCV05RYjlCNFJpM3RBU3V1NFV4SGg1R3dJNmpnWTZyQ2hUUXhqQ2tOeWNhRW5FSnhHbFVEMHRHY0FMNE5B"
+  },
+  "ptrackingUrl": {
+   "baseUrl": "https://www.youtube.com/ptracking?ei=D-buasv3HKKGkucP9uTT4QM&m=AjFdenUO_SHZy0zfvkVf6_UHj1v-RmRT2CvvUWKe1aQB4KBoJmbDUTu188KcpK1zqVUaYiuk0mCFkSGdM3Hx0zuN&plid=AAZfq83xw5DFRRNe&pltype=contentugc&ptk=youtube_none&video_id=bkGhmZLOAwI"
+  },
+  "qoeUrl": {
+   "baseUrl": "https://s.youtube.com/api/stats/qoe?cat=mta&cl=1013377348&docid=bkGhmZLOAwI&ei=D-buasv3HKKGkucP9uTT4QM&el=shortspage&event=streamingstats&fexp=&ns=yt&plid=AAZfq83xw5DFRRNe"
+  },
+  "atrUrl": {
+   "baseUrl": "https://s.youtube.com/api/stats/atr?c=WEB&docid=bkGhmZLOAwI&ei=D-buasv3HKKGkucP9uTT4QM&len=35&ns=yt&plid=AAZfq83xw5DFRRNe&ver=2&vm=CAEQABgEOjJBSHFpSlRKVEpPREs5ZFhtS3d5STI5M3dHVFZrTzlMR0hsOGMxX3F6MnJQcXFRNmY0QWJaQUNPdTRMUmZKUExnaWU0VkozalFCYTl5eS1fczNCV05RYjlCNFJpM3RBU3V1NFV4SGg1R3dJNmpnWTZyQ2hUUXhqQ2tOeWNhRW5FSnhHbFVEMHRHY0FMNE5B",
+   "elapsedMediaTimeSeconds": 5
+  },
+  "videostatsScheduledFlushWalltimeSeconds": [
+   10,
+   20,
+   30
+  ],
+  "videostatsDefaultFlushIntervalSeconds": 40
+ },
+ "captions": {
+  "playerCaptionsTracklistRenderer": {
+   "captionTracks": [
+    {
+     "baseUrl": "https://www.youtube.com/api/timedtext?v=bkGhmZLOAwI&ei=D-buasv3HKKGkucP9uTT4QM&caps=asr&opi=112496729&exp=xpe&xoaf=5&xowf=1&xosf=1&xospf=1&hl=zh-CN&ip=0.0.0.0&ipbits=0&expire=1794066559&sparams=ip,ipbits,expire,v,ei,caps,opi,exp,xoaf&signature=8BA21EA1D0843A29E32DE9C6FD0CD6B8E8351DDC.9D42FE8106CFAE2E85368CC87ACCCA2E26C9AB93&key=yt8&kind=asr&lang=en&variant=timing-optimized",
+     "name": {
+      "simpleText": "英语 (自动生成)"
+     },
+     "vssId": "a.en",
+     "languageCode": "en",
+     "kind": "asr",
+     "isTranslatable": true,
+     "trackName": ""
+    }
+   ],
+   "audioTracks": [
+    {
+     "captionTrackIndices": [
+      0
+     ],
+     "audioTrackId": "zh-Hant.4"
+    },
+    {
+     "captionTrackIndices": [
+      0
+     ],
+     "audioTrackId": "en-US.10"
+    }
+   ],
+   "translationLanguages": [
+    {
+     "languageCode": "ab",
+     "languageName": {
+      "simpleText": "阿布哈西亚语"
+     }
+    },
+    {
+     "languageCode": "sq",
+     "languageName": {
+      "simpleText": "阿尔巴尼亚语"
+     }
+    },
+    {
+     "languageCode": "aa",
+     "languageName": {
+      "simpleText": "阿法尔语"
+     }
+    },
+    {
+     "languageCode": "ak",
+     "languageName": {
+      "simpleText": "阿肯语"
+     }
+    },
+    {
+     "languageCode": "ar",
+     "languageName": {
+      "simpleText": "阿拉伯语"
+     }
+    },
+    {
+     "languageCode": "am",
+     "languageName": {
+      "simpleText": "阿姆哈拉语"
+     }
+    },
+    {
+     "languageCode": "as",
+     "languageName": {
+      "simpleText": "阿萨姆语"
+     }
+    },
+    {
+     "languageCode": "az",
+     "languageName": {
+      "simpleText": "阿塞拜疆语"
+     }
+    },
+    {
+     "languageCode": "ee",
+     "languageName": {
+      "simpleText": "埃维语"
+     }
+    },
+    {
+     "languageCode": "ay",
+     "languageName": {
+      "simpleText": "艾马拉语"
+     }
+    },
+    {
+     "languageCode": "ga",
+     "languageName": {
+      "simpleText": "爱尔兰语"
+     }
+    },
+    {
+     "languageCode": "et",
+     "languageName": {
+      "simpleText": "爱沙尼亚语"
+     }
+    },
+    {
+     "languageCode": "oc",
+     "languageName": {
+      "simpleText": "奥克语"
+     }
+    },
+    {
+     "languageCode": "or",
+     "languageName": {
+      "simpleText": "奥里亚语"
+     }
+    },
+    {
+     "languageCode": "om",
+     "languageName": {
+      "simpleText": "奥罗莫语"
+     }
+    },
+    {
+     "languageCode": "os",
+     "languageName": {
+      "simpleText": "奥塞梯语"
+     }
+    },
+    {
+     "languageCode": "ba",
+     "languageName": {
+      "simpleText": "巴什基尔语"
+     }
+    },
+    {
+     "languageCode": "eu",
+     "languageName": {
+      "simpleText": "巴斯克语"
+     }
+    },
+    {
+     "languageCode": "be",
+     "languageName": {
+      "simpleText": "白俄罗斯语"
+     }
+    },
+    {
+     "languageCode": "pam",
+     "languageName": {
+      "simpleText": "邦板牙语"
+     }
+    },
+    {
+     "languageCode": "bg",
+     "languageName": {
+      "simpleText": "保加利亚语"
+     }
+    },
+    {
+     "languageCode": "nso",
+     "languageName": {
+      "simpleText": "北索托语"
+     }
+    },
+    {
+     "languageCode": "is",
+     "languageName": {
+      "simpleText": "冰岛语"
+     }
+    },
+    {
+     "languageCode": "pl",
+     "languageName": {
+      "simpleText": "波兰语"
+     }
+    },
+    {
+     "languageCode": "bs",
+     "languageName": {
+      "simpleText": "波斯尼亚语"
+     }
+    },
+    {
+     "languageCode": "fa",
+     "languageName": {
+      "simpleText": "波斯语"
+     }
+    },
+    {
+     "languageCode": "bho",
+     "languageName": {
+      "simpleText": "博杰普尔语"
+     }
+    },
+    {
+     "languageCode": "br",
+     "languageName": {
+      "simpleText": "布列塔尼语"
+     }
+    },
+    {
+     "languageCode": "bo",
+     "languageName": {
+      "simpleText": "藏语"
+     }
+    },
+    {
+     "languageCode": "tn",
+     "languageName": {
+      "simpleText": "茨瓦纳语"
+     }
+    },
+    {
+     "languageCode": "ts",
+     "languageName": {
+      "simpleText": "聪加语"
+     }
+    },
+    {
+     "languageCode": "tt",
+     "languageName": {
+      "simpleText": "鞑靼语"
+     }
+    },
+    {
+     "languageCode": "da",
+     "languageName": {
+      "simpleText": "丹麦语"
+     }
+    },
+    {
+     "languageCode": "de",
+     "languageName": {
+      "simpleText": "德语"
+     }
+    },
+    {
+     "languageCode": "dv",
+     "languageName": {
+      "simpleText": "迪维希语"
+     }
+    },
+    {
+     "languageCode": "ru",
+     "languageName": {
+      "simpleText": "俄语"
+     }
+    },
+    {
+     "languageCode": "fo",
+     "languageName": {
+      "simpleText": "法罗语"
+     }
+    },
+    {
+     "languageCode": "fr",
+     "languageName": {
+      "simpleText": "法语"
+     }
+    },
+    {
+     "languageCode": "sa",
+     "languageName": {
+      "simpleText": "梵语"
+     }
+    },
+    {
+     "languageCode": "fil",
+     "languageName": {
+      "simpleText": "菲律宾语"
+     }
+    },
+    {
+     "languageCode": "fj",
+     "languageName": {
+      "simpleText": "斐济语"
+     }
+    },
+    {
+     "languageCode": "fi",
+     "languageName": {
+      "simpleText": "芬兰语"
+     }
+    },
+    {
+     "languageCode": "km",
+     "languageName": {
+      "simpleText": "高棉语"
+     }
+    },
+    {
+     "languageCode": "kl",
+     "languageName": {
+      "simpleText": "格陵兰语"
+     }
+    },
+    {
+     "languageCode": "ka",
+     "languageName": {
+      "simpleText": "格鲁吉亚语"
+     }
+    },
+    {
+     "languageCode": "gu",
+     "languageName": {
+      "simpleText": "古吉拉特语"
+     }
+    },
+    {
+     "languageCode": "gn",
+     "languageName": {
+      "simpleText": "瓜拉尼语"
+     }
+    },
+    {
+     "languageCode": "kk",
+     "languageName": {
+      "simpleText": "哈萨克语"
+     }
+    },
+    {
+     "languageCode": "ht",
+     "languageName": {
+      "simpleText": "海地克里奥尔语"
+     }
+    },
+    {
+     "languageCode": "ko",
+     "languageName": {
+      "simpleText": "韩语"
+     }
+    },
+    {
+     "languageCode": "ha",
+     "languageName": {
+      "simpleText": "豪萨语"
+     }
+    },
+    {
+     "languageCode": "nl",
+     "languageName": {
+      "simpleText": "荷兰语"
+     }
+    },
+    {
+     "languageCode": "ky",
+     "languageName": {
+      "simpleText": "吉尔吉斯语"
+     }
+    },
+    {
+     "languageCode": "gl",
+     "languageName": {
+      "simpleText": "加利西亚语"
+     }
+    },
+    {
+     "languageCode": "ca",
+     "languageName": {
+      "simpleText": "加泰罗尼亚语"
+     }
+    },
+    {
+     "languageCode": "gaa",
+     "languageName": {
+      "simpleText": "加族语"
+     }
+    },
+    {
+     "languageCode": "cs",
+     "languageName": {
+      "simpleText": "捷克语"
+     }
+    },
+    {
+     "languageCode": "kn",
+     "languageName": {
+      "simpleText": "卡纳达语"
+     }
+    },
+    {
+     "languageCode": "kha",
+     "languageName": {
+      "simpleText": "卡西语"
+     }
+    },
+    {
+     "languageCode": "xh",
+     "languageName": {
+      "simpleText": "科萨语"
+     }
+    },
+    {
+     "languageCode": "co",
+     "languageName": {
+      "simpleText": "科西嘉语"
+     }
+    },
+    {
+     "languageCode": "hr",
+     "languageName": {
+      "simpleText": "克罗地亚语"
+     }
+    },
+    {
+     "languageCode": "qu",
+     "languageName": {
+      "simpleText": "克丘亚语"
+     }
+    },
+    {
+     "languageCode": "ku",
+     "languageName": {
+      "simpleText": "库尔德语"
+     }
+    },
+    {
+     "languageCode": "la",
+     "languageName": {
+      "simpleText": "拉丁语"
+     }
+    },
+    {
+     "languageCode": "lv",
+     "languageName": {
+      "simpleText": "拉脱维亚语"
+     }
+    },
+    {
+     "languageCode": "lo",
+     "languageName": {
+      "simpleText": "老挝语"
+     }
+    },
+    {
+     "languageCode": "lt",
+     "languageName": {
+      "simpleText": "立陶宛语"
+     }
+    },
+    {
+     "languageCode": "ln",
+     "languageName": {
+      "simpleText": "林加拉语"
+     }
+    },
+    {
+     "languageCode": "rn",
+     "languageName": {
+      "simpleText": "隆迪语"
+     }
+    },
+    {
+     "languageCode": "luo",
+     "languageName": {
+      "simpleText": "卢奥语"
+     }
+    },
+    {
+     "languageCode": "lua",
+     "languageName": {
+      "simpleText": "卢巴-卢拉语"
+     }
+    },
+    {
+     "languageCode": "lg",
+     "languageName": {
+      "simpleText": "卢干达语"
+     }
+    },
+    {
+     "languageCode": "lb",
+     "languageName": {
+      "simpleText": "卢森堡语"
+     }
+    },
+    {
+     "languageCode": "rw",
+     "languageName": {
+      "simpleText": "卢旺达语"
+     }
+    },
+    {
+     "languageCode": "ro",
+     "languageName": {
+      "simpleText": "罗马尼亚语"
+     }
+    },
+    {
+     "languageCode": "gv",
+     "languageName": {
+      "simpleText": "马恩语"
+     }
+    },
+    {
+     "languageCode": "mt",
+     "languageName": {
+      "simpleText": "马耳他语"
+     }
+    },
+    {
+     "languageCode": "mr",
+     "languageName": {
+      "simpleText": "马拉地语"
+     }
+    },
+    {
+     "languageCode": "mg",
+     "languageName": {
+      "simpleText": "马拉加斯语"
+     }
+    },
+    {
+     "languageCode": "ml",
+     "languageName": {
+      "simpleText": "马拉雅拉姆语"
+     }
+    },
+    {
+     "languageCode": "ms",
+     "languageName": {
+      "simpleText": "马来语"
+     }
+    },
+    {
+     "languageCode": "mk",
+     "languageName": {
+      "simpleText": "马其顿语"
+     }
+    },
+    {
+     "languageCode": "mfe",
+     "languageName": {
+      "simpleText": "毛里求斯克里奥尔语"
+     }
+    },
+    {
+     "languageCode": "mi",
+     "languageName": {
+      "simpleText": "毛利语"
+     }
+    },
+    {
+     "languageCode": "mn",
+     "languageName": {
+      "simpleText": "蒙古语"
+     }
+    },
+    {
+     "languageCode": "bn",
+     "languageName": {
+      "simpleText": "孟加拉语"
+     }
+    },
+    {
+     "languageCode": "my",
+     "languageName": {
+      "simpleText": "缅甸语"
+     }
+    },
+    {
+     "languageCode": "hmn",
+     "languageName": {
+      "simpleText": "苗语"
+     }
+    },
+    {
+     "languageCode": "af",
+     "languageName": {
+      "simpleText": "南非荷兰语"
+     }
+    },
+    {
+     "languageCode": "st",
+     "languageName": {
+      "simpleText": "南索托语"
+     }
+    },
+    {
+     "languageCode": "ne",
+     "languageName": {
+      "simpleText": "尼泊尔语"
+     }
+    },
+    {
+     "languageCode": "new",
+     "languageName": {
+      "simpleText": "尼瓦尔语"
+     }
+    },
+    {
+     "languageCode": "no",
+     "languageName": {
+      "simpleText": "挪威语"
+     }
+    },
+    {
+     "languageCode": "pa",
+     "languageName": {
+      "simpleText": "旁遮普语"
+     }
+    },
+    {
+     "languageCode": "pt",
+     "languageName": {
+      "simpleText": "葡萄牙语"
+     }
+    },
+    {
+     "languageCode": "pt-PT",
+     "languageName": {
+      "simpleText": "葡萄牙语（葡萄牙）"
+     }
+    },
+    {
+     "languageCode": "ps",
+     "languageName": {
+      "simpleText": "普什图语"
+     }
+    },
+    {
+     "languageCode": "ny",
+     "languageName": {
+      "simpleText": "齐切瓦语"
+     }
+    },
+    {
+     "languageCode": "ja",
+     "languageName": {
+      "simpleText": "日语"
+     }
+    },
+    {
+     "languageCode": "sv",
+     "languageName": {
+      "simpleText": "瑞典语"
+     }
+    },
+    {
+     "languageCode": "sm",
+     "languageName": {
+      "simpleText": "萨摩亚语"
+     }
+    },
+    {
+     "languageCode": "sr",
+     "languageName": {
+      "simpleText": "塞尔维亚语"
+     }
+    },
+    {
+     "languageCode": "crs",
+     "languageName": {
+      "simpleText": "塞舌尔克里奥尔语"
+     }
+    },
+    {
+     "languageCode": "sg",
+     "languageName": {
+      "simpleText": "桑戈语"
+     }
+    },
+    {
+     "languageCode": "si",
+     "languageName": {
+      "simpleText": "僧伽罗语"
+     }
+    },
+    {
+     "languageCode": "sn",
+     "languageName": {
+      "simpleText": "绍纳语"
+     }
+    },
+    {
+     "languageCode": "eo",
+     "languageName": {
+      "simpleText": "世界语"
+     }
+    },
+    {
+     "languageCode": "sk",
+     "languageName": {
+      "simpleText": "斯洛伐克语"
+     }
+    },
+    {
+     "languageCode": "sl",
+     "languageName": {
+      "simpleText": "斯洛文尼亚语"
+     }
+    },
+    {
+     "languageCode": "ss",
+     "languageName": {
+      "simpleText": "斯瓦蒂语"
+     }
+    },
+    {
+     "languageCode": "sw",
+     "languageName": {
+      "simpleText": "斯瓦希里语"
+     }
+    },
+    {
+     "languageCode": "gd",
+     "languageName": {
+      "simpleText": "苏格兰盖尔语"
+     }
+    },
+    {
+     "languageCode": "ceb",
+     "languageName": {
+      "simpleText": "宿务语"
+     }
+    },
+    {
+     "languageCode": "so",
+     "languageName": {
+      "simpleText": "索马里语"
+     }
+    },
+    {
+     "languageCode": "tg",
+     "languageName": {
+      "simpleText": "塔吉克语"
+     }
+    },
+    {
+     "languageCode": "te",
+     "languageName": {
+      "simpleText": "泰卢固语"
+     }
+    },
+    {
+     "languageCode": "ta",
+     "languageName": {
+      "simpleText": "泰米尔语"
+     }
+    },
+    {
+     "languageCode": "th",
+     "languageName": {
+      "simpleText": "泰语"
+     }
+    },
+    {
+     "languageCode": "to",
+     "languageName": {
+      "simpleText": "汤加语"
+     }
+    },
+    {
+     "languageCode": "ti",
+     "languageName": {
+      "simpleText": "提格利尼亚语"
+     }
+    },
+    {
+     "languageCode": "tum",
+     "languageName": {
+      "simpleText": "通布卡语"
+     }
+    },
+    {
+     "languageCode": "tr",
+     "languageName": {
+      "simpleText": "土耳其语"
+     }
+    },
+    {
+     "languageCode": "tk",
+     "languageName": {
+      "simpleText": "土库曼语"
+     }
+    },
+    {
+     "languageCode": "war",
+     "languageName": {
+      "simpleText": "瓦瑞语"
+     }
+    },
+    {
+     "languageCode": "cy",
+     "languageName": {
+      "simpleText": "威尔士语"
+     }
+    },
+    {
+     "languageCode": "ug",
+     "languageName": {
+      "simpleText": "维吾尔语"
+     }
+    },
+    {
+     "languageCode": "ve",
+     "languageName": {
+      "simpleText": "文达语"
+     }
+    },
+    {
+     "languageCode": "wo",
+     "languageName": {
+      "simpleText": "沃洛夫语"
+     }
+    },
+    {
+     "languageCode": "ur",
+     "languageName": {
+      "simpleText": "乌尔都语"
+     }
+    },
+    {
+     "languageCode": "uk",
+     "languageName": {
+      "simpleText": "乌克兰语"
+     }
+    },
+    {
+     "languageCode": "uz",
+     "languageName": {
+      "simpleText": "乌兹别克语"
+     }
+    },
+    {
+     "languageCode": "es",
+     "languageName": {
+      "simpleText": "西班牙语"
+     }
+    },
+    {
+     "languageCode": "fy",
+     "languageName": {
+      "simpleText": "西弗里西亚语"
+     }
+    },
+    {
+     "languageCode": "iw",
+     "languageName": {
+      "simpleText": "希伯来语"
+     }
+    },
+    {
+     "languageCode": "el",
+     "languageName": {
+      "simpleText": "希腊语"
+     }
+    },
+    {
+     "languageCode": "haw",
+     "languageName": {
+      "simpleText": "夏威夷语"
+     }
+    },
+    {
+     "languageCode": "sd",
+     "languageName": {
+      "simpleText": "信德语"
+     }
+    },
+    {
+     "languageCode": "hu",
+     "languageName": {
+      "simpleText": "匈牙利语"
+     }
+    },
+    {
+     "languageCode": "su",
+     "languageName": {
+      "simpleText": "巽他语"
+     }
+    },
+    {
+     "languageCode": "hy",
+     "languageName": {
+      "simpleText": "亚美尼亚语"
+     }
+    },
+    {
+     "languageCode": "ig",
+     "languageName": {
+      "simpleText": "伊博语"
+     }
+    },
+    {
+     "languageCode": "it",
+     "languageName": {
+      "simpleText": "意大利语"
+     }
+    },
+    {
+     "languageCode": "yi",
+     "languageName": {
+      "simpleText": "意第绪语"
+     }
+    },
+    {
+     "languageCode": "iu",
+     "languageName": {
+      "simpleText": "因纽特语"
+     }
+    },
+    {
+     "languageCode": "hi",
+     "languageName": {
+      "simpleText": "印地语"
+     }
+    },
+    {
+     "languageCode": "id",
+     "languageName": {
+      "simpleText": "印度尼西亚语"
+     }
+    },
+    {
+     "languageCode": "en",
+     "languageName": {
+      "simpleText": "英语"
+     }
+    },
+    {
+     "languageCode": "yo",
+     "languageName": {
+      "simpleText": "约鲁巴语"
+     }
+    },
+    {
+     "languageCode": "vi",
+     "languageName": {
+      "simpleText": "越南语"
+     }
+    },
+    {
+     "languageCode": "jv",
+     "languageName": {
+      "simpleText": "爪哇语"
+     }
+    },
+    {
+     "languageCode": "zh-Hant",
+     "languageName": {
+      "simpleText": "中文（繁体）"
+     }
+    },
+    {
+     "languageCode": "zh-Hans",
+     "languageName": {
+      "simpleText": "中文（简体）"
+     }
+    },
+    {
+     "languageCode": "dz",
+     "languageName": {
+      "simpleText": "宗卡语"
+     }
+    },
+    {
+     "languageCode": "zu",
+     "languageName": {
+      "simpleText": "祖鲁语"
+     }
+    },
+    {
+     "languageCode": "kri",
+     "languageName": {
+      "simpleText": "Kri"
+     }
+    }
+   ],
+   "defaultAudioTrackIndex": 0
+  }
+ },
+ "videoDetails": {
+  "videoId": "bkGhmZLOAwI",
+  "title": "永久免费 Claude Code 来了，月 13 亿 token 随便造",
+  "lengthSeconds": "34",
+  "channelId": "UCjxbEnYqr4oUcl2UGGTXThA",
+  "isOwnerViewing": false,
+  "shortDescription": "免费模型＋Claude Code，这个组合太香了！\n把 DeepSeek、Kimi 等模型接入 Claude Code，用各平台的免费额度写代码！还能配置备用模型，重试失败后尝试切换，减少编程时被打断。\n需要的同学可以试试！\n\n#ClaudeCode #AI编程 #免费AI工具 #GitHub开源项目 #程序员",
+  "isCrawlable": true,
+  "thumbnail": {
+   "thumbnails": [
+    {
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwE1CKgBEF5IVfKriqkDKAgBFQAAiEIYAHABwAEG8AEB-AG2CIACgA-KAgwIABABGFogXyhlMA8=&rs=AOn4CLBAMmoS2WWgQfVk71gm4GjYNVYLjg",
+     "width": 168,
+     "height": 94
+    },
+    {
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwE1CMQBEG5IVfKriqkDKAgBFQAAiEIYAHABwAEG8AEB-AG2CIACgA-KAgwIABABGFogXyhlMA8=&rs=AOn4CLB1Xxhk-q1cUomP5oxVJpz2PynHxw",
+     "width": 196,
+     "height": 110
+    },
+    {
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwE2CPYBEIoBSFXyq4qpAygIARUAAIhCGABwAcABBvABAfgBtgiAAoAPigIMCAAQARhaIF8oZTAP&rs=AOn4CLCs53N4eO7cB0NPlftLFtGGmGl2cg",
+     "width": 246,
+     "height": 138
+    },
+    {
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/hqdefault.jpg?sqp=-oaymwE2CNACELwBSFXyq4qpAygIARUAAIhCGABwAcABBvABAfgBtgiAAoAPigIMCAAQARhaIF8oZTAP&rs=AOn4CLCCnq8oF4c5FDp0PDIysDQmYVV6hA",
+     "width": 336,
+     "height": 188
+    },
+    {
+     "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/maxresdefault.jpg?sqp=-oaymwEoCIAKENAF8quKqQMcGADwAQH4AbYIgAKAD4oCDAgAEAEYWiBfKGUwDw==&rs=AOn4CLBPwJdEoVJgZwDbkFVm6V-zGlRKsQ",
+     "width": 1920,
+     "height": 1080
+    }
+   ]
+  },
+  "allowRatings": true,
+  "author": "qingqing wang",
+  "isPrivate": false,
+  "isUnpluggedCorpus": false,
+  "isLiveContent": false,
+  "isTvfilmVideo": false
+ },
+ "playerConfig": {
+  "granularVariableSpeedConfig": {
+   "minimumPlaybackRate": 25,
+   "maximumPlaybackRate": 200,
+   "stepSize": 5,
+   "defaultPlaybackRateOptions": [
+    {
+     "label": "1.0",
+     "value": 100,
+     "isPremiumUpsell": false,
+     "priority": 5
+    },
+    {
+     "label": "1.25",
+     "value": 125,
+     "isPremiumUpsell": false,
+     "priority": 2
+    },
+    {
+     "label": "1.5",
+     "value": 150,
+     "isPremiumUpsell": false,
+     "priority": 3
+    },
+    {
+     "label": "1.75",
+     "value": 175,
+     "isPremiumUpsell": false,
+     "priority": 0
+    },
+    {
+     "label": "2.0",
+     "value": 200,
+     "isPremiumUpsell": false,
+     "priority": 4
+    },
+    {
+     "label": "3.0",
+     "value": 300,
+     "isPremiumUpsell": true,
+     "priority": 1
+    }
+   ]
+  },
+  "vssClientConfig": {
+   "vssUsePostRequest": true
+  },
+  "audioConfig": {
+   "loudnessDb": 3.4200001,
+   "perceptualLoudnessDb": -10.58,
+   "enablePerFormatLoudness": true,
+   "trackAbsoluteLoudnessLkfs": -10.58,
+   "loudnessTargetLkfs": -14,
+   "loudnessNormalizationConfig": {
+    "applyStatefulNormalization": false,
+    "preserveStatefulLoudnessTarget": true,
+    "maxStatefulTimeThresholdSec": 300,
+    "minimumLoudnessTargetLkfs": -31
+   }
+  },
+  "playerControlsConfig": {
+   "showCachedInTimebar": true
+  },
+  "daiConfig": {
+   "sendSsdaiMissingAdBreakReasons": true
+  },
+  "mediaCommonConfig": {
+   "dynamicReadaheadConfig": {
+    "maxReadAheadMediaTimeMs": 120000,
+    "minReadAheadMediaTimeMs": 15000,
+    "readAheadGrowthRateMs": 1000
+   },
+   "mediaUstreamerRequestConfig": {
+    "videoPlaybackUstreamerConfig": "CsMQCuYECAAlAACAPy0zM3M_NT0Klz9yBAoAGACgAQGoAQC4AgHaAn0QsOoBGIDd2wEgoJwBKKCcAXCIJ4AB9APgAQOYAgzQAgLoAgSAAwKIA4gnqAMDwAMByAMBgAQB0AQB2AQB-AQHgAV9wAUByAUB4AXQD_gF0A-QBgHQBgHwBgGAB9APgAgBiAgBnQjNzEw-oAjoB-AIAegI____________AfoCRagB0IYDhQKamRk_jQIAAIA_wALfA_0CzczMPZADAZ0DCtcjPdUEAAAgQbUGvTeGNb0GMzODQMgHAeUHAIAJRPAHAYAIAagDAbADA9ADAdgDAcoEHAoTCMCpBxCYdRjoByUAAAAAKAAwABDg1AMY0A_SBA8KCAiwCRCwCSABIIgnKAHaBA0KBgjwLhDwLiDwLigBmAYBqAaAgALSBhQI6AcQZBoNCIgnFQAAAD8dzcxMP9gGAbgHAaAIAdIIBggBEAEYAakJAAAAAAAA8L-xCQAAAAAAAPC_0AkB2gkkOHZlQ1RWWDhHdXN1dUcyS0dRSWZlQmFBd2dwYUJibk95NjhxoAsB6gsEiwaMBoAMAagMkAHgDQHIDwHQDwGYEAHoEAGQEQGgEQHQEgHgEgGAEwGwEwHYEwDoEwGIFACRFAAAAAAAAPC_mRQAAAAAAADwv8oUEXYyMDI1MDkyMl8xMjI2LjAw2BSIJ-IUPAoAEjhDQU1TSkJVbHVMYkpESlVDblJ1ZEJaanlEN29QQk1BRzFnNnVCQ3ItQktNR293WVhrUWJ2Qmc9PYEVAAAAAAAA8L-YFQGoFQG4FQHIFQGIp6HKCwEyDAirAhCozoKGqLSXAzIMCK8CEIXDuouqtJcDMgwIjwMQxYi6naq0lwMyDAiIARDrsKbRp7SXAzIMCPcBEJ2NtKmutJcDMgwIqgIQrfzx9ae0lwMyDAiuAhD2kZiSqrSXAzIMCI4DEPeKiJ6ptJcDMgwIiwYQsqOvqa60lwMyDAiMBhCxo66prrSXAzIMCJMGEJHMnLKntJcDMgwIlAYQ1_mpn6i0lwMyDAiHARDi8f61p7SXAzIMCIYBEOWbxbWntJcDMgwI8wEQ9LT0qa60lwMyDAiMAxDU5szqp7SXAzIMCIUBEP22vLintJcDMgwI8gEQpPHMqq60lwMyDAiLAxCnrYyQp7SXAzIMCKABEICRp7entJcDMkAIjAEQ0fuN-J20lwMaMkNoUUtCV0ZqYjI1MEVndGtkV0ppWldRdFlYVjBid29OQ2dSc1lXNW5FZ1ZsYmkxVlV3MkwIjAEQ4tDmv5y0lwMaPkNoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb0lDZ05rY21NU0FURUtEd29FYkdGdVp4SUhlbWd0U0dGdWRBMj4IjAEQoY7bvZy0lwMaMENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MDJKCIwBEJTPutmdtJcDGjxDaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9QQ2dSc1lXNW5FZ2Q2YUMxSVlXNTBDZ2NLQW5aaUVnRXgyQAj5ARDO0Y34nbSXAxoyQ2hRS0JXRmpiMjUwRWd0a2RXSmlaV1F0WVhWMGJ3b05DZ1JzWVc1bkVnVmxiaTFWVXcyTAj5ARC804LCnLSXAxo-Q2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvSUNnTmtjbU1TQVRFS0R3b0ViR0Z1WnhJSGVtZ3RTR0Z1ZEEyPgj5ARCKm8K-nLSXAxowQ2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvUENnUnNZVzVuRWdkNmFDMUlZVzUwMkoI-QEQ4tqZ2520lwMaPENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MENnY0tBblppRWdFeDJACPoBEI2AlPidtJcDGjJDaFFLQldGamIyNTBFZ3RrZFdKaVpXUXRZWFYwYndvTkNnUnNZVzVuRWdWbGJpMVZVdzJMCPoBEKDA98GctJcDGj5DaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9JQ2dOa2NtTVNBVEVLRHdvRWJHRnVaeElIZW1ndFNHRnVkQTI-CPoBEN69wr6ctJcDGjBDaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9QQ2dSc1lXNW5FZ2Q2YUMxSVlXNTAySgj6ARDgv5nbnbSXAxo8Q2hFS0JXRmpiMjUwRWdodmNtbG5hVzVoYkFvUENnUnNZVzVuRWdkNmFDMUlZVzUwQ2djS0FuWmlFZ0V4MkAI-wEQ1ZmN-J20lwMaMkNoUUtCV0ZqYjI1MEVndGtkV0ppWldRdFlYVjBid29OQ2dSc1lXNW5FZ1ZsYmkxVlV3MkwI-wEQ94v5wZy0lwMaPkNoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb0lDZ05rY21NU0FURUtEd29FYkdGdVp4SUhlbWd0U0dGdWRBMj4I-wEQ1IbCvpy0lwMaMENoRUtCV0ZqYjI1MEVnaHZjbWxuYVc1aGJBb1BDZ1JzWVc1bkVnZDZhQzFJWVc1MDJKCPsBEMqdmtudtJcDGjxDaEVLQldGamIyNTBFZ2h2Y21sbmFXNWhiQW9QQ2dSc1lXNW5FZ2Q2YUMxSVlXNTBDZ2NLQW5aaUVnRXg6AFIxGgAoADIYVUNqeGJFbllxcjRvVWNsMlVHR1RYVGhBQABYAGABaAB4AIABAMABAMgBAKABAbABBboBAwQFMcIBCAECAwQFCCow0AEAgAIAEk0Ae82kdDBGAiEAxzTngcm6dvp8WPI0Bj6HFKt1HaGEPZPFIUviw11qqmsCIQDarWHtdXola5kDkSNY6Q0WT0R2fJ84FcxTnuKhlqULTxoCZWk="
+   },
+   "useServerDrivenAbr": true,
+   "serverPlaybackStartConfig": {
+    "enable": true,
+    "playbackStartPolicy": {
+     "startMinReadaheadPolicy": [
+      {
+       "minReadaheadMs": 1200
+      }
+     ]
+    }
+   },
+   "platypusUseEnvoyNetFetch": false,
+   "fixLivePlaybackModelDefaultPosition": false
+  },
+  "webPlayerConfig": {
+   "useCobaltTvosDash": true,
+   "webPlayerActionsPorting": {
+    "getSharePanelCommand": {
+     "clickTrackingParams": "CAAQu2kiEwiLu8bvvPWXAxUig-QGHXbyNDzKAQT3FZEQ",
+     "commandMetadata": {
+      "webCommandMetadata": {
+       "sendPost": true,
+       "apiUrl": "/youtubei/v1/share/get_web_player_share_panel"
+      }
+     },
+     "webPlayerShareEntityServiceEndpoint": {
+      "serializedShareEntity": "Cgtia0dobVpMT0F3SQ%3D%3D"
+     }
+    },
+    "subscribeCommand": {
+     "clickTrackingParams": "CAAQu2kiEwiLu8bvvPWXAxUig-QGHXbyNDzKAQT3FZEQ",
+     "commandMetadata": {
+      "webCommandMetadata": {
+       "sendPost": true,
+       "apiUrl": "/youtubei/v1/subscription/subscribe"
+      }
+     },
+     "subscribeEndpoint": {
+      "channelIds": [
+       "UCjxbEnYqr4oUcl2UGGTXThA"
+      ],
+      "params": "EgIIBxgA"
+     }
+    },
+    "unsubscribeCommand": {
+     "clickTrackingParams": "CAAQu2kiEwiLu8bvvPWXAxUig-QGHXbyNDzKAQT3FZEQ",
+     "commandMetadata": {
+      "webCommandMetadata": {
+       "sendPost": true,
+       "apiUrl": "/youtubei/v1/subscription/unsubscribe"
+      }
+     },
+     "unsubscribeEndpoint": {
+      "channelIds": [
+       "UCjxbEnYqr4oUcl2UGGTXThA"
+      ],
+      "params": "CgIIBxgA"
+     }
+    },
+    "addToWatchLaterCommand": {
+     "clickTrackingParams": "CAAQu2kiEwiLu8bvvPWXAxUig-QGHXbyNDzKAQT3FZEQ",
+     "commandMetadata": {
+      "webCommandMetadata": {
+       "sendPost": true,
+       "apiUrl": "/youtubei/v1/browse/edit_playlist"
+      }
+     },
+     "playlistEditEndpoint": {
+      "playlistId": "WL",
+      "actions": [
+       {
+        "addedVideoId": "bkGhmZLOAwI",
+        "action": "ACTION_ADD_VIDEO"
+       }
+      ]
+     }
+    },
+    "removeFromWatchLaterCommand": {
+     "clickTrackingParams": "CAAQu2kiEwiLu8bvvPWXAxUig-QGHXbyNDzKAQT3FZEQ",
+     "commandMetadata": {
+      "webCommandMetadata": {
+       "sendPost": true,
+       "apiUrl": "/youtubei/v1/browse/edit_playlist"
+      }
+     },
+     "playlistEditEndpoint": {
+      "playlistId": "WL",
+      "actions": [
+       {
+        "action": "ACTION_REMOVE_VIDEO_BY_VIDEO_ID",
+        "removedVideoId": "bkGhmZLOAwI"
+       }
+      ]
+     }
+    }
+   }
+  }
+ },
+ "storyboards": {
+  "playerStoryboardSpecRenderer": {
+   "spec": "https://i.ytimg.com/sb/bkGhmZLOAwI/storyboard3_L$L/$N.jpg?sqp=-oaymwENSDfyq4qpAwVwAcABBqLzl_8DBgiC4LLWBg==|48#27#100#10#10#0#default#rs$AOn4CLApWRikcA990GjH4Z0HU1WJIYs1Zw|25#45#36#10#10#1000#M$M#rs$AOn4CLBxGUSTDLG7JlzfZv_OJ7Kj4jLEcQ|50#90#36#5#5#1000#M$M#rs$AOn4CLDEnA71GWtTmfaWx7HFpeWzDbeIhg|101#180#36#3#3#1000#M$M#rs$AOn4CLDtYnagdoDESesyzReGdjc5fh5sYQ",
+   "recommendedLevel": 3,
+   "fineScrubbingRecommendedLevel": 2,
+   "highResolutionRecommendedLevel": 3
+  }
+ },
+ "microformat": {
+  "playerMicroformatRenderer": {
+   "thumbnail": {
+    "thumbnails": [
+     {
+      "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/sardefault.jpg?sqp=-oaymwEdCJUDENAFSFWQAgHyq4qpAwwIARUAAIhCcAHAAQY=&rs=AOn4CLCHav90ofkw9C0I1GNE6oLTkoQoGg",
+      "width": 405,
+      "height": 720
+     },
+     {
+      "url": "https://i.ytimg.com/vi/bkGhmZLOAwI/sardefault.jpg?sqp=-oaymwEgCJUDEOAESFWQAgHyq4qpAw8IARUAAIhCcAHAAQbIAQE=&rs=AOn4CLC0JFFHKk2D-G9EpSUdzNCvtlLBtg",
+      "width": 405,
+      "height": 608
+     }
+    ],
+    "isOriginalAspectRatio": true
+   },
+   "embed": {
+    "iframeUrl": "https://www.youtube.com/embed/bkGhmZLOAwI",
+    "width": 405,
+    "height": 720
+   },
+   "title": {
+    "simpleText": "永久免费 Claude Code 来了，月 13 亿 token 随便造"
+   },
+   "description": {
+    "simpleText": "免费模型＋Claude Code，这个组合太香了！\n把 DeepSeek、Kimi 等模型接入 Claude Code，用各平台的免费额度写代码！还能配置备用模型，重试失败后尝试切换，减少编程时被打断。\n需要的同学可以试试！\n\n#ClaudeCode #AI编程 #免费AI工具 #GitHub开源项目 #程序员"
+   },
+   "lengthSeconds": "35",
+   "ownerProfileUrl": "http://www.youtube.com/@qingqingwang-d4n",
+   "externalChannelId": "UCjxbEnYqr4oUcl2UGGTXThA",
+   "isFamilySafe": true,
+   "availableCountries": [
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI",
+    "AL",
+    "AM",
+    "AO",
+    "AQ",
+    "AR",
+    "AS",
+    "AT",
+    "AU",
+    "AW",
+    "AX",
+    "AZ",
+    "BA",
+    "BB",
+    "BD",
+    "BE",
+    "BF",
+    "BG",
+    "BH",
+    "BI",
+    "BJ",
+    "BL",
+    "BM",
+    "BN",
+    "BO",
+    "BQ",
+    "BR",
+    "BS",
+    "BT",
+    "BV",
+    "BW",
+    "BY",
+    "BZ",
+    "CA",
+    "CC",
+    "CD",
+    "CF",
+    "CG",
+    "CH",
+    "CI",
+    "CK",
+    "CL",
+    "CM",
+    "CN",
+    "CO",
+    "CR",
+    "CU",
+    "CV",
+    "CW",
+    "CX",
+    "CY",
+    "CZ",
+    "DE",
+    "DJ",
+    "DK",
+    "DM",
+    "DO",
+    "DZ",
+    "EC",
+    "EE",
+    "EG",
+    "EH",
+    "ER",
+    "ES",
+    "ET",
+    "FI",
+    "FJ",
+    "FK",
+    "FM",
+    "FO",
+    "FR",
+    "GA",
+    "GB",
+    "GD",
+    "GE",
+    "GF",
+    "GG",
+    "GH",
+    "GI",
+    "GL",
+    "GM",
+    "GN",
+    "GP",
+    "GQ",
+    "GR",
+    "GS",
+    "GT",
+    "GU",
+    "GW",
+    "GY",
+    "HK",
+    "HM",
+    "HN",
+    "HR",
+    "HT",
+    "HU",
+    "ID",
+    "IE",
+    "IL",
+    "IM",
+    "IN",
+    "IO",
+    "IQ",
+    "IR",
+    "IS",
+    "IT",
+    "JE",
+    "JM",
+    "JO",
+    "JP",
+    "KE",
+    "KG",
+    "KH",
+    "KI",
+    "KM",
+    "KN",
+    "KP",
+    "KR",
+    "KW",
+    "KY",
+    "KZ",
+    "LA",
+    "LB",
+    "LC",
+    "LI",
+    "LK",
+    "LR",
+    "LS",
+    "LT",
+    "LU",
+    "LV",
+    "LY",
+    "MA",
+    "MC",
+    "MD",
+    "ME",
+    "MF",
+    "MG",
+    "MH",
+    "MK",
+    "ML",
+    "MM",
+    "MN",
+    "MO",
+    "MP",
+    "MQ",
+    "MR",
+    "MS",
+    "MT",
+    "MU",
+    "MV",
+    "MW",
+    "MX",
+    "MY",
+    "MZ",
+    "NA",
+    "NC",
+    "NE",
+    "NF",
+    "NG",
+    "NI",
+    "NL",
+    "NO",
+    "NP",
+    "NR",
+    "NU",
+    "NZ",
+    "OM",
+    "PA",
+    "PE",
+    "PF",
+    "PG",
+    "PH",
+    "PK",
+    "PL",
+    "PM",
+    "PN",
+    "PR",
+    "PS",
+    "PT",
+    "PW",
+    "PY",
+    "QA",
+    "RE",
+    "RO",
+    "RS",
+    "RU",
+    "RW",
+    "SA",
+    "SB",
+    "SC",
+    "SD",
+    "SE",
+    "SG",
+    "SH",
+    "SI",
+    "SJ",
+    "SK",
+    "SL",
+    "SM",
+    "SN",
+    "SO",
+    "SR",
+    "SS",
+    "ST",
+    "SV",
+    "SX",
+    "SY",
+    "SZ",
+    "TC",
+    "TD",
+    "TF",
+    "TG",
+    "TH",
+    "TJ",
+    "TK",
+    "TL",
+    "TM",
+    "TN",
+    "TO",
+    "TR",
+    "TT",
+    "TV",
+    "TW",
+    "TZ",
+    "UA",
+    "UG",
+    "UM",
+    "US",
+    "UY",
+    "UZ",
+    "VA",
+    "VC",
+    "VE",
+    "VG",
+    "VI",
+    "VN",
+    "VU",
+    "WF",
+    "WS",
+    "YE",
+    "YT",
+    "ZA",
+    "ZM",
+    "ZW"
+   ],
+   "isUnlisted": false,
+   "hasYpcMetadata": false,
+   "viewCount": "44403",
+   "category": "People & Blogs",
+   "publishDate": "2026-10-12T03:01:42-07:00",
+   "ownerChannelName": "qingqing wang",
+   "uploadDate": "2026-10-12T03:01:42-07:00",
+   "isShortsEligible": true,
+   "externalVideoId": "bkGhmZLOAwI",
+   "likeCount": "365",
+   "canonicalUrl": "https://www.youtube.com/shorts/bkGhmZLOAwI"
+  }
+ },
+ "trackingParams": "CAAQu2kiEwiLu8bvvPWXAxUig-QGHXbyNDzKAQT3FZEQ",
+ "adBreakHeartbeatParams": "Q0FBJTNE",
+ "frameworkUpdates": {
+  "entityBatchUpdate": {
+   "mutations": [
+    {
+     "entityKey": "Eg0KC2JrR2htWkxPQXdJIPYBKAE%3D",
+     "type": "ENTITY_MUTATION_TYPE_REPLACE",
+     "payload": {
+      "offlineabilityEntity": {
+       "key": "Eg0KC2JrR2htWkxPQXdJIPYBKAE%3D",
+       "addToOfflineButtonState": "ADD_TO_OFFLINE_BUTTON_STATE_UNKNOWN"
+      }
+     }
+    }
+   ],
+   "timestamp": {
+    "seconds": "1794041359",
+    "nanos": 501561648
+   }
+  }
+ }
+}
