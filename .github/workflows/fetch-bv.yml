@@ -80,7 +80,7 @@ jobs:
           LOG=downloads/$BV/attempt.log
           echo "=== B2. bilix ===" | tee -a "$LOG"
           [ -n "$(find /tmp/out -maxdepth 1 -type f -size +1M 2>/dev/null)" ] && { echo "[B2] skipped" | tee -a "$LOG"; exit 0; }
-          timeout 600 bilix get_video "$URL" -d /tmp/out --no-danmaku >>"$LOG" 2>&1
+          timeout 600 bilix get_video "$URL" -d /tmp/out >>"$LOG" 2>&1
           echo "[B2] exit=$?" | tee -a "$LOG"
           ls -la /tmp/out | tee -a "$LOG"
 

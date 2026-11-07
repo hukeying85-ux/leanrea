@@ -33,6 +33,17 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
 REF = "https://www.bilibili.com/"
 API = "https://api.bilibili.com"
+# CDN 直链的主机部分是「可换的」：path+query 才是签名，
+# 567 / 403 多半是当前镜像对机房 IP 不友好，换主机即可。
+MIRRORS = [
+    "upos-sz-mirrorcos.bilivideo.com",
+    "upos-sz-mirrorali.bilivideo.com",
+    "upos-sz-mirrorhw.bilivideo.com",
+    "upos-sz-mirror08c.bilivideo.com",
+    "upos-sz-mirrorcosb.bilivideo.com",
+    "upos-sz-mirroraliov.bilivideo.com",
+    "upos-hz-mirrorakam.akamaized.net",
+]
 MIXIN_TAB = [
     46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49,
     33, 9, 42, 19, 29, 28, 14, 39, 12, 38, 41, 13, 37, 48, 7, 16, 24, 55, 40,
@@ -178,25 +189,58 @@ def main() -> int:
         log("所有 playurl 组合都被拒（机房 IP 风控）")
         return 1
 
-    def fetch(url, path):
-        req = urllib.request.Request(url, headers={
-            "User-Agent": UA, "Referer": REF, "Origin": "https://www.bilibili.com"})
-        with urllib.request.urlopen(req, timeout=120) as r, open(path, "wb") as f:
-            n = 0
-            while True:
-                b = r.read(1 << 20)
-                if not b:
-                    break
-                f.write(b)
-                n += len(b)
-                if n % (5 << 20) < (1 << 20):
-                    log(f"   …{n >> 20} MB")
-        return os.path.getsize(path)
+    def variants(url, backups):
+        out = [url] + list(backups or [])
+        for m in MIRRORS:
+            out.append(re.sub(r"^https://[^/]+", "https://" + m, url))
+        seen, uniq = set(), []
+        for u in out:
+            if u and u not in seen:
+                seen.add(u)
+                uniq.append(u)
+        return uniq
+
+    def fetch(url, path, backups=None, cookie=""):
+        """逐变体试探：镜像 × 请求头组合 × curl/http1.1，日志写状态码。"""
+        hdrs = [
+            ["-e", REF],
+            ["-e", REF, "-H", f"Cookie: {cookie}"],
+            ["-e", REF, "-H", "Origin: https://www.bilibili.com",
+             "-H", "Range: bytes=0-"],
+        ]
+        for u in variants(url, backups):
+            for hi, h in enumerate(hdrs):
+                cmd = ["curl", "-sS", "--http1.1", "-L", "--max-time", "300",
+                       "-A", UA, "-o", path, "-w", "%{http_code} %{size_download}"] + h + [u]
+                r = subprocess.run(cmd, capture_output=True, text=True)
+                code = (r.stdout or "").split()
+                c = code[0] if code else "?"
+                size = int(code[1]) if len(code) > 1 and code[1].isdigit() else 0
+                host = re.sub(r"^https://([^/]+).*", r"\1", u)
+                log(f"   {host} headers#{hi} -> {c} {size} B")
+                if c in ("200", "206") and size > 102400:
+                    return size
+        return 0
 
     if got[0] == "durl":
+        segs = got[1]
+        log(f"durl 段数={len(segs)}")
+        parts = []
+        for i, seg in enumerate(segs):
+            out = os.path.join(outdir, f"source-seg{i}.mp4")
+            n = fetch(seg["url"], out, seg.get("backup_url"), cookie)
+            log(f"   seg{i} bytes={n}")
+            if not n:
+                return 1
+            parts.append(out)
         out = os.path.join(outdir, "source.mp4")
-        log("下载 durl:", got[1][0]["url"][:90])
-        log("bytes:", fetch(got[1][0]["url"], out))
+        if len(parts) == 1:
+            os.replace(parts[0], out)
+        else:
+            with open(out, "wb") as w:
+                for f_ in parts:
+                    w.write(open(f_, "rb").read())
+        log("source.mp4:", os.path.getsize(out))
         return 0
 
     dash = got[1]
@@ -205,13 +249,13 @@ def main() -> int:
     vurl = vs[-1].get("baseUrl") or vs[-1].get("base_url")
     log(f"dash video id={vs[-1].get('id')} {vs[-1].get('width')}x{vs[-1].get('height')}")
     vp = os.path.join(outdir, "v.m4s")
-    log("bytes(v):", fetch(vurl, vp))
+    log("bytes(v):", fetch(vurl, vp, vs[-1].get("backupUrl") or vs[-1].get("backup_url"), cookie))
     if not aud:
         os.rename(vp, os.path.join(outdir, "source.mp4"))
         return 0
     aurl = aud[-1].get("baseUrl") or aud[-1].get("base_url")
     ap = os.path.join(outdir, "a.m4s")
-    log("bytes(a):", fetch(aurl, ap))
+    log("bytes(a):", fetch(aurl, ap, aud[-1].get("backupUrl") or aud[-1].get("backup_url"), cookie))
     out = os.path.join(outdir, "source.mp4")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", vp, "-i", ap,
                     "-c", "copy", out], check=True)
