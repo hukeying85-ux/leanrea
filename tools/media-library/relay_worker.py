@@ -473,6 +473,168 @@ def try_douyin_api(url, out):
 
 
 # --------------------------------------------------------------------------
+# 3.6b 抖音图文笔记专用：yt-dlp/gallery-dl 都不认 /note/ 链接，桌面页 HTML 里
+#      也没有图（图片靠 JS 渲染）。这里按「移动端分享页 → RENDER_DATA /
+#      _ROUTER_DATA → 第三方解析 API」三级兜底，专门啃图文笔记。
+# --------------------------------------------------------------------------
+MOBILE_UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) "
+             "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 "
+             "Mobile/15E148 Safari/604.1")
+
+
+def _json_blobs(html):
+    """把页面里 RENDER_DATA / _ROUTER_DATA / __INITIAL_STATE__ 抠成 dict。"""
+    from urllib.parse import unquote
+    blobs = []
+    pats = [
+        r'<script[^>]*id="RENDER_DATA"[^>]*>(.*?)</script>',
+        r'window\._ROUTER_DATA\s*=\s*(\{.*?\})\s*;?\s*</script>',
+        r'<script[^>]*id="__NEXT_DATA__"[^>]*>(.*?)</script>',
+        r'window\.__INITIAL_STATE__\s*=\s*(\{.*?\})\s*;?\s*</script>',
+        r'window\._SSR_DATA\s*=\s*(\{.*?\})\s*;?\s*</script>',
+    ]
+    for pat in pats:
+        for m in re.findall(pat, html, re.S):
+            for cand in (m, unquote(m)):
+                cand = cand.strip()
+                if not cand.startswith("{"):
+                    continue
+                try:
+                    blobs.append(json.loads(cand))
+                    break
+                except Exception:
+                    continue
+    return blobs
+
+
+def _walk_image_urls(node, acc):
+    """深度遍历 JSON，收集所有 douyinpic 图片地址（去水印原图优先）。"""
+    if isinstance(node, dict):
+        for v in node.values():
+            _walk_image_urls(v, acc)
+    elif isinstance(node, list):
+        for v in node:
+            _walk_image_urls(v, acc)
+    elif isinstance(node, str):
+        if "douyinpic.com" in node and re.search(r"~noop|aweme-images|\.(jpg|jpeg|webp|png)", node, re.I):
+            acc.append(node)
+
+
+def _canon(u):
+    """同一张图的多种 tplv 变体归一到同一 key。"""
+    m = re.search(r"/tos-cn-[^/]+/([^~?]+)", u)
+    return m.group(1) if m else u.split("?")[0]
+
+
+def _variants(u):
+    """优先要无水印原图：~noop.jpeg / ~tplv-...:q75.webp 都试一遍。"""
+    base = re.sub(r"~[^/?#]+$", "", u.split("?")[0])
+    base = base.split("~")[0]
+    out = []
+    for suffix in ("~noop.jpeg", "~noop.webp", "~tplv-dy-aweme-images:q75.webp"):
+        out.append(base + suffix + "?from=327834062")
+    return out
+
+
+def _download_images(urls, out, referer="https://www.douyin.com/"):
+    h = {"User-Agent": MOBILE_UA, "Referer": referer,
+         "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8"}
+    got = []
+    for i, u in enumerate(urls[:20]):
+        for cand in _variants(u):
+            try:
+                rr = requests.get(cand, headers=h, timeout=45)
+                if rr.status_code == 200 and len(rr.content) > 8000:
+                    ext = ".jpg"
+                    if cand.endswith(".webp") or b"WEBP" in rr.content[:16]:
+                        ext = ".webp"
+                    p = os.path.join(out, f"douyin_{i+1:02d}{ext}")
+                    open(p, "wb").write(rr.content)
+                    got.append(os.path.basename(p))
+                    break
+            except Exception:
+                continue
+        time.sleep(0.25)
+    return got
+
+
+def try_douyin_note(url, out):
+    m = re.search(r"(?:/note/|/video/|item_ids=|/slides/)(\d{15,})", url)
+    if not m:
+        return False, "no aweme id in url", []
+    aid = m.group(1)
+    h_html = {"User-Agent": MOBILE_UA, "Accept-Language": "zh-CN,zh;q=0.9",
+              "Referer": "https://www.douyin.com/"}
+    pages = [
+        f"https://www.iesdouyin.com/share/slides/{aid}/",
+        f"https://www.iesdouyin.com/share/video/{aid}/",
+        f"https://m.douyin.com/share/note/{aid}",
+        f"https://www.douyin.com/note/{aid}",
+    ]
+    diag, urls = [], []
+    for pg in pages:
+        try:
+            r = requests.get(pg, headers=h_html, timeout=45)
+        except Exception as e:
+            diag.append(f"{pg.split('/')[2]}{pg.split(aid)[0][-8:]}: {type(e).__name__}")
+            continue
+        html = (r.text or "").replace("\\u002F", "/").replace("\\/", "/")
+        found = []
+        for blob in _json_blobs(html):
+            _walk_image_urls(blob, found)
+        if not found:
+            found = [u.replace("\\u002F", "/") for u in
+                     re.findall(r"https?://[^\s\"'\\<>]*douyinpic\.com[^\s\"'\\<>]*", html)]
+        # 同图去重，保留最先出现（通常是原图）
+        seen, uniq = set(), []
+        for u in found:
+            k = _canon(u)
+            if k not in seen:
+                seen.add(k)
+                uniq.append(u)
+        diag.append(f"{pg.split('/')[2]}: HTTP {r.status_code} len={len(html)} imgs={len(uniq)}")
+        if uniq:
+            urls = uniq
+            break
+
+    if urls:
+        got = _download_images(urls, out)
+        if got:
+            return True, f"share-page ok: {len(got)} imgs; " + "; ".join(diag), got
+
+    # 第三方解析 API（公共实例，可能 502，多试几家）
+    from urllib.parse import quote
+    apis = [
+        "https://api.douyin.wtf/api/hybrid/video_data?url={}&minimal=false",
+        "https://www.tikwm.com/api/?url={}",
+        "https://api.douyin.wtf/api/douyin/web/fetch_one_video?aweme_id=" + aid,
+    ]
+    for tpl in apis:
+        target = tpl.format(quote(url, safe="")) if "{}" in tpl else tpl
+        try:
+            r = requests.get(target, headers={"User-Agent": UA}, timeout=45)
+            j = r.json()
+        except Exception as e:
+            diag.append(f"api {target.split('/')[2]}: {type(e).__name__}")
+            continue
+        acc = []
+        _walk_image_urls(j, acc)
+        seen, uniq = set(), []
+        for u in acc:
+            k = _canon(u)
+            if k not in seen:
+                seen.add(k)
+                uniq.append(u)
+        if uniq:
+            got = _download_images(uniq, out)
+            if got:
+                return True, f"third-party api {target.split('/')[2]}: {len(got)} imgs", got
+        diag.append(f"api {target.split('/')[2]}: HTTP {r.status_code} imgs=0")
+
+    return False, "; ".join(diag) or "no strategy worked", []
+
+
+# --------------------------------------------------------------------------
 # 3.7 YouTube 专用：Invidious 公共实例 —— 换一条完全不在数据中心 IP 上的路
 #     Invidious 是开源 YouTube 前端，它自己的服务器去取流，我们只跟它要结果
 # --------------------------------------------------------------------------
@@ -671,6 +833,7 @@ def handle(url):
     if folder == "05_B站素材":
         chain.insert(1, ("bilibili-api", try_bilibili_api))
     if folder == "02_抖音素材":
+        chain.insert(0, ("douyin-note", try_douyin_note))
         chain.insert(1, ("douyin-api", try_douyin_api))
 
     steps, ok = [], False
