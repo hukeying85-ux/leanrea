@@ -316,10 +316,10 @@ def download_video(video, out_dir, max_mb):
 def drive_resumable_put(uri, path, chunk=8 * 1024 * 1024):
     """把本地文件按块 PUT 到一次性的 Drive resumable 会话地址（由沙箱里的 Drive 连接器
     initiate_resumable_upload 生成，7 天有效、只能用一次）。块大小必须是 256KiB 的倍数。
-    先按 Google 的 X-Goog-Upload-* 协议走，遇到 4xx 再退到标准 Content-Range 协议。"""
+    标准 Content-Range 协议（中间块回 308，最后一块回 200/201 + 文件元数据）；首块就 4xx 时再试 X-Goog-Upload-* 协议。"""
     total = os.path.getsize(path)
     rec = {"bytes": total, "protocol": None, "ok": False, "status": None, "response": None, "err": ""}
-    for proto in ("x-goog", "content-range"):
+    for proto in ("content-range", "x-goog"):   # Drive v3 resumable 端点：标准 Content-Range 协议优先
         off, ok, err, last_resp = 0, False, "", None
         with open(path, "rb") as f:
             while off < total:
