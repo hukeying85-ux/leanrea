@@ -51,6 +51,39 @@ jobs:
       - name: Install
         run: python -m pip install --quiet --upgrade requests pillow
 
+      # ---- 安全信道：私钥只活在 Actions cache 里（公众拿不到），公钥进仓库。
+      #      沙箱用公钥加密一次性的 Drive 上传地址 → tools/xhs-relay/secrets/*.enc → runner 解密使用。
+      - name: Relay key cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.xhs-relay
+          key: xhs-relay-rsa-v1-${{ github.ref_name }}
+
+      - name: Ensure relay key pair
+        run: |
+          mkdir -p ~/.xhs-relay
+          if [ ! -f ~/.xhs-relay/key.pem ]; then
+            echo "generating new relay key pair"
+            openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out ~/.xhs-relay/key.pem 2>/dev/null
+          fi
+          openssl pkey -in ~/.xhs-relay/key.pem -pubout -out tools/xhs-relay/relay_pubkey.pem
+          openssl pkey -pubin -in tools/xhs-relay/relay_pubkey.pem -outform DER | sha256sum | cut -c1-16
+
+      - name: Decrypt per-job secrets
+        run: |
+          shopt -s nullglob
+          for f in tools/xhs-relay/secrets/*.enc; do
+            name=$(basename "$f" .enc)
+            if val=$(base64 -d "$f" | openssl pkeyutl -decrypt -inkey ~/.xhs-relay/key.pem \
+                       -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 2>/dev/null); then
+              echo "::add-mask::$val"
+              echo "$name=$val" >> "$GITHUB_ENV"
+              echo "decrypted $name"
+            else
+              echo "::warning::cannot decrypt $f (relay key rotated? re-encrypt with the current relay_pubkey.pem)"
+            fi
+          done
+
       - name: Fetch notes in queue
         env:
           COOKIES_XHS: ${{ secrets.COOKIES_XHS }}   # 可选：登录态 cookie 字符串
@@ -60,6 +93,8 @@ jobs:
         run: |
           if [ -n "$DRIVE_UPLOAD_URI" ]; then echo "::add-mask::$DRIVE_UPLOAD_URI"; fi
           python tools/xhs-relay/xhs_fetch.py --queue tools/xhs-relay/queue.json 2>&1 | tee /tmp/xhs-relay.log
+          # 用过的一次性密文删掉，避免下次重跑
+          for f in tools/xhs-relay/secrets/*.used; do [ -e "$f" ] && git rm -q --cached "${f%.used}" 2>/dev/null; rm -f "${f%.used}" "$f"; done; true
 
       - name: Commit results back to this branch
         run: |

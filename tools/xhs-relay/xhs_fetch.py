@@ -385,7 +385,9 @@ def run_job(job, cookie):
     url = job["note_url"]
     out_dir = os.path.join(ROOT, job["out_dir"])
     log(f"== {url}\n   -> {job['out_dir']}")
-    force = job.get("force") or os.environ.get("FORCE", "").lower() in ("1", "true", "yes")
+    nid8 = note_id_of(url)[:8]
+    drive_uri = os.environ.get(f"DRIVE_UPLOAD_URI__{nid8}", "").strip() or os.environ.get("DRIVE_UPLOAD_URI", "").strip()
+    force = job.get("force") or os.environ.get("FORCE", "").lower() in ("1", "true", "yes") or bool(drive_uri)
     if os.path.exists(os.path.join(out_dir, "note.json")) and not force:
         log("   note.json already present -> skip (set \"force\": true in queue.json to refetch)")
         return
@@ -416,15 +418,17 @@ def run_job(job, cookie):
     note["downloads"] = results
     if is_video:
         note["video_download"] = download_video(note["video"], out_dir, job.get("max_video_mb", 60))
-        uri = os.environ.get("DRIVE_UPLOAD_URI", "").strip()
-        if uri:
-            log("  [drive] DRIVE_UPLOAD_URI present -> pushing origin video straight to Google Drive")
-            rec = push_origin_to_drive(note, uri)
+        if drive_uri:
+            log("  [drive] upload URI present -> pushing origin video straight to Google Drive")
+            rec = push_origin_to_drive(note, drive_uri)
             rec["at_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
             os.makedirs(out_dir, exist_ok=True)
             with open(os.path.join(out_dir, "drive_upload.json"), "w", encoding="utf-8") as f:
                 json.dump(rec, f, ensure_ascii=False, indent=1)
             log(f"  [drive] result ok={rec.get('ok')} protocol={rec.get('protocol')} err={rec.get('err')}")
+            enc = os.path.join(ROOT, "tools", "xhs-relay", "secrets", f"DRIVE_UPLOAD_URI__{nid8}.enc")
+            if os.path.exists(enc):   # 一次性会话用过就作废，让 workflow 把密文删掉
+                open(enc + ".used", "w").write(rec.get("err") or "ok")
         if results and results[0].get("file"):
             cov = results[0]["file"]
             os.replace(os.path.join(out_dir, cov), os.path.join(out_dir, "cover." + cov.split(".")[-1]))
