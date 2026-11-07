@@ -1,0 +1,46 @@
+{
+  "source_url": "https://www.douyin.com/video/7619692623082829203",
+  "platform_folder": "02_抖音素材",
+  "status": "failed",
+  "tool_used": null,
+  "steps": [
+    {
+      "tool": "douyin-note",
+      "ok": false,
+      "log": "www.iesdouyin.com: HTTP 200 len=25864 imgs=0; www.iesdouyin.com: HTTP 200 len=32228 imgs=0; m.douyin.com: HTTP 200 len=33203 imgs=0; www.douyin.com: HTTP 200 len=2397 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0; api www.tikwm.com: HTTP 200 imgs=0; api api.douyin.wtf: HTTP 404 imgs=0"
+    },
+    {
+      "tool": "douyin-api",
+      "ok": false,
+      "log": "www.iesdouyin.com: HTTP 200 non-json '' | www.iesdouyin.com: HTTP 200 non-json '<!doctype html><html><head>\\n<script data-sdk-glue-in=\"pre-handler\" nonce=\"argus-csp-token\" >    !fun'"
+    },
+    {
+      "tool": "douyin-video",
+      "ok": false,
+      "log": "www.iesdouyin.com: HTTP 200 len=32313 play_urls=0; m.douyin.com: HTTP 200 len=32136 play_urls=0; www.douyin.com: HTTP 200 len=72914 play_urls=0"
+    },
+    {
+      "tool": "yt-dlp",
+      "ok": false,
+      "log": "cookies: none\n-f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [Douyin] 7619692623082829203: Fresh cookies (not necessarily logged in) are needed\n-f 18/22/43/b -> rc=1 ERROR: [Douyin] 7619692623082829203: Fresh cookies (not necessarily logged in) are needed\n-f b -> rc=1 ERROR: [Douyin] 7619692623082829203: Fresh cookies (not necessarily logged in) are needed\n-f bv*+ba/b -> rc=1 ERROR: [Douyin] 7619692623082829203: Fresh cookies (not necessarily logged in) are needed\n-f worst -> rc=1 ERROR: [Douyin] 7619692623082829203: Fresh cookies (not necessarily logged in) are needed"
+    },
+    {
+      "tool": "gallery-dl",
+      "ok": false,
+      "log": "rc=64 [gallery-dl][error] Unsupported URL 'https://www.douyin.com/video/7619692623082829203'"
+    },
+    {
+      "tool": "scrape",
+      "ok": false,
+      "log": "found 0 candidate urls, saved 0"
+    },
+    {
+      "tool": "proxy-relay",
+      "ok": false,
+      "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
+    }
+  ],
+  "files": [],
+  "collected_at": "2026-11-07T08:47:58Z",
+  "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
+}
