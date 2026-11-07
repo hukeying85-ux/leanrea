@@ -1,146 +1,159 @@
 {
-  "jobs": [
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/shinchan-6aedad8b/01-原图",
-      "max_total_mb": 80,
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611071603/e3379917282865ad2b45b22eb579b383/spectrum/1040g34o3277p5n58mga05o18tfi09a4tid65a10!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071603/922de243973af126f014e86ca7d59959/spectrum/1040g34o3277p5n58mg9g5o18tfi09a4toh3q320!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071603/0ba7b5e6055e973713545a2fd43160b5/spectrum/1040g34o3277p5n58mg7g5o18tfi09a4tfj4jh9o!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071603/b13afdd96a7844572d8a366281123364/spectrum/1040g34o3277p5n58mg8g5o18tfi09a4t8upc2h0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071603/524f4bac568811ea1db0e2ea04196736/spectrum/1040g34o3277p5n58mg805o18tfi09a4t4d6u9io!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071603/7c7c3a4cab1e1871ead519d1bed5de54/spectrum/1040g34o3277p5n58mg705o18tfi09a4tshku0e0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071603/c5c292382f3b08f43d5e4cc076ba884b/spectrum/1040g34o3277p5n58mg905o18tfi09a4tjkhr1c8!nd_dft_wlteh_webp_3"
-      ]
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6a4be129000000002101bf59?xsec_token=ABjd431Iyv8HKyZZC3T615b3mwIFIj66cCB5f0wKFpo-Y=&xsec_source=pc_feed",
-      "out_dir": "xhs-wallpaper-replica/examples/video-test-6a4be129/01-原片",
-      "max_total_mb": 20,
-      "max_video_mb": 60,
-      "keep_html": false
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6aeeecba000000001500bd41?xsec_token=CBq1GujLMQPGMTvSaZDTs4ky8glgNJGTnUVSo4bkE1fb4=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/vangogh-bubu-6aeeecba/01-原片",
-      "max_total_mb": 40,
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611071926/86cdc25201fef2fb6d7be35df542b07e/notes_pre_post/1040g3k832790k6g3me6g5pf3tae193rahhuu5e0!nd_dft_wlteh_webp_3"
-      ]
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6ae3391a0000000027009e61?xsec_token=CBHOIHIkn5aWHD9J9c-zMLz4ElHpmdlan197rKsxXOpw0=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/flowers-bubu-6ae3391a/01-原片",
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611071940/a1489f766dc0b8069ae612577d9a9160/notes_pre_post/1040g3k8326tipi1fm6ag5p38giqk4grtr9a0o8g!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071940/941f30e15fd72fbff774cb89b44be7d9/notes_pre_post/1040g3k8326tipi1fm6d05p38giqk4grtu4dc5e8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071940/19a8b1e5439b8a090df889ccda10f53c/notes_pre_post/1040g3k8326tipi1fm6dg5p38giqk4grt5fhj7ng!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071940/f41bb1cc2dce2fb3c51bef1331a664b2/notes_pre_post/1040g3k8326tipi1fm6c05p38giqk4grt1452790!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611071940/998c64fc74de2e3eda1857cd2b984604/notes_pre_post/1040g3k8326tipi1fm6a05p38giqk4grt1tcom78!nd_dft_wlteh_webp_3"
-      ],
-      "max_total_mb": 60
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6ae8870f000000003602ddd7?xsec_token=CBGvzFaihw1qqUg20VhLXT2QYcmObjYHmXUFXjgDq_rsc=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/cat-sakura-6ae8870f/01-原片",
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611072022/b5eebc55363151648ef83e68c26561b8/notes_pre_post/1040g3k83272on4l1n0bg5od35q7k0jk69lubjlg!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072022/d721cd80e5a9ac645e1dc78cfb2ee81c/notes_pre_post/1040g3k83272on4l1n0a05od35q7k0jk6ju1hka0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072022/b952dd940fa072944394c622ba37453b/notes_pre_post/1040g3k83272on4l1n0ag5od35q7k0jk6q0lr290!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072022/f7923cc2648e4a723b74f156c674d164/notes_pre_post/1040g3k83272on4l1n0b05od35q7k0jk67ggc8jo!nd_dft_wlteh_webp_3"
-      ],
-      "max_total_mb": 60
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6aed5b12000000002b033b95?xsec_token=CBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7K4FY=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/tomjerry-6aed5b12/01-原片",
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611072057/484b51198b9f1df30440351a963466aa/spectrum/1040g34o3277fhrhsma505om18e96cfrvrcnhvg0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/4f144d34061d0bd550de4a82d2679c89/spectrum/1040g34o3277fhrhsma5g5om18e96cfrvnsi9gj8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/023560c432b4355e833c838e02366adc/spectrum/1040g34o3277fhrg46ce05om18e96cfrvae1glr8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/c80a85227e45a6252531648212554f7d/spectrum/1040g34o3277fhrg46ceg5om18e96cfrvlagutf8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/b3386b26a64d5d12168e69c1624c7df9/spectrum/1040g34o3277fhrg46cf05om18e96cfrvjte9j00!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/76267cd8d3453d7276178bc8d821156a/spectrum/1040g34o3277fhrg46cfg5om18e96cfrv237rgs0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/7c57acc4d24a85d5d2e413d9691adca1/spectrum/1040g34o3277fhrg46cg05om18e96cfrv4mi20r8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/4776ad679ff805383193da574e0eeb17/spectrum/1040g34o3277fhrg46cgg5om18e96cfrvrq6mtc8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/36041cdaf83542cd5edeb3322eecd196/spectrum/1040g34o3277fhrg46ch05om18e96cfrvbc0cpn0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/17963282890cb901155fdea9dbbeb919/spectrum/1040g34o3277fhrg46chg5om18e96cfrvja422ho!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/8f26855a49c634672beefbe619e704bc/spectrum/1040g34o3277fhrg46ci05om18e96cfrv2kskjhg!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/2428c28fb6a636eb20242b7975e473f6/spectrum/1040g34o3277fhrg46cig5om18e96cfrvre2ppt0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/966a601b794838a23ad4fb12e0a6d089/spectrum/1040g34o3277fhrg46cj05om18e96cfrvoti614g!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/a5a0745b5b571430794db7b6ebfe1975/spectrum/1040g34o3277fhrg46cjg5om18e96cfrv61d9bkg!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/8b57e371049684fece245d5e7faccc74/spectrum/1040g34o3277fhrg46ck05om18e96cfrvfq7tmfo!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/82d15a320ee99311e796a73cdf55d24e/spectrum/1040g34o3277fhrg46ckg5om18e96cfrvsijeing!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/66ede35be18128a6f0873c127f138b3a/spectrum/1040g34o3277fhrhsma405om18e96cfrvncrmv1o!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072057/434d6184eb6aff803fcd748db55e335e/spectrum/1040g34o3277fhrhsma4g5om18e96cfrvgihjvao!nd_dft_wlteh_webp_3"
-      ],
-      "max_total_mb": 90
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6aede8e7000000000902fa39?xsec_token=CBISbJnVDWPV9wo-NpRox3vpdv6NaRVqJ4JP6RKltFa8w=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/lighthouse-6aede8e7/01-原片",
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611072305/5b4d543c69dc2db142d8b4b1dcf3f3ea/spectrum/1040g0k032780sorr6a205p6fcusjkgde6lh2r70!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072305/1cb43b7029e43db447662ed89856679a/spectrum/1040g0k032780sorr6a2g5p6fcusjkgdecvi4oao!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072305/c91034c1cf683f9780aebe90fec76677/spectrum/1040g0k032780sorr6a005p6fcusjkgdee439e08!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072305/1f91c2133535c2016ce7d4c6181993f3/spectrum/1040g0k032780sorr6a0g5p6fcusjkgdehbjuedg!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072305/9184392d1f1840436b75480668325e9b/spectrum/1040g0k032780sorr6a105p6fcusjkgdehb1fpdo!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072305/732027ad4f2747524d9e8016e7c81557/spectrum/1040g0k032780sorr6a1g5p6fcusjkgdeio21ap8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072305/9a919791b5c3576a42b0d12d71a67665/spectrum/1040g0k032780sorr6a305p6fcusjkgdec09hdqo!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072305/e00cb719a789f9403322e172db21ea77/spectrum/1040g0k032780sorr6a3g5p6fcusjkgder3dufgo!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072305/8224dbf64d37f07a99afcf071d6ea4c9/spectrum/1040g0k032780sorr6a405p6fcusjkgdebbbebig!nd_dft_wlteh_webp_3"
-      ],
-      "max_total_mb": 90
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/69bec419000000002301125e?xsec_token=CBcrO1K90MCT0hdu0W3d7FN0v8vrPuUWWMvsEirhnSkc4=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/linedog-69bec419/01-原片",
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611072325/a403a5a9acec1200c88772cef3706f7f/1040g2sg31tvvlp551ae05pr3pp663kclpc0ppng!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/1f760979c56050605e72091357cef0fc/1040g2sg31tvvlp551aeg5pr3pp663kcllu4ggog!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/f96c91f48db60374e51df78626c54bff/1040g2sg31tvvlp551af05pr3pp663kclugmal6o!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/2533de71b477c9c83def18bb09025e4c/1040g2sg31tvvlp551afg5pr3pp663kcl05khma0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/b1f340e873abf1544b9feae6e6f79e94/1040g2sg31tvvlp551ag05pr3pp663kclfs2mtuo!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/3ba084989ec9a4144452a9485651be34/1040g2sg31tvvlp551agg5pr3pp663kclhf9p728!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/38c681fd79a419037e9e030f7e6b109f/1040g2sg31tvvlp551ah05pr3pp663kcljeumof0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/5bae2f725ce23138488fb108b01c50d1/1040g2sg31tvvlp551ahg5pr3pp663kclq5qhn7g!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/dedcae01479417639e221cd0458cf2c7/1040g2sg31tvvlp551ai05pr3pp663kcl3ecmv5o!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/8bbf2b132fe3e203e9f0d7e229e778d4/1040g2sg31tvvlp551aig5pr3pp663kclkgi2h20!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/18d11a070a978534e739837e8c388b34/1040g2sg31tvvlp551aj05pr3pp663kcljar91a8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/836c48d31f62826b28ee231d7fa7f8aa/1040g2sg31tvvlp551ajg5pr3pp663kcl57o2oog!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/0770083aa2a42676e28dc3e0f52461a7/1040g2sg31tvvlp551ak05pr3pp663kclaa5acu0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072325/4f284248ef906f4e460550bb150488db/1040g2sg31tvvlp551akg5pr3pp663kclac45ojg!nd_dft_wlteh_webp_3"
-      ],
-      "max_total_mb": 90
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6ad212fc000000001802d6be?xsec_token=CB1R4eZ-cJHC_rqtlvG4Xmamdfl9GvL7TO0div0lOvsuA=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/lulu-sunset-6ad212fc/01-原片",
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611072349/76ceb02a064479663a4ebf794df190fb/notes_pre_post/1040g3k8326cqvueoka705qlghp0l1h01pro2cso!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072349/ef7a01b311274499f8477b421dc6b2c7/notes_pre_post/1040g3k8326cqvueoka7g5qlghp0l1h01cjj2jlg!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072349/d54a2401a2f6958f8d19ab3cd0095343/notes_pre_post/1040g3k8326cqvueoka805qlghp0l1h01pb66us8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072349/2ec99467fbbdb8306d42d3e7ea9a9990/notes_pre_post/1040g3k8326cqvueoka8g5qlghp0l1h01pt7kqn0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611072349/fb532c85d7eed5ce71ea01a71e20146e/notes_pre_post/1040g3k8326cqvueoka905qlghp0l1h01fu7131o!nd_dft_wlteh_webp_3"
-      ],
-      "max_total_mb": 60
-    },
-    {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6aec24fa0000000003006708?xsec_token=CBpdIw7Z7uvNIuA8EI8NwDpkDSOXxf_u6BIuY_o6GCYbA=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/depth3d-6aec24fa/01-原片",
-      "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611080022/6aaf407c1b4809829a99b689a9ce7d38/notes_pre_post/1040g3k032769kbsk78205pj0nm70ufspnn7qg7o!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611080022/0fc1077bf6e9edd757dfd1c23cc051f3/notes_pre_post/1040g3k032769kbsk782g5pj0nm70ufspmj9bpbg!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611080022/96aae210015c47bc101d604c2495fdc7/notes_pre_post/1040g3k032769kbsk78305pj0nm70ufspp3103k8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611080022/4db7ba0bd89d6528b3d8ea41a23ebafc/notes_pre_post/1040g3k032769kbsk783g5pj0nm70ufspuu75f58!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611080022/49d2116b20ee625dc126493ccd5a8f4b/notes_pre_post/1040g3k032769kbsk78405pj0nm70ufsph4ci5b0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611080022/6b84522f4724985d3a5f7cb811f184c2/notes_pre_post/1040g3k032769kbsk784g5pj0nm70ufsp5tn4q4g!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611080022/86d4282a90fcc1e6e3b692b000bd6350/notes_pre_post/1040g3k032769kbsk78505pj0nm70ufspcb2r97g!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611080022/2d0c4e9b6d58bd70661d772da4b3f776/notes_pre_post/1040g3k032769kbsk785g5pj0nm70ufsp6dc40bo!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611080022/b605e60d38908f954c4e35ff3867c119/notes_pre_post/1040g3k032769kbsk78605pj0nm70ufspbi8e4vg!nd_dft_wlteh_webp_3"
-      ],
-      "max_total_mb": 90
-    }
-  ]
+ "jobs": [
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/shinchan-6aedad8b/01-原图",
+   "max_total_mb": 80,
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611071603/e3379917282865ad2b45b22eb579b383/spectrum/1040g34o3277p5n58mga05o18tfi09a4tid65a10!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071603/922de243973af126f014e86ca7d59959/spectrum/1040g34o3277p5n58mg9g5o18tfi09a4toh3q320!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071603/0ba7b5e6055e973713545a2fd43160b5/spectrum/1040g34o3277p5n58mg7g5o18tfi09a4tfj4jh9o!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071603/b13afdd96a7844572d8a366281123364/spectrum/1040g34o3277p5n58mg8g5o18tfi09a4t8upc2h0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071603/524f4bac568811ea1db0e2ea04196736/spectrum/1040g34o3277p5n58mg805o18tfi09a4t4d6u9io!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071603/7c7c3a4cab1e1871ead519d1bed5de54/spectrum/1040g34o3277p5n58mg705o18tfi09a4tshku0e0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071603/c5c292382f3b08f43d5e4cc076ba884b/spectrum/1040g34o3277p5n58mg905o18tfi09a4tjkhr1c8!nd_dft_wlteh_webp_3"
+   ]
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6a4be129000000002101bf59?xsec_token=ABjd431Iyv8HKyZZC3T615b3mwIFIj66cCB5f0wKFpo-Y=&xsec_source=pc_feed",
+   "out_dir": "xhs-wallpaper-replica/examples/video-test-6a4be129/01-原片",
+   "max_total_mb": 20,
+   "max_video_mb": 60,
+   "keep_html": false
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6aeeecba000000001500bd41?xsec_token=CBq1GujLMQPGMTvSaZDTs4ky8glgNJGTnUVSo4bkE1fb4=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/vangogh-bubu-6aeeecba/01-原片",
+   "max_total_mb": 40,
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611071926/86cdc25201fef2fb6d7be35df542b07e/notes_pre_post/1040g3k832790k6g3me6g5pf3tae193rahhuu5e0!nd_dft_wlteh_webp_3"
+   ]
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6ae3391a0000000027009e61?xsec_token=CBHOIHIkn5aWHD9J9c-zMLz4ElHpmdlan197rKsxXOpw0=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/flowers-bubu-6ae3391a/01-原片",
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611071940/a1489f766dc0b8069ae612577d9a9160/notes_pre_post/1040g3k8326tipi1fm6ag5p38giqk4grtr9a0o8g!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071940/941f30e15fd72fbff774cb89b44be7d9/notes_pre_post/1040g3k8326tipi1fm6d05p38giqk4grtu4dc5e8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071940/19a8b1e5439b8a090df889ccda10f53c/notes_pre_post/1040g3k8326tipi1fm6dg5p38giqk4grt5fhj7ng!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071940/f41bb1cc2dce2fb3c51bef1331a664b2/notes_pre_post/1040g3k8326tipi1fm6c05p38giqk4grt1452790!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611071940/998c64fc74de2e3eda1857cd2b984604/notes_pre_post/1040g3k8326tipi1fm6a05p38giqk4grt1tcom78!nd_dft_wlteh_webp_3"
+   ],
+   "max_total_mb": 60
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6ae8870f000000003602ddd7?xsec_token=CBGvzFaihw1qqUg20VhLXT2QYcmObjYHmXUFXjgDq_rsc=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/cat-sakura-6ae8870f/01-原片",
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611072022/b5eebc55363151648ef83e68c26561b8/notes_pre_post/1040g3k83272on4l1n0bg5od35q7k0jk69lubjlg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072022/d721cd80e5a9ac645e1dc78cfb2ee81c/notes_pre_post/1040g3k83272on4l1n0a05od35q7k0jk6ju1hka0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072022/b952dd940fa072944394c622ba37453b/notes_pre_post/1040g3k83272on4l1n0ag5od35q7k0jk6q0lr290!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072022/f7923cc2648e4a723b74f156c674d164/notes_pre_post/1040g3k83272on4l1n0b05od35q7k0jk67ggc8jo!nd_dft_wlteh_webp_3"
+   ],
+   "max_total_mb": 60
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6aed5b12000000002b033b95?xsec_token=CBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7K4FY=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/tomjerry-6aed5b12/01-原片",
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611072057/484b51198b9f1df30440351a963466aa/spectrum/1040g34o3277fhrhsma505om18e96cfrvrcnhvg0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/4f144d34061d0bd550de4a82d2679c89/spectrum/1040g34o3277fhrhsma5g5om18e96cfrvnsi9gj8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/023560c432b4355e833c838e02366adc/spectrum/1040g34o3277fhrg46ce05om18e96cfrvae1glr8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/c80a85227e45a6252531648212554f7d/spectrum/1040g34o3277fhrg46ceg5om18e96cfrvlagutf8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/b3386b26a64d5d12168e69c1624c7df9/spectrum/1040g34o3277fhrg46cf05om18e96cfrvjte9j00!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/76267cd8d3453d7276178bc8d821156a/spectrum/1040g34o3277fhrg46cfg5om18e96cfrv237rgs0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/7c57acc4d24a85d5d2e413d9691adca1/spectrum/1040g34o3277fhrg46cg05om18e96cfrv4mi20r8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/4776ad679ff805383193da574e0eeb17/spectrum/1040g34o3277fhrg46cgg5om18e96cfrvrq6mtc8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/36041cdaf83542cd5edeb3322eecd196/spectrum/1040g34o3277fhrg46ch05om18e96cfrvbc0cpn0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/17963282890cb901155fdea9dbbeb919/spectrum/1040g34o3277fhrg46chg5om18e96cfrvja422ho!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/8f26855a49c634672beefbe619e704bc/spectrum/1040g34o3277fhrg46ci05om18e96cfrv2kskjhg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/2428c28fb6a636eb20242b7975e473f6/spectrum/1040g34o3277fhrg46cig5om18e96cfrvre2ppt0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/966a601b794838a23ad4fb12e0a6d089/spectrum/1040g34o3277fhrg46cj05om18e96cfrvoti614g!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/a5a0745b5b571430794db7b6ebfe1975/spectrum/1040g34o3277fhrg46cjg5om18e96cfrv61d9bkg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/8b57e371049684fece245d5e7faccc74/spectrum/1040g34o3277fhrg46ck05om18e96cfrvfq7tmfo!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/82d15a320ee99311e796a73cdf55d24e/spectrum/1040g34o3277fhrg46ckg5om18e96cfrvsijeing!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/66ede35be18128a6f0873c127f138b3a/spectrum/1040g34o3277fhrhsma405om18e96cfrvncrmv1o!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072057/434d6184eb6aff803fcd748db55e335e/spectrum/1040g34o3277fhrhsma4g5om18e96cfrvgihjvao!nd_dft_wlteh_webp_3"
+   ],
+   "max_total_mb": 90
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6aede8e7000000000902fa39?xsec_token=CBISbJnVDWPV9wo-NpRox3vpdv6NaRVqJ4JP6RKltFa8w=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/lighthouse-6aede8e7/01-原片",
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611072305/5b4d543c69dc2db142d8b4b1dcf3f3ea/spectrum/1040g0k032780sorr6a205p6fcusjkgde6lh2r70!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072305/1cb43b7029e43db447662ed89856679a/spectrum/1040g0k032780sorr6a2g5p6fcusjkgdecvi4oao!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072305/c91034c1cf683f9780aebe90fec76677/spectrum/1040g0k032780sorr6a005p6fcusjkgdee439e08!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072305/1f91c2133535c2016ce7d4c6181993f3/spectrum/1040g0k032780sorr6a0g5p6fcusjkgdehbjuedg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072305/9184392d1f1840436b75480668325e9b/spectrum/1040g0k032780sorr6a105p6fcusjkgdehb1fpdo!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072305/732027ad4f2747524d9e8016e7c81557/spectrum/1040g0k032780sorr6a1g5p6fcusjkgdeio21ap8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072305/9a919791b5c3576a42b0d12d71a67665/spectrum/1040g0k032780sorr6a305p6fcusjkgdec09hdqo!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072305/e00cb719a789f9403322e172db21ea77/spectrum/1040g0k032780sorr6a3g5p6fcusjkgder3dufgo!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072305/8224dbf64d37f07a99afcf071d6ea4c9/spectrum/1040g0k032780sorr6a405p6fcusjkgdebbbebig!nd_dft_wlteh_webp_3"
+   ],
+   "max_total_mb": 90
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/69bec419000000002301125e?xsec_token=CBcrO1K90MCT0hdu0W3d7FN0v8vrPuUWWMvsEirhnSkc4=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/linedog-69bec419/01-原片",
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611072325/a403a5a9acec1200c88772cef3706f7f/1040g2sg31tvvlp551ae05pr3pp663kclpc0ppng!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/1f760979c56050605e72091357cef0fc/1040g2sg31tvvlp551aeg5pr3pp663kcllu4ggog!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/f96c91f48db60374e51df78626c54bff/1040g2sg31tvvlp551af05pr3pp663kclugmal6o!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/2533de71b477c9c83def18bb09025e4c/1040g2sg31tvvlp551afg5pr3pp663kcl05khma0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/b1f340e873abf1544b9feae6e6f79e94/1040g2sg31tvvlp551ag05pr3pp663kclfs2mtuo!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/3ba084989ec9a4144452a9485651be34/1040g2sg31tvvlp551agg5pr3pp663kclhf9p728!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/38c681fd79a419037e9e030f7e6b109f/1040g2sg31tvvlp551ah05pr3pp663kcljeumof0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/5bae2f725ce23138488fb108b01c50d1/1040g2sg31tvvlp551ahg5pr3pp663kclq5qhn7g!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/dedcae01479417639e221cd0458cf2c7/1040g2sg31tvvlp551ai05pr3pp663kcl3ecmv5o!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/8bbf2b132fe3e203e9f0d7e229e778d4/1040g2sg31tvvlp551aig5pr3pp663kclkgi2h20!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/18d11a070a978534e739837e8c388b34/1040g2sg31tvvlp551aj05pr3pp663kcljar91a8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/836c48d31f62826b28ee231d7fa7f8aa/1040g2sg31tvvlp551ajg5pr3pp663kcl57o2oog!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/0770083aa2a42676e28dc3e0f52461a7/1040g2sg31tvvlp551ak05pr3pp663kclaa5acu0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072325/4f284248ef906f4e460550bb150488db/1040g2sg31tvvlp551akg5pr3pp663kclac45ojg!nd_dft_wlteh_webp_3"
+   ],
+   "max_total_mb": 90
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6ad212fc000000001802d6be?xsec_token=CB1R4eZ-cJHC_rqtlvG4Xmamdfl9GvL7TO0div0lOvsuA=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/lulu-sunset-6ad212fc/01-原片",
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611072349/76ceb02a064479663a4ebf794df190fb/notes_pre_post/1040g3k8326cqvueoka705qlghp0l1h01pro2cso!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072349/ef7a01b311274499f8477b421dc6b2c7/notes_pre_post/1040g3k8326cqvueoka7g5qlghp0l1h01cjj2jlg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072349/d54a2401a2f6958f8d19ab3cd0095343/notes_pre_post/1040g3k8326cqvueoka805qlghp0l1h01pb66us8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072349/2ec99467fbbdb8306d42d3e7ea9a9990/notes_pre_post/1040g3k8326cqvueoka8g5qlghp0l1h01pt7kqn0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611072349/fb532c85d7eed5ce71ea01a71e20146e/notes_pre_post/1040g3k8326cqvueoka905qlghp0l1h01fu7131o!nd_dft_wlteh_webp_3"
+   ],
+   "max_total_mb": 60
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6aec24fa0000000003006708?xsec_token=CBpdIw7Z7uvNIuA8EI8NwDpkDSOXxf_u6BIuY_o6GCYbA=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/depth3d-6aec24fa/01-原片",
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611080022/6aaf407c1b4809829a99b689a9ce7d38/notes_pre_post/1040g3k032769kbsk78205pj0nm70ufspnn7qg7o!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080022/0fc1077bf6e9edd757dfd1c23cc051f3/notes_pre_post/1040g3k032769kbsk782g5pj0nm70ufspmj9bpbg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080022/96aae210015c47bc101d604c2495fdc7/notes_pre_post/1040g3k032769kbsk78305pj0nm70ufspp3103k8!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080022/4db7ba0bd89d6528b3d8ea41a23ebafc/notes_pre_post/1040g3k032769kbsk783g5pj0nm70ufspuu75f58!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080022/49d2116b20ee625dc126493ccd5a8f4b/notes_pre_post/1040g3k032769kbsk78405pj0nm70ufsph4ci5b0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080022/6b84522f4724985d3a5f7cb811f184c2/notes_pre_post/1040g3k032769kbsk784g5pj0nm70ufsp5tn4q4g!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080022/86d4282a90fcc1e6e3b692b000bd6350/notes_pre_post/1040g3k032769kbsk78505pj0nm70ufspcb2r97g!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080022/2d0c4e9b6d58bd70661d772da4b3f776/notes_pre_post/1040g3k032769kbsk785g5pj0nm70ufsp6dc40bo!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080022/b605e60d38908f954c4e35ff3867c119/notes_pre_post/1040g3k032769kbsk78605pj0nm70ufspbi8e4vg!nd_dft_wlteh_webp_3"
+   ],
+   "max_total_mb": 90
+  },
+  {
+   "note_url": "https://www.xiaohongshu.com/discovery/item/6aef57ed000000001b031439?xsec_token=CBIyjMX7GUTHS0BQpFx-hSn6Yy3mGTCUGPE4MVNYsBi20=&xsec_source=pc_share",
+   "out_dir": "xhs-wallpaper-replica/examples/snoopy-6aef57ed/01-原片",
+   "max_total_mb": 60,
+   "image_urls": [
+    "https://sns-web-i10.rednotecdn.com/202611080121/30ead55be3690e730cd9370df7efc566/notes_pre_post/1040g3k83279d0gcing505pjd5dehotguuo3trgg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080121/7b9e4950d6e1ead279c90217c0a74ef1/notes_pre_post/1040g3k83279d0gcing2g5pjd5dehotgu1e86pi0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080121/5864bfbf431908fea52cca4fed86cfa4/notes_pre_post/1040g3k83279d0gcing305pjd5dehotgub9jjjrg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080121/dba7e8762a4e19904d4f486dab799150/notes_pre_post/1040g3k83279d0gcing3g5pjd5dehotgud2980jg!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080121/4a82d01a15bffd996811f989aab79820/notes_pre_post/1040g3k83279d0gcing405pjd5dehotgugmtmgv0!nd_dft_wlteh_webp_3",
+    "https://sns-web-i10.rednotecdn.com/202611080121/f23e870c76b10c0b0cc9e15a06ef2052/notes_pre_post/1040g3k83279d0gcing4g5pjd5dehotgulb7prng!nd_dft_wlteh_webp_3"
+   ]
+  }
+ ]
 }
