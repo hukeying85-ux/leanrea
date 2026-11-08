@@ -1,7 +1,15 @@
-# healing-video-dub · 3D 治愈动画模板换文案克隆配音技能（A1 丝滑架构）
+# healing-video-dub · 3D 治愈动画模板换文案克隆配音与多场景动态合成技能
 
-> 一个 [`SKILL.md`](SKILL.md) + 三个脚本（`probe_template.py` / `clone_and_dub_a1.py` / `expand_30s_template.py`），基于固定 1080×1920 24fps 3D 动画底片，改几行 JSON 台词即可用开源 **F5-TTS + Seed-VC 44.1kHz** 生成双角色零样本克隆配音，毫秒级避开 `3.50s` 亲脸颊动作音效禁区，0.4 秒无损合成丝滑成片。
+> 一个 [`SKILL.md`](SKILL.md) + 四个脚本（`probe_template.py` / `clone_and_dub_a1.py` / `expand_30s_template.py` / `render_10scenes_30s.py`）：既支持固定 1080×1920 24fps 3D 动画底片无损换文案克隆配音，也支持走出卧室的 **10 大真实全身形象 3D 场景 + `Depth-Anything-V2` 神经 3D 视差运镜 + 音节联动毛绒角色律动 + 10 镜环境粒子光影** 动态成片合成。
 > 延续本仓库 [`leanrea/`](../leanrea/) 与 [`healing-comic/`](../healing-comic/) 的设计哲学：零 MCP、零付费 API、带硬门禁自动验收。
+
+---
+
+## 实测样片三（30.00s 走出卧室全天 10 场景动态版）：《走过你的朝朝暮暮 · 全天十景》
+
+- **30s 10 场景动态成品视频**：[`examples/output/zhaozhaomumu_10scenes_30s.mp4`](examples/output/zhaozhaomumu_10scenes_30s.mp4)（`1080×1920 @ 24.0fps`，`720 帧`，**冻结帧 `0.00%`**，10 大非躺床场景 × 3s：晨光厨房 → 林荫花径 → 街角奶茶 → 草坪野餐 → 太阳雨巷 → 海滨兜风 → 橘子海落日 → 暖灯集市 → 客厅热可可 → 繁星烟花露台）
+- **10 镜关键帧 + 克隆音轨波形 + 帧间运动连续性核验图**：[`examples/output/zhaozhaomumu_10scenes_timeline_qa.png`](examples/output/zhaozhaomumu_10scenes_timeline_qa.png)
+- **配置与克隆干声**：[`examples/spec-zhaozhaomumu-10scenes-30s.json`](examples/spec-zhaozhaomumu-10scenes-30s.json) · [`examples/clips-zhaozhaomumu-10scenes/`](examples/clips-zhaozhaomumu-10scenes/)（Colab Tesla T4 即用即停实测：`Depth-Anything-V2-Large` 10 镜深度图 + `F5-TTS + Seed-VC` 克隆 + 双声纹核验共 **`237.87s`**，完成后立即释放会话归零）
 
 ---
 
