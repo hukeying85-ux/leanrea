@@ -124,7 +124,7 @@ python3 scripts/clone_and_dub_a1.py examples/spec-weekend-snuggle.json \
 | :--- | :---: | :---: | :--- |
 | **本地 GPU 热启动**（RTX 3060/4060/4090，模型常驻显存） | **`~15 秒`** | **`~40 – 55 秒`（不到 1 分钟）** | `F5-TTS` 约 `1.0s/句` + `Seed-VC` 约 `1.4s/句` + 混音封装 `4s` |
 | **本地 GPU 仅跑 `F5-TTS` 快速模式**（省去 Seed-VC 二次精修） | **`~5 秒`** | **`~12 – 18 秒`** | 适合快速试听文案节奏，定稿后再开 `hybrid` |
-| **云端 Colab T4 冷启动（含「即用即停」自动销毁）** | **`~3.0 分钟`**（实测 `181.6s`） | **`~3.8 – 4.5 分钟`** | 环境安装与拉权重固定占 `~2.5 分钟`，多 8 句台词仅多花 `~35 秒` |
+| **云端 Colab T4 冷启动（含「即用即停」自动销毁）** | **`~3.0 分钟`**（实测 `181.6s`） | **实测 `3 分 45 秒`**（GPU 总耗时 `225.05s`，含 CI 拉起共 `4 分 56 秒`） | 环境安装 `53.7s` + 模型加载 `32.7s` + 36 条 F5-TTS `47.9s` + 24 条 Seed-VC `74.7s` + 声纹核验 `9.4s` |
 | **纯 CPU 无显卡电脑**（16GB 内存） | `~45 – 70 秒` | **`~2.5 – 4 分钟`** | 自动降为 `16 NFE steps`，无需显卡也能跑 |
 | **对比：若用方案 B（`Wan2.1` 视频大模型重绘 30s 画面）** | `~10 分钟`（单路 T4） | **`~25 – 30 分钟`**（T4） | 算力开销大 30 倍且 1080p 锐度下降，日常换文案不建议 |
 
@@ -134,17 +134,23 @@ python3 scripts/clone_and_dub_a1.py examples/spec-weekend-snuggle.json \
 
 1. **`--mode multi_clip`（同 IP 多镜头拼接，最推荐）**：
    收集同系列 3 条不同动作的 10s 无水印底片（如：`第1幕 清晨偷亲 10s` + `第2幕 被窝撒娇 10s` + `第3幕 端早餐投喂 10s`），按三幕剧拼接成 `30.24s` 连续 24fps 底片，伴奏轨自动 `120ms` 交叉淡化循环 3 周，保持 `100%` 原生 A1 丝滑度（范例配置见 `examples/spec-milk-tea-30s.json`）。
-2. **`--mode pingpong`（单底片正反演闭环 + 微推镜呼吸，应急零素材扩容）**：
-   当手头只有 1 条 10s 底片时，利用睡眠/依偎动作首尾柔顺的特点：`第1幕 正放全景 (0-10s)` → `第2幕 倒放无缝过渡 (10-20s，衔接帧像素差为 0，绝无跳剪)` → `第3幕 1.04x 中心柔焦微推镜特写正放 (20-30s)`。
+2. **`--mode morning_dusk_3act`（单底片电影级三幕：朝·晨光 → 暮·落日晚霞无缝倒演 → 朝朝暮暮·暖灯微推镜，已实测交付《走过你的朝朝暮暮》）**：
+   当手头只有 1 条 10s 底片时，利用连续帧序列 `[0..240] + [239..1] + [0..240]`（共 `721帧 / 30.04s`，**转场重复帧为 `0`、全片冻结帧 `0.00%`**）配合平滑时序调色与伴奏重组：
+   - **第一幕·朝（`0–10.04s`）**：原生清透晨光，保留 `3.50s` 晨安亲吻音效；
+   - **第二幕·暮（`10.04–20.00s`）**：无缝倒演衔接 + 暖橘玫瑰晚霞调色，脚本严格按 `t_act2 = 20.00 - t_fwd` 重算真实张嘴角色槽位，并用同拍号纯吉他乐句抹除 `13.50s` 幻影亲吻声、在 `15.92s–16.64s` 精准落位正放亲吻音效；
+   - **第三幕·合（`20.00–30.04s`）**：暖灯柔焦 `1.04x` 亲密微推镜，保留 `23.50s` 约定之吻音效。
 
 ```sh
-# 校验 30s 三幕 12 句台词配置并查看耗时预估
-python3 scripts/expand_30s_template.py --mode estimate --spec-30s examples/spec-milk-tea-30s.json
-
-# 单底片 5 秒生成 30s 零跳帧无声底片 + 30s 循环伴奏轨
-python3 scripts/expand_30s_template.py --mode pingpong \
+# 单底片一键生成 30.04s 三幕丝滑模板（含重排 12 槽位清单与 3 次亲吻伴奏轨）
+python3 scripts/expand_30s_template.py --mode morning_dusk_3act \
   --template-dir templates/capybara_morning_10s \
-  --out-dir templates/capybara_morning_30s
+  --out-dir templates/capybara_zhaozhaomumu_30s
+
+# 合成 30s 实测样片《走过你的朝朝暮暮》并导出 12 句 + 3 禁区波形核验图
+python3 scripts/clone_and_dub_a1.py examples/spec-zhaozhaomumu-30s.json \
+  --out examples/output/zhaozhaomumu_a1_30s.mp4 \
+  --qa-json examples/output/zhaozhaomumu_30s_qa.json \
+  --qa-plot examples/output/zhaozhaomumu_30s_timeline_qa.png
 ```
 
 ---

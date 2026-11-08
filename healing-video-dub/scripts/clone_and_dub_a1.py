@@ -344,7 +344,8 @@ def main():
         import matplotlib.pyplot as plt
 
         t_ax = np.arange(total_samples) / target_sr
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(13, 5.8), sharex=True, dpi=145)
+        fig_w = 16.5 if len(placement_report) > 6 else 13.0
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(fig_w, 6.0), sharex=True, dpi=145)
         fig.patch.set_facecolor("#14161d")
         for ax in (ax1, ax2):
             ax.set_facecolor("#1c1f29")
@@ -354,12 +355,15 @@ def main():
 
         step = 40
         ax1.plot(t_ax[::step], vocal_bus[::step], color="#06d6a0", lw=0.8, label="Cloned Dialogue Bus (F5-TTS + Seed-VC 44.1kHz)")
-        for p in placement_report:
+        for idx_p, p in enumerate(placement_report):
             ax1.axvspan(p["start_sec"], p["end_sec"], color="#4cc9f0", alpha=0.14)
-            ax1.text((p["start_sec"] + p["end_sec"]) / 2, 0.78, f"{p['slot_id']} ({p['speaker']})\nRatio={p['atempo_ratio']}x",
-                     ha="center", va="top", color="#e8f1f8", fontsize=8.5, fontweight="bold")
-        for gz in tpl.get("sfx_guard_zones", []):
-            ax1.axvspan(gz["start_sec"], gz["end_sec"], color="#ef476f", alpha=0.25, label="SFX Guard Zone (3.50s Cheek Kiss - 0% Vocal Leak)")
+            y_lbl = 0.88 if (idx_p % 2 == 0 or len(placement_report) <= 6) else 0.66
+            fs_lbl = 7.2 if len(placement_report) > 6 else 8.5
+            ax1.text((p["start_sec"] + p["end_sec"]) / 2, y_lbl, f"{p['slot_id']}\n{p['speaker']} ({p['atempo_ratio']}x)",
+                     ha="center", va="top", color="#e8f1f8", fontsize=fs_lbl, fontweight="bold")
+        for idx_g, gz in enumerate(tpl.get("sfx_guard_zones", [])):
+            lbl_g = "SFX Guard Zones (Cheek Kiss SFX - 0% Vocal Leak)" if idx_g == 0 else None
+            ax1.axvspan(gz["start_sec"], gz["end_sec"], color="#ef476f", alpha=0.26, label=lbl_g)
         ax1.set_ylim(-0.95, 0.95)
         ax1.set_ylabel("Cloned Vocals", color="white")
         ax1.set_title(f"A1 New-Copy Dubbing QA Timeline [{qa_status}] — {spec['episode_id']} (1080x1920 @ 24fps)", color="white", fontsize=11.5, fontweight="bold")
@@ -377,7 +381,7 @@ def main():
         plt.savefig(args.qa_plot, facecolor=fig.get_facecolor())
         plt.close(fig)
 
-    print(f"[{qa_status}] Generated A1 10s video: {out_mp4} ({os.path.getsize(out_mp4):,} B)")
+    print(f"[{qa_status}] Generated A1 {total_samples/target_sr:.2f}s video: {out_mp4} ({os.path.getsize(out_mp4):,} B)")
     for p in placement_report:
         print(f"  - {p['slot_id']} [{p['placed_start_sec']:.2f}s..{p['placed_end_sec']:.2f}s] ({p['speaker']}): {p['text']} (fill={p['slot_fill_pct']}%, atempo={p['atempo_ratio']}x)")
 

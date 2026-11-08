@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 """
-probe_template.py — 自动勘测任意短视频模板的帧率、静音/音效禁区与开口槽位，并导出嘴型核验条带图。
-用法：
-  python3 scripts/probe_template.py \
-    --video templates/capybara_morning_10s/video_1080p24_muted.mp4 \
-    --bgm templates/capybara_morning_10s/stems/bgm_and_kiss_sfx.flac \
-    --out-strip examples/output/lip_strip.png
+probe_template.py — 流式低内存勘测任意短视频模板的帧率、冻结帧率、静音/音效禁区与开口槽位，并导出嘴型核验条带图。
 """
 import argparse
 import json
@@ -33,60 +28,67 @@ def detect_energy_windows(wav_path: str, win_sec: float = 0.05, thresh_rms: floa
 
 
 def main():
-    ap = argparse.ArgumentParser(description="勘测 3D 动画模板帧率、嘴型时间窗与音效峰值")
+    ap = argparse.ArgumentParser(description="流式勘测 3D 动画模板帧率、嘴型时间窗与音效峰值")
     ap.add_argument("--video", required=True, help="无水印模板视频 (.mp4)")
-    ap.add_argument("--vocals", default="", help="可选：htdemucs 分离的原人声轨 (.flac/.wav)，用于自动切分槽位")
-    ap.add_argument("--bgm", default="", help="可选：htdemucs 分离的伴奏+音效轨 (.flac/.wav)")
+    ap.add_argument("--vocals", default="", help="可选：htdemucs 分离的原人声轨 (.flac/.wav)")
     ap.add_argument("--out-json", default="", help="输出测量结果 JSON")
-    ap.add_argument("--out-strip", default="", help="输出每 0.5s 角色嘴部特写核验图 (.png)")
+    ap.add_argument("--out-strip", default="", help="输出角色嘴部特写核验图 (.png)")
     args = ap.parse_args()
 
     cap = cv2.VideoCapture(args.video)
     fps = float(cap.get(cv2.CAP_PROP_FPS))
     w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    frames = []
+    est_total = max(1, int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
+    dur_est = est_total / max(fps, 1e-6)
+    step_s = max(0.5, round(dur_est / 16.0, 2))
+    want_frames = {int(round(t * fps)): round(float(t), 2) for t in np.arange(0.5, dur_est, step_s)[:16]}
+
+    prev_g = None
+    diffs = []
+    saved_crops = []
+    y0, y1 = int(h * 0.32), int(h * 0.66)
+    x0, x1 = int(w * 0.05), int(w * 0.95)
+    n_frames = 0
     while True:
         ok, bgr = cap.read()
         if not ok:
             break
-        frames.append(cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB))
+        g = cv2.cvtColor(cv2.resize(bgr, (180, 320)), cv2.COLOR_BGR2GRAY).astype(np.float32)
+        if prev_g is not None:
+            diffs.append(float(np.mean(np.abs(g - prev_g))))
+        prev_g = g
+        if args.out_strip and n_frames in want_frames:
+            rgb_crop = cv2.cvtColor(bgr[y0:y1, x0:x1], cv2.COLOR_BGR2RGB)
+            saved_crops.append((want_frames[n_frames], n_frames, rgb_crop))
+        n_frames += 1
     cap.release()
 
-    grays = [cv2.cvtColor(cv2.resize(f, (180, 320)), cv2.COLOR_RGB2GRAY).astype(np.float32) for f in frames]
-    diffs = [float(np.mean(np.abs(grays[i + 1] - grays[i]))) for i in range(len(grays) - 1)]
-    frozen_pct = round(float(np.mean(np.array(diffs) < 0.35) * 100.0), 2) if diffs else 0.0
-
+    frozen_pct = round(float(np.mean(np.array(diffs) < 0.30) * 100.0), 2) if diffs else 0.0
     report = {
         "resolution": [w, h],
         "fps": round(fps, 3),
-        "frames": len(frames),
-        "duration_sec": round(len(frames) / max(fps, 1e-6), 4),
+        "frames": n_frames,
+        "duration_sec": round(n_frames / max(fps, 1e-6), 4),
         "frozen_frame_pct": frozen_pct,
         "a1_smooth_grade": "PASS" if frozen_pct < 3.0 else "WARN_STATIC_FRAMES",
     }
 
     if args.vocals:
-        slots, dur_a, sr_a = detect_energy_windows(args.vocals)
+        slots, _, sr_a = detect_energy_windows(args.vocals)
         report["detected_vocal_slots"] = [{"start_sec": s, "end_sec": e, "dur_sec": round(e - s, 2)} for s, e in slots]
         report["audio_sr"] = sr_a
 
-    if args.out_strip and frames:
-        step_s = 0.5
-        times = np.arange(0.5, min(10.0, len(frames) / fps), step_s)[:16]
-        cw, ch = 320, 200
-        cols = 4
-        rows = int(np.ceil(len(times) / cols))
+    if args.out_strip and saved_crops:
+        cw, ch, cols = 320, 200, 4
+        rows = int(np.ceil(len(saved_crops) / cols))
         grid = Image.new("RGB", (cw * cols, ch * rows), (20, 22, 28))
         draw = ImageDraw.Draw(grid)
-        y0, y1 = int(h * 0.32), int(h * 0.66)
-        x0, x1 = int(w * 0.05), int(w * 0.95)
-        for idx, t in enumerate(times):
-            fi = min(len(frames) - 1, int(round(t * fps)))
-            crop = Image.fromarray(frames[fi][y0:y1, x0:x1]).resize((cw - 8, ch - 28), Image.Resampling.LANCZOS)
+        for idx, (ts, fi, crop_arr) in enumerate(saved_crops):
+            crop = Image.fromarray(crop_arr).resize((cw - 8, ch - 28), Image.Resampling.LANCZOS)
             gx, gy = (idx % cols) * cw, (idx // cols) * ch
             grid.paste(crop, (gx + 4, gy + 24))
-            draw.text((gx + 8, gy + 5), f"t={t:.2f}s (f={fi})", fill=(255, 220, 110))
+            draw.text((gx + 8, gy + 5), f"t={ts:.2f}s (f={fi})", fill=(255, 220, 110))
         grid.save(args.out_strip)
         report["lip_strip_png"] = args.out_strip
 

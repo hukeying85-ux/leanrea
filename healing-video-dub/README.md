@@ -5,7 +5,17 @@
 
 ---
 
-## 本次实测样片：《周末赖床篇：偷亲一下小懒猪》（10.08s · A1 架构）
+## 实测样片二（30.04s 三幕长片）：《走过你的朝朝暮暮》（Colab T4 即用即停实测）
+
+- **30s 成品视频**：[`examples/output/zhaozhaomumu_a1_30s.mp4`](examples/output/zhaozhaomumu_a1_30s.mp4)（`1080×1920 @ 24.0fps`，`721 帧`，冻结帧 `0.00%`，三次亲脸颊音效禁区人声泄漏 `0.000000`）
+- **12 句波形与 3 处亲吻禁区核验图**：[`examples/output/zhaozhaomumu_30s_timeline_qa.png`](examples/output/zhaozhaomumu_30s_timeline_qa.png)
+- **三幕光影递进预览（朝·晨光 → 暮·晚霞 → 星夜微推镜）**：[`examples/output/zhaozhaomumu_3acts_lighting_qa.png`](examples/output/zhaozhaomumu_3acts_lighting_qa.png)
+- **台词配置源文件**：[`examples/spec-zhaozhaomumu-30s.json`](examples/spec-zhaozhaomumu-30s.json)
+- **Colab T4 冷启动（即用即停）实测耗时**：GPU 活跃总耗时 **`225.05s`（`3 分 45 秒`）**（含环境安装 `53.7s` + 36 条 F5-TTS `47.9s` + 24 条 Seed-VC `74.7s` + 双声纹模型核验 `9.4s`，推理完立即 `colab stop` 释放会话归零）。
+
+---
+
+## 实测样片一（10.08s 单幕短片）：《周末赖床篇：偷亲一下小懒猪》（A1 架构）
 
 - **成品视频**：[`examples/output/weekend_snuggle_a1_10s.mp4`](examples/output/weekend_snuggle_a1_10s.mp4)（`1080×1920 @ 24.0fps`，冻结帧 `0.00%`，`3.50s` 亲吻禁区人声泄漏 `0.000000`）
 - **波形与槽位对齐验收图**：[`examples/output/weekend_snuggle_timeline_qa.png`](examples/output/weekend_snuggle_timeline_qa.png)
