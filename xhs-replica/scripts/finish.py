@@ -75,12 +75,15 @@ def film_grade(im, grain=0.010, rng=None):
     return Image.fromarray((a * 255 + 0.5).astype(np.uint8))
 
 
-def tone(im, sat=1.0, warm=0.0):
-    """整轮色调微调：sat>1 加饱和，warm>0 往暖褐推。
-    用来把新画的一轮拉回某一版老配色（比如第2轮那种低饱和胶片暖调）。"""
-    if sat == 1.0 and warm == 0.0:
+def tone(im, sat=1.0, warm=0.0, bright=1.0):
+    """整轮色调微调：sat>1 加饱和，warm>0 往暖褐推，bright>1 提亮。
+    用来把新画的一轮拉回某一版老配色（比如第2轮那种低饱和胶片暖调）；
+    film_grade 的暗角和 S 曲线会把明度压掉一截，bright 就是用来补回来的。"""
+    if sat == 1.0 and warm == 0.0 and bright == 1.0:
         return im
     a = np.asarray(im).astype(np.float32) / 255.0
+    if bright != 1.0:
+        a = np.clip(a * bright, 0, 1)
     if sat != 1.0:
         lum = a @ np.array([0.2126, 0.7152, 0.0722], dtype=np.float32)
         a = np.clip(lum[..., None] + (a - lum[..., None]) * sat, 0, 1)
@@ -199,7 +202,8 @@ def main():
         im = im.crop((l, t, l + nw, t + nh)).resize((TW, TH), Image.LANCZOS)
         im = im.filter(ImageFilter.UnsharpMask(radius=2, percent=60, threshold=3))
         im = film_grade(im, grain=grain, rng=np.random.default_rng(7 + i))
-        im = tone(im, float(spec.get("sat", 1.0)), float(spec.get("warm", 0.0)))
+        im = tone(im, float(spec.get("sat", 1.0)), float(spec.get("warm", 0.0)),
+                  float(spec.get("bright", 1.0)))
         if it.get("word"):
             im, box = stamp_word(im, it["word"], i,
                                  scale=float(it.get("scale", 1.35)),
