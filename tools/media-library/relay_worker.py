@@ -611,6 +611,10 @@ def try_xhs_downloader(url, out):
     # 工具会在 cwd 下写 Volume/Temp，共用一份仓库会互相删临时文件（踩过两次）
     XHSDL_OUT = tempfile.mkdtemp(prefix="xhsdl_")
     repo = os.path.join(XHSDL_OUT, "repo")
+    # 源码副本和下载目录必须分开：扫整个临时目录会把仓库自带的截图
+    # PNG 也当素材收进来（7 张图混进 25 个仓库截图，踩过）
+    XHSDL_DL = os.path.join(XHSDL_OUT, "dl")
+    os.makedirs(XHSDL_DL, exist_ok=True)
     try:
         shutil.copytree(XHSDL_DIR, repo,
                         ignore=shutil.ignore_patterns(".git", "__pycache__"))
@@ -620,13 +624,13 @@ def try_xhs_downloader(url, out):
     script = os.path.join(XHSDL_OUT, "run.py")
     open(script, "w", encoding="utf-8").write(
         XHSDL_SCRIPT.replace('"%s"' % XHSDL_DIR, '"%s"' % repo))
-    rc, log, err = run([sys.executable, script, url, XHSDL_OUT], timeout=600)
+    rc, log, err = run([sys.executable, script, url, XHSDL_DL], timeout=600)
     _dbg(DBG, "[run] rc=%s\nSTDOUT %s\nSTDERR %s" % (rc, log[-2500:], err[-1500:]))
 
     # 1) 它自己下好的文件
     got = []
-    for rel in list_files_recursive(XHSDL_OUT):
-        p = os.path.join(XHSDL_OUT, rel)
+    for rel in list_files_recursive(XHSDL_DL):
+        p = os.path.join(XHSDL_DL, rel)
         if not os.path.isfile(p) or os.path.getsize(p) < 5000:
             continue
         if _is_garbage_url(rel):
@@ -642,9 +646,9 @@ def try_xhs_downloader(url, out):
 
     # 2) 从返回的详情里再抠一遍直链，按原图规格自己下（双保险）
     detail = {}
-    if os.path.exists(os.path.join(XHSDL_OUT, "detail.json")):
+    if os.path.exists(os.path.join(XHSDL_DL, "detail.json")):
         try:
-            detail = json.load(open(os.path.join(XHSDL_OUT, "detail.json"), encoding="utf-8"))
+            detail = json.load(open(os.path.join(XHSDL_DL, "detail.json"), encoding="utf-8"))
         except Exception as e:
             _dbg(DBG, "detail json bad: %s" % e)
     raw = json.dumps(detail, ensure_ascii=False)
