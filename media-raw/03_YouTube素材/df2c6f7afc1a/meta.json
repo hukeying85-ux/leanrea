@@ -22,7 +22,7 @@
     {
       "tool": "scrape",
       "ok": true,
-      "log": "found 66 candidate urls, saved 22"
+      "log": "found 42 candidate urls, saved 23"
     }
   ],
   "files": [
@@ -47,136 +47,111 @@
       "sha256": "15e68d2a9d25570ba52b91a5abf7fe8edf6ffc41f331761061b1709c61c57226"
     },
     {
+      "name": "img_10.png",
+      "bytes": 11507,
+      "sha256": "32565a681f5420b051f863e20a723490d94d07306de7b379862f0ec4a0d6676c"
+    },
+    {
       "name": "img_11.webp",
       "bytes": 11564,
       "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
     },
     {
       "name": "img_12.webp",
+      "bytes": 11564,
+      "sha256": "ffa11671bf821c06a8dc49e863bebafb2248e0bebb7aea2078ad44583ea17a27"
+    },
+    {
+      "name": "img_13.webp",
       "bytes": 72501,
       "sha256": "ff6175b5482cb45abcc7abb03e177f5418d585f6641412f6e01d93de32c2f20d"
     },
     {
-      "name": "img_13.webp",
+      "name": "img_14.webp",
       "bytes": 19760,
       "sha256": "749e6ae20bc9e2aa84aa6856ac6137e89a39a1d01e319d7004581817bcad3250"
     },
     {
-      "name": "img_14.webp",
+      "name": "img_15.webp",
       "bytes": 35878,
       "sha256": "e14937fa2e3eef4f8957fe4320b4be3d5bc9546302d8edbe514f68b9974f1d0d"
     },
     {
-      "name": "img_15.webp",
+      "name": "img_16.webp",
       "bytes": 26481,
       "sha256": "1df0462c1fa97f84ac84eba8901f529c1e5bb246ee449d3ca99471160b5d8124"
     },
     {
-      "name": "img_16.webp",
+      "name": "img_17.webp",
       "bytes": 39360,
       "sha256": "f2ce4ce30923ca8d67e25e8e7a0a07025fb0d64d4c0ebdae130a7754b92d4289"
     },
     {
-      "name": "img_17.webp",
-      "bytes": 40114,
-      "sha256": "7dc2c5d61b0289edf2f06a20247819a7d8d0e325cacdca97185f495b05946bd6"
-    },
-    {
       "name": "img_18.webp",
-      "bytes": 20860,
-      "sha256": "ca6588e7ee06e9f760931430f4157d700c13850519057642b1d34b928f3dabea"
-    },
-    {
-      "name": "img_19.jpg",
-      "bytes": 26748,
-      "sha256": "97a733f214bfbbfc6c1bf1421791000ae830fc7a48462b410bc8e042f63c04f0"
+      "bytes": 24605,
+      "sha256": "abd1df1fcf6942f6e60aaf62f8f060189b3a09a854b810db88973f8fb4c34178"
     },
     {
       "name": "img_19.webp",
-      "bytes": 24786,
-      "sha256": "748b850fd3bac776951a272cd82daca70a4eb836dc9d3f989c65fe2da72fc480"
+      "bytes": 20426,
+      "sha256": "c57c0e3fa6041246a186606c324db164f92925a4fa601cd3c9c7dc5dfe4ac340"
     },
     {
       "name": "img_20.webp",
-      "bytes": 282172,
-      "sha256": "eb11f9adc1e8e6af8e82cb756d01d08c9cce7a24e752e6ac30a891f255df6670"
-    },
-    {
-      "name": "img_21.jpg",
-      "bytes": 16451,
-      "sha256": "bdb4c8a2884a0cecf34ddfb7e00eeef63396d371220f353ae5859ca153654da4"
+      "bytes": 18202,
+      "sha256": "17fccea0f1b15309320adcb0141be2be78ea1418a52c5295df84e9c9eb2db7b2"
     },
     {
       "name": "img_21.webp",
-      "bytes": 30075,
-      "sha256": "1911487bb88c7c5f0ae2c68a820afc60be231c77ea43cff893a774c168b375cf"
+      "bytes": 26067,
+      "sha256": "1d459267dbcd31461b89937bd7dac2ef24b35fb7514a9d89ecdbce539e20cc00"
     },
     {
       "name": "img_22.webp",
-      "bytes": 85523,
-      "sha256": "05b633ffbbcae50063cd81c6c66008e65b0fdebd3ca744aede3ab1629f92081e"
-    },
-    {
-      "name": "img_23.jpg",
-      "bytes": 13354,
-      "sha256": "2db0797a9cc7361a9816be0091ac44623764c63f2941b66a2e14abb72d34cf44"
+      "bytes": 28070,
+      "sha256": "79548037f1b73f84e79f0bf6af42a70cedbd35a5bc366bc79efe2ecc165ba05d"
     },
     {
       "name": "img_23.webp",
-      "bytes": 15895,
-      "sha256": "14813b607c3ff620fb3272335a73d9c9df81fbaa1e6d0cde13a6431a3ac56e29"
+      "bytes": 14728,
+      "sha256": "84409254664b1603e89867e03e9834169db34f9822f8fcbc3fb8437f1c311cef"
     },
     {
       "name": "img_24.webp",
-      "bytes": 158939,
-      "sha256": "e2314227ddfd44ad207a57a12066b039048e1a8fca19b65ebb77ef8bb0332114"
-    },
-    {
-      "name": "img_25.jpg",
-      "bytes": 19979,
-      "sha256": "3186ccc143e1fb5428e75e716ae11f011ccd8ba956575f46898722725f1d1377"
+      "bytes": 28249,
+      "sha256": "c7a17b6f877af03e36e26cbfb70b311a9966e849d925b14b81011ddf9ae5f42a"
     },
     {
       "name": "img_25.webp",
-      "bytes": 17085,
-      "sha256": "6b09b42c14dece5c80c087a59fe6fc861e37b7a1efd82bd0c0a37d6b30fabc9f"
+      "bytes": 23523,
+      "sha256": "998e90f98ff08508e4bc7c72bdb153977c4ef755573b449e30e2ef3616e37d12"
     },
     {
       "name": "img_26.webp",
-      "bytes": 259629,
-      "sha256": "d362e1ac88d13f0dca7bf6118b9414795a06285092c3ccae683b8f639826d9a7"
-    },
-    {
-      "name": "img_27.jpg",
-      "bytes": 29801,
-      "sha256": "ef907ed6b02e1a11ebc6393f1c090c36ba766a3107194666dec500415a3670da"
+      "bytes": 25076,
+      "sha256": "b5c6b8dfbe198aa7fa183d9d25790b9ce3ff2ad04d2d14fd7f305ed054d54dde"
     },
     {
       "name": "img_27.webp",
-      "bytes": 27503,
-      "sha256": "26d64831e032521a3217c74af7ef6c86ee08dcfe4010ae63f0bad011fb6b723c"
+      "bytes": 28867,
+      "sha256": "b1ed0f11c6eeea95d99428315c8ac54408118a7b3dbef40ca198af53d8ca487e"
     },
     {
       "name": "img_28.webp",
-      "bytes": 89523,
-      "sha256": "e54ffb1b9ce8af161945b87a290044ec887ef0108f76a5b2bb1557c36f7cdeea"
-    },
-    {
-      "name": "img_29.jpg",
-      "bytes": 22601,
-      "sha256": "5bd11f371f3252abaae0d4f88feff3766b481f3b9c4abba1847c38e70a24692e"
+      "bytes": 18327,
+      "sha256": "91d57e95700c190f60cd776301b59c34c6da570f1cd42755db7ab63c9c9c5351"
     },
     {
       "name": "img_29.webp",
-      "bytes": 51310,
-      "sha256": "075f6c3693860a3fa24a6209a4f3fa9bd8ede7699094210d08eeb71b2df93a4c"
+      "bytes": 24659,
+      "sha256": "bfe579d49301a497ed26ee1c4a1f21310e6d65c753581f60f23c61eb43e803c1"
     },
     {
       "name": "img_30.webp",
-      "bytes": 119902,
-      "sha256": "d863d7e71c46aca9fa1b28949a9cab8047724158679e60dcf20950d3af76e9b8"
+      "bytes": 16675,
+      "sha256": "af8df13330f619c881dfe3243b3be378808382948ca3236c9748a27e22113ef8"
     }
   ],
-  "collected_at": "2026-11-08T08:45:41Z",
+  "collected_at": "2026-11-08T08:50:24Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

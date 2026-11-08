@@ -1,0 +1,33 @@
+cwd=/tmp/mo
+src=/home/runner/work/leanrea/leanrea/media-raw (exists=True)
+dest=/tmp/mo/media-raw (exists=True)
+src top=['01_小红书素材', '02_抖音素材', '03_YouTube素材', '05_B站素材', '07_TikTok素材', '_LAST_RUN.md', '_debug', '_last_run.json']
+changes=28
+DEL img_19.jpg
+DEL img_21.jpg
+DEL img_23.jpg
+DEL img_25.jpg
+DEL img_27.jpg
+DEL img_29.jpg
+PUT Rick Astley - Never Gonna Give You Up (Official Vi_dQw4w9WgXcQ.info.json
+PUT img_10.png
+PUT img_12.webp
+PUT img_13.webp
+PUT img_14.webp
+PUT img_15.webp
+PUT img_16.webp
+PUT img_17.webp
+PUT img_18.webp
+PUT img_19.webp
+PUT img_20.webp
+PUT img_21.webp
+PUT img_22.webp
+PUT img_23.webp
+PUT img_24.webp
+PUT img_25.webp
+PUT img_26.webp
+PUT img_27.webp
+PUT img_28.webp
+PUT img_29.webp
+PUT img_30.webp
+PUT meta.json
