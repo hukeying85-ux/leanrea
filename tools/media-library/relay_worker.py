@@ -20,6 +20,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -535,7 +536,7 @@ def _clean_out_dir(out):
 
 XHSDL_REPO = "https://github.com/JoeanAmier/XHS-Downloader"
 XHSDL_DIR = "/tmp/xhsdl"
-XHSDL_OUT = "/tmp/xhsdl_dl"
+XHSDL_READY = False   # 依赖只装一次（main() 里预装，函数里兜底）
 
 XHSDL_SCRIPT = r"""
 import asyncio, json, os, sys
@@ -543,7 +544,9 @@ sys.path.insert(0, "%s")
 os.chdir("%s")
 from source import XHS
 
-FULL = dict(work_path="%s", folder_name="Download", name_format="作品ID",
+WORK_PATH = sys.argv[2]
+
+FULL = dict(work_path=WORK_PATH, folder_name="Download", name_format="作品ID",
             impersonate="chrome146", cookie="", proxy=None, timeout=20,
             chunk=1024 * 1024 * 10, max_retry=3, avg_delay=0.5,
             record_data=False, image_format="AUTO", folder_mode=True,
@@ -551,7 +554,7 @@ FULL = dict(work_path="%s", folder_name="Download", name_format="作品ID",
             video_cover_download=False, live_download=False,
             download_record=False, language="zh_CN", author_archive=False,
             write_mtime=False, note_format="")
-MINIMAL = dict(work_path="%s", folder_name="Download", cookie="",
+MINIMAL = dict(work_path=WORK_PATH, folder_name="Download", cookie="",
                timeout=20, image_format="AUTO", folder_mode=True,
                image_download=True, video_download=False,
                download_record=False)
@@ -568,17 +571,20 @@ async def main():
         data = await xhs.extract(url, True)
     if not isinstance(data, dict):
         data = {"raw": str(data)}
-    json.dump(data, open("/tmp/xhs_detail.json", "w", encoding="utf-8"),
+    json.dump(data, open(os.path.join(WORK_PATH, "detail.json"), "w", encoding="utf-8"),
               ensure_ascii=False, default=str)
     print("detail keys: %%s" %% list(data.keys())[:20])
 
 
 asyncio.run(main())
-""" % (XHSDL_DIR, XHSDL_DIR, XHSDL_OUT, XHSDL_OUT)
+""" % (XHSDL_DIR, XHSDL_DIR)
 
 
 def _ensure_xhs_downloader(DBG):
     """把 XHS-Downloader 源码与依赖装到 /tmp（runner 每次都是干净的）"""
+    global XHSDL_READY
+    if XHSDL_READY:
+        return True
     if not os.path.isdir(os.path.join(XHSDL_DIR, "source")):
         rc, out, err = run(["git", "clone", "--depth", "1", XHSDL_REPO, XHSDL_DIR], timeout=300)
         _dbg(DBG, "[clone] rc=%s out=%s err=%s" % (rc, out[-300:], err[-300:]))
@@ -589,6 +595,7 @@ def _ensure_xhs_downloader(DBG):
         rc, out, err = run([sys.executable, "-m", "pip", "install", "-q",
                             "--disable-pip-version-check", "-r", req], timeout=900)
         _dbg(DBG, "[pip] rc=%s out=%s err=%s" % (rc, out[-400:], err[-400:]))
+    XHSDL_READY = True
     return True
 
 
@@ -600,13 +607,12 @@ def try_xhs_downloader(url, out):
         return False, "xhs-downloader: 源码没装好", []
 
     seen = set()
-    shutil.rmtree(XHSDL_OUT, ignore_errors=True)
-    os.makedirs(XHSDL_OUT, exist_ok=True)
-    if os.path.exists("/tmp/xhs_detail.json"):
-        os.remove("/tmp/xhs_detail.json")
-    script = "/tmp/xhsdl_run.py"
+    # 多篇笔记是并发下载的，工作目录必须彼此独立：
+    # 共用一个目录时会互相 rmtree，mkdir 直接崩（踩过一次）
+    XHSDL_OUT = tempfile.mkdtemp(prefix="xhsdl_")
+    script = XHSDL_OUT + "_run.py"
     open(script, "w", encoding="utf-8").write(XHSDL_SCRIPT)
-    rc, log, err = run([sys.executable, script, url], timeout=600)
+    rc, log, err = run([sys.executable, script, url, XHSDL_OUT], timeout=600)
     _dbg(DBG, "[run] rc=%s\nSTDOUT %s\nSTDERR %s" % (rc, log[-2500:], err[-1500:]))
 
     # 1) 它自己下好的文件
@@ -628,9 +634,9 @@ def try_xhs_downloader(url, out):
 
     # 2) 从返回的详情里再抠一遍直链，按原图规格自己下（双保险）
     detail = {}
-    if os.path.exists("/tmp/xhs_detail.json"):
+    if os.path.exists(os.path.join(XHSDL_OUT, "detail.json")):
         try:
-            detail = json.load(open("/tmp/xhs_detail.json", encoding="utf-8"))
+            detail = json.load(open(os.path.join(XHSDL_OUT, "detail.json"), encoding="utf-8"))
         except Exception as e:
             _dbg(DBG, "detail json bad: %s" % e)
     raw = json.dumps(detail, ensure_ascii=False)
@@ -650,6 +656,7 @@ def try_xhs_downloader(url, out):
         _dbg(DBG, "工具已下够 %d 张，跳过直链补下" % len(got))
     else:
         got += _harvest(out, cands, seen)
+    shutil.rmtree(XHSDL_OUT, ignore_errors=True)
     _dbg(DBG, "TOTAL saved: %d" % len(got))
     return len(got) >= 2, "xhs-downloader: saved %d" % len(got), got
 
@@ -1355,6 +1362,10 @@ def main():
         return
     urls = [l for l in open(QUEUE, encoding="utf-8").read().splitlines() if l.strip()]
     os.makedirs(RAW, exist_ok=True)
+    if any(platform_of(u) == "01_小红书素材" for u in urls):
+        # 提前装好：并发的线程一起跑 pip 会互相踩
+        os.makedirs(os.path.join(RAW, "_debug"), exist_ok=True)
+        _ensure_xhs_downloader(os.path.join(RAW, "_debug", "xhs_setup.txt"))
     results = []
     with ThreadPoolExecutor(max_workers=3) as ex:
         for m in ex.map(handle, urls):
