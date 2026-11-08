@@ -513,22 +513,29 @@ def _is_garbage_url(u):
     return any(lu.endswith(e) for e in NON_IMG_EXT)
 
 
-def _clean_out_dir(out):
-    """把上一轮误存的 PDF / JS 之类清掉，只留真图片。"""
+def _reset_out_dir(out):
+    """开跑前清空该笔记的目录。
+
+    结果分支是镜像同步的：目录里留下什么，线上就是什么。所以每轮从零开始，
+    保证最后剩下的文件一定是这一轮真正下载到的 —— 历史残留、改名前的旧
+    文件、上一轮存重了的副本都不会再混进来。
+    """
     removed = []
     for rel in list_files_recursive(out):
+        if rel == "meta.json":
+            continue
         p = os.path.join(out, rel)
-        if not os.path.isfile(p) or rel == "meta.json":
-            continue
-        try:
-            b = open(p, "rb").read(32)
-        except Exception:
-            continue
-        if not _looks_like_image(b) and not rel.lower().endswith(
-                (".mp4", ".m4v", ".webm", ".mov", ".mp3", ".m4a")):
+        if os.path.isfile(p):
             try:
                 os.remove(p)
                 removed.append(rel)
+            except Exception:
+                pass
+    # 空目录也一并收掉，别留下空壳
+    for d, _, _ in os.walk(out, topdown=False):
+        if d != out:
+            try:
+                os.rmdir(d)
             except Exception:
                 pass
     return removed
@@ -1330,9 +1337,9 @@ def handle(url):
     if folder == "02_抖音素材":
         chain.insert(1, ("douyin-api", try_douyin_api))
 
-    junk = _clean_out_dir(out)
+    junk = _reset_out_dir(out)
     if junk:
-        print("  清理非图片残留: %s" % junk)
+        print("  开跑前清空目录: %d 个文件" % len(junk))
 
     steps, ok = [], False
     for name, fn in chain:
