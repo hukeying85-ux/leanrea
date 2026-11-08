@@ -27,16 +27,16 @@
     {
       "tool": "proxy-relay",
       "ok": false,
-      "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401"
+      "log": "api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401"
     }
   ],
   "files": [
     {
       "name": "_cookies.txt",
-      "bytes": 763,
-      "sha256": "4122f9ee1277d63a260c80a55ad2fcf44fb28e9df77b8b84d089cc4901f6deb5"
+      "bytes": 764,
+      "sha256": "ffa4e056efebf4184e6cab641e33f499dad2fa22338f05f22566e0c8fde23486"
     }
   ],
-  "collected_at": "2026-11-07T09:41:28Z",
+  "collected_at": "2026-11-08T08:38:26Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }

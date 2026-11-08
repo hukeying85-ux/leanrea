@@ -1,28 +1,34 @@
 === xhs-downloader https://www.xiaohongshu.com/explore/6aedad8b0000000012019a2f?xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share ===
-[pip] rc=0 out= err=
-[run] rc=0
+[run] rc=1
 STDOUT 共 1 个小红书作品待处理...
 开始处理作品：6aedad8b0000000012019a2f
-文件 6aedad8b0000000012019a2f_2.png 下载成功
-文件 6aedad8b0000000012019a2f_4.png 下载成功
-文件 6aedad8b0000000012019a2f_1.png 下载成功
-文件 6aedad8b0000000012019a2f_3.png 下载成功
-文件 6aedad8b0000000012019a2f_5.png 下载成功
-文件 6aedad8b0000000012019a2f_7.png 下载成功
-文件 6aedad8b0000000012019a2f_6.png 下载成功
-作品处理完成：6aedad8b0000000012019a2f
-共处理 1 个作品，成功 1 个，失败 0 个，跳过 0 个
-detail keys: ['raw']
 
-STDERR 
-tool downloaded: 7 -> ['xhs_01.png', 'xhs_02.png', 'xhs_03.png', 'xhs_04.png', 'xhs_05.png', 'xhs_06.png', 'xhs_07.png']
-detail urls: 7
-   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg9g5o18tfi09a4toh3q320
-   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg7g5o18tfi09a4tfj4jh9o
-   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg8g5o18tfi09a4t8upc2h0
-   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg805o18tfi09a4t4d6u9io
-   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg705o18tfi09a4tshku0e0
-   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mg905o18tfi09a4tjkhr1c8
-   https://sns-img-bd.xhscdn.com/spectrum/1040g34o3277p5n58mga05o18tfi09a4tid65a10
-工具已下够 7 张，跳过直链补下
-TOTAL saved: 7
+STDERR app.py", line 264, in __download_files
+    result = await self.downloader.run(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/xhsdl/source/application/download.py", line 122, in run
+    tasks = await gather(*tasks)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/xhsdl/source/module/tools.py", line 15, in inner
+    if result := await function(self, *args, **kwargs):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/xhsdl/source/application/download.py", line 278, in __download
+    async with open(temp, "ab") as f:
+               ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/aiofiles/base.py", line 73, in __aenter__
+    return await self
+           ^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/aiofiles/base.py", line 69, in __await__
+    self._obj = yield from self._coro.__await__()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/aiofiles/threadpool/__init__.py", line 93, in _open
+    f = await loop.run_in_executor(executor, cb)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/xhsdl/Volume/Temp/6aedad8b0000000012019a2f_2.auto'
+
+tool downloaded: 0 -> []
+detail urls: 0
+TOTAL saved: 0

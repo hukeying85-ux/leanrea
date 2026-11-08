@@ -1,0 +1,3 @@
+[clone] rc=0 out= err=Cloning into '/tmp/xhsdl'...
+
+[pip] rc=0 out= err=

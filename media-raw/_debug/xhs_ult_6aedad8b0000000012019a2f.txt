@@ -1,6 +1,6 @@
 === ultimate https://www.xiaohongshu.com/explore/6aedad8b0000000012019a2f?xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share ===
      state 不是合法 JSON，退化成文本扫描
-[A/seo-google] http=200 bytes=358321 state=21084 urls+6
+[A/seo-google] http=200 bytes=358349 state=21109 urls+6
      kw images_list    x0
      kw imageList      x1
      kw xhscdn         x7
@@ -19,27 +19,22 @@
      ctx> Fdc.xhscdn.com\u002F06c2adb0-b353-11e9-9d0c-7be9ff8961c1\u002F自营经营者信息公示.pdf","title":"小红书_沪公网安备"},{"label":"网络文化经营许可证：沪网文(2024)1344-086号","link":"\u002F\u002Ffe-video-qc.xhscdn.com\u002Ffe-platform\u002F7970f6e8b70aedc995ba273d04b6b6751abcd63c.pdf","title":"小红书_网络文化经营许可"},{"label":"个性化推荐算法 网信算备310101216601302230019号","link":"https:\u002F\
      ctx> TooltipContent":"开启后将搜索全网内容"},"searchHintConfig":{"homePageSearchInputHint":"搜索或输入任何问题"},"sugConfig":{"maxSugCount":10}},"signConfig":{"url":"https:\u002F\u002Ffe-static.xhscdn.com\u002Fas\u002Fv2\u002Fds\u002F4c0bab9011f51d35ca6280649340e9b9.js"},"webPlayerConfig":{},"pcRelatedSearch":{"useWidget":"enable"},"feedApiUseIntGateway":"enable
      state 不是合法 JSON，退化成文本扫描
-[A/seo-bing] http=200 bytes=358335 state=21082 urls+6
+[A/seo-bing] http=200 bytes=358347 state=21107 urls+6
      state 不是合法 JSON，退化成文本扫描
-[A/direct] http=200 bytes=358299 state=21046 urls+6
+[A/direct] http=200 bytes=358311 state=21071 urls+6
 [B] https://r.jina.ai/ http=200 bytes=1214 urls=0
 [B] https://r.jina.ai/http:/ http=200 bytes=1213 urls=0
 [C] snapshots for 6aedad8b0000000012019a2f: 0
      [D] rendered html urls: 0
 [D] api responses captured: 3 | state bytes: 191 | dom imgs: 2
      dom https://fe-s10.rednotecdn.com/rednotelogo.png
-     dom data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAQAElEQVR4AeycgXrbNgyE++/933nzCT0RJCFZTrK0sbgvyIF3B0iiYdb19u2fX79+/fvZ+Lf4p+pZ2HYq
+     dom data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAQAElEQVR4Aezai3rcRq4E4Pz7/u+8RyBc7CbZc1Gy8Uk09Ceo0FUFkOzBtMey/vPHH3/896/Gfxd/Vj0X
      api[0] keys=['code', 'success', 'msg', 'data']
      api[0] head={"code": -101, "success": false, "msg": "无登录信息，或登录信息为空", "data": {}}
      api[1] keys=['code', 'success', 'msg', 'data']
      api[1] head={"code": -101, "success": false, "msg": "无登录信息，或登录信息为空", "data": {}}
-     api[2] keys=['code', 'success', 'msg', 'data']
-     api[2] head={"code": 0, "success": true, "msg": "成功", "data": {"user_id": "6aeeead00000000013021633", "guest": true, "xsec_token": "ABKvVq2-sLOSDkGXpd7WaY8N23fMOSO9wGmnGfTyEyr5g="}}
-TOTAL candidate urls: 6
-   https://fe-video-qc.xhscdn.com/fe-platform/5581076bd6b6af2e0e943abb024ad0e16f2ebff6.pdf
+     api[2] keys=['msg', 'data', 'code', 'success']
+     api[2] head={"msg": "成功", "data": {"guest": true, "xsec_token": "ABQfIRVUGA2jzzT8FClsKc1GFP-9JK6jboHMYba-XiOSQ=", "user_id": "6af0354600000000130222cf"}, "code": 0, "success": true}
+TOTAL candidate urls: 1
    https://fe-video-qc.xhscdn.com/fe-platform-file/104101b831hhkkll23u0678gtks7tu70004en2n231udpe
-   https://fe-video-qc.xhscdn.com/fe-platform/410dce57bc12a6d7e5808060e47644fbe46f68ff.pdf
-   https://fe-video-qc.xhscdn.com/fe-platform/f37a08cacc088061beb38329c387c32fc48fc6fe.pdf
-   https://dc.xhscdn.com/06c2adb0-b353-11e9-9d0c-7be9ff8961c1/自营经营者信息公示.pdf
-   https://fe-video-qc.xhscdn.com/fe-platform/7970f6e8b70aedc995ba273d04b6b6751abcd63c.pdf
-TOTAL saved: 6
+TOTAL saved: 0

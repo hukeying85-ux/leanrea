@@ -1,19 +1,16 @@
 === xhs-downloader https://www.xiaohongshu.com/explore/6ae333e7000000002903c0c0?xsec_token=ABk9t7_aLq5JZiUliKCwRLUdEYfLHPQecOWdOkjtDQgpo=&xsec_source=pc_user ===
-[clone] rc=0 out= err=Cloning into '/tmp/xhsdl'...
-
-[pip] rc=0 out= err=
 [run] rc=0
 STDOUT 共 1 个小红书作品待处理...
 开始处理作品：6ae333e7000000002903c0c0
+文件 6ae333e7000000002903c0c0_2.png 下载成功
 文件 6ae333e7000000002903c0c0_4.png 下载成功
 文件 6ae333e7000000002903c0c0_1.png 下载成功
-文件 6ae333e7000000002903c0c0_2.png 下载成功
 文件 6ae333e7000000002903c0c0_3.png 下载成功
-文件 6ae333e7000000002903c0c0_5.png 下载成功
 文件 6ae333e7000000002903c0c0_6.png 下载成功
-文件 6ae333e7000000002903c0c0_8.png 下载成功
 文件 6ae333e7000000002903c0c0_7.png 下载成功
+文件 6ae333e7000000002903c0c0_8.png 下载成功
 文件 6ae333e7000000002903c0c0_9.png 下载成功
+文件 6ae333e7000000002903c0c0_5.png 下载成功
 作品处理完成：6ae333e7000000002903c0c0
 共处理 1 个作品，成功 1 个，失败 0 个，跳过 0 个
 detail keys: ['raw']

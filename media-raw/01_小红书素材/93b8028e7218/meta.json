@@ -2,56 +2,51 @@
   "source_url": "https://www.xiaohongshu.com/discovery/item/6aedad8b0000000012019a2f?source=webshare&xhsshare=pc_web&xsec_token=ABOt4KPgQ9BCrmhjftl4WiFJMs81SPb9mBEL7X8EEHhN4=&xsec_source=pc_share",
   "platform_folder": "01_小红书素材",
   "status": "ok",
-  "tool_used": "xhs-dump",
+  "tool_used": "xhs-downloader",
   "steps": [
     {
       "tool": "xhs-downloader",
-      "ok": false,
-      "log": "xhs-downloader: saved 0"
-    },
-    {
-      "tool": "xhs-ultimate",
-      "ok": false,
-      "log": "ultimate: 1 candidates, saved 0"
-    },
-    {
-      "tool": "xhs-dump",
       "ok": true,
-      "log": "dumped 6 urls, saved 6"
+      "log": "xhs-downloader: saved 7"
     }
   ],
   "files": [
     {
-      "name": "xhs_01.webp",
-      "bytes": 238245,
-      "sha256": "641b34589341550c2b37e5c8b3468a846d803553a684861688e4b90486378565"
+      "name": "xhs_01.png",
+      "bytes": 4756418,
+      "sha256": "616521174b506601b9669323a28eae4ad17ee517654a1037cef95d82a929008c"
     },
     {
-      "name": "xhs_02.webp",
-      "bytes": 1834379,
-      "sha256": "5356cbd0ccc02adaf89b7a706e40f1b07513cb2724a9911a4e55240e89e7aae1"
+      "name": "xhs_02.png",
+      "bytes": 4256550,
+      "sha256": "31d5ec9c1bc1474d50ad25646b4905b7b9d5329fa95b8ee6318908784f6349b5"
     },
     {
-      "name": "xhs_03.webp",
-      "bytes": 197388,
-      "sha256": "e8479061c2f11f849b4ff64f0cc3f61c5f3be63fa85f3a9d400b1293034be542"
+      "name": "xhs_03.png",
+      "bytes": 4882135,
+      "sha256": "9ee431656dd97cb86dfdabe92075c572a5cb76aef7508356b0876b209fff1083"
     },
     {
-      "name": "xhs_04.webp",
-      "bytes": 9125754,
-      "sha256": "9a6dd0cf812d9e5dbfd5189a2f88d222801b92ff6f5b59615269733097fb844f"
+      "name": "xhs_04.png",
+      "bytes": 4719101,
+      "sha256": "950bcba8ce2df5d0b2b7fd12b7a7c400ef06a83d363c7c9babc25dfbf178a190"
     },
     {
-      "name": "xhs_05.webp",
-      "bytes": 590703,
-      "sha256": "dd60ce2367d7761071e07d31845988a4af229e9953334029f28ddb8afc27f5a0"
+      "name": "xhs_05.png",
+      "bytes": 1653881,
+      "sha256": "75ef24d4f266aa601de8b57e33db0be60d9fb2d6372ef9af675b34dd94993463"
     },
     {
-      "name": "xhs_06.webp",
-      "bytes": 1387028,
-      "sha256": "1a719aae76344eab9bd4babba5ce24e62776347a90b5e1a44d186b86fa65c20d"
+      "name": "xhs_06.png",
+      "bytes": 4155798,
+      "sha256": "76541cd00bcbb12d7e1b11adac26b6fe8f1a57636e13a55f96c769c12108ae43"
+    },
+    {
+      "name": "xhs_07.png",
+      "bytes": 3132989,
+      "sha256": "2a538bb6f677f948404def2c4a2cb836eb09504516df3a1f26aeac0a0050920b"
     }
   ],
-  "collected_at": "2026-11-07T09:42:31Z",
+  "collected_at": "2026-11-08T08:38:30Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
