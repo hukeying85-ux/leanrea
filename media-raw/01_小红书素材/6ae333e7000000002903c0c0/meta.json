@@ -7,7 +7,7 @@
     {
       "tool": "xhs-downloader",
       "ok": true,
-      "log": "xhs-downloader: saved 9"
+      "log": "xhs-downloader: saved 34"
     }
   ],
   "files": [
@@ -58,8 +58,8 @@
     },
     {
       "name": "xhs_10.jpg",
-      "bytes": 27537,
-      "sha256": "82dae1ede1be123ececb6db2da20d2bc881a07eae2bd168d99f94deff3ec3b01"
+      "bytes": 60110,
+      "sha256": "cd5f2a939983ce7ad96d9e4e2ed2ab58bb41284552b511634592c0290917288e"
     },
     {
       "name": "xhs_11.jpg",
@@ -67,9 +67,19 @@
       "sha256": "843c2c670c01b7f767be0f3548f651f437291beaf9e3cb61c73ad2b39b9515f0"
     },
     {
+      "name": "xhs_11.png",
+      "bytes": 24137,
+      "sha256": "883f70671597fa0e31910fc5841c136656998fd1ab0559831353245db80cc5bc"
+    },
+    {
       "name": "xhs_12.jpg",
       "bytes": 28502,
       "sha256": "18c330cba23c9e0d6c1eefe181426e94b4d79463562202eff6059bfd98cdb11e"
+    },
+    {
+      "name": "xhs_12.png",
+      "bytes": 334943,
+      "sha256": "02346f371ac4162679104dddae8d718d7a2f77778b8aaf292f634245c3cbdcac"
     },
     {
       "name": "xhs_13.jpg",
@@ -77,9 +87,19 @@
       "sha256": "919a83dfbff880d62bda7af4f12c65e857f5550268468ac6111164f2ae5322f0"
     },
     {
+      "name": "xhs_13.png",
+      "bytes": 13333,
+      "sha256": "49cdbbc3d6d37362ddf79ebeeca8df40fab3ede2274d0bea38a0bc96409a6d52"
+    },
+    {
       "name": "xhs_14.jpg",
       "bytes": 31584,
       "sha256": "a4c804560f76982167df8956305b9021c54487985ead1e3fff4443421593b236"
+    },
+    {
+      "name": "xhs_14.png",
+      "bytes": 107432,
+      "sha256": "ba557a6daf0de7ee59b126d50713e42dc9f8608e3b9fc457c59ce99394f3d22b"
     },
     {
       "name": "xhs_15.jpg",
@@ -87,9 +107,19 @@
       "sha256": "2e540d59166dbd01ed2c5eeba36ee3c20946bfc7fb0fee321075a23305310408"
     },
     {
+      "name": "xhs_15.png",
+      "bytes": 109373,
+      "sha256": "0c1e7dec7c57242c84d1eb4cf8a22195bf3e5826c76c27db87f83fdadde28fb8"
+    },
+    {
       "name": "xhs_16.jpg",
       "bytes": 28011,
       "sha256": "d97fde9e209beba91ab64787983464d635251aeb80c4223abb437d90a2154e6f"
+    },
+    {
+      "name": "xhs_16.png",
+      "bytes": 102089,
+      "sha256": "91b263b3588c7f620c1db18905c34d651996172ae7da96c59ce3560dd5c25a48"
     },
     {
       "name": "xhs_17.jpg",
@@ -97,11 +127,101 @@
       "sha256": "789649a0c6b0023a027ed1d4208bea2ba1dab722ba56413f23e0f01c2ed6a959"
     },
     {
+      "name": "xhs_17.png",
+      "bytes": 58595,
+      "sha256": "0add3145cce284d8a6f81a5d1aceb3a854ff91ea475157c45233ad7828192565"
+    },
+    {
       "name": "xhs_18.jpg",
       "bytes": 33980,
       "sha256": "8393fa6928cb6c858460ff669b4b240f987391414caf27020bb3837e2311dcdb"
+    },
+    {
+      "name": "xhs_18.png",
+      "bytes": 419052,
+      "sha256": "0a2c7c8df2bede811190de856386d07fbca53e655221603caf519922fa2b0166"
+    },
+    {
+      "name": "xhs_19.png",
+      "bytes": 447578,
+      "sha256": "7318fbdefc8cb401ed1fb757c6dabec40647bd5c5a0f3e7315a77c643ce73759"
+    },
+    {
+      "name": "xhs_20.png",
+      "bytes": 460975,
+      "sha256": "cdb94f637e8cd497ef981211fb8049c10ba6b4549692777d79d6f2e183ca7d78"
+    },
+    {
+      "name": "xhs_21.png",
+      "bytes": 466817,
+      "sha256": "9a091f7bd87c0399e8f5af63ae8103252c43d9db7e11343cc3cc2ea831ffc982"
+    },
+    {
+      "name": "xhs_22.png",
+      "bytes": 94639,
+      "sha256": "868e45285030f2bdfe139eb8783f0eeae51331a9f9d73ca3ece878f4f1aa9025"
+    },
+    {
+      "name": "xhs_23.png",
+      "bytes": 394157,
+      "sha256": "a9051461a075313fa7f63ab47d094e0172aad2ce457076cdeecdb52845242be9"
+    },
+    {
+      "name": "xhs_24.png",
+      "bytes": 248324,
+      "sha256": "1186b8b28f5996ac7498f4add3787fc3b8f6dbb0059f869b034b53b577613bb5"
+    },
+    {
+      "name": "xhs_25.png",
+      "bytes": 156608,
+      "sha256": "2400e5e5bb4f642bdaecb9c380087987f11bd570323468c9748dbaaefbcf6aaa"
+    },
+    {
+      "name": "xhs_26.png",
+      "bytes": 201889,
+      "sha256": "2502fc129d7352e18fe02b70ebcab63eb1fbd6e160c871d9df7433c965486e52"
+    },
+    {
+      "name": "xhs_27.png",
+      "bytes": 400965,
+      "sha256": "e927d7e208de92748c20ce504651c5949ae3b0b55887b1d6acb275b19249cd6c"
+    },
+    {
+      "name": "xhs_28.png",
+      "bytes": 215721,
+      "sha256": "6badaecf0c42fe183d4475bf64e82f28200e736774fe06526a113de02749d6cd"
+    },
+    {
+      "name": "xhs_29.png",
+      "bytes": 453705,
+      "sha256": "a52f0dfe049705acb5aa2183c3933fbdc6c32387aa88d8134608ba841e2bb08f"
+    },
+    {
+      "name": "xhs_30.png",
+      "bytes": 21811,
+      "sha256": "acd782783b53e670a32dc92813e5ff581a817fc6dba18f52b1292dfe8cd9fc96"
+    },
+    {
+      "name": "xhs_31.png",
+      "bytes": 43765,
+      "sha256": "dc77b6bf3f238ed51126bead57a86f14487b910d1068335f546736289cddb384"
+    },
+    {
+      "name": "xhs_32.png",
+      "bytes": 66252,
+      "sha256": "011c90619c1567bf481f738b807f167999f292afa363b9138ea8c8f2c498253d"
+    },
+    {
+      "name": "xhs_33.png",
+      "bytes": 128243,
+      "sha256": "d74d0bf19200fde1e0df5cacab2eec7d902db1ba0a0699c2e7a1215c12a89e3f"
+    },
+    {
+      "name": "xhs_34.png",
+      "bytes": 161028,
+      "sha256": "faac76c0f6c9f2aa435a961385c163ebf67e18c254bbf4e0178c42bba929914b"
     }
   ],
-  "collected_at": "2026-11-08T08:37:44Z",
+  "collected_at": "2026-11-08T08:44:35Z",
   "note": "素材仅供研究/参考/二次创作底稿，勿直接搬运发布"
 }
