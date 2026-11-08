@@ -607,11 +607,19 @@ def try_xhs_downloader(url, out):
         return False, "xhs-downloader: 源码没装好", []
 
     seen = set()
-    # 多篇笔记是并发下载的，工作目录必须彼此独立：
-    # 共用一个目录时会互相 rmtree，mkdir 直接崩（踩过一次）
+    # 多篇笔记是并发下载的，必须整套隔离：
+    # 工具会在 cwd 下写 Volume/Temp，共用一份仓库会互相删临时文件（踩过两次）
     XHSDL_OUT = tempfile.mkdtemp(prefix="xhsdl_")
-    script = XHSDL_OUT + "_run.py"
-    open(script, "w", encoding="utf-8").write(XHSDL_SCRIPT)
+    repo = os.path.join(XHSDL_OUT, "repo")
+    try:
+        shutil.copytree(XHSDL_DIR, repo,
+                        ignore=shutil.ignore_patterns(".git", "__pycache__"))
+    except Exception as e:
+        _dbg(DBG, "copytree failed: %s" % e)
+        return False, "xhs-downloader: 复制源码失败 %s" % e, []
+    script = os.path.join(XHSDL_OUT, "run.py")
+    open(script, "w", encoding="utf-8").write(
+        XHSDL_SCRIPT.replace('"%s"' % XHSDL_DIR, '"%s"' % repo))
     rc, log, err = run([sys.executable, script, url, XHSDL_OUT], timeout=600)
     _dbg(DBG, "[run] rc=%s\nSTDOUT %s\nSTDERR %s" % (rc, log[-2500:], err[-1500:]))
 
