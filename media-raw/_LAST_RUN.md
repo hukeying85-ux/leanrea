@@ -1,15 +1,15 @@
 # 最近一次中继下载
 
-时间：2026-11-08 08:54 UTC  
+时间：2026-11-08 08:59 UTC  
 任务：8 条，成功：5 条
 
 | 平台 | 结果 | 命中工具 | 文件数 | 体积 | 链接 |
 |---|---|---|---|---|---|
-| 01_小红书素材 | ✅ | xhs-downloader | 18 | 36.62 MB | https://www.xiaohongshu.com/explore/6ae333e700000000290 |
+| 01_小红书素材 | ✅ | xhs-downloader | 9 | 36.37 MB | https://www.xiaohongshu.com/explore/6ae333e700000000290 |
 | 05_B站素材 | ❌ | - | 1 | 0.00 MB | https://www.bilibili.com/video/BV1SPNz6rEE8/ |
 | 05_B站素材 | ❌ | - | 1 | 0.00 MB | https://www.bilibili.com/video/BV1bLhCe6Euk/ |
 | 02_抖音素材 | ❌ | - | 0 | 0.00 MB | https://www.douyin.com/video/7525669126587026745 |
-| 03_YouTube素材 | ✅ | scrape | 24 | 0.69 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
+| 03_YouTube素材 | ✅ | scrape | 22 | 0.60 MB | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
 | 07_TikTok素材 | ✅ | yt-dlp | 2 | 3.26 MB | https://www.tiktok.com/@tiktok/video/710659431229245367 |
 | 01_小红书素材 | ✅ | xhs-downloader | 7 | 26.28 MB | https://www.xiaohongshu.com/discovery/item/6aedad8b0000 |
 | 01_小红书素材 | ✅ | xhs-downloader | 7 | 26.28 MB | https://www.xiaohongshu.com/explore/6aedad8b00000000120 |
@@ -29,41 +29,32 @@
 - `xhs_07.png` — 4,783,852 字节
 - `xhs_08.png` — 4,464,012 字节
 - `xhs_09.png` — 5,248,018 字节
-- `xhs_10.jpg` — 27,537 字节
-- `xhs_11.jpg` — 26,470 字节
-- `xhs_12.jpg` — 28,502 字节
-- `xhs_13.jpg` — 25,709 字节
-- `xhs_14.jpg` — 31,584 字节
-- `xhs_15.jpg` — 27,834 字节
-- `xhs_16.jpg` — 28,011 字节
-- `xhs_17.jpg` — 32,385 字节
-- `xhs_18.jpg` — 33,980 字节
 
 ### https://www.bilibili.com/video/BV1SPNz6rEE8/
 
 - 平台目录：`05_B站素材`
 - 状态：failed，命中工具：无
-- `_cookies.txt` — 759 字节
+- `_cookies.txt` — 761 字节
 - ❌ yt-dlp：`cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1SPNz6rEE8/_cookies.txt
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1SPNz6rEE8: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
 -f 18/22/43/b -> rc=1 ER`
 - ❌ bilibili-api：`api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1SPNz6rEE8/'`
 - ❌ scrape：`found 1 candidate urls, saved 0`
-- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 522 | corsproxy.io: HTTP 401`
+- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401`
 
 ### https://www.bilibili.com/video/BV1bLhCe6Euk/
 
 - 平台目录：`05_B站素材`
 - 状态：failed，命中工具：无
-- `_cookies.txt` — 759 字节
+- `_cookies.txt` — 761 字节
 - ❌ yt-dlp：`cookies: /home/runner/work/leanrea/leanrea/media-raw/05_B站素材/BV1bLhCe6Euk/_cookies.txt
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: [BiliBili] 1bLhCe6Euk: Unable to download webpage: HTTP Error 412: Precondition Failed (caused by <HTTPError 412: Precondition Failed>)
 -f 18/22/43/b -> rc=1 ER`
 - ❌ bilibili-api：`api.bilibili.com: HTTP 412 non-json | app.bilibili.com: HTTP 200 non-json | api.bilibili.com: HTTP 404 non-json`
 - ❌ gallery-dl：`rc=64 [gallery-dl][error] Unsupported URL 'https://www.bilibili.com/video/BV1bLhCe6Euk/'`
 - ❌ scrape：`found 1 candidate urls, saved 0`
-- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 500 | corsproxy.io: HTTP 401`
+- ❌ proxy-relay：`api.codetabs.com: HTTP 522 | api.allorigins.win: HTTP 408 | corsproxy.io: HTTP 401`
 
 ### https://www.douyin.com/video/7525669126587026745
 
@@ -92,20 +83,18 @@
 - `img_14.webp` — 35,878 字节
 - `img_15.webp` — 26,481 字节
 - `img_16.webp` — 39,360 字节
-- `img_17.webp` — 25,076 字节
-- `img_18.webp` — 37,649 字节
-- `img_19.webp` — 29,256 字节
-- `img_20.webp` — 14,728 字节
-- `img_21.webp` — 40,114 字节
-- `img_22.webp` — 28,898 字节
-- `img_23.webp` — 16,753 字节
-- `img_24.webp` — 14,592 字节
-- `img_25.webp` — 27,085 字节
-- `img_26.webp` — 20,860 字节
+- `img_17.webp` — 28,070 字节
+- `img_18.webp` — 20,426 字节
+- `img_19.webp` — 18,202 字节
+- `img_20.webp` — 40,114 字节
+- `img_22.webp` — 22,507 字节
+- `img_24.webp` — 17,630 字节
+- `img_25.webp` — 26,450 字节
+- `img_26.webp` — 14,728 字节
 - `img_27.webp` — 24,605 字节
-- `img_28.webp` — 20,257 字节
-- `img_29.webp` — 37,762 字节
-- `img_30.webp` — 28,867 字节
+- `img_28.webp` — 28,249 字节
+- `img_29.webp` — 24,183 字节
+- `img_30.webp` — 10,626 字节
 - ❌ yt-dlp：`cookies: none
 -f bv*[height<=480]+ba/b[height<=480] -> rc=1 ERROR: unable to download video data: HTTP Error 403: Forbidden
 -f 18/22/43/b -> rc=1 ERROR: [youtube] dQw4w9WgXcQ: Requested format is not available. Use --list-formats for a list of available formats
