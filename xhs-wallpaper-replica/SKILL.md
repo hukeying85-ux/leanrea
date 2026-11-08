@@ -122,6 +122,12 @@ texture, portrait format. No text, no signature, no frame, no watermark.
   交付 1440×3200 走标准 `phone_mockup.py`；「3D」只发生在 iOS 16+ 锁屏开「景深效果」时——前景主体压在时钟前面。所以多做一步：`depth_mask.py` 抠前景 → `phone_mockup.py --ui ios --mask-dir` 让预览图也把主体贴回时钟前（见 ④″）。
   写实 A 模式提示词开头「Recreate this exact photo-realistic image as a faithful replica … same composition, same camera angle」，复刻度极高；带路牌文字的原图（09「Welcome」）提示词写 blank wooden signboards, no letters；图源水印不复刻。
   ISNet 抠的是「显著主体」不是「前景」：拱门（01）、整棵大树（07）、樱花枝（10 抠成了栈桥）会失败 → spec 那页写 `"depth": false` 退回普通叠层；只有主体和时钟（y≈319–553）重叠的页面（03/04/05/08）开了才看得出区别。
+- **参考帖网页端打不开**（第 15 轮《值得珍藏的壁纸…（一二布布）》：xhslink → rednote / xiaohongshu `discovery/item` / `explore` 三种链接全 404，errorCode -510001 = 仅 App 可见或已设私密；
+  `web_search` 标题也搜不到）：relay 走的是同一网页接口，**不要排队**；同 IP 在仓库里有原图就拿它们当风格锚（第 6/7 轮一二布布原片），没有就请用户发截图。
+  说明里要写清「没有原片、用了什么替代锚」，Drive 里用 `参考/` 替代 `原片/`。
+- **纪念日 / 情侣定制（第 15 轮「yf❤wsh · 走过你的朝朝暮暮」，10 张，浪漫）**：不是复刻帖子，而是「同 IP + 指定文字」的私人壁纸 → 全 B 模式新场景，场景按一条时间线排（朝 → 暮：日出 / 早餐 / 花田 / 午睡 / 共伞 / 日落 / 摩天轮 / 星空 / 河灯 / 晚安），每张一个「两个人」的小动作（裹毯 / 喂吐司 / 牵手 / 靠肩 / 共伞）。
+  提示词在角色串之外加「the two bears occupy the lower third, upper half is calm empty sky/wall for text, no text, no signature」——文字一律由 `scripts/caption.py` 压（④‴），生图模型连 ❤ 都不许画。
+  私人用途不写文案、不发小红书；交付同时给 `无字版/`，用户想换句子只需重跑脚本。
 - 生图输出 688×1536（≈9:20），一次 1 张；10 张可以并行 5+5。
 - 角色一致性提示：小新（黄上衣红短裤 / 睡衣 / 幼稚园绿短裤白 T）、小白（白色棉花糖狗）、广志（黑短发眼镜 / 蓝衬衫）、美冴（棕色短卷发）、小葵（橙色头发婴儿）、妮妮（双马尾粉裙）、风间（蓝色西瓜头）。
 - 常见翻车：留下了时钟（提示词没写 REMOVE）→ 重生成；出现日文/英文招牌字 → 提示词加 `no readable text on signs`；上半部分太满 → 加 calm top 15%；比例变 3:4 → 忘了传 images。
@@ -130,6 +136,7 @@ texture, portrait format. No text, no signature, no frame, no watermark.
 - 生图每轮上限 10 张，10 张一套正好用完——留 1 张余量给返工更稳（先出 9 张或分两轮）。
   **失败的调用也计数**（第 13 轮 09 报 "Image generation failed. Try again."，重试直接撞上限 → 09 只能下一轮补）：10 张一套时第 10 张留到最后发，前 9 张全过再出。
   上一轮欠着 1 张、这一轮又要 10 张时（第 14 轮），**不要先补旧的**——否则每一轮都变成 9/10、每个 Drive 文件夹都要回头改两次；让欠账停在旧那一轮，等用户发一条不出新图的消息（「补09」）一次清掉。
+  用户明确说「不补」（第 15 轮开工时对第 13 轮 09 的答复）就把那一轮定格在 9 张，README / Drive 说明改成「按用户要求不补」，以后不要再提。
 - 多轮出图时每轮换一个文件前缀（`复刻图` / `新画` / `新画2-`），Drive 里不同轮的文件名才不会撞；场景清单先对着前几轮查重再写提示词。
 - 新场景的风格锚：优先用自己上一轮的干净底图（`02-复刻/art/*.png`）而不是带 UI 的原图，既保 9:20 又不会把时钟带进来。
 
@@ -205,6 +212,36 @@ python3 scripts/phone_mockup.py all examples/<slug>/02-复刻/spec.json --art-di
 - 封面用 `cover --ui ios --mask-dir` 的景深版（第 13 轮左 04 拱门 右 03 苹果），比干净版更能说明「景深」是什么。
 - 沙箱快照回滚会把 `~/.u2net/`、onnxruntime 一起清掉，按上面三条命令重装即可（~2 分钟）。
 
+### ④‴ 有字定制 / 纪念日壁纸（`scripts/caption.py`）
+
+「模型只画画，字由脚本压」在这里照样成立：先 `phone_mockup.py build` 出 1440×3200 的**无字版**，再让 `caption.py` 把三行字压上去，输出同名**有字版**。
+无字版自己就是交付物之一（用户换句子 / 只要画面时不用重新生图）。
+
+```bash
+# 字体（google/fonts，沙箱里用 blobs API 拉；release / fonts.google.com 域名不通）
+gh api repos/google/fonts/git/blobs/a1327ff3b862246f1f253639040edcc473e5f3a9 -H "Accept: application/vnd.github.raw" > ~/.fonts/GreatVibes-Regular.ttf    # 英文手写
+gh api repos/google/fonts/git/blobs/11bbfb9867d70612158229d037e7a5f622bd0e38 -H "Accept: application/vnd.github.raw" > ~/.fonts/MaShanZheng-Regular.ttf   # 中文毛笔楷书
+gh api repos/google/fonts/git/blobs/363bb08696fe4d3827bd36d3d2fbc028d1205161 -H "Accept: application/vnd.github.raw" > ~/.fonts/LongCang-Regular.ttf      # 备选（龙藏体，更潦草）
+# sha 会随上游更新变：gh api repos/google/fonts/contents/ofl/<family>/<file>.ttf --jq .sha 重新取
+python3 scripts/phone_mockup.py build SPEC --art-dir ART --out <结果>/无字版 --format png
+python3 scripts/caption.py SPEC --in <结果>/无字版 --out <结果> --format png
+# 总图 / 封面 / iOS 预览要用「带字」的图：把有字版按 NN.png 复制到一个临时 art 目录再跑 sheet / cover / all --ui ios
+```
+
+spec 新增 `caption` 段（全局默认）+ 每页可覆盖 `ty` / `tone`：
+
+```json
+"caption": {"line1": "yf ♥ wsh", "line2": "走过你的朝朝暮暮", "line3": "两个月纪念日", "ty": 0.37, "tone": "auto"},
+"pages":   [{"n": 9, "name": "月下河灯", "ty": 0.56, "tone": "dark"}, …]
+```
+
+- 三行字的分工：`line1` 英文手写行（Great Vibes 190 px，`♥`/`❤` 单独用 WenKai 的 U+2665 画成粉红 #EE6076——手写字体没有心形字形，别让它去 fallback）；`line2` 主句（MaShanZheng 118 px）；`line3` 小字（WenKai 50 px）。
+- `ty` = 文字块中心在画面高度的比例，默认 0.37：**上方 10–17% 是锁屏时钟**，下三分之一是角色，0.30–0.42 之间是最稳的空档；画面上半有月亮 / 太阳 / 摩天轮等主体时逐页挪（第 15 轮 02 → 0.30、04 → 0.40、09 → 0.56）。
+- `tone: auto` 按文字区域（1100×460）平均亮度选色：亮度 ≥ 135 算亮底 → 玫瑰棕 #763E4C 字 + 奶白柔光晕；< 135 算暗底 → 奶白字 + 深色阴影。
+  `tone` 的取值说的是**背景**：`dark` = 暗底配浅字，`light` = 亮底配深字；auto 判断错了就在那页写死。
+- 验收多两条：三行字没有压到任何一只熊的脸；100% 放大看描边 / 光晕没有糊成一团（`caption.py` 的 halo 是高斯模糊的同色层，不是 stroke）。
+- 提示词侧配合：要求「characters in the lower third, upper half calm and uncluttered」，否则字只能压在画面上。
+
 ### ⑤ 文案（`references/copy-小新壁纸.md`）
 
 标题 ≤20 字 ×3 候选 → 正文 ~300 字（勾回原帖情绪，但全部重写）→ 8 个话题 → 置顶评论（取图/致谢原作者）→ 发布勾选项。
@@ -236,8 +273,10 @@ python3 scripts/phone_mockup.py all examples/<slug>/02-复刻/spec.json --art-di
 │                                结果/（噜噜01…10.png 1440×2560（9:16 跟原帖）· 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第12轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
 ├─ 第13轮-iPhone景深裸眼3D壁纸/   原片/（9 张原图 尺寸不一 ≈ 9:20 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
 │                                结果/（景深01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg（iOS 景深效果版）· spec.json · Doc「第13轮 · 小红书文案」· 手机UI预览/ 10 jpg（锁屏页主体压时钟前）+ 预览总图.jpg）
-└─ 第14轮-史努比彩铅壁纸/         原片/（6 张原图 852×1846 / 1206×2622 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
-                                 结果/（史努比01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第14轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+├─ 第14轮-史努比彩铅壁纸/         原片/（6 张原图 852×1846 / 1206×2622 同上命名 · 原片总图.jpg · note.json · Doc「笔记信息」）
+│                                结果/（史努比01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第14轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+└─ 第15轮-一二布布两个月纪念日/   参考/（原帖网页打不开 → 没有原片：一二布布风格参考-第6第7轮原图.jpg · Doc「参考说明（原帖网页打不开）」）
+                                 结果/（朝朝暮暮01…10.png 1440×3200 带字成品 · 无字版/ 同名 10 png · 总图.jpg · 封面-双机预览.jpg · 封面-双机预览-锁屏版.jpg · spec.json · 手机UI预览/ 10 jpg + 预览总图.jpg；私人定制无文案 Doc）
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -259,6 +298,7 @@ xhs-wallpaper-replica/
 ├─ scripts/phone_mockup.py       放大 / 锁屏 / 主屏 / 总图 / 双机封面
 ├─ scripts/painting_set.py       名画风 / 同画幅交付：cover 裁切到 spec.canvas + 带图注总图
 ├─ scripts/depth_mask.py         景深预览：ISNet 抠前景蒙版（--assemble 从 npm 分片拼模型）
+├─ scripts/caption.py            有字定制：给无字版压三行纪念日文字（手写英文 + 毛笔主句 + 小字，自动选深/浅色）
 ├─ references/github-tools.md    小红书下载工具盘点 + token 取法
 ├─ references/copy-小新壁纸.md    第2轮文案 + 第1轮原帖文案存档
 ├─ references/copy-一二布布名画.md 第6轮文案（名画 10 张）
@@ -285,7 +325,8 @@ xhs-wallpaper-replica/
    ├─ ../linedog-69bec419/     线条小狗 · 14 原图尺寸不一 → 挑 10 张 A 模式逐张复刻；spec 每页 ax 锚点裁切偏宽输出：01-原片/01–14.jpg+note；02-复刻/ spec.json, art/01–10.png(768×1376 / 848×1264), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../lulu-sunset-6ad212fc/  写实毛绒玩偶 · 9:16 画幅样例（5 原图 1080×1920 → 01–05 A 模式逐张复刻 + 06–10 B 模式新场景；painting_set 1440×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–05.png+note；02-复刻/ spec.json, art/01–10.png(768×1376), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../depth3d-6aec24fa/    景深裸眼 3D · 9 原图尺寸不一 ≈ 9:20 → 01–09 A 模式逐张复刻 + 10 B 模式新场景；标准 1440×3200 + depth_mask/--mask-dir 景深预览：01-原片/01–09.jpg+note；02-复刻/ spec.json(每页 depth 开关), art/*.png(688×1536), masks/NN.png+预览.jpg, 壁纸/ (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
-   └─ ../snoopy-6aef57ed/     史努比彩铅 · 6 原图 ≈ 9:19.6 → 01–06 A 模式逐张复刻 + 07–10 B 模式新场景；标准 1440×3200：01-原片/01.png,02–06.jpg+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   ├─ ../snoopy-6aef57ed/     史努比彩铅 · 6 原图 ≈ 9:19.6 → 01–06 A 模式逐张复刻 + 07–10 B 模式新场景；标准 1440×3200：01-原片/01.png,02–06.jpg+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   └─ ../bubu-anniv-6a4a4ca0/ 有字定制样例（原帖网页 404 → 无原片，第 6/7 轮一二布布原图当风格锚；10 张全 B 模式 + caption.py 压字）：01-参考/ 说明.md, 风格参考.jpg；02-生成/ spec.json(caption 段 + 每页 ty/tone), art/01–10.png(688×1536), 有字版/ ×10 (jpg), 无字版/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
 ```
 
 ## 沙箱踩坑备忘
@@ -294,4 +335,7 @@ xhs-wallpaper-replica/
   不对就 `git fetch && git reset origin/<branch> && git checkout origin/<branch> -- xhs-wallpaper-replica`，再 `pip install pillow numpy`，字体用 GitHub blobs API 重拉
   （`gh api repos/lxgw/LxgwWenKai/git/blobs/<sha> -H "Accept: application/vnd.github.raw"`，release 资源域名在沙箱里不通）。
   Inter（iOS 时钟字体）同法：`gh api repos/google/fonts/contents/ofl/inter` 取 `Inter[opsz,wght].ttf` 的 sha → blobs API 存为 `~/.fonts/Inter-Variable.ttf`。
+  压字用的 GreatVibes / MaShanZheng 见 ④‴（同样 blobs API）。第 10 / 14 / 15 轮开工时各回滚过一次，整套恢复约 3 分钟。
 - 已经传到 Drive 的东西不受影响，暂存目录丢了不用重传。
+- Drive 连接器每轮第一次调用常报 "unavailable tool"（第 14 / 15 轮都是）：重新 `list_connector_tools google_drive` 再原样重发即可，失败的那次什么都没建。
+  连续上传约 28 个文件后会撞限流：每批 ≤ 6 个、批间 `sleep 20`，37 个文件约 3 分钟传完；传完用 `list_files` 按文件夹数一遍数量。
