@@ -70,9 +70,21 @@ def main():
                 continue
             mirror(nsrc, os.path.join(pdst, note), report)
 
-    print("sync report: %d changes" % len(report))
-    for line in report[:60]:
-        print("  " + line)
+    head = ["cwd=%s" % os.getcwd(),
+            "src=%s (exists=%s)" % (os.path.abspath(src), os.path.isdir(src)),
+            "dest=%s (exists=%s)" % (os.path.abspath(dest), os.path.isdir(dest)),
+            "src top=%s" % sorted(os.listdir(src))[:10],
+            "changes=%d" % len(report)]
+    body = head + report[:200]
+    print("\n".join(body))
+    # 日志读不到（results-receiver 被墙），把报告写进结果分支自己取证
+    try:
+        d = os.path.join(dest, "_debug")
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "_publish.txt"), "w", encoding="utf-8").write(
+            "\n".join(body))
+    except Exception as e:
+        print("report write failed: %s" % e)
     return 0
 
 
