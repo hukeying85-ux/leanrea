@@ -1,0 +1,48 @@
+{
+  "gpu_info": {
+    "device_name": "Tesla T4",
+    "vram_gb": 14.56
+  },
+  "timings": {
+    "deps_install_sec": 52.34,
+    "f5_32takes_sec": 87.9,
+    "seedvc_16takes_sec": 61.96,
+    "total_colab_gpu_sec": 219.91
+  },
+  "wavlm_sv": {
+    "v01_lumei": 0.7632,
+    "v02_lumei": 0.799,
+    "v03_lulu": 0.9405,
+    "v04_lumei": 0.7697,
+    "v05_lulu": 0.9022,
+    "v06_lumei": 0.6911,
+    "v07_lulu": 0.9472,
+    "v08_lumei": 0.7159,
+    "v09_lumei": 0.6847,
+    "v10_lulu": 0.9552,
+    "v11_lumei": 0.6201,
+    "v12_lulu": 0.954,
+    "v13_lumei": 0.6661,
+    "v14_lumei": 0.8379,
+    "v15_lulu": 0.9375,
+    "v16_lulu": 0.8988
+  },
+  "campplus": {
+    "v01_lumei": 0.3611,
+    "v02_lumei": 0.5435,
+    "v03_lulu": 0.7285,
+    "v04_lumei": 0.5311,
+    "v05_lulu": 0.6721,
+    "v06_lumei": 0.5224,
+    "v07_lulu": 0.6789,
+    "v08_lumei": 0.5442,
+    "v09_lumei": 0.4044,
+    "v10_lulu": 0.6563,
+    "v11_lumei": 0.4369,
+    "v12_lulu": 0.4722,
+    "v13_lumei": 0.4788,
+    "v14_lumei": 0.4842,
+    "v15_lulu": 0.5113,
+    "v16_lulu": 0.5017
+  }
+}
