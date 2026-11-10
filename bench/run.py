@@ -22,7 +22,7 @@ if ARM == "rea":
     cmd += ["--mcp-config", f"{B}/rea-mcp.json"]
     prompt = "/reverse-engineer-anything " + prompt
 elif ARM == "leanrea":
-    shutil.copytree(f"{REPO}/leanrea", f"{skills}/leanrea")
+    shutil.copytree(f"{REPO}/skills/leanrea", f"{skills}/leanrea")
     prompt = "/leanrea " + prompt
 t0 = time.time()
 p = subprocess.run(cmd, input=prompt, cwd=ws, capture_output=True, text=True, timeout=1500)

@@ -41,7 +41,7 @@
 
 ## 推荐组合
 
-- **只想要一套图**：直接用本仓库 `healing-comic/`（单 SKILL.md + Pillow 脚本），不装任何依赖。
+- **只想要一套图**：直接用本仓库 `skills/healing-comic/`（单 SKILL.md + Pillow 脚本），不装任何依赖。
 - **想要更多画风可选**：加 `yang0/handraw-style` 查风格编号。
 - **以后要做 20+ 页连载**：换 `ache-life-to-comic-skill` 或 `FightJs/vertical-comic-skills`。
 - **要自动发布**：再加 `autoclaw-cc/xiaohongshu-skills`（注意平台合规）。

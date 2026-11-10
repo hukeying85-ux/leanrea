@@ -4,6 +4,18 @@
 
 REA (Reverse Engineer Anything) puts an MCP layer between your agent and tools it can already use: asar, otool, nm, `go version -m`, jadx, apktool, Ghidra, tshark, binwalk, sqlite3. leanrea drops that layer. It tells the agent which command is fastest for each kind of target, gives it ready-to-paste recon commands, and lists the traps that REA's code handles for you. The agent then runs the real tools itself.
 
+## Skills in this repo（技能都在 `skills/` 里）
+
+All skills live under one root-level folder, one sub-folder per skill, each with its own `SKILL.md` (the layout the [skills CLI](https://skills.sh) and Claude Code expect). Index: [skills/README.md](skills/README.md).
+
+| skill | what it does | start here |
+|---|---|---|
+| [`skills/leanrea/`](skills/leanrea/) | reverse-engineer shipped software with plain CLI tools, no MCP | [SKILL.md](skills/leanrea/SKILL.md) |
+| [`skills/healing-comic/`](skills/healing-comic/) | 长文 / PDF → 6–9 页小红书治愈系漫画 + 幻灯视频 | [README](skills/healing-comic/README.md) · [SKILL.md](skills/healing-comic/SKILL.md) |
+| [`skills/xhs-wallpaper-replica/`](skills/xhs-wallpaper-replica/) | 小红书壁纸笔记 → 原图抓取 → 10 张复刻 / 新场景壁纸 → 总图 / 封面 / 文案 → Drive 归档（17 轮全流程） | [README](skills/xhs-wallpaper-replica/README.md) · [SKILL.md](skills/xhs-wallpaper-replica/SKILL.md) |
+
+Shared helpers that are not skills stay outside: [`tools/xhs-relay/`](tools/xhs-relay/README.md) (GitHub Actions relay that downloads XHS originals for the sandbox), [`bench/`](bench/BENCHMARK.md) (the leanrea benchmark), [`docs/`](docs/README.md) (a static site).
+
 |  | REA 6.5.0 | leanrea |
 |---|---|---|
 | What gets installed | 25 MB npm package + MCP server | one `SKILL.md` |
@@ -64,9 +76,9 @@ npx skills update leanrea                               # pull the latest versio
 Manual install, if you prefer:
 ```sh
 git clone https://github.com/aicodeking/leanrea
-mkdir -p ~/.claude/skills && cp -R leanrea/leanrea ~/.claude/skills/
+mkdir -p ~/.claude/skills && cp -R leanrea/skills/leanrea ~/.claude/skills/
 ```
-If an agent has no skills support, paste `leanrea/SKILL.md` into its rules or system prompt; it is plain text.
+If an agent has no skills support, paste `skills/leanrea/SKILL.md` into its rules or system prompt; it is plain text.
 
 Use it:
 ```
@@ -116,11 +128,11 @@ MIT licensed.
 
 ## Also in this repo: healing-comic
 
-A second, unrelated skill that applies the same "one small file, no MCP" idea to a different problem: turning a long Chinese guide/PDF into a 6–9 page Xiaohongshu-style cute healing comic plus a slideshow video. The skill covers the full pipeline — content planning (topic selection, hooks, trigger→guidance dialogue design, publish copy), layout (Chinese-OCR-measured replica of a reference post with per-bubble anchors, or a taste-skill-audited poster mode), textless art generation, scripted Chinese composition with per-page OCR verification, an ffmpeg slideshow recipe, and publishing compliance. Start at [healing-comic/README.md](healing-comic/README.md), the skill itself at [healing-comic/SKILL.md](healing-comic/SKILL.md), or open [the replica gallery](healing-comic/examples/pages-xhs3/preview.html).
+A second, unrelated skill that applies the same "one small file, no MCP" idea to a different problem: turning a long Chinese guide/PDF into a 6–9 page Xiaohongshu-style cute healing comic plus a slideshow video. The skill covers the full pipeline — content planning (topic selection, hooks, trigger→guidance dialogue design, publish copy), layout (Chinese-OCR-measured replica of a reference post with per-bubble anchors, or a taste-skill-audited poster mode), textless art generation, scripted Chinese composition with per-page OCR verification, an ffmpeg slideshow recipe, and publishing compliance. Start at [skills/healing-comic/README.md](skills/healing-comic/README.md), the skill itself at [skills/healing-comic/SKILL.md](skills/healing-comic/SKILL.md), or open [the replica gallery](skills/healing-comic/examples/pages-xhs3/preview.html).
 
 ## Also in this repo: xhs-wallpaper-replica + tools/xhs-relay
 
-A third skill: take a Xiaohongshu wallpaper note, download the original PNGs (via a GitHub Actions relay when the sandbox cannot reach the XHS CDN — [tools/xhs-relay](tools/xhs-relay/README.md)), have an image model repaint textless 9:20 art, then let a Pillow script turn it into clean 1440×3200 wallpapers (no phone UI — an iOS lock/home-screen mock-up is an opt-in preview only), a contact sheet and a two-image cover, write the post copy and archive every round into its own Google Drive subfolder. Text, when a round needs it (anniversary / couple sets), is pressed on by a second script (`caption.py`) over the textless build — the image model never writes a letter. The same relay also fetches video notes: the 720p web stream lands in git, the full-size original (262 MB in the test) is streamed by the runner straight into Google Drive through a public-key-encrypted one-time upload session. Start at [xhs-wallpaper-replica/README.md](xhs-wallpaper-replica/README.md) or the skill itself, [xhs-wallpaper-replica/SKILL.md](xhs-wallpaper-replica/SKILL.md). Worked example: 弥弥壁纸's Crayon Shin-chan set (7 originals → 10 replicas).
+A third skill: take a Xiaohongshu wallpaper note, download the original PNGs (via a GitHub Actions relay when the sandbox cannot reach the XHS CDN — [tools/xhs-relay](tools/xhs-relay/README.md)), have an image model repaint textless 9:20 art, then let a Pillow script turn it into clean 1440×3200 wallpapers (no phone UI — an iOS lock/home-screen mock-up is an opt-in preview only), a contact sheet and a two-image cover, write the post copy and archive every round into its own Google Drive subfolder. Text, when a round needs it (anniversary / couple sets), is pressed on by a second script (`caption.py`) over the textless build — the image model never writes a letter. The same relay also fetches video notes: the 720p web stream lands in git, the full-size original (262 MB in the test) is streamed by the runner straight into Google Drive through a public-key-encrypted one-time upload session. Start at [skills/xhs-wallpaper-replica/README.md](skills/xhs-wallpaper-replica/README.md) or the skill itself, [skills/xhs-wallpaper-replica/SKILL.md](skills/xhs-wallpaper-replica/SKILL.md). Worked example: 弥弥壁纸's Crayon Shin-chan set (7 originals → 10 replicas).
 
 ## docs（额外）
 

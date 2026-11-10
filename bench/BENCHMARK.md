@@ -4,7 +4,7 @@ Setup: Claude Code 2.1.301 headless (`claude -p`), Sonnet 5.5, macOS arm64. REA 
 
 Arms:
 - **none**: no skill, no MCP.
-- **leanrea** (shown as `lean` in `results/final.jsonl`): `/leanrea`, the 8 KB `leanrea/SKILL.md`, no MCP.
+- **leanrea** (shown as `lean` in `results/final.jsonl`): `/leanrea`, the 8 KB `skills/leanrea/SKILL.md`, no MCP.
 - **rea**: REA MCP plus the REA skill.
 
 Tasks (3 reps per arm per task, 36 runs, arms run side by side):

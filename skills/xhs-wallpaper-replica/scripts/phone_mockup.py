@@ -292,7 +292,7 @@ def previews_of(spec, out, ui="none"):
 def cmd_sheet(a, spec):
     cjk = find_font(a.cjk_font, "CJK_FONT", CJK_CANDS)
     if not cjk:
-        sys.exit("找不到中文字体：--cjk-font 或 CJK_FONT（霞鹜文楷：healing-comic/scripts/fetch_font.sh）")
+        sys.exit("找不到中文字体：--cjk-font 或 CJK_FONT（霞鹜文楷：skills/healing-comic/scripts/fetch_font.sh）")
     files = previews_of(spec, a.out, a.ui)
     if not files:
         sys.exit("sheet: 没找到壁纸文件，先跑 build")

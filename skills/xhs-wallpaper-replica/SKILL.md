@@ -303,7 +303,7 @@ spec 新增 `caption` 段（全局默认）+ 每页可覆盖 `ty` / `tone`：
 ## 目录
 
 ```
-xhs-wallpaper-replica/
+skills/xhs-wallpaper-replica/        （仓库根目录 skills/ 下，和 healing-comic、leanrea 并列）
 ├─ SKILL.md                      本文件
 ├─ README.md                     这次跑的结果 + 复现命令
 ├─ scripts/phone_mockup.py       放大 / 锁屏 / 主屏 / 总图 / 双机封面
@@ -346,7 +346,7 @@ xhs-wallpaper-replica/
 ## 沙箱踩坑备忘
 
 - 沙箱可能被回滚到旧快照：本地 git 历史、`~/.fonts`、pip 包、gitignored 的 `google_drive/` 暂存目录全会丢。每轮开工先 `git status && git log --oneline -3`；
-  不对就 `git fetch && git reset origin/<branch> && git checkout origin/<branch> -- xhs-wallpaper-replica`，再 `pip install pillow numpy`，字体用 GitHub blobs API 重拉
+  不对就 `git fetch && git reset origin/<branch> && git checkout origin/<branch> -- skills/xhs-wallpaper-replica`，再 `pip install pillow numpy`，字体用 GitHub blobs API 重拉
   （`gh api repos/lxgw/LxgwWenKai/git/blobs/<sha> -H "Accept: application/vnd.github.raw"`，release 资源域名在沙箱里不通）。
   Inter（iOS 时钟字体）同法：`gh api repos/google/fonts/contents/ofl/inter` 取 `Inter[opsz,wght].ttf` 的 sha → blobs API 存为 `~/.fonts/Inter-Variable.ttf`。
   压字用的 GreatVibes / MaShanZheng 见 ④‴（同样 blobs API）。第 10 / 14 / 15 / 17 轮开工时各回滚过一次，整套恢复约 3 分钟。

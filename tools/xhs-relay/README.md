@@ -12,7 +12,7 @@ Arena 沙箱出网只有 github / pypi / npm，小红书 CDN 一律不通；Acti
    ```json
    {"jobs": [{
      "note_url": "https://www.xiaohongshu.com/discovery/item/<id>?xsec_token=…",
-     "out_dir": "xhs-wallpaper-replica/examples/<name>/01-原图",
+     "out_dir": "skills/xhs-wallpaper-replica/examples/<name>/01-原图",
      "max_total_mb": 80,
      "image_urls": ["https://sns-web-i10.rednotecdn.com/…/spectrum/<token>!nd_dft_wlteh_webp_3", "…"]
    }]}
