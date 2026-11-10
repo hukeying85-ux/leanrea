@@ -132,6 +132,9 @@ texture, portrait format. No text, no signature, no frame, no watermark.
   不好看的 9 张共同点 = 熊占一大半 + 正对镜头 + 背景道具多（贴纸式）。新一套就拿那张自己的干净底图当 `images` 锚，提示词把这几条写死（"upper 60% is a huge calm gradient sky … the sun or moon sits LOW at ~60% … bears SMALL, about one sixth of the height, lower third, side by side"），只换场景；
   10 张里留 2 张换调色（蓝调时刻 / 月夜）+ 1 张换姿势（背影牵手）就够有变化，再多就会又漂回去。副作用：文字带（29–45%）天然干净，caption 不用逐页挪。
   这种「同需求第二套」在仓库里放同一个 example 下的 `03-第二套-<关键词>/`，Drive 另开一轮文件夹，文件前缀换掉（朝朝暮暮 → 黄昏）。
+- **单张原帖 + 油画风（第 17 轮 封闭货车_《金鱼游动 福气满满》，1 张 1080×1440 3:4）**：只有一张可复刻，其余 9 张全靠「拆母题」——把原图拆成「中央发光物体 + 从它喷出的金光柱 + 几十条顺光上升的小金鱼 + 金/琥珀/橙红/暖棕厚涂」四件套，
+  新场景只换「中央物体」（鱼缸 → 瀑布 / 茶杯 / 灯笼 / 柿子盘 / 元宝 / 荷塘 / 书 / 蜡烛 / 屋顶夜空），每条提示词都重复这四件套并以原图当 `images` 锚，10 张一次全过。题材顺着原帖 tags 的吉祥话走（年年有余 / 柿柿如意 / 财源滚滚 / 所愿即所求），文案直接接得上。
+  灯笼、铜钱、书页这类本来带字的物体要写 "plain, no readable characters"。画幅跟原帖 3:4 → `painting_set.py` 1440×1920，手机 9:20 只裁两侧各 22%，主体全在中轴上不受影响。
 - 生图输出 688×1536（≈9:20），一次 1 张；10 张可以并行 5+5。
 - 角色一致性提示：小新（黄上衣红短裤 / 睡衣 / 幼稚园绿短裤白 T）、小白（白色棉花糖狗）、广志（黑短发眼镜 / 蓝衬衫）、美冴（棕色短卷发）、小葵（橙色头发婴儿）、妮妮（双马尾粉裙）、风间（蓝色西瓜头）。
 - 常见翻车：留下了时钟（提示词没写 REMOVE）→ 重生成；出现日文/英文招牌字 → 提示词加 `no readable text on signs`；上半部分太满 → 加 calm top 15%；比例变 3:4 → 忘了传 images。
@@ -281,8 +284,10 @@ spec 新增 `caption` 段（全局默认）+ 每页可覆盖 `ty` / `tone`：
 │                                结果/（史努比01…10.png 1440×3200 · 总图.jpg · 封面-双机预览.jpg · spec.json · Doc「第14轮 · 小红书文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
 ├─ 第15轮-一二布布两个月纪念日/   参考/（原帖网页打不开 → 没有原片：一二布布风格参考-第6第7轮原图.jpg · Doc「参考说明（原帖网页打不开）」）
 │                                结果/（朝朝暮暮01…10.png 1440×3200 带字成品 · 无字版/ 同名 10 png · 总图.jpg · 封面-双机预览.jpg · 封面-双机预览-锁屏版.jpg · spec.json · 手机UI预览/ 10 jpg + 预览总图.jpg；私人定制无文案 Doc）
-└─ 第16轮-一二布布两个月纪念日-第二套黄昏/   参考/（风格锚-第一套06海边日落.png · 第6第7轮原图拼图 · Doc「参考说明（第二套 · 按第一套06重做）」）
-                                 结果/（黄昏01…10.png 1440×3200 带字成品 · 无字版/ 同名 10 png · 总图.jpg · 封面-双机预览.jpg（左 01 右 10）· 封面-双机预览-锁屏版.jpg · spec.json · 手机UI预览/ 10 jpg + 预览总图.jpg）
+├─ 第16轮-一二布布两个月纪念日-第二套黄昏/   参考/（风格锚-第一套06海边日落.png · 第6第7轮原图拼图 · Doc「参考说明（第二套 · 按第一套06重做）」）
+│                                结果/（黄昏01…10.png 1440×3200 带字成品 · 无字版/ 同名 10 png · 总图.jpg · 封面-双机预览.jpg（左 01 右 10）· 封面-双机预览-锁屏版.jpg · spec.json · 手机UI预览/ 10 jpg + 预览总图.jpg）
+└─ 第17轮-金鱼福气油画/           原片/（金鱼游动 福气满满_1_封闭货车__来自小红书网页版.png 1080×1440 · note.json · Doc「笔记信息」）
+                                 结果/（金鱼01…10.png 1440×1920 · 总图.jpg · 封面-双机预览.jpg（左 01 右 07）· spec.json · Doc「文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -316,6 +321,7 @@ xhs-wallpaper-replica/
 ├─ references/copy-噜噜噜妹奔夕阳.md 第12轮文案（噜噜噜妹 10 张 + 9:16 装机备注）
 ├─ references/copy-景深裸眼3D.md   第13轮文案（景深 10 张 + 景深效果开法备注）
 ├─ references/copy-史努比彩铅.md   第14轮文案（史努比 10 张 + 锁屏/主屏分配备注）
+├─ references/copy-金鱼福气.md     第17轮文案（金鱼油画 10 张 + 置顶评论 + 3:4 裁切备注）
 └─ examples/shinchan-6aedad8b/
    ├─ 01-原图/ 01–07.png, note.json, note.md
    ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
@@ -332,6 +338,7 @@ xhs-wallpaper-replica/
    ├─ ../lulu-sunset-6ad212fc/  写实毛绒玩偶 · 9:16 画幅样例（5 原图 1080×1920 → 01–05 A 模式逐张复刻 + 06–10 B 模式新场景；painting_set 1440×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–05.png+note；02-复刻/ spec.json, art/01–10.png(768×1376), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../depth3d-6aec24fa/    景深裸眼 3D · 9 原图尺寸不一 ≈ 9:20 → 01–09 A 模式逐张复刻 + 10 B 模式新场景；标准 1440×3200 + depth_mask/--mask-dir 景深预览：01-原片/01–09.jpg+note；02-复刻/ spec.json(每页 depth 开关), art/*.png(688×1536), masks/NN.png+预览.jpg, 壁纸/ (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../snoopy-6aef57ed/     史努比彩铅 · 6 原图 ≈ 9:19.6 → 01–06 A 模式逐张复刻 + 07–10 B 模式新场景；标准 1440×3200：01-原片/01.png,02–06.jpg+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   ├─ ../goldfish-6ae49d26/    单张原帖 · 3:4 油画样例（1 原图 1080×1440 → 01 A 模式复刻 + 02–10 B 模式拆母题换中央物体；painting_set 1440×1920 + phone_mockup --ui ios 看 9:20 裁切；art/ 右下角生图角标已克隆抹除）：01-原片/01.png+note；02-复刻/ spec.json, art/01–10.png(896×1200), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    └─ ../bubu-anniv-6a4a4ca0/ 有字定制样例（原帖网页 404 → 无原片，第 6/7 轮一二布布原图当风格锚；10 张全 B 模式 + caption.py 压字）：01-参考/ 说明.md, 风格参考.jpg；02-生成/ spec.json(caption 段 + 每页 ty/tone), art/01–10.png(688×1536), 有字版/ ×10 (jpg), 无字版/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
       └─ 03-第二套-黄昏/        同需求第二套（用户只认第一套 06 → 拆成几何/配色写死进提示词，锚 = 02-生成/art/06.png）：说明.md, spec.json, art/01–10.png, 有字版/, 无字版/, 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
 ```
@@ -342,7 +349,12 @@ xhs-wallpaper-replica/
   不对就 `git fetch && git reset origin/<branch> && git checkout origin/<branch> -- xhs-wallpaper-replica`，再 `pip install pillow numpy`，字体用 GitHub blobs API 重拉
   （`gh api repos/lxgw/LxgwWenKai/git/blobs/<sha> -H "Accept: application/vnd.github.raw"`，release 资源域名在沙箱里不通）。
   Inter（iOS 时钟字体）同法：`gh api repos/google/fonts/contents/ofl/inter` 取 `Inter[opsz,wght].ttf` 的 sha → blobs API 存为 `~/.fonts/Inter-Variable.ttf`。
-  压字用的 GreatVibes / MaShanZheng 见 ④‴（同样 blobs API）。第 10 / 14 / 15 轮开工时各回滚过一次，整套恢复约 3 分钟。
+  压字用的 GreatVibes / MaShanZheng 见 ④‴（同样 blobs API）。第 10 / 14 / 15 / 17 轮开工时各回滚过一次，整套恢复约 3 分钟。
 - 已经传到 Drive 的东西不受影响，暂存目录丢了不用重传。
+- **生图模型会在右下角压一枚小灰角标（第 17 轮首次出现，油画风 896×1200 输出，10 张全有：约 w-85…w-20 × h-40…h-2 的半透明灰色圆角小牌，含几个极小字符）**：
+  缩略图 / 总图上几乎看不见，但成品放大必露馅。每轮生完先把 10 张右下角 120×70 区域放大 4 倍拼一张看（`im.crop((w-120,h-70,w,h)).resize(...)`）；
+  灰色像素检测（低饱和 + 中亮度）不可靠——角标半透明，压在暖色油画上会被染色、在杂乱纹理上会误检，所以直接按坐标处理：
+  把左侧同高的纹理块（x 再往左 46 px）克隆过来盖住 `(w-42, h-28)–(w-2, h-4)`，蒙版做 6 px 圆角 + 2 px 高斯羽化，油画笔触天然掩盖接缝；修完再放大看一遍。
+  修补要在 `art/` 原底图上做、再跑 `painting_set.py` / `phone_mockup.py`，这样成图、总图、预览全部干净；提示词里写 no watermark 挡不住它。
 - Drive 连接器每轮第一次调用常报 "unavailable tool"（第 14 / 15 轮都是）：重新 `list_connector_tools google_drive` 再原样重发即可，失败的那次什么都没建。
   连续上传约 28 个文件后会撞限流：每批 ≤ 6 个、批间 `sleep 20`，37 个文件约 3 分钟传完；传完用 `list_files` 按文件夹数一遍数量。
