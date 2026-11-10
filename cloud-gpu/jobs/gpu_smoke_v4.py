@@ -31,6 +31,13 @@ PEPTIDES = {
 }
 
 
+def _min_cos(mat):
+    unit = mat / mat.norm(dim=1, keepdim=True)
+    sim = unit @ unit.T
+    off = sim - __import__("torch").eye(sim.shape[0], device=sim.device) * 2.0
+    return off.min()
+
+
 def run(cmd: list[str], timeout: int = 60) -> str:
     try:
         p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
@@ -121,7 +128,7 @@ def main() -> int:
             "max_len": max(sizes),
             "finite": bool(torch.isfinite(mat).all().item()) if torch is not None else None,
             "mean_norm": round(float(mat.norm(dim=1).mean().item()), 4) if torch is not None else None,
-            "pairwise_min_cos": round(float((mat / mat.norm(dim=1, keepdim=True)) @ (mat / mat.norm(dim=1, keepdim=True)).T).min().item(), 4) if torch is not None else None,
+            "pairwise_min_cos": round(float(_min_cos(mat)), 4) if torch is not None else None,
         }
     except Exception as exc:  # noqa: BLE001
         out["esm"] = {"error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc()[-1500:]}
