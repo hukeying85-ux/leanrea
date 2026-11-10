@@ -22,10 +22,10 @@ description: 给一条小红书壁纸笔记链接，下载原图 → 拆解版�
 ## 全流程（本项目完整跑通：弥弥壁纸 · 小新壁纸 7 张 → 复刻 10 张）
 
 ```
-① 抓图           ② 拆解            ③ 底图              ④ 合成+验收            ⑤ 文案        ⑥ 归档
-fetch_page/      量几何、列场景、    generate_image      phone_mockup.py        copy-*.md     Drive 第N轮/
-xhs-relay        记录原帖 UI 几何    688×1536 无字图     放大到 1440×3200 干净壁纸              + SKILL + 文案Doc
-01-原图/         spec.json          02-复刻/art/        壁纸/ 总图 封面（--ui ios 另出预览）
+① 抓图           ② 拆解            ③ 底图              ④ 合成+验收            ⑤ 文案        ⑤′ 动态壁纸（第 17 轮起）         ⑥ 归档
+fetch_page/      量几何、列场景、    generate_image      phone_mockup.py        copy-*.md     depth_midas → live_wallpaper      Drive 第N轮/
+xhs-relay        记录原帖 UI 几何    688×1536 无字图     放大到 1440×3200 干净壁纸              → parallax_web → motion_photo     + SKILL + 文案Doc
+01-原图/         spec.json          02-复刻/art/        壁纸/ 总图 封面（--ui ios 另出预览）     结果/动态壁纸/（mp4 · gif · 3D网页 · MP.jpg）
 ```
 
 ### ① 抓图（原图，不是 1080 webp 预览）
@@ -254,6 +254,58 @@ spec 新增 `caption` 段（全局默认）+ 每页可覆盖 `ty` / `tone`：
 标题 ≤20 字 ×3 候选 → 正文 ~300 字（勾回原帖情绪，但全部重写）→ 8 个话题 → 置顶评论（取图/致谢原作者）→ 发布勾选项。
 正文里必须有「AI 生成，仅供个人壁纸使用」；发布页勾「AI 生成」。
 
+### ⑤′ 动态壁纸 / 3D 壁纸（`depth_midas.py` → `live_wallpaper.py` → `parallax_web.py` → `motion_photo.py`，第 17 轮起每轮都出）
+
+静态成图出完以后，再给每张加一层「会动」的交付：**深度图 → 2.5D 视差循环视频 → 可倾斜的 3D 网页 → 安卓动态照片**。
+四个脚本全是 CPU、零外网依赖（MiDaS 权重 25 MB 从 GitHub 拉；ffmpeg 来自 pip 的 imageio-ffmpeg），1440×1920 一张约 1 分钟。
+工具盘点（24 个 GitHub 项目，哪些跑通、哪些只能本机 GPU 跑、每种做法的实测观感）见 `references/dynamic-wallpaper-tools.md`，这里只写流程。
+
+```bash
+cd skills/xhs-wallpaper-replica
+R="google_drive/素材05/第N轮-<名字>/结果"        # 已经出好的干净 PNG
+D="examples/<name>/02-复刻/depth"
+
+# 1) 深度图：MiDaS v2.1 small (onnx)，近处亮；--preview 出一张 原图|深度 对照的 预览.jpg 先看一眼
+python3 scripts/depth_midas.py "$R" --glob "<前缀>*.png" --out "$D" --preview       # 权重缺失时加 --fetch
+
+# 2) 先用 01 试配方：6 种模式各出 2 s 小样 + 一张帧/差分 sheet，再决定全量参数
+python3 scripts/live_wallpaper.py "$R/<前缀>01-<名>.png" --depth "$D/<前缀>01-<名>.png" --out /tmp/lw \
+  --name t01 --modes kenburns,parallax,layers,particles,shimmer,combo --seconds 2 --fps 15 --size 720x960
+#   深色/夜景（金鱼）：--particles gold --highlight lum（默认）
+#   白纸底/浅色厚涂（水果）：--highlight sat（按「亮 × 饱和」选高光，不然整张白纸一起闪）--particles none 或 petal --focus 0.35
+
+# 3) 全量：10 张 combo（视差 + 粒子 + 流光三合一）+ gif 预览 + 前/背景分层 PNG；01 另出 6 种模式做「工具对比」
+for f in "$R"/<前缀>*.png; do n=$(basename "$f" .png)
+  python3 scripts/live_wallpaper.py "$f" --depth "$D/$n.png" --out "$R/动态壁纸" --name "$n" --modes combo --gif --export-layers [配方参数]
+done
+python3 scripts/live_wallpaper.py "$R/<前缀>01-<名>.png" --depth "$D/<前缀>01-<名>.png" --out "$R/动态壁纸/工具对比" --name <前缀>01 \
+  --modes kenburns,parallax,layers,particles,shimmer,combo --gif
+#   对比总图：每种模式取 0/¼/½/¾ 帧 + 首帧与¼帧差分×5（亮处=在动）拼一张（见 README 复现段的 python 片段）
+
+# 4) 3D 网页（零依赖 WebGL，手机开着陀螺仪倾斜 / 桌面鼠标移动；下方按钮切图）
+python3 scripts/parallax_web.py "$R" --glob "<前缀>*.png" --depth-dir "$D" --out "$R/动态壁纸/3D网页" --title "<标题>"
+#   验收：python3 -m http.server 8000 --directory "$R/动态壁纸/3D网页" --bind 0.0.0.0 → 预览里能看到图跟着鼠标动
+
+# 5) 动态照片：安卓 Motion Photo（相册里长按会动，可直接设为动态锁屏）；iOS 实况照片只能写 MOV 一半
+for f in "$R"/<前缀>*.png; do n=$(basename "$f" .png)
+  python3 scripts/motion_photo.py android "$f" "$R/动态壁纸/$n-combo.mp4" --out "$R/动态壁纸/动态照片-Android" --name "$n"
+done
+python3 scripts/motion_photo.py ios "$R/<前缀>01-<名>.png" "$R/动态壁纸/<前缀>01-<名>-combo.mp4" --out "$R/动态壁纸/工具对比/实况照片-iOS半成品" --name <前缀>01-<名>
+```
+
+交付清单（都放 `结果/动态壁纸/`）：`<前缀>NN-名-combo.mp4`（1440×1920 · 6 s · 30 fps · 无缝循环，直接当视频壁纸 / 发视频笔记）+ `.gif`（预览用）；
+`深度图/` + `深度图预览.jpg`；`分层PNG/`（fg 带透明通道 + bg 已填洞，给分层壁纸 app）；`3D网页/`（index.html + img/ + depth/，zip 后上传）；
+`动态照片-Android/*.MP.jpg`；`工具对比/`（01 的 6 种模式 mp4/gif + 对比总图.jpg + iOS 半成品 zip）；工具盘点 md 转 Doc 一起放进去。
+
+踩坑：
+- MiDaS 把**自发光 / 高亮区**（金鱼缸的金光、落日）当成近处 → 视差里高光会往前凸；厚涂画问题不大，写实夜景慎用 `--focus` 把焦平面拉近。
+- 视差幅度别贪：默认 ±14 px（1440 宽）已经能看出前后；再大边缘会拉丝（2–3 px 的 smear 在 6 s 循环里肉眼可见）。
+- `layers` 模式用 Otsu 一刀切前/背景，桌面 + 鱼缸会被切成同一层，仅适合主体和背景对比强的图；日常交付用 `combo`。
+- 白纸底图默认的亮度高光蒙版会让整张纸一起「呼吸」→ 必须 `--highlight sat`；粒子在白纸上也要调淡（`--particles none/petal`）。
+- iOS Live Photo：JPG 一半需要 Apple MakerNotes 的 ContentIdentifier，exiftool 在非 iPhone 图上写不进去（"unchanged"），所以沙箱只能产出 MOV 半成品；
+  真要 Live Photo 用手机上的 intoLive 把 combo.mp4 转一下（3 秒），或 Mac 上 `makelive`（见工具盘点）。
+- 微信传 MP.jpg 会被压成普通 jpg（动态信息被剥掉），要走「文件」或 Drive 原文件发。
+
 ### ⑥ 归档到 Google Drive（每轮一个子文件夹）
 
 ```
@@ -286,8 +338,13 @@ spec 新增 `caption` 段（全局默认）+ 每页可覆盖 `ty` / `tone`：
 │                                结果/（朝朝暮暮01…10.png 1440×3200 带字成品 · 无字版/ 同名 10 png · 总图.jpg · 封面-双机预览.jpg · 封面-双机预览-锁屏版.jpg · spec.json · 手机UI预览/ 10 jpg + 预览总图.jpg；私人定制无文案 Doc）
 ├─ 第16轮-一二布布两个月纪念日-第二套黄昏/   参考/（风格锚-第一套06海边日落.png · 第6第7轮原图拼图 · Doc「参考说明（第二套 · 按第一套06重做）」）
 │                                结果/（黄昏01…10.png 1440×3200 带字成品 · 无字版/ 同名 10 png · 总图.jpg · 封面-双机预览.jpg（左 01 右 10）· 封面-双机预览-锁屏版.jpg · spec.json · 手机UI预览/ 10 jpg + 预览总图.jpg）
-└─ 第17轮-金鱼福气油画/           原片/（金鱼游动 福气满满_1_封闭货车__来自小红书网页版.png 1080×1440 · note.json · Doc「笔记信息」）
-                                 结果/（金鱼01…10.png 1440×1920 · 总图.jpg · 封面-双机预览.jpg（左 01 右 07）· spec.json · Doc「文案」· 手机UI预览/ 10 jpg + 预览总图.jpg）
+├─ 第17轮-金鱼福气油画/           原片/（金鱼游动 福气满满_1_封闭货车__来自小红书网页版.png 1080×1440 · note.json · Doc「笔记信息」）
+│                                结果/（金鱼01…10.png 1440×1920 · 总图.jpg · 封面-双机预览.jpg（左 01 右 07）· spec.json · Doc「文案」· 手机UI预览/ 10 jpg + 预览总图.jpg
+│                                      · 动态壁纸/（金鱼NN-名-combo.mp4 ×10 · 3D网页.zip · 动态照片-Android.zip · 分层PNG.zip · 深度图.zip · 深度图预览.jpg · Doc「动态壁纸工具盘点与对比」
+│                                        · 工具对比/（金鱼01 六种模式 mp4 + 对比总图.jpg + 实况照片-iOS半成品.zip）））
+└─ 第18轮-水果风景厚涂油画/       原片/（12 张 PNG 原图 同上命名 · 原片总图.jpg（★ 标出选中的 10 张）· note.json · Doc「笔记信息」）
+                                 结果/（水果01…10.png 1440×1920 · 总图.jpg · 封面-双机预览.jpg（左 01 右 09）· spec.json · Doc「文案」· 手机UI预览/ 10 jpg + 预览总图.jpg
+                                       · 动态壁纸/（水果NN-名-combo.mp4 ×10 · 3D网页.zip · 动态照片-Android.zip · 分层PNG.zip · 深度图.zip · 深度图预览.jpg · Doc「动态壁纸工具盘点与对比」））
 ```
 
 用 Drive 连接器：`create_folder` → `upload_file`（md 用 `target_mime_type=application/vnd.google-apps.document` 转成 Doc）。
@@ -310,7 +367,12 @@ skills/xhs-wallpaper-replica/        （仓库根目录 skills/ 下，和 healin
 ├─ scripts/painting_set.py       名画风 / 同画幅交付：cover 裁切到 spec.canvas + 带图注总图
 ├─ scripts/depth_mask.py         景深预览：ISNet 抠前景蒙版（--assemble 从 npm 分片拼模型）
 ├─ scripts/caption.py            有字定制：给无字版压三行纪念日文字（手写英文 + 毛笔主句 + 小字，自动选深/浅色）
+├─ scripts/depth_midas.py        动态壁纸 1/4：MiDaS v2.1 small (onnxruntime, CPU) 出深度图 + 预览（--fetch 从 GitHub 拉权重）
+├─ scripts/live_wallpaper.py     动态壁纸 2/4：图 + 深度 → 6 种无缝循环视频（kenburns / parallax / layers / particles / shimmer / combo）+ gif + 分层 PNG
+├─ scripts/parallax_web.py       动态壁纸 3/4：零依赖 WebGL 3D 视差网页（陀螺仪 / 鼠标倾斜，多图切换）
+├─ scripts/motion_photo.py       动态壁纸 4/4：安卓 Motion Photo（.MP.jpg，exiftool 写 XMP-GCamera）/ iOS 实况照片 MOV 半成品
 ├─ references/github-tools.md    小红书下载工具盘点 + token 取法
+├─ references/dynamic-wallpaper-tools.md  静态 → 动态 / 3D 壁纸的 24 个 GitHub 工具盘点 + 第 17 轮金鱼实测对比 + 本机安装指南
 ├─ references/copy-小新壁纸.md    第2轮文案 + 第1轮原帖文案存档
 ├─ references/copy-一二布布名画.md 第6轮文案（名画 10 张）
 ├─ references/copy-一二布布鲜花.md 第7轮文案（鲜花 10 张）
@@ -322,6 +384,7 @@ skills/xhs-wallpaper-replica/        （仓库根目录 skills/ 下，和 healin
 ├─ references/copy-景深裸眼3D.md   第13轮文案（景深 10 张 + 景深效果开法备注）
 ├─ references/copy-史努比彩铅.md   第14轮文案（史努比 10 张 + 锁屏/主屏分配备注）
 ├─ references/copy-金鱼福气.md     第17轮文案（金鱼油画 10 张 + 置顶评论 + 3:4 裁切备注）
+├─ references/copy-水果风景油画.md 第18轮文案（水果风景 10 张 + 置顶评论 + 3:4 裁切备注）
 └─ examples/shinchan-6aedad8b/
    ├─ 01-原图/ 01–07.png, note.json, note.md
    ├─ 02-复刻/ spec.json, art/01–10.png(688×1536 无字底图), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg
@@ -338,7 +401,8 @@ skills/xhs-wallpaper-replica/        （仓库根目录 skills/ 下，和 healin
    ├─ ../lulu-sunset-6ad212fc/  写实毛绒玩偶 · 9:16 画幅样例（5 原图 1080×1920 → 01–05 A 模式逐张复刻 + 06–10 B 模式新场景；painting_set 1440×2560 + phone_mockup --ui ios 看 9:20 裁切）：01-原片/01–05.png+note；02-复刻/ spec.json, art/01–10.png(768×1376), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../depth3d-6aec24fa/    景深裸眼 3D · 9 原图尺寸不一 ≈ 9:20 → 01–09 A 模式逐张复刻 + 10 B 模式新场景；标准 1440×3200 + depth_mask/--mask-dir 景深预览：01-原片/01–09.jpg+note；02-复刻/ spec.json(每页 depth 开关), art/*.png(688×1536), masks/NN.png+预览.jpg, 壁纸/ (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
    ├─ ../snoopy-6aef57ed/     史努比彩铅 · 6 原图 ≈ 9:19.6 → 01–06 A 模式逐张复刻 + 07–10 B 模式新场景；标准 1440×3200：01-原片/01.png,02–06.jpg+note；02-复刻/ spec.json, art/01–10.png(688×1536), 壁纸/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
-   ├─ ../goldfish-6ae49d26/    单张原帖 · 3:4 油画样例（1 原图 1080×1440 → 01 A 模式复刻 + 02–10 B 模式拆母题换中央物体；painting_set 1440×1920 + phone_mockup --ui ios 看 9:20 裁切；art/ 右下角生图角标已克隆抹除）：01-原片/01.png+note；02-复刻/ spec.json, art/01–10.png(896×1200), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
+   ├─ ../goldfish-6ae49d26/    单张原帖 · 3:4 油画样例（1 原图 1080×1440 → 01 A 模式复刻 + 02–10 B 模式拆母题换中央物体；painting_set 1440×1920 + phone_mockup --ui ios 看 9:20 裁切；art/ 右下角生图角标已克隆抹除）：01-原片/01.png+note；02-复刻/ spec.json, art/01–10.png(896×1200), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg, depth/（MiDaS 深度图 ×10 + 预览.jpg；动态壁纸 ⑤′ 首轮样例，视频本体只在 Drive）
+   ├─ ../fruitscape-6add94a2/  12 原图 3:4 厚涂油画（白纸底）→ 挑 10 张 A 模式逐张复刻；painting_set 1440×1920；动态壁纸用 --highlight sat --particles none --focus 0.35：01-原片/01–12.png+note；02-复刻/ spec.json, art/01–10.png(896×1200), 成图/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg, depth/ ×10 + 预览.jpg
    └─ ../bubu-anniv-6a4a4ca0/ 有字定制样例（原帖网页 404 → 无原片，第 6/7 轮一二布布原图当风格锚；10 张全 B 模式 + caption.py 压字）：01-参考/ 说明.md, 风格参考.jpg；02-生成/ spec.json(caption 段 + 每页 ty/tone), art/01–10.png(688×1536), 有字版/ ×10 (jpg), 无字版/ ×10 (jpg), 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
       └─ 03-第二套-黄昏/        同需求第二套（用户只认第一套 06 → 拆成几何/配色写死进提示词，锚 = 02-生成/art/06.png）：说明.md, spec.json, art/01–10.png, 有字版/, 无字版/, 总图.jpg, 封面-双机预览.jpg, 预览总图-iOS.jpg
 ```

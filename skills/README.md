@@ -6,7 +6,7 @@
 
 | skill | 一句话 | 入口 | 体量 |
 |---|---|---|---|
-| [`xhs-wallpaper-replica/`](xhs-wallpaper-replica/) | **小红书壁纸全流程**：笔记链接 → 原图抓取（`tools/xhs-relay`）→ 生图模型逐张复刻 / 同风格新场景 10 张 → 干净 PNG + 总图 + 双机封面 + iOS 预览 → 文案 → Google Drive 按轮归档 | [SKILL.md](xhs-wallpaper-replica/SKILL.md) · [README](xhs-wallpaper-replica/README.md)（17 轮结果索引） | 4 个脚本 · 15 个样例目录 |
+| [`xhs-wallpaper-replica/`](xhs-wallpaper-replica/) | **小红书壁纸全流程**：笔记链接 → 原图抓取（`tools/xhs-relay`）→ 生图模型逐张复刻 / 同风格新场景 10 张 → 干净 PNG + 总图 + 双机封面 + iOS 预览 → **动态壁纸（深度图 → 2.5D 视差循环视频 / 3D 网页 / 安卓动态照片）** → 文案 → Google Drive 按轮归档 | [SKILL.md](xhs-wallpaper-replica/SKILL.md) · [README](xhs-wallpaper-replica/README.md)（18 轮结果索引）· [动态壁纸工具盘点](xhs-wallpaper-replica/references/dynamic-wallpaper-tools.md) | 8 个脚本 · 16 个样例目录 |
 | [`healing-comic/`](healing-comic/) | 长文 / PDF → 6–9 页小红书治愈系简笔漫画 + 幻灯视频（中文由脚本压字，生图不写字） | [SKILL.md](healing-comic/SKILL.md) · [README](healing-comic/README.md) · [说明](healing-comic/说明.md) | 脚本 + 多套样例 |
 | [`leanrea/`](leanrea/) | 用本机 CLI 工具逆向任何软件（Electron / Mach-O / Go / APK …），不装 MCP | [SKILL.md](leanrea/SKILL.md) | 单文件 8 KB |
 
