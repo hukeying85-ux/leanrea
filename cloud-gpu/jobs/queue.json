@@ -1,22 +1,22 @@
 {
   "schema_version": "1.0",
-  "updated_at_utc": "2026-11-10T00:00:00Z",
+  "updated_at_utc": "2026-11-10T07:08:00Z",
   "jobs": [
     {
-      "id": "uniprot-fasta-20261110",
+      "id": "uniprot-tsv-20261110",
       "provider": "kaggle",
       "mode": "run",
       "accelerator": "CPU",
       "script_path": "cloud-gpu/jobs/uniprot_download.py",
       "script_args": [
-        "fasta"
+        "tsv"
       ],
       "extra_pip": [],
       "serve_minutes": 15.0,
       "wait": true,
       "status": "pending",
-      "created_at_utc": "2026-11-10T07:04:43Z",
-      "kernel_slug": "uniprot-fasta-20261110",
+      "created_at_utc": "2026-11-10T07:08:10Z",
+      "kernel_slug": "uniprot-tsv-20261110",
       "timeout_sec": 2700
     }
   ]
