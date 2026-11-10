@@ -32,10 +32,12 @@ PEPTIDES = {
 
 
 def _min_cos(mat):
+    """最小成对余弦相似度（严格 off-diagonal；对角线置 +inf 后取最小值）。"""
     unit = mat / mat.norm(dim=1, keepdim=True)
     sim = unit @ unit.T
-    off = sim - __import__("torch").eye(sim.shape[0], device=sim.device) * 2.0
-    return off.min()
+    sim = sim.clone()
+    sim.fill_diagonal_(float("inf"))
+    return sim.min()
 
 
 def run(cmd: list[str], timeout: int = 60) -> str:
