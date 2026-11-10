@@ -1,19 +1,22 @@
 {
   "schema_version": "1.0",
-  "updated_at_utc": "2026-11-10T02:00:00Z",
+  "updated_at_utc": "2026-11-10T01:58:59Z",
   "jobs": [
     {
-      "id": "probe-20261110",
-      "provider": "probe",
-      "mode": "probe",
-      "accelerator": "",
-      "script_path": "",
+      "id": "dualamp-v4-gpu-smoke",
+      "provider": "kaggle",
+      "mode": "run",
+      "accelerator": "NvidiaTeslaT4",
+      "script_path": "cloud-gpu/jobs/gpu_smoke_v4.py",
       "script_args": [],
-      "extra_pip": [],
+      "extra_pip": [
+        "fair-esm==2.0.0"
+      ],
       "serve_minutes": 15.0,
       "wait": true,
       "status": "pending",
-      "created_at_utc": "2026-11-10T01:56:57Z"
+      "created_at_utc": "2026-11-10T01:58:54Z",
+      "kernel_slug": "dualamp-v4-gpu-smoke"
     }
   ]
 }
