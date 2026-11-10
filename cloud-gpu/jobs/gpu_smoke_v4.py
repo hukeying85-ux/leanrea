@@ -150,5 +150,25 @@ class _nullcontext:
         return False
 
 
+def _emergency_upload(exc: BaseException) -> None:
+    uri = os.environ.get("DRIVE_UPLOAD_URI")
+    blob = json.dumps({"script": "gpu_smoke_v4", "fatal": f"{type(exc).__name__}: {exc}",
+                       "traceback": traceback.format_exc()[-3000:],
+                       "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},
+                      ensure_ascii=False, indent=2).encode("utf-8")
+    print(blob.decode(), flush=True)
+    if uri:
+        try:
+            print(json.dumps(upload(uri, blob)), flush=True)
+        except Exception as exc2:  # noqa: BLE001
+            print(f"[emergency upload failed] {exc2}", flush=True)
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except SystemExit:
+        raise
+    except BaseException as exc:  # noqa: BLE001
+        _emergency_upload(exc)
+        raise SystemExit(1)
