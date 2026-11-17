@@ -110,6 +110,15 @@ def run_job(job):
     os.makedirs(tmp_dir, exist_ok=True)
     tmp = os.path.join(tmp_dir, f"dl_{int(time.time())}")
     n = download(url, tmp)
+    if job.get("manifest_only") and zipfile.is_zipfile(tmp):
+        with zipfile.ZipFile(tmp) as z:
+            rows = [(i.filename, i.file_size) for i in z.infolist() if not i.is_dir()]
+        log(f"   MANIFEST {len(rows)} entries:")
+        for n, sz in rows:
+            log(f"     {sz:>10}  {n}")
+        os.remove(tmp)
+        return n
+
     head = open(tmp, "rb").read(4)
     if head[:2] == b"PK":
         n_files = unpack(tmp, out_dir, job.get("include"), job.get("strip_top", True))

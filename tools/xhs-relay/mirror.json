@@ -2,10 +2,8 @@
   "jobs": [
     {
       "url": "https://www.dropbox.com/scl/fo/8y3eqgmaq76uda4z8msdi/ABAZKYqHE20rM6AixKWjCAY?rlkey=2nixzs4d2q5havefd8cown6xc&dl=1",
-      "out_dir": "mirror/dropbox/素材05",
-      "unpack": true,
-      "strip_top": true,
-      "include": ["第17轮", "第18轮"]
+      "out_dir": ".probe",
+      "manifest_only": true
     }
   ]
 }
