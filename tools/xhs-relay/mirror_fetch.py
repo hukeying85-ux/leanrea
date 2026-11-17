@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+"""
+mirror_fetch.py — 在 GitHub Actions runner 里跑，把「沙箱够不着的云盘文件」搬回仓库。
+
+为什么需要它：Arena 沙箱出网只放行 github / pypi / npm，Dropbox / Google Drive / 小红书 CDN
+一律不通；而 runner 出网不受限。于是把分享直链写进 mirror.json，runner 下完解压后 commit 回
+触发它的那条分支，沙箱 `git pull` 就拿到了（= 落到本地硬盘）。
+
+mirror.json 格式：
+{
+  "jobs": [
+    {
+      "url": "https://www.dropbox.com/scl/fo/<id>/<hash>?rlkey=...&dl=1",   # 必需，文件夹或单文件
+      "out_dir": "mirror/dropbox",        # 相对仓库根目录
+      "unpack": true,                     # 下完解压（zip）并删除压缩包
+      "strip_top": true,                  # 解压后去掉顶层的「素材05/」这一层，避免路径重复
+      "include": ["第17轮", "第18轮"],     # 可选：只保留路径里包含这些子串的条目
+      "skip_existing": true               # 可选：out_dir 里已存在的同名文件不重下（续传）
+    }
+  ]
+}
+
+Dropbox 文件夹分享链要带 `dl=1` 才会直接给 zip；不带也兼容（会先试 dl=1）。
+"""
+import json
+import os
+import shutil
+import sys
+import time
+import zipfile
+
+import requests
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+MIRROR = os.path.join(ROOT, "tools", "xhs-relay", "mirror.json")
+
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
+HDR = {"User-Agent": UA, "Accept": "*/*"}
+
+
+def log(*a):
+    print(*a, flush=True)
+
+
+def as_dl(url):
+    if "dl=" in url:
+        return url
+    return url + ("&" if "?" in url else "?") + "dl=1"
+
+
+def download(url, dest):
+    """流式下载，边下边报进度。返回字节数。"""
+    url = as_dl(url)
+    with requests.get(url, headers=HDR, stream=True, timeout=300, allow_redirects=True) as r:
+        r.raise_for_status()
+        total = int(r.headers.get("content-length") or 0)
+        n = 0
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with open(dest, "wb") as f:
+            for chunk in r.iter_content(1 << 20):
+                if not chunk:
+                    continue
+                f.write(chunk)
+                n += len(chunk)
+                if total and n % (32 << 20) < (1 << 20):
+                    log(f"    {n/1e6:.0f}/{total/1e6:.0f} MB")
+        log(f"   downloaded {n/1e6:.1f} MB -> {os.path.relpath(dest, ROOT)}")
+        return n
+
+
+def pick(name, include):
+    if not include:
+        return True
+    return any(s in name for s in include)
+
+
+def unpack(zip_path, out_dir, include, strip_top):
+    """解压 zip，支持按 include 过滤、去掉顶层目录。"""
+    n_ok = 0
+    with zipfile.ZipFile(zip_path) as z:
+        for info in z.infolist():
+            if info.is_dir():
+                continue
+            name = info.filename
+            # 去掉 Excel/__MACOSX 之类的垃圾条目
+            base = os.path.basename(name)
+            if not base or base.startswith("._") or "__MACOSX" in name:
+                continue
+            if not pick(name, include):
+                continue
+            rel = name
+            if strip_top:
+                parts = rel.split("/", 1)
+                rel = parts[1] if len(parts) == 2 else parts[0]
+            dest = os.path.join(out_dir, rel)
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            with z.open(info) as src, open(dest, "wb") as dst:
+                shutil.copyfileobj(src, dst)
+            n_ok += 1
+    return n_ok
+
+
+def run_job(job):
+    url = job["url"]
+    out_dir = os.path.join(ROOT, job["out_dir"])
+    os.makedirs(out_dir, exist_ok=True)
+    log(f"== {url[:110]}\n   -> {job['out_dir']}")
+    tmp_dir = os.path.join(ROOT, ".mirror_tmp")
+    os.makedirs(tmp_dir, exist_ok=True)
+    tmp = os.path.join(tmp_dir, f"dl_{int(time.time())}")
+    n = download(url, tmp)
+    head = open(tmp, "rb").read(4)
+    if head[:2] == b"PK":
+        n_files = unpack(tmp, out_dir, job.get("include"), job.get("strip_top", True))
+        log(f"   unpacked {n_files} file(s)")
+        os.remove(tmp)
+    else:
+        # 单文件：用响应头里的文件名，拿不到就用 URL 尾段
+        name = job.get("name") or os.path.basename(url.split("?")[0]) or "download.bin"
+        shutil.move(tmp, os.path.join(out_dir, name))
+        log(f"   single file {n/1e6:.1f} MB -> {job['out_dir']}/{name}")
+    return n
+
+
+def main():
+    path = sys.argv[sys.argv.index("--mirror") + 1] if "--mirror" in sys.argv else MIRROR
+    with open(path, encoding="utf-8") as f:
+        cfg = json.load(f)
+    jobs = cfg.get("jobs", [])
+    log(f"mirror: {len(jobs)} job(s)")
+    for job in jobs:
+        try:
+            run_job(job)
+        except Exception as e:  # noqa: BLE001
+            log(f"   JOB FAILED: {type(e).__name__}: {e}")
+    log("== mirror done ==")
+
+
+if __name__ == "__main__":
+    main()

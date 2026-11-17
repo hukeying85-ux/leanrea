@@ -9,6 +9,8 @@ on:
     paths:
       - 'tools/xhs-relay/queue.json'
       - 'tools/xhs-relay/xhs_fetch.py'
+      - 'tools/xhs-relay/mirror.json'
+      - 'tools/xhs-relay/mirror_fetch.py'
       - 'tools/xhs-relay/secrets/*.enc'
       - '.github/workflows/xhs-relay.yml'
     branches:
@@ -96,6 +98,14 @@ jobs:
           python tools/xhs-relay/xhs_fetch.py --queue tools/xhs-relay/queue.json 2>&1 | tee /tmp/xhs-relay.log
           # 用过的一次性密文删掉，避免下次重跑
           for f in tools/xhs-relay/secrets/*.used; do [ -e "$f" ] && git rm -q --cached "${f%.used}" 2>/dev/null; rm -f "${f%.used}" "$f"; done; true
+
+      - name: Mirror cloud files (Dropbox share -> repo)
+        run: |
+          if [ -f tools/xhs-relay/mirror.json ]; then
+            python tools/xhs-relay/mirror_fetch.py --mirror tools/xhs-relay/mirror.json 2>&1 | tee /tmp/xhs-mirror.log
+          else
+            echo "no mirror.json"
+          fi
 
       - name: Commit results back to this branch
         run: |
