@@ -1,9 +1,8 @@
-bench/work/
-rea_tools.json
+# 工作用的临时下载目录
 .DS_Store
 __pycache__/
-
-# 工作用的临时下载目录
+bench/work/
 google_drive/
-
+mirror/
 mirror2/
+rea_tools.json
