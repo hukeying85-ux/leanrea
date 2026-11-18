@@ -1,19 +1,14 @@
 {
   "jobs": [
     {
+      "url": "https://drive.google.com/file/d/1ksWP-2ArwiJ9P-jRLDLv8HAFZhup5tGI/view",
+      "out_dir": "mirror3/第3轮-视频下载测试",
+      "include": [".jpg", ".jpeg", ".png", ".webp", ".gif"]
+    },
+    {
       "url": "https://drive.google.com/file/d/1HtC2kwdzIZGJ36JtEcW3nsYHiju_oBiZ/view",
-      "out_dir": "mirror3/gd",
-      "manifest_only": true
-    },
-    {
-      "url": "https://drive.google.com/file/d/1NObQPFCwMe1u8YsksfXDPnmOuLjbsR_M/view",
-      "out_dir": "mirror3/gd",
-      "manifest_only": true
-    },
-    {
-      "url": "https://drive.google.com/file/d/1dVDkTm1FMIF9fzQaYo5UlbRnJZ-OzDEZ/view",
-      "out_dir": "mirror3/gd",
-      "manifest_only": true
+      "out_dir": "mirror3/第4-5轮-小新新画10张-B",
+      "include": [".jpg", ".jpeg", ".png", ".webp", ".gif"]
     }
   ]
 }
