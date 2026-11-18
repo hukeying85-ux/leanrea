@@ -44,6 +44,12 @@ def log(*a):
 
 
 def as_dl(url):
+    # Google Drive 单文件：https://drive.google.com/file/d/<ID>/view  ->  uc?export=download&id=<ID>
+    if "drive.google.com" in url:
+        import re
+        m = re.search(r"/d/([A-Za-z0-9_-]{20,})", url) or re.search(r"[?&]id=([A-Za-z0-9_-]{20,})", url)
+        if m:
+            return f"https://drive.google.com/uc?export=download&id={m.group(1)}"
     if "dl=" in url:
         return url
     return url + ("&" if "?" in url else "?") + "dl=1"
@@ -121,6 +127,28 @@ def run_job(job):
 
     head = open(tmp, "rb").read(4)
     if head[:2] == b"PK":
+        # per_entry_dir: 每个条目放到 out_dir/<条目名去扩展名>/ 下（多轮 zip 分开成文件夹用）
+        if job.get("per_entry_dir"):
+            n_files = 0
+            with zipfile.ZipFile(tmp) as z:
+                for info in z.infolist():
+                    if info.is_dir():
+                        continue
+                    name = info.filename
+                    base = os.path.basename(name)
+                    if not base or base.startswith("._") or "__MACOSX" in name:
+                        continue
+                    if not pick(name, job.get("include")):
+                        continue
+                    stem = os.path.splitext(base)[0]
+                    d = os.path.join(out_dir, stem)
+                    os.makedirs(d, exist_ok=True)
+                    with z.open(info) as src, open(os.path.join(d, base), "wb") as dst:
+                        shutil.copyfileobj(src, dst)
+                    n_files += 1
+            log(f"   unpacked {n_files} file(s) into per-entry folders")
+            os.remove(tmp)
+            return n
         n_files = unpack(tmp, out_dir, job.get("include"), job.get("strip_top", True))
         log(f"   unpacked {n_files} file(s)")
         os.remove(tmp)
