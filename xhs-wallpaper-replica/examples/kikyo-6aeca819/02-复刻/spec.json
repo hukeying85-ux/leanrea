@@ -1,0 +1,97 @@
+{
+  "title": "桔梗 · 水墨留白 10 张",
+  "subtitle": "复刻自 晓晨《桔梗 ｜壁纸分享》(6aeca819，原帖 6 张) · 第22轮新画 10 张 · 1440×3200 (9:20) · AI 生成",
+  "canvas": [
+    1440,
+    3200
+  ],
+  "date": "Thursday, November 20",
+  "time": "23:05",
+  "prefix": "桔梗",
+  "cover": {
+    "left": 1,
+    "right": 10
+  },
+  "pages": [
+    {
+      "n": 1,
+      "name": "回望枫下",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画01",
+      "line": "转过身来的一瞬，枫叶正落过她的肩"
+    },
+    {
+      "n": 2,
+      "name": "引弓",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画02",
+      "line": "草径上拉开长弓，袖子被风扯向一侧"
+    },
+    {
+      "n": 3,
+      "name": "石阶红莲",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画03",
+      "line": "坐在长满青苔的石阶，手里捏着一枝彼岸花"
+    },
+    {
+      "n": 4,
+      "name": "山径背影",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画04",
+      "line": "抱着弓往山上走，发和袖子都被风抬起来"
+    },
+    {
+      "n": 5,
+      "name": "河畔望雾",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画05",
+      "line": "长弓立在身侧，望着对岸慢慢散开的雾"
+    },
+    {
+      "n": 6,
+      "name": "弦上",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画06",
+      "line": "弓弦拉到颊边，眼里只剩那一点"
+    },
+    {
+      "n": 7,
+      "name": "掌心白鸟",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画07",
+      "line": "跪在草里，一只小小的白鸟停在掌心"
+    },
+    {
+      "n": 8,
+      "name": "老树",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画08",
+      "line": "一只手按在树干上，抬头看空掉的枝"
+    },
+    {
+      "n": 9,
+      "name": "拾叶",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画09",
+      "line": "满径落叶里站住，指间夹着一片举到眼前"
+    },
+    {
+      "n": 10,
+      "name": "留白",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画10",
+      "line": "站在纸的最右边，看一片叶子被风带走"
+    }
+  ]
+}
