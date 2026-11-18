@@ -1,0 +1,21 @@
+{
+  "title": "夏日祭典 · 灯笼与烟花 10 张",
+  "subtitle": "原创主题（第24轮，无参考帖）· 吉卜力式水彩 · 1440×3200 (9:20) · AI 生成",
+  "canvas": [1440, 3200],
+  "date": "Saturday, August 15",
+  "time": "19:30",
+  "prefix": "祭典",
+  "cover": {"left": 1, "right": 3},
+  "pages": [
+    {"n": 1, "name": "灯笼长街", "anchor": "center", "overlay": "lock", "from": "新画01", "line": "两个穿浴衣的小孩牵着手，走进灯笼照亮的长街"},
+    {"n": 2, "name": "捞金鱼", "anchor": "center", "overlay": "lock", "from": "新画02", "line": "蹲在水池边，纸网刚碰到一条红金鱼"},
+    {"n": 3, "name": "烟花升起", "anchor": "center", "overlay": "lock", "from": "新画03", "line": "仰头看第一朵烟花在屋顶上炸开"},
+    {"n": 4, "name": "草莓刨冰", "anchor": "center", "overlay": "lock", "from": "新画04", "line": "捧着一碗草莓刨冰，摊子的纸灯笼晃在头顶"},
+    {"n": 5, "name": "河灯", "anchor": "center", "overlay": "lock", "from": "新画05", "line": "坐在河堤上，看水灯一盏盏漂远"},
+    {"n": 6, "name": "面具摊", "anchor": "center", "overlay": "lock", "from": "新画06", "line": "踮脚取下一只狐狸面具，试着挡住半张脸"},
+    {"n": 7, "name": "章鱼烧", "anchor": "center", "overlay": "lock", "from": "新画07", "line": "攥着几枚硬币，等阿婆把热腾腾的一份递过来"},
+    {"n": 8, "name": "山上望祭", "anchor": "center", "overlay": "lock", "from": "新画08", "line": "从山坡往下看，整条街都在发光"},
+    {"n": 9, "name": "放天灯", "anchor": "center", "overlay": "lock", "from": "新画09", "line": "双手一松，天灯慢慢升进星里"},
+    {"n": 10, "name": "散场以后", "anchor": "center", "overlay": "lock", "from": "新画10", "line": "天亮前的空街，还留着一盏没灭的灯笼"}
+  ]
+}
