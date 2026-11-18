@@ -5,7 +5,7 @@
     1440,
     3200
   ],
-  "date": "Tuesday, November 18",
+  "date": "Wednesday, November 19",
   "time": "05:20",
   "prefix": "童年",
   "cover": {
@@ -15,83 +15,83 @@
   "pages": [
     {
       "n": 1,
-      "name": "溪边捉鱼",
+      "name": "池畔冰沙",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画01",
-      "line": "蹲在溪石上给玻璃瓶换水，小银鱼在瓶里转圈"
+      "line": "坐在木栈桥头晃着脚，一签刨冰化得比吃得多"
     },
     {
       "n": 2,
-      "name": "站台送车",
+      "name": "水渠摸鱼",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画02",
-      "line": "并排坐在乡间小站的长椅上，绿皮车刚开走"
+      "line": "光脚蹲在渠边舀水，泥鳅在铁罐里乱撞"
     },
     {
       "n": 3,
-      "name": "树下乘凉",
+      "name": "树上摘果",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画03",
-      "line": "奶奶摇蒲扇，陶锅里的绿豆汤还冒着热气"
+      "line": "爬到最高的树杈，布袋子鼓得快要掉下来"
     },
     {
       "n": 4,
-      "name": "稻田骑车",
+      "name": "巷口煮饭",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画04",
-      "line": "载着妹妹穿过水田间的窄路，蜻蜓贴着稻尖飞"
+      "line": "石阶上摇蒲扇，煤炉的白烟顺着晾衣绳爬"
     },
     {
       "n": 5,
-      "name": "放学回家",
+      "name": "坡道风车",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画05",
-      "line": "竹竿上挑着蝉蜕，白衬衫被晒得发亮"
+      "line": "举着纸风车冲下红砖台阶，海在很远的地方"
     },
     {
       "n": 6,
-      "name": "老楼黄昏",
+      "name": "屋顶看海",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画06",
-      "line": "抬头数那些晾着衣服的阳台，最上面那层风最大"
+      "line": "黄昏的屋顶晾满衣服，越过一片瓦顶就是海"
     },
     {
       "n": 7,
-      "name": "河边放灯",
+      "name": "石桥放船",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画07",
-      "line": "河灯一盏盏漂走，把整条河染成橘色"
+      "line": "蹲在桥头放纸船，萤火虫顺着水草漂"
     },
     {
       "n": 8,
-      "name": "午后西瓜",
+      "name": "榻榻米午睡",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画08",
-      "line": "趴在地板上看漫画，猫睡在背上，电风扇摇头"
+      "line": "敞着障子门，风扇摇头，猫把榻榻米占了一半"
     },
     {
       "n": 9,
-      "name": "屋顶猫",
+      "name": "路口等车",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画09",
-      "line": "瓦片晒得暖，猫伸了个长长的懒腰"
+      "line": "书包放在膝盖上，正午的柏油路在冒白气"
     },
     {
       "n": 10,
-      "name": "夏夜汽水",
+      "name": "山坡数星",
       "anchor": "center",
       "overlay": "lock",
       "from": "新画10",
-      "line": "赤脚坐在檐廊，玻璃瓶冒泡，萤火虫慢慢升起"
+      "line": "躺在野餐垫上数星星，自行车歪在草里"
     }
   ]
 }
