@@ -1,0 +1,8 @@
+queue: 1 job(s); cookie: no
+== https://www.xiaohongshu.com/discovery/item/6aed5b12000000002b033b95?xsec_token=CBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7&xsec_source=pc_share
+   -> skills/xhs-wallpaper-replica/examples/tomjerry-6aed5b12/01-原片
+   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/404?source=/404/sec_GbSRabYW?redirectPath=http%3A%2F%2Fwww.rednote.com%2Fdiscovery%2Fitem%2F6aed5b12000000002b033b95%3Fxsec_token%3DCBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7%26xsec_source%3Dpc_share&error_code=300031&error_msg=%E5%BD%93%E5%89%8D%E7%AC%94%E8%AE%B0%E6%9A%82%E6%97%B6%E6%97%A0%E6%B3%95%E6%B5%8F%E8%A7%88&uuid=sg__a18e4719-9809-43d9-baca-175d11fed900&verifyMsg=', 'html_bytes': 285761} parse=regex title='rednote (小红书) - global lifestyle hub' images=0
+   saved 0/0 images to skills/xhs-wallpaper-replica/examples/tomjerry-6aed5b12/01-原片
+
+== summary ==
+  0/0  https://www.xiaohongshu.com/discovery/item/6aed5b12000000002b033b95?xsec_token=CBISbJnVDWP
