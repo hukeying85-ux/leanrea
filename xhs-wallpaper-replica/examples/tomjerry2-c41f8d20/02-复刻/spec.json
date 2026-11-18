@@ -1,0 +1,21 @@
+{
+  "title": "猫和老鼠 · 今晚还是先停战 10 张",
+  "subtitle": "续作第25轮 · 沿用第9轮《猫和老鼠手机壁纸｜今晚先停战》的画风与角色（灰猫 + 棕鼠、经典赛璐璐动画、米色底），场景全新 · 1440×3200 (9:20) · AI 生成",
+  "canvas": [1440, 3200],
+  "date": "Friday, November 21",
+  "time": "21:10",
+  "prefix": "猫鼠",
+  "cover": {"left": 1, "right": 10},
+  "pages": [
+    {"n": 1, "name": "爆米花夜", "anchor": "center", "overlay": "lock", "from": "新画01", "line": "守着灶台等一锅玉米爆开，粒粒都飞到天花板上"},
+    {"n": 2, "name": "肥皂泡", "anchor": "center", "overlay": "lock", "from": "新画02", "line": "坐在一个巨大的肥皂泡上，漂在浴缸上方"},
+    {"n": 3, "name": "感冒的鼠", "anchor": "center", "overlay": "lock", "from": "新画03", "line": "缩在被子里含体温计，猫端着一勺药凑近"},
+    {"n": 4, "name": "圣诞袜", "anchor": "center", "overlay": "lock", "from": "新画04", "line": "壁炉上两只袜子，一只里探出一个脑袋"},
+    {"n": 5, "name": "毛线球", "anchor": "center", "overlay": "lock", "from": "新画05", "line": "猫在摇椅上织毛衣，线团把鼠缠成了一团"},
+    {"n": 6, "name": "踩水坑", "anchor": "center", "overlay": "lock", "from": "新画06", "line": "两件小雨衣一起跳进同一个水坑"},
+    {"n": 7, "name": "烤饼干", "anchor": "center", "overlay": "lock", "from": "新画07", "line": "围裙上全是面粉，鼠站在擀面杖上保持平衡"},
+    {"n": 8, "name": "树下野餐", "anchor": "center", "overlay": "lock", "from": "新画08", "line": "并排躺在野餐垫上，一起数云的形状"},
+    {"n": 9, "name": "划小船", "anchor": "center", "overlay": "lock", "from": "新画09", "line": "猫划桨，鼠站在船头指方向"},
+    {"n": 10, "name": "一起看月亮", "anchor": "center", "overlay": "lock", "from": "新画10", "line": "窗台上盖同一条毯子，看月亮爬过屋顶"}
+  ]
+}

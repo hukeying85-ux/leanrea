@@ -95,14 +95,16 @@ jobs:
           DRIVE_UPLOAD_URI: ${{ inputs.drive_upload_uri }}
         run: |
           if [ -n "$DRIVE_UPLOAD_URI" ]; then echo "::add-mask::$DRIVE_UPLOAD_URI"; fi
-          python tools/xhs-relay/xhs_fetch.py --queue tools/xhs-relay/queue.json 2>&1 | tee /tmp/xhs-relay.log
+          mkdir -p tools/xhs-relay/logs
+          python tools/xhs-relay/xhs_fetch.py --queue tools/xhs-relay/queue.json 2>&1 | tee /tmp/xhs-relay.log tools/xhs-relay/logs/fetch.log || true
           # 用过的一次性密文删掉，避免下次重跑
           for f in tools/xhs-relay/secrets/*.used; do [ -e "$f" ] && git rm -q --cached "${f%.used}" 2>/dev/null; rm -f "${f%.used}" "$f"; done; true
 
       - name: Mirror cloud files (Dropbox share -> repo)
         run: |
           if [ -f tools/xhs-relay/mirror.json ]; then
-            python tools/xhs-relay/mirror_fetch.py --mirror tools/xhs-relay/mirror.json 2>&1 | tee /tmp/xhs-mirror.log
+            mkdir -p tools/xhs-relay/logs
+            python tools/xhs-relay/mirror_fetch.py --mirror tools/xhs-relay/mirror.json 2>&1 | tee /tmp/xhs-mirror.log tools/xhs-relay/logs/mirror.log || true
           else
             echo "no mirror.json"
           fi
