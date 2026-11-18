@@ -1,18 +1,15 @@
 {
   "jobs": [
     {
-      "note_url": "https://www.rednote.com/discovery/item/6af7b456000000002a029faa?xsec_token=CB1BXPorhX3UJ0QGlbG5WFCBN6aCLsaZottYLfNbchhY0=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/sakura-laptop-6af7b456/01-原图",
+      "note_url": "https://www.rednote.com/discovery/item/6af68863000000001f0175eb?xsec_token=CBv4T95OeuD3R3Bdkxg1mtE_hYovsw1ZtITAp5q9wsa_E=&xsec_source=pc_share",
+      "out_dir": "xhs-wallpaper-replica/examples/childhood-6af68863/01-原图",
       "max_total_mb": 80,
       "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611171718/ec1a8cca5c0d7d14b7e27ae6d3e16aaa/spectrum/1040g34o327hiv77lmi805n96ve1lm9avge6e1c0!nd_dft_wgth_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611171718/a885c6b681971d53ffb50916fb32b64e/spectrum/1040g34o327hiv77lmi8g5n96ve1lm9av9dnrjj0!nd_dft_wgth_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611171718/a419b9a0bdcac2554f9812c2fedbc3cf/spectrum/1040g34o327hiv77lmi905n96ve1lm9avef7hmp8!nd_dft_wgth_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611171718/e63d61d428187113e4cddbda5f4072df/spectrum/1040g34o327hiv77lmi9g5n96ve1lm9avvc0s2ng!nd_dft_wgth_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611171718/928808066669d25ac7ac3b16ba461c98/spectrum/1040g34o327hiv77lmia05n96ve1lm9avegct0og!nd_dft_wgth_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611171718/c50697001789fb5dacfbefb914869f0c/spectrum/1040g34o327hiv77lmiag5n96ve1lm9av9bmqfg8!nd_dft_wgth_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611171718/51ac3b4b823314ee18dcb3a0a59f629b/spectrum/1040g34o327hiv77lmib05n96ve1lm9avs8a3gb8!nd_dft_wgth_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611171718/65ac49e5bfceb6c23611736f35622f80/spectrum/1040g34o327hiv77lmibg5n96ve1lm9avv4ebg28!nd_dft_wgth_webp_3"
+        "https://sns-web-i10.rednotecdn.com/202611181012/98747dbed3e36fdfa94601dc79e7d25f/notes_pre_post/1040g3k8327gec7ktma905onluo75b3uimenssr8!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181012/50ccb9a20a80052a7fc2227920cbc292/notes_pre_post/1040g3k8327gec7ktma705onluo75b3uim6c64l0!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181012/eb70e661e6f20a4840185f9b20dead64/notes_pre_post/1040g3k8327gec7ktma7g5onluo75b3ui4mlqlbo!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181012/5046960962136861069f266233452bc5/notes_pre_post/1040g3k8327gec7ktma805onluo75b3uiq9dtr98!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181012/f702b409600a435509d156aca04ad01e/notes_pre_post/1040g3k8327gec7ktma8g5onluo75b3ui6kc8ahg!nd_dft_wlteh_webp_3"
       ]
     }
   ]
