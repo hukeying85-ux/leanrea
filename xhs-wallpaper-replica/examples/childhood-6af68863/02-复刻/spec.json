@@ -1,0 +1,97 @@
+{
+  "title": "回不去的童年 · 日系夏日 10 张",
+  "subtitle": "复刻自 若童《回不去的童年！|高清手机壁纸》(6af68863，原帖 5 张 1472×3200) · 第21轮新画 10 张 · 1440×3200 (9:20) · AI 生成",
+  "canvas": [
+    1440,
+    3200
+  ],
+  "date": "Tuesday, November 18",
+  "time": "05:20",
+  "prefix": "童年",
+  "cover": {
+    "left": 1,
+    "right": 10
+  },
+  "pages": [
+    {
+      "n": 1,
+      "name": "溪边捉鱼",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画01",
+      "line": "蹲在溪石上给玻璃瓶换水，小银鱼在瓶里转圈"
+    },
+    {
+      "n": 2,
+      "name": "站台送车",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画02",
+      "line": "并排坐在乡间小站的长椅上，绿皮车刚开走"
+    },
+    {
+      "n": 3,
+      "name": "树下乘凉",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画03",
+      "line": "奶奶摇蒲扇，陶锅里的绿豆汤还冒着热气"
+    },
+    {
+      "n": 4,
+      "name": "稻田骑车",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画04",
+      "line": "载着妹妹穿过水田间的窄路，蜻蜓贴着稻尖飞"
+    },
+    {
+      "n": 5,
+      "name": "放学回家",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画05",
+      "line": "竹竿上挑着蝉蜕，白衬衫被晒得发亮"
+    },
+    {
+      "n": 6,
+      "name": "老楼黄昏",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画06",
+      "line": "抬头数那些晾着衣服的阳台，最上面那层风最大"
+    },
+    {
+      "n": 7,
+      "name": "河边放灯",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画07",
+      "line": "河灯一盏盏漂走，把整条河染成橘色"
+    },
+    {
+      "n": 8,
+      "name": "午后西瓜",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画08",
+      "line": "趴在地板上看漫画，猫睡在背上，电风扇摇头"
+    },
+    {
+      "n": 9,
+      "name": "屋顶猫",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画09",
+      "line": "瓦片晒得暖，猫伸了个长长的懒腰"
+    },
+    {
+      "n": 10,
+      "name": "夏夜汽水",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画10",
+      "line": "赤脚坐在檐廊，玻璃瓶冒泡，萤火虫慢慢升起"
+    }
+  ]
+}

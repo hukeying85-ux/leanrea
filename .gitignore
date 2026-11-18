@@ -7,3 +7,6 @@ google_drive/
 mirror/
 mirror2/
 rea_tools.json
+
+# 第21轮起：成图 PNG 只上 Drive，仓库留 JPG
+xhs-wallpaper-replica/examples/*/02-复刻/壁纸/*.png
