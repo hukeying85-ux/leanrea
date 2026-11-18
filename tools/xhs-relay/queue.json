@@ -1,16 +1,19 @@
 {
   "jobs": [
     {
-      "note_url": "https://www.rednote.com/discovery/item/6aeca819000000001b01e8d0?xsec_token=CBpdIw7Z7uvNIuA8EI8NwDpnLegtWOPq4pFQ648d363iA=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/kikyo-6aeca819/01-原图",
+      "note_url": "https://www.rednote.com/discovery/item/6ad8a6ba00000000310375b1?xsec_token=CBZCJ0SDQa9Qv3Elk0wyO9SbFxK-MOYpZvEDHs9yY23is=&xsec_source=pc_share",
+      "out_dir": "xhs-wallpaper-replica/examples/sakura-veil-6ad8a6ba/01-原图",
       "max_total_mb": 80,
       "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611181102/cc204c39a2200317d982399844064222/notes_pre_post/1040g3k03276pniug7g2g5pt6tqtj9dsmggitts0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611181102/fd16a6b76637f71fb10f95cc722389ff/notes_pre_post/1040g3k03276pniug7g005pt6tqtj9dsmt0sbkto!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611181102/0e9da3e095a5ac42c59db344993a9bae/notes_pre_post/1040g3k03276pniug7g0g5pt6tqtj9dsm25fo4no!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611181102/811487be7136af1746d7a18cdb95403e/notes_pre_post/1040g3k03276pniug7g105pt6tqtj9dsm6m4ui08!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611181102/8088b88672f864190cd48e6c76802c03/notes_pre_post/1040g3k03276pniug7g1g5pt6tqtj9dsmghdhn2o!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611181102/f61aa6a6373b21d459b3cdf19fe04e43/notes_pre_post/1040g3k03276pniug7g205pt6tqtj9dsmb7ur5lo!nd_dft_wlteh_webp_3"
+        "https://sns-web-i10.rednotecdn.com/202611181439/f336ab6357eb1e0dc4d0f8e555e04b08/notes_pre_post/1040g3k8326j8isnml0b05p34u8pahcqa5p9ipl8!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181439/89b6ac9ef782b1f6795803d2138b0f48/notes_pre_post/1040g3k8326j8isnml0705p34u8pahcqa5hslv18!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181439/87b145cb030986c70cb7c4c91ef32378/notes_pre_post/1040g3k8326j8isnml07g5p34u8pahcqajgs7368!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181439/992d527661ae551e156dc44820a03e33/notes_pre_post/1040g3k8326j8isnml0805p34u8pahcqa5410nto!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181439/c6f8887972e1ebe8d72de3ae3b098306/notes_pre_post/1040g3k8326j8isnml08g5p34u8pahcqag7blvbo!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181439/02287a7a4d5a1f8febb3a99954d723b9/notes_pre_post/1040g3k8326j8isnml0905p34u8pahcqa5ou2rug!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181439/c22ec5e1adf5d86f07eb105014cddd15/notes_pre_post/1040g3k8326j8isnml09g5p34u8pahcqae4bbqg8!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181439/e81deb8489e6e0e22d5d47ee5a82c9e7/notes_pre_post/1040g3k8326j8isnml0a05p34u8pahcqaelrb2qo!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611181439/5a1251d99529ad7b9458f255fef930d5/notes_pre_post/1040g3k8326j8isnml0ag5p34u8pahcqaqmotsqo!nd_dft_wlteh_webp_3"
       ]
     }
   ]
