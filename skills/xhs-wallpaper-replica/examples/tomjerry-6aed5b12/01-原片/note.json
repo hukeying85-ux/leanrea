@@ -12,12 +12,12 @@
  "parse": "regex",
  "fetch": {
   "http_status": 200,
-  "final_url": "https://www.rednote.com/404?source=/404/sec_dQVjvdVC?redirectPath=http%3A%2F%2Fwww.rednote.com%2Fdiscovery%2Fitem%2F6aed5b12000000002b033b95%3Fxsec_token%3DCBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7%26xsec_source%3Dpc_share&error_code=300031&error_msg=%E5%BD%93%E5%89%8D%E7%AC%94%E8%AE%B0%E6%9A%82%E6%97%B6%E6%97%A0%E6%B3%95%E6%B5%8F%E8%A7%88&uuid=sg__46a58a03-af36-4f42-99f1-467cd3f1bcaf&verifyMsg=",
+  "final_url": "https://www.rednote.com/404?source=/404/sec_kovaviIY?redirectPath=http%3A%2F%2Fwww.rednote.com%2Fdiscovery%2Fitem%2F6aed5b12000000002b033b95%3Fxsec_token%3DCBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7%26xsec_source%3Dpc_share&error_code=300031&error_msg=%E5%BD%93%E5%89%8D%E7%AC%94%E8%AE%B0%E6%9A%82%E6%97%B6%E6%97%A0%E6%B3%95%E6%B5%8F%E8%A7%88&uuid=sg__1a670b31-b5d8-4faf-acd8-44326d8a7ecc&verifyMsg=",
   "html_bytes": 285761
  },
  "type": "normal",
  "images_source": "page",
  "downloads": [],
  "source_url": "https://www.xiaohongshu.com/discovery/item/6aed5b12000000002b033b95?xsec_token=CBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7&xsec_source=pc_share",
- "fetched_at_utc": "2026-11-18T07:29:58Z"
+ "fetched_at_utc": "2026-11-18T07:35:11Z"
 }
