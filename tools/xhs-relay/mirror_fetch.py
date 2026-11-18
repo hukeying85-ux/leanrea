@@ -49,10 +49,23 @@ def as_dl(url):
         import re
         m = re.search(r"/d/([A-Za-z0-9_-]{20,})", url) or re.search(r"[?&]id=([A-Za-z0-9_-]{20,})", url)
         if m:
-            return f"https://drive.google.com/uc?export=download&id={m.group(1)}"
+            return f"https://drive.google.com/uc?export=download&confirm=t&id={m.group(1)}"
     if "dl=" in url:
         return url
     return url + ("&" if "?" in url else "?") + "dl=1"
+
+
+def _gdrive_confirm(html):
+    """大文件会被 Drive 的「无法扫描病毒」页拦一次；从 form 里抠出真实下载地址。"""
+    import re
+    m = re.search(r'<form[^>]+id="download-form"[^>]+action="([^"]+)"', html)
+    if not m:
+        m = re.search(r'action="(https://drive\.usercontent\.google\.com/download[^"]*)"', html)
+    if not m:
+        return None
+    action = m.group(1).replace("&amp;", "&")
+    params = dict(re.findall(r'name="([^"]+)"\s+value="([^"]*)"', html))
+    return action, params
 
 
 def download(url, dest):
@@ -60,19 +73,39 @@ def download(url, dest):
     url = as_dl(url)
     with requests.get(url, headers=HDR, stream=True, timeout=300, allow_redirects=True) as r:
         r.raise_for_status()
-        total = int(r.headers.get("content-length") or 0)
-        n = 0
-        os.makedirs(os.path.dirname(dest), exist_ok=True)
-        with open(dest, "wb") as f:
-            for chunk in r.iter_content(1 << 20):
-                if not chunk:
-                    continue
-                f.write(chunk)
-                n += len(chunk)
-                if total and n % (32 << 20) < (1 << 20):
-                    log(f"    {n/1e6:.0f}/{total/1e6:.0f} MB")
-        log(f"   downloaded {n/1e6:.1f} MB -> {os.path.relpath(dest, ROOT)}")
-        return n
+        ctype = (r.headers.get("content-type") or "").lower()
+        if "text/html" in ctype:
+            body = r.text
+            log(f"   HTML page ({len(body)} chars) — 先查是否 Drive 确认页")
+            cf = _gdrive_confirm(body)
+            if not cf:
+                log("   HTML HEAD: " + " ".join(body.split())[:600])
+                raise RuntimeError("got HTML instead of a file (need public share link?)")
+            action, params = cf
+            log(f"   confirm-form -> {action[:80]} params={list(params)}")
+            with requests.get(action, headers=HDR, params=params, stream=True,
+                              timeout=300, allow_redirects=True) as r2:
+                r2.raise_for_status()
+                return _save(r2, dest)
+        return _save(r, dest)
+
+
+def _save(r, dest):
+    total = int(r.headers.get("content-length") or 0)
+    if total > 200_000_000:
+        log(f"   WARNING: {total/1e9:.2f} GB；GitHub runner 仓库建议 <2GB，超出请分卷/改用 LFS")
+    n = 0
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    with open(dest, "wb") as f:
+        for chunk in r.iter_content(1 << 20):
+            if not chunk:
+                continue
+            f.write(chunk)
+            n += len(chunk)
+            if total and n % (64 << 20) < (1 << 20):
+                log(f"    {n/1e6:.0f}/{total/1e6:.0f} MB")
+    log(f"   downloaded {n/1e6:.1f} MB -> {os.path.relpath(dest, ROOT)}")
+    return n
 
 
 def pick(name, include):
