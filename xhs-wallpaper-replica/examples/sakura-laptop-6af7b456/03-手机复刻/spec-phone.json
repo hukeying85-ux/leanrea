@@ -1,0 +1,94 @@
+{
+  "title": "魔卡少女樱 · 观景台的星杖 · 手机壁纸 10 张",
+  "subtitle": "复刻自 拾光高清壁纸_《魔卡少女樱·观景台的星杖》(6af7b456，原帖 8 张横屏) · 同一批角色、全新动作与构图 · 1440×3200 (9:20 手机) · AI 生成",
+  "canvas": [
+    1440,
+    3200
+  ],
+  "prefix": "小樱",
+  "note_id": "6af7b456000000002a029faa",
+  "note_url": "https://xhslink.cn/o/55j0g4UdRyV",
+  "source_images": 8,
+  "pages": [
+    {
+      "n": 1,
+      "name": "星夜观景台",
+      "anchor": "center",
+      "from": "原图01 复刻",
+      "line": "星杖照亮的那个黄昏，天台上的风都是甜的",
+      "overlay": "lock"
+    },
+    {
+      "n": 2,
+      "name": "橱窗小可",
+      "anchor": "center",
+      "from": "原图02 复刻",
+      "line": "小可藏进橱窗，蛋糕上的奶油比它的肚子还软",
+      "overlay": "lock"
+    },
+    {
+      "n": 3,
+      "name": "知世的窗",
+      "anchor": "center",
+      "from": "原图03 复刻",
+      "line": "知世在窗边缝那条缎带，阳光替她穿针",
+      "overlay": "lock"
+    },
+    {
+      "n": 4,
+      "name": "小狼提灯",
+      "anchor": "center",
+      "from": "原图04 复刻",
+      "line": "小狼提着灯穿过长廊，灯芯里是没说完的话",
+      "overlay": "lock"
+    },
+    {
+      "n": 5,
+      "name": "温室霜花",
+      "anchor": "center",
+      "from": "原图05 复刻",
+      "line": "冬天的玻璃温室，霜花把她的侧脸也画了一遍",
+      "overlay": "lock"
+    },
+    {
+      "n": 6,
+      "name": "睡莲池畔",
+      "anchor": "center",
+      "from": "原图06 复刻",
+      "line": "两个人蹲在睡莲池边，谁也不肯说要走",
+      "overlay": "lock"
+    },
+    {
+      "n": 7,
+      "name": "星冠山坡",
+      "anchor": "center",
+      "from": "原图07 复刻",
+      "line": "云低得像能摘下来，星杖指哪儿哪儿亮",
+      "overlay": "lock"
+    },
+    {
+      "n": 8,
+      "name": "钟楼落日",
+      "anchor": "center",
+      "from": "原图08 复刻",
+      "line": "全城的樱花都在往同一个黄昏里落",
+      "overlay": "lock"
+    },
+    {
+      "n": 9,
+      "name": "月下温室径",
+      "anchor": "center",
+      "from": "新场景 · 锚 原图05",
+      "line": "夜里她又回来一次，星杖替温室点了灯",
+      "overlay": "lock"
+    },
+    {
+      "n": 10,
+      "name": "星雨长廊",
+      "anchor": "center",
+      "from": "新场景 · 锚 原图04",
+      "line": "小可追着流萤跑，走廊尽头正下着流星",
+      "overlay": "lock"
+    }
+  ]
+}
