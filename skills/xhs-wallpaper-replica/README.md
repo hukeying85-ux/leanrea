@@ -97,3 +97,18 @@ UI 一律由脚本「加」在干净图上，从不让模型画了再「去」�
 - 角色为第三方 IP（蜡笔小新），仅供个人壁纸、非商用；全部图片为 AI 生成，发布时勾选「AI 生成」。
 - 第 6 轮的一二布布是自家 IP，没有第三方版权问题；名画本身早已进入公有领域，复刻的只是「风格」，照样标 AI 生成。
 - 688×1536 → 1440×3200 是 Lanczos 放大，手机上观感正常，100% 看比原帖略软；要更锐利在本机过一遍 Real-ESRGAN（anime 模型，×2）再合成。
+
+## 云端位置（2026-11-18 起）
+
+**Google Drive：`小红书壁纸素材05/`**（folder id `197MJvZtm43q0ZMulRu1tcZwIEax-8XDF`）
+
+| 轮次 | 目录 id | 内容 |
+|---|---|---|
+| 第17轮-金鱼福气油画 | `1Me7S32HrXzmtZ6g7Dtj0Z-mQrR6BSXWo` | 原片 3 + 结果 14 |
+| 第18轮-水果风景厚涂油画 | `1LfqllsFLaTX_2JAKRygmMJaBuBpV4aXA` | 原片 14 + 结果 14 |
+| 第19轮-魔卡少女樱观景台 | `1kwG0BVmbPC5YWHUlxtfsHy2rQQDq4YiI` | 结果 13（2560×1600 横屏） |
+| 第20轮-魔卡少女樱手机版 | `1-jLnffmtzdaJzDt6Mck89uD89agwTJ2x` | 结果 14（1440×3200 手机） |
+
+**Dropbox 已弃用**（容量只剩 40 MB，装不下新轮次）。第 19/20 轮在 Dropbox 上还留着早期副本，可删。
+
+**沙箱注意**：Arena 每轮重置会把 `/home/user` 之外的路径清空。仓库内 `examples/_archive/` 存了第17–20轮的精简备份（只留成图/总图/封面/文案，剔除 zip/mp4/原片），真正完整的交付在 Google Drive。
