@@ -1,0 +1,97 @@
+{
+  "title": "白纱誓约 · 魔卡少女樱 10 张",
+  "subtitle": "复刻自 云野原《以白纱誓约的方式打开魔卡少女樱》(6ad8a6ba，原帖 9 张) · 第23轮新画 10 张 · 1440×3200 (9:20) · AI 生成",
+  "canvas": [
+    1440,
+    3200
+  ],
+  "date": "Friday, November 21",
+  "time": "20:20",
+  "prefix": "誓约",
+  "cover": {
+    "left": 1,
+    "right": 9
+  },
+  "pages": [
+    {
+      "n": 1,
+      "name": "掌上星",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画01",
+      "line": "白纱覆肩，两只手捧着一颗会发光的星"
+    },
+    {
+      "n": 2,
+      "name": "月轮守护",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画02",
+      "line": "银发白翼站在浅水上，掌心托着一轮月"
+    },
+    {
+      "n": 3,
+      "name": "圣堂回望",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画03",
+      "line": "长裙拖过石阶，回头时面纱被风掀起一角"
+    },
+    {
+      "n": 4,
+      "name": "持书少年",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画04",
+      "line": "白袍少年捧起那本合起的魔法书，书背发烫"
+    },
+    {
+      "n": 5,
+      "name": "镜头前的她",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画05",
+      "line": "举着旧相机，笑着让面纱垂到肩上"
+    },
+    {
+      "n": 6,
+      "name": "空庭",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画06",
+      "line": "白纱挂在拱门上，被风扯成一道弧"
+    },
+    {
+      "n": 7,
+      "name": "金色小兽",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画07",
+      "line": "小东西在掌心打了个转，撒下一路星屑"
+    },
+    {
+      "n": 8,
+      "name": "月下跪祷",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画08",
+      "line": "跪在玫瑰丛里合掌，月光从背后落下来"
+    },
+    {
+      "n": 9,
+      "name": "隔着一颗星",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画09",
+      "line": "两个人隔着一点光站着，谁也没有先动"
+    },
+    {
+      "n": 10,
+      "name": "誓物",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新画10",
+      "line": "面纱和花冠留在花堆上，星还亮着"
+    }
+  ]
+}
