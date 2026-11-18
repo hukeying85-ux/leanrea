@@ -1,6 +1,7 @@
 # 工作用的临时下载目录
 .DS_Store
 __pycache__/
+_gd/
 bench/work/
 google_drive/
 mirror/
