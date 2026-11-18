@@ -109,6 +109,25 @@ jobs:
             echo "no mirror.json"
           fi
 
+      - name: Commit mirror files themselves
+        run: |
+          git config user.name  "xhs-relay[bot]"
+          git config user.email "xhs-relay[bot]@users.noreply.github.com"
+          git config core.quotePath false
+          echo "--- mirror3 inventory"
+          find mirror3 -type f 2>/dev/null | head -80
+          echo "--- count: $(find mirror3 -type f 2>/dev/null | wc -l)"
+          git add -f mirror3 2>/dev/null || true
+          git diff --cached --name-only | head -80
+          if git diff --cached --quiet; then echo "no mirror files staged"; exit 0; fi
+          git commit -m "mirror: ${MIRROR_TAG:-files} ($(date -u +%Y-%m-%dT%H%M%SZ))" || true
+          for i in 1 2 3; do
+            git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            git fetch origin "${GITHUB_REF_NAME}"
+            git rebase "origin/${GITHUB_REF_NAME}" || { git rebase --abort; exit 1; }
+          done
+          exit 1
+
       - name: Commit results back to this branch
         run: |
           git config user.name  "xhs-relay[bot]"
