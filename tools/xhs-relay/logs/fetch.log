@@ -1,8 +1,28 @@
 queue: 1 job(s); cookie: no
-== https://www.xiaohongshu.com/discovery/item/6aed5b12000000002b033b95?xsec_token=CBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7&xsec_source=pc_share
-   -> skills/xhs-wallpaper-replica/examples/tomjerry-6aed5b12/01-原片
-   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/404?source=/404/sec_kovaviIY?redirectPath=http%3A%2F%2Fwww.rednote.com%2Fdiscovery%2Fitem%2F6aed5b12000000002b033b95%3Fxsec_token%3DCBISbJnVDWPV9wo-NpRox3vvSqky_Bti5YnsVuWe7%26xsec_source%3Dpc_share&error_code=300031&error_msg=%E5%BD%93%E5%89%8D%E7%AC%94%E8%AE%B0%E6%9A%82%E6%97%B6%E6%97%A0%E6%B3%95%E6%B5%8F%E8%A7%88&uuid=sg__1a670b31-b5d8-4faf-acd8-44326d8a7ecc&verifyMsg=', 'html_bytes': 285761} parse=regex title='rednote (小红书) - global lifestyle hub' images=0
-   saved 0/0 images to skills/xhs-wallpaper-replica/examples/tomjerry-6aed5b12/01-原片
+== https://www.rednote.com/discovery/item/6aea9153000000000300512f?xsec_token=CBUQ6bixdDbmt3azmTLpvFUcluztlPkDXCHFxXqUfEzFM=&xsec_source=app_share
+   -> xhs-wallpaper-replica/examples/bubu-together-6aea9153/01-原图
+   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/discovery/item/6aea9153000000000300512f?xsec_token=CBUQ6bixdDbmt3azmTLpvFUcluztlPkDXCHFxXqUfEzFM=&xsec_source=app_share', 'html_bytes': 353531} parse=json title='和你在一起 小事也会发光 ✨' images=5
+  [01] original -> OK PNG (896, 1200) 2532762B 
+  [01] png      -> OK PNG (896, 1200) 1575454B 
+  [01] jpeg     -> OK JPEG (896, 1200) 144530B 
+  [01] display  -> OK WEBP (896, 1200) 122126B 
+  [02] original -> OK PNG (896, 1200) 2171913B 
+  [02] png      -> OK PNG (896, 1200) 1536569B 
+  [02] jpeg     -> OK JPEG (896, 1200) 168422B 
+  [02] display  -> OK WEBP (896, 1200) 147764B 
+  [03] original -> OK PNG (896, 1200) 1834324B 
+  [03] png      -> OK PNG (896, 1200) 1341058B 
+  [03] jpeg     -> OK JPEG (896, 1200) 112285B 
+  [03] display  -> OK WEBP (896, 1200) 89582B 
+  [04] original -> OK PNG (896, 1200) 1422329B 
+  [04] png      -> OK PNG (896, 1200) 1167183B 
+  [04] jpeg     -> OK JPEG (896, 1200) 93832B 
+  [04] display  -> OK WEBP (896, 1200) 69546B 
+  [05] original -> OK PNG (896, 1200) 2023916B 
+  [05] png      -> OK PNG (896, 1200) 1451589B 
+  [05] jpeg     -> OK JPEG (896, 1200) 156572B 
+  [05] display  -> OK WEBP (896, 1200) 133118B 
+   saved 5/5 images to xhs-wallpaper-replica/examples/bubu-together-6aea9153/01-原图
 
 == summary ==
-  0/0  https://www.xiaohongshu.com/discovery/item/6aed5b12000000002b033b95?xsec_token=CBISbJnVDWP
+  5/5  https://www.rednote.com/discovery/item/6aea9153000000000300512f?xsec_token=CBUQ6bixdDbmt3a
