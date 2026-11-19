@@ -1,0 +1,97 @@
+{
+  "title": "一二布布 · 和你在一起 小事也会发光 10 张",
+  "subtitle": "复刻自 缩短了的永恒《和你在一起 小事也会发光》(6aea9153，原帖 5 张 896×1200) · 01–05 逐张复刻 · 06–10 同风格新场景 · 1440×1920 (3:4 跟原帖) · AI 生成",
+  "canvas": [
+    1440,
+    1920
+  ],
+  "date": "Thursday, November 20",
+  "time": "05:20",
+  "prefix": "小事发光",
+  "cover": {
+    "left": 1,
+    "right": 5
+  },
+  "pages": [
+    {
+      "n": 1,
+      "name": "草莓小车",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "原图01 复刻",
+      "line": "它太大啦！够我们吃两天！"
+    },
+    {
+      "n": 2,
+      "name": "吹泡捉蝶",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "原图02 复刻",
+      "line": "抓住快乐！它飞走啦～"
+    },
+    {
+      "n": 3,
+      "name": "心形面包",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "原图03 复刻",
+      "line": "有点歪哦！香香就好！"
+    },
+    {
+      "n": 4,
+      "name": "雪人围巾",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "原图04 复刻",
+      "line": "它会冷吗？围巾借给它！"
+    },
+    {
+      "n": 5,
+      "name": "爱心信件",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "原图05 复刻",
+      "line": "写给明天的你！写给谁呀？"
+    },
+    {
+      "n": 6,
+      "name": "果园采摘",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新场景 · 锚 原图01",
+      "line": "够不到呢！踩我肩膀上！"
+    },
+    {
+      "n": 7,
+      "name": "向日葵花",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新场景 · 锚 原图02",
+      "line": "快快长大！开出金黄色！"
+    },
+    {
+      "n": 8,
+      "name": "荷叶彩虹",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新场景 · 锚 原图05",
+      "line": "下雨啦！荷叶伞刚刚好！"
+    },
+    {
+      "n": 9,
+      "name": "星夜流萤",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新场景 · 锚 原图04",
+      "line": "你看天上有流星！快许愿！"
+    },
+    {
+      "n": 10,
+      "name": "晚安绘本",
+      "anchor": "center",
+      "overlay": "lock",
+      "from": "新场景 · 锚 原图03",
+      "line": "读完这一页就睡！晚安呀！"
+    }
+  ]
+}
