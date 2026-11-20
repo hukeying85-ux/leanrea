@@ -1,28 +1,32 @@
 queue: 1 job(s); cookie: no
-== https://www.rednote.com/discovery/item/6aea9153000000000300512f?xsec_token=CBUQ6bixdDbmt3azmTLpvFUcluztlPkDXCHFxXqUfEzFM=&xsec_source=app_share
-   -> xhs-wallpaper-replica/examples/bubu-together-6aea9153/01-原图
-   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/discovery/item/6aea9153000000000300512f?xsec_token=CBUQ6bixdDbmt3azmTLpvFUcluztlPkDXCHFxXqUfEzFM=&xsec_source=app_share', 'html_bytes': 353531} parse=json title='和你在一起 小事也会发光 ✨' images=5
-  [01] original -> OK PNG (896, 1200) 2532762B 
-  [01] png      -> OK PNG (896, 1200) 1575454B 
-  [01] jpeg     -> OK JPEG (896, 1200) 144530B 
-  [01] display  -> OK WEBP (896, 1200) 122126B 
-  [02] original -> OK PNG (896, 1200) 2171913B 
-  [02] png      -> OK PNG (896, 1200) 1536569B 
-  [02] jpeg     -> OK JPEG (896, 1200) 168422B 
-  [02] display  -> OK WEBP (896, 1200) 147764B 
-  [03] original -> OK PNG (896, 1200) 1834324B 
-  [03] png      -> OK PNG (896, 1200) 1341058B 
-  [03] jpeg     -> OK JPEG (896, 1200) 112285B 
-  [03] display  -> OK WEBP (896, 1200) 89582B 
-  [04] original -> OK PNG (896, 1200) 1422329B 
-  [04] png      -> OK PNG (896, 1200) 1167183B 
-  [04] jpeg     -> OK JPEG (896, 1200) 93832B 
-  [04] display  -> OK WEBP (896, 1200) 69546B 
-  [05] original -> OK PNG (896, 1200) 2023916B 
-  [05] png      -> OK PNG (896, 1200) 1451589B 
-  [05] jpeg     -> OK JPEG (896, 1200) 156572B 
-  [05] display  -> OK WEBP (896, 1200) 133118B 
-   saved 5/5 images to xhs-wallpaper-replica/examples/bubu-together-6aea9153/01-原图
+== https://www.rednote.com/discovery/item/6a8d375100000000240268e9?xsec_token=CBlqCuzMbT7kp3l9Le9_VaezKm_3ZSK4RFfFvb0ZwjHxY=&xsec_source=app_share
+   -> xhs-wallpaper-replica/examples/spongebob-seasons-6a8d3751/01-原图
+   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/discovery/item/6a8d375100000000240268e9?xsec_token=CBlqCuzMbT7kp3l9Le9_VaezKm_3ZSK4RFfFvb0ZwjHxY=&xsec_source=app_share', 'html_bytes': 360537} parse=json title='海绵宝宝 & 派大星四季治愈壁纸✨' images=6
+  [01] original -> OK PNG (1600, 2848) 5935687B 
+  [01] png      -> OK PNG (1600, 2848) 5896231B 
+  [01] jpeg     -> OK JPEG (1600, 2848) 505261B 
+  [01] display  -> OK WEBP (1080, 1922) 218826B 
+  [02] original -> OK PNG (1600, 2848) 3609489B 
+  [02] png      -> OK PNG (1600, 2848) 3555260B 
+  [02] jpeg     -> OK JPEG (1600, 2848) 236672B 
+  [02] display  -> OK WEBP (1080, 1922) 99788B 
+  [03] original -> OK PNG (1600, 2848) 5267850B 
+  [03] png      -> OK PNG (1600, 2848) 5223577B 
+  [03] jpeg     -> OK JPEG (1600, 2848) 414892B 
+  [03] display  -> OK WEBP (1080, 1922) 170438B 
+  [04] original -> OK PNG (1600, 2848) 3580489B 
+  [04] png      -> OK PNG (1600, 2848) 3534124B 
+  [04] jpeg     -> OK JPEG (1600, 2848) 234477B 
+  [04] display  -> OK WEBP (1080, 1922) 103632B 
+  [05] original -> OK PNG (1600, 2848) 6731818B 
+  [05] png      -> OK PNG (1600, 2848) 6689808B 
+  [05] jpeg     -> OK JPEG (1600, 2848) 649159B 
+  [05] display  -> OK WEBP (1080, 1922) 316096B 
+  [06] original -> OK PNG (1600, 2848) 2558117B 
+  [06] png      -> OK PNG (1600, 2848) 2527771B 
+  [06] jpeg     -> OK JPEG (1600, 2848) 211314B 
+  [06] display  -> OK WEBP (1080, 1922) 87996B 
+   saved 6/6 images to xhs-wallpaper-replica/examples/spongebob-seasons-6a8d3751/01-原图
 
 == summary ==
-  5/5  https://www.rednote.com/discovery/item/6aea9153000000000300512f?xsec_token=CBUQ6bixdDbmt3a
+  6/6  https://www.rednote.com/discovery/item/6a8d375100000000240268e9?xsec_token=CBlqCuzMbT7kp3l
