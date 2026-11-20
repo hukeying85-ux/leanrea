@@ -1,0 +1,113 @@
+{
+  "round": 27,
+  "title": "海绵宝宝 & 派大星 四季治愈厚涂油画壁纸",
+  "source_note": {
+    "author": "申小兮-AI视觉",
+    "title": "海绵宝宝 & 派大星四季治愈壁纸✨",
+    "note_id": "6a8d375100000000240268e9",
+    "short_link": "https://xhslink.cn/o/5CIq9nE8i38",
+    "selected_style": "1, 3, 5 厚涂油画刮刀质感 (Impasto Oil Painting)"
+  },
+  "dimensions": {
+    "width": 1600,
+    "height": 2848,
+    "aspect_ratio": "9:16"
+  },
+  "items": [
+    {
+      "index": 1,
+      "id": "01",
+      "name": "海边夕阳",
+      "filename": "海绵四季01-海边夕阳.png",
+      "season": "晚霞暮色",
+      "source_reference": "原片01",
+      "description": "海边礁石看日落晚霞，金粉余晖洒满海面"
+    },
+    {
+      "index": 2,
+      "id": "02",
+      "name": "篝火营地",
+      "filename": "海绵四季02-篝火营地.png",
+      "season": "夏夜露营",
+      "source_reference": "原片03",
+      "description": "星空帐篷前生起篝火，烤着香甜棉花糖"
+    },
+    {
+      "index": 3,
+      "id": "03",
+      "name": "金秋落叶",
+      "filename": "海绵四季03-金秋落叶.png",
+      "season": "金秋树林",
+      "source_reference": "原片05",
+      "description": "金黄枫林小路踩落叶，秋风拂起漫天落叶"
+    },
+    {
+      "index": 4,
+      "id": "04",
+      "name": "春日花田",
+      "filename": "海绵四季04-春日花田.png",
+      "season": "春日烂漫",
+      "source_reference": "全新原创",
+      "description": "烂漫野花花海捉水母，俯身轻嗅粉色花朵"
+    },
+    {
+      "index": 5,
+      "id": "05",
+      "name": "盛夏浪花",
+      "filename": "海绵四季05-盛夏浪花.png",
+      "season": "盛夏海滨",
+      "source_reference": "全新原创",
+      "description": "椰林海滩踏浪吃冰棒，热烈阳光与碧蓝海水"
+    },
+    {
+      "index": 6,
+      "id": "06",
+      "name": "冬日初雪",
+      "filename": "海绵四季06-冬日初雪.png",
+      "season": "银装初雪",
+      "source_reference": "全新原创",
+      "description": "白雪松林围红围巾堆雪人，伸手轻接飘落初雪"
+    },
+    {
+      "index": 7,
+      "id": "07",
+      "name": "窗前雨景",
+      "filename": "海绵四季07-窗前雨景.png",
+      "season": "细雨室内",
+      "source_reference": "全新原创",
+      "description": "暖木屋窗台捧热可可，小蜗陪伴听窗外细雨"
+    },
+    {
+      "index": 8,
+      "id": "08",
+      "name": "晚风麦浪",
+      "filename": "海绵四季08-晚风麦浪.png",
+      "season": "晚霞丰收",
+      "source_reference": "全新原创",
+      "description": "滚滚金色麦浪中逆光奔跑，晚风温柔落日熔金"
+    },
+    {
+      "index": 9,
+      "id": "09",
+      "name": "极光星河",
+      "filename": "海绵四季09-极光星河.png",
+      "season": "璀璨星空",
+      "source_reference": "全新原创",
+      "description": "草坡并肩仰望旋转极光与璀璨星河，岁月静好"
+    },
+    {
+      "index": 10,
+      "id": "10",
+      "name": "壁炉夜话",
+      "filename": "海绵四季10-壁炉夜话.png",
+      "season": "暖冬壁炉",
+      "source_reference": "全新原创",
+      "description": "壁炉火光融融裹小毯子，共读睡前绘本安心入眠"
+    }
+  ],
+  "google_drive": {
+    "parent_folder_id": "19WhOzF3JmWD-Ktf9u5QfCbcxPApJN8jd",
+    "originals_folder_id": "1Oe-azMBe6ElLDHK0_zV-k-ygzNfl9Q_y",
+    "results_folder_id": "1s0aVTq-y8pIpdZfbQXXXDFFBThAbr91C"
+  }
+}
