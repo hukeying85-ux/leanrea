@@ -1,16 +1,17 @@
 {
   "jobs": [
     {
-      "note_url": "https://www.rednote.com/discovery/item/6aea9153000000000300512f?xsec_token=CBUQ6bixdDbmt3azmTLpvFUcluztlPkDXCHFxXqUfEzFM=&xsec_source=app_share",
-      "out_dir": "xhs-wallpaper-replica/examples/bubu-together-6aea9153/01-原图",
+      "note_url": "https://www.rednote.com/discovery/item/6a8d375100000000240268e9?xsec_token=CBlqCuzMbT7kp3l9Le9_VaezKm_3ZSK4RFfFvb0ZwjHxY=&xsec_source=app_share",
+      "out_dir": "xhs-wallpaper-replica/examples/spongebob-seasons-6a8d3751/01-原图",
       "max_total_mb": 80,
       "force": true,
       "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611191511/59777417fc28646601fb5fdc5aa23dc2/spectrum/1040g0k03274oc1at6i205o9jfl9gkfjanel1gk8!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611191511/1f61d347df3631ad4692c6a4cee02191/spectrum/1040g0k03274oc1at6i005o9jfl9gkfja6590c98!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611191511/18a2d0025287d5d17d4b29a8a1c0b81c/spectrum/1040g0k03274oc1at6i0g5o9jfl9gkfjag4jetqg!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611191511/07e127ce2b012246595e90df23e777e4/spectrum/1040g0k03274oc1at6i105o9jfl9gkfja0mi24so!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611191511/70eb88fe732c9019434f7c77d92e5e29/spectrum/1040g0k03274oc1at6i1g5o9jfl9gkfja0dbms10!nd_dft_wlteh_webp_3"
+        "https://sns-web-i10.rednotecdn.com/202611200907/d79a6a8e623ca0e013be816d880244d9/spectrum/1040g34o3249b9opin27g5nv5h3o0bmq9579ln98!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611200907/d231d850f16b58dac567957e727b29d0/spectrum/1040g34o3249b9opin2805nv5h3o0bmq9l2vbpqo!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611200907/3e3be14514b23204522fdf2bf95b58af/spectrum/1040g34o3249b9opin2705nv5h3o0bmq9hfvloe8!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611200907/dfc37b1ed3db14af4e52b7cd9b66bea9/spectrum/1040g34o3249b9opin28g5nv5h3o0bmq9ti5e0tg!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611200907/8d151e3704f18ad5c56bdcca5c8ae556/spectrum/1040g34o3249b9opin2605nv5h3o0bmq97mdsr08!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611200907/56c4702e34b9a3006c1879b85adbea4f/spectrum/1040g34o3249b9opin26g5nv5h3o0bmq9p7j19r0!nd_dft_wlteh_webp_3"
       ]
     }
   ]
