@@ -1,0 +1,98 @@
+{
+  "round": 28,
+  "series": "第二弹",
+  "title": "海绵宝宝 & 派大星 四季治愈厚涂油画壁纸 · 第二弹",
+  "source_note": {
+    "author": "申小兮-AI视觉",
+    "title": "海绵宝宝 & 派大星四季治愈壁纸✨",
+    "note_id": "6a8d375100000000240268e9",
+    "style": "1, 3, 5 厚涂油画刮刀质感 (Impasto Oil Painting)"
+  },
+  "dimensions": {
+    "width": 1600,
+    "height": 2848,
+    "aspect_ratio": "9:16"
+  },
+  "items": [
+    {
+      "index": 11,
+      "id": "11",
+      "name": "向日葵田",
+      "filename": "海绵四季11-向日葵田.png",
+      "season": "灿烂盛夏",
+      "description": "夏日向日葵花海戴草帽，仰望烈日晴空"
+    },
+    {
+      "index": 12,
+      "id": "12",
+      "name": "萤火之森",
+      "filename": "海绵四季12-萤火之森.png",
+      "season": "暮夏夜梦",
+      "description": "暮色森林捧萤火虫玻璃罐，微光洒满笑脸"
+    },
+    {
+      "index": 13,
+      "id": "13",
+      "name": "苹果果园",
+      "filename": "海绵四季13-苹果果园.png",
+      "season": "金秋丰收",
+      "description": "骑在肩膀上摘熟透红苹果，竹篮果实累累"
+    },
+    {
+      "index": 14,
+      "id": "14",
+      "name": "冬日滑冰",
+      "filename": "海绵四季14-冬日滑冰.png",
+      "season": "暖冬冰嬉",
+      "description": "戴耳罩牵手冰湖滑冰旋转，冰面划出欢乐弧度"
+    },
+    {
+      "index": 15,
+      "id": "15",
+      "name": "山顶风筝",
+      "filename": "海绵四季15-山顶风筝.png",
+      "season": "自由春风",
+      "description": "绿草坡奔跑放飞粉水母风筝，彩带飘荡晴空"
+    },
+    {
+      "index": 16,
+      "id": "16",
+      "name": "花下茶会",
+      "filename": "海绵四季16-花下茶会.png",
+      "season": "浪漫春光",
+      "description": "粉樱树下惬意下午茶吃曲奇，落英缤纷"
+    },
+    {
+      "index": 17,
+      "id": "17",
+      "name": "溪边折舟",
+      "filename": "海绵四季17-溪边折舟.png",
+      "season": "枫林秋意",
+      "description": "金秋枫林溪流放纸船枫叶舟，波光倒映秋林"
+    },
+    {
+      "index": 18,
+      "id": "18",
+      "name": "星空秋千",
+      "filename": "海绵四季18-星空秋千.png",
+      "season": "梦幻星夜",
+      "description": "大树枝头荡秋千仰望梵高星夜，新月如钩"
+    },
+    {
+      "index": 19,
+      "id": "19",
+      "name": "绿植温室",
+      "filename": "海绵四季19-绿植温室.png",
+      "season": "暖阳绿意",
+      "description": "阳光玻璃花房提铁壶浇小绿芽，绿植环绕"
+    },
+    {
+      "index": 20,
+      "id": "20",
+      "name": "星空吊床",
+      "filename": "海绵四季20-星空吊床.png",
+      "season": "晚安静夜",
+      "description": "海风椰树下吊床裹毯甜甜入睡，小蜗静卧身侧"
+    }
+  ]
+}
