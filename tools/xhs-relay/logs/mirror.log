@@ -1,12 +1,12 @@
 mirror: 2 job(s)
 == https://drive.google.com/file/d/1ksWP-2ArwiJ9P-jRLDLv8HAFZhup5tGI/view
    -> mirror3/第3轮-视频下载测试
-   downloaded 15.5 MB -> .mirror_tmp/dl_1794987311
+   downloaded 15.5 MB -> .mirror_tmp/dl_1795223229
    unpacked 2 file(s)
 == https://drive.google.com/file/d/1HtC2kwdzIZGJ36JtEcW3nsYHiju_oBiZ/view
    -> mirror3/第4-5轮-小新新画10张-B
    HTML page (2466 chars) — 先查是否 Drive 确认页
    confirm-form -> https://drive.usercontent.google.com/download params=['id', 'export', 'confirm', 'uuid']
-   downloaded 63.1 MB -> .mirror_tmp/dl_1794987313
+   downloaded 63.1 MB -> .mirror_tmp/dl_1795223231
    unpacked 46 file(s)
 == mirror done ==
