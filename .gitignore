@@ -2,3 +2,6 @@ bench/work/
 rea_tools.json
 .DS_Store
 __pycache__/
+# Local reference materials and temporary dependencies are not for publication.
+google_drive/
+.cache/

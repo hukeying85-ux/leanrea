@@ -32,6 +32,8 @@ try:
 except ImportError:
     sys.exit("需要 Pillow：python3 -m pip install Pillow")
 
+from preview_sheet import make_sheet
+
 W, H = 1080, 1440            # xhs v1 / poster 画布
 XHS2 = (1080, 1447)          # xhs2 画布 = 原图尺寸
 MARGIN = 72
@@ -278,18 +280,13 @@ figcaption{{padding:13px 16px 17px;font-size:15px;line-height:1.7}}
 
 
 def write_contact_sheet(outdir: Path, files: list[Path]) -> Path:
-    tw, th = 300, 400
-    cols = min(3, len(files))
-    rows = (len(files) + cols - 1) // cols
-    sheet = Image.new("RGB", (tw * cols, th * rows), "#FFFFFF")
-    for i, p in enumerate(files):
-        im = ImageOps.fit(Image.open(p).convert("RGB"), (tw, th - 24),
-                          method=Image.LANCZOS)
-        x, y = (i % cols) * tw, (i // cols) * th
-        sheet.paste(im, (x, y))
+    # 保留既有预览，不覆盖历史批次；按顺序为新预览分配名称。
     out = outdir / "preview.jpg"
-    sheet.save(out, "JPEG", quality=90)
-    return out
+    version = 2
+    while out.exists():
+        out = outdir / f"preview-{version}.jpg"
+        version += 1
+    return make_sheet(files, out)
 
 
 def main() -> None:
@@ -302,7 +299,9 @@ def main() -> None:
     ap.add_argument("--layout", choices=["xhs", "xhs2", "poster"], default="xhs2",
                     help="spec 未逐页指定 layout 时使用的默认模式")
     ap.add_argument("--html", action="store_true")
-    ap.add_argument("--contact-sheet", action="store_true")
+    previews = ap.add_mutually_exclusive_group()
+    previews.add_argument("--contact-sheet", action="store_true", help="强制生成总预览（包括单张）")
+    previews.add_argument("--no-contact-sheet", action="store_true", help="不生成总预览")
     ap.add_argument("--heading", default="引导型恋人，从不做的 8 件事")
     ap.add_argument("--subheading", default="复刻《毁掉关系的八种做法》版式 · 1080×1447")
     a = ap.parse_args()
@@ -337,7 +336,7 @@ def main() -> None:
     print(f"[compose] {len(files)} pages -> {outdir}  [gate] all pass")
     if a.html:
         print(f"[compose] {write_html(outdir, files, items, a.heading, a.subheading)}")
-    if a.contact_sheet:
+    if files and not a.no_contact_sheet and (a.contact_sheet or len(files) > 1):
         print(f"[compose] {write_contact_sheet(outdir, files)}")
 
 
