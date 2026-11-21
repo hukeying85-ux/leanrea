@@ -1,0 +1,97 @@
+{
+ "note_id": "6ad9a69e00000000310350a0",
+ "title": "",
+ "desc": "陪伴的欢喜，可以再多一些",
+ "nickname": "memory🍀",
+ "user_id": "5bbdeb86f81286000130463f",
+ "tags": [],
+ "time": 1792648862000,
+ "ip_location": "福建",
+ "interact": {
+  "likedCount": "74",
+  "collectedCount": "27",
+  "commentCount": "6",
+  "shareCount": "6"
+ },
+ "images": [
+  {
+   "index": 1,
+   "url_default": "http://sns-web-i10.rednotecdn.com/202611210911/ef1cb0caa96b16b0564e4939b848bc9a/notes_pre_post/1040g3k8326k7n0sf4e6g4bd8mulochhvj3h1ugo!nd_dft_wlteh_webp_3",
+   "url_pre": "http://sns-web-i10.rednotecdn.com/202611210911/ba27602e84a4018304af2058d59bbe4e/notes_pre_post/1040g3k8326k7n0sf4e6g4bd8mulochhvj3h1ugo!nd_prv_wlteh_webp_3",
+   "width": 864,
+   "height": 1216,
+   "live_photo": false
+  }
+ ],
+ "parse": "json",
+ "fetch": {
+  "http_status": 200,
+  "final_url": "https://www.rednote.com/discovery/item/6ad9a69e00000000310350a0?ignoreEngage=true&xsec_source=app_share&xsec_token=CBKnsBcciEQkFybUQZbMPO5DpS9w62FZ7sHjhVLp0Ytgc%3D",
+  "html_bytes": 345153
+ },
+ "type": "normal",
+ "images_source": "page",
+ "downloads": [
+  {
+   "index": 1,
+   "token": "notes_pre_post/1040g3k8326k7n0sf4e6g4bd8mulochhvj3h1ugo",
+   "tried": [
+    {
+     "variant": "original",
+     "url": "https://sns-img-bd.xhscdn.com/notes_pre_post/1040g3k8326k7n0sf4e6g4bd8mulochhvj3h1ugo",
+     "ok": false,
+     "bytes": 0,
+     "format": null,
+     "size": null,
+     "err": "UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x7f44e95d"
+    },
+    {
+     "variant": "png",
+     "url": "https://ci.xiaohongshu.com/notes_pre_post/1040g3k8326k7n0sf4e6g4bd8mulochhvj3h1ugo?imageView2/format/png",
+     "ok": true,
+     "bytes": 882949,
+     "format": "PNG",
+     "size": [
+      864,
+      1216
+     ],
+     "err": ""
+    },
+    {
+     "variant": "jpeg",
+     "url": "https://ci.xiaohongshu.com/notes_pre_post/1040g3k8326k7n0sf4e6g4bd8mulochhvj3h1ugo?imageView2/format/jpeg",
+     "ok": true,
+     "bytes": 105810,
+     "format": "JPEG",
+     "size": [
+      864,
+      1216
+     ],
+     "err": ""
+    },
+    {
+     "variant": "display",
+     "url": "http://sns-web-i10.rednotecdn.com/202611210911/ef1cb0caa96b16b0564e4939b848bc9a/notes_pre_post/1040g3k8326k7n0sf4e6g4bd8mulochhvj3h1ugo!nd_dft_wlteh_webp_3",
+     "ok": true,
+     "bytes": 88514,
+     "format": "WEBP",
+     "size": [
+      864,
+      1216
+     ],
+     "err": ""
+    }
+   ],
+   "file": "01.png",
+   "variant": "png",
+   "bytes": 882949,
+   "format": "PNG",
+   "size": [
+    864,
+    1216
+   ]
+  }
+ ],
+ "source_url": "https://www.rednote.com/discovery/item/6ad9a69e00000000310350a0?ignoreEngage=true&xsec_source=app_share&xsec_token=CBKnsBcciEQkFybUQZbMPO5DpS9w62FZ7sHjhVLp0Ytgc%3D",
+ "fetched_at_utc": "2026-11-21T01:11:33Z"
+}
