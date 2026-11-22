@@ -69,28 +69,24 @@ def parse_note(html: str) -> tuple[str, list[dict]]:
         raise ValueError(f"Note state is not JSON ({exc.msg}, position {exc.pos})") from exc
     if not isinstance(state, dict):
         raise ValueError("Note state is not an object")
-    note_section = state.get("note")
-    if not isinstance(note_section, dict):
-        keys = [key for key in state if isinstance(key, str) and re.fullmatch(r"[A-Za-z_]{1,40}", key)]
-        feed = state.get("feed")
-        feed_keys = [key for key in feed if isinstance(key, str) and re.fullmatch(r"[A-Za-z_]{1,40}", key)] if isinstance(feed, dict) else []
-        raise ValueError(f"Note state is missing note data (keys: {', '.join(keys[:20]) or 'none'}; feed keys: {', '.join(feed_keys[:20]) or 'none'})")
-    notes = note_section.get("noteDetailMap")
-    if not isinstance(notes, dict):
-        raise ValueError("Note state is missing noteDetailMap")
-    matches = []
-    for entry in notes.values():
-        note = entry.get("note", {}) if isinstance(entry, dict) else {}
-        title = note.get("title", "") or ""
-        if EXPECTED_TITLE in title and isinstance(note.get("imageList"), list):
-            matches.append(note)
+    # Regional page versions nest the note differently. Search only structured
+    # note objects with the expected title and an explicit imageList.
+    matches, stack = [], [state]
+    while stack:
+        node = stack.pop()
+        if isinstance(node, dict):
+            title = node.get("title") or node.get("displayTitle") or ""
+            if isinstance(title, str) and EXPECTED_TITLE in title and isinstance(node.get("imageList"), list):
+                matches.append((title, node["imageList"]))
+            stack.extend(node.values())
+        elif isinstance(node, list):
+            stack.extend(node)
     if len(matches) != 1:
-        raise ValueError("Expected exactly one matching note with an image list")
-    note = matches[0]
-    images = note["imageList"]
+        raise ValueError(f"Expected one matching note with an image list; found {len(matches)}")
+    title, images = matches[0]
     if not 1 <= len(images) <= 30:
         raise ValueError("Unexpected number of note images")
-    return note["title"], images
+    return title, images
 
 
 def image_url(image: dict) -> str:
