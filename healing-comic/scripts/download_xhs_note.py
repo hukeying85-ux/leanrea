@@ -133,4 +133,15 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except requests.HTTPError as exc:
+        code = exc.response.status_code if exc.response is not None else "unknown"
+        print(f"::error::Remote service returned HTTP {code}; no images were saved.")
+        raise SystemExit(1)
+    except requests.RequestException as exc:
+        print(f"::error::Network request failed ({type(exc).__name__}); no images were saved.")
+        raise SystemExit(1)
+    except (ValueError, FileExistsError) as exc:
+        print(f"::error::{exc}; no new images were saved.")
+        raise SystemExit(1)
