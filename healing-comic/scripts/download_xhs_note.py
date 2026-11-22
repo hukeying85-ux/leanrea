@@ -72,7 +72,9 @@ def parse_note(html: str) -> tuple[str, list[dict]]:
     note_section = state.get("note")
     if not isinstance(note_section, dict):
         keys = [key for key in state if isinstance(key, str) and re.fullmatch(r"[A-Za-z_]{1,40}", key)]
-        raise ValueError(f"Note state is missing note data (top-level keys: {', '.join(keys[:20]) or 'none'})")
+        feed = state.get("feed")
+        feed_keys = [key for key in feed if isinstance(key, str) and re.fullmatch(r"[A-Za-z_]{1,40}", key)] if isinstance(feed, dict) else []
+        raise ValueError(f"Note state is missing note data (keys: {', '.join(keys[:20]) or 'none'}; feed keys: {', '.join(feed_keys[:20]) or 'none'})")
     notes = note_section.get("noteDetailMap")
     if not isinstance(notes, dict):
         raise ValueError("Note state is missing noteDetailMap")
