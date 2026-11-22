@@ -94,8 +94,23 @@ python3 scripts/phone_mockup.py all  … --out examples/<slug>/02-复刻/壁纸 
 python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" --time 05:20   # 可选：另出一份 iOS 效果预览
 ```
 
-产出（默认 `--ui none`）：`复刻图NN-<场景>.png`（1440×3200 干净壁纸，就是交付物）、`总图.jpg`（2×5 拼版，米色底圆角卡片）、`封面-双机预览.jpg`（两张竖图并排）。
+产出（默认 `--ui none`）：`复刻图NN-<场景>.png`（干净壁纸，就是交付物；画幅 = `spec.canvas`，缺省 1440×3200）、
+`总图.jpg`（2×5 拼版，米色底圆角卡片）、`封面-双机预览.jpg`（两张竖图并排）。
 `--ui ios` 时额外多一个 `预览-iOS/` 子目录，仅作展示，不要当壁纸交付。
+
+**画幅不是 9:20 时（第 12 / 29 轮 = 9:16 1440×2560）**：`phone_mockup.py` 的 `fit_canvas` 现在接受
+`size=None` → 用全局 `W, H`，`main()` 里 `W, H = spec.get("canvas", [W, H])`，所以只要 spec 写对 `canvas`，
+干净壁纸就是对的画幅，不会被裁成 9:20。**但内置的 `--ui ios` 叠层几何写死 9:20**，9:16 上会错位，此时改用：
+
+```bash
+python3 scripts/ui_overlay.py SPEC.json --in <无UI目录> --out <有UI目录> --format png \
+        [--date "Saturday, November 7"] [--time 17:20] [--only lock|home]
+```
+
+它把同一套 1440×3200 几何按 `k = W/1440`、`ky = H/3200` 等比缩放（圆角、模糊、图标、Home 条一起缩），
+叠出 1:1 同画幅的「有 UI 版」。每页按 `spec.pages[].overlay` 决定锁屏/主屏，`--only` 可强制统一。
+用户要「有无 UI 版」时就交付两组同画幅文件：`壁纸/`（无 UI）+ `壁纸-有UI版/`（有 UI），
+再拼一张 `总预览图.jpg`（上排无 UI、下排有 UI，每格左上角打「无 UI / 锁屏 / 主屏」角标）。
 
 放大说明：688×1536 → 1440×3200 用 Lanczos ×2.09 + 轻锐化，手机上看没问题，放到 100% 会比原帖软一点。
 要更锐利就在本机跑一次 `realesrgan-ncnn-vulkan -n realesrgan-x4plus-anime -s 2 -i art -o art_up` 再喂给脚本。
@@ -138,7 +153,8 @@ python3 scripts/phone_mockup.py all  … --ui ios --date "Saturday, November 7" 
 xhs-wallpaper-replica/
 ├─ SKILL.md                      本文件
 ├─ README.md                     这次跑的结果 + 复现命令
-├─ scripts/phone_mockup.py       放大 / 锁屏 / 主屏 / 总图 / 双机封面
+├─ scripts/phone_mockup.py       放大 / 锁屏 / 主屏 / 总图 / 双机封面（画幅读 spec.canvas）
+├─ scripts/ui_overlay.py        任意画幅叠 iOS 锁屏/主屏（「有 UI 版」；按 1440×3200 几何等比缩放）
 ├─ references/github-tools.md    小红书下载工具盘点 + token 取法
 ├─ references/copy-小新壁纸.md    第2轮文案 + 第1轮原帖文案存档
 └─ examples/shinchan-6aedad8b/

@@ -70,12 +70,13 @@ def font(path, size, wght=None):
 
 
 # ------------------------------------------------------------------ 底图
-def fit_canvas(art: Image.Image, size=(W, H), ax=0.5, ay=0.5) -> Image.Image:
+def fit_canvas(art: Image.Image, size=None, ax=0.5, ay=0.5) -> Image.Image:
     """等比放大/裁切到 1440×3200，再轻微锐化（688×1536 → ×2.09）。
 
     ax / ay = 裁切锚点（0=左/上，0.5=居中，1=右/下）。生图偶尔吐出偏宽的 848×1264，
     按 9:20 要裁掉三成宽度时，用 spec 里每页的 "ax" 把主体留在画面里（见第 11 轮）。
     """
+    size = size or (W, H)          # spec.canvas 可改画幅（9:16 的轮次就是 1440×2560）
     is_mask = art.mode == "L"
     art = art if is_mask else art.convert("RGB")
     aw, ah = art.size
@@ -326,6 +327,8 @@ def main():
     ap.add_argument("--mask-dir", default=None, help="景深效果：depth_mask.py 输出的主体蒙版目录（NN.png），锁屏页会把主体贴回时钟前面；spec 每页可写 \"depth\": false 关掉")
     a = ap.parse_args()
     spec = json.loads(Path(a.spec).read_text(encoding="utf-8"))
+    global W, H                        # 画幅跟随 spec.canvas（缺省 1440×3200）
+    W, H = spec.get("canvas", [W, H])
     if a.cmd in ("build", "all"):
         if not a.art_dir:
             sys.exit("build 需要 --art-dir")

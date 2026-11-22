@@ -70,15 +70,23 @@ def font(path, size, wght=None):
 
 
 # ------------------------------------------------------------------ 底图
-def fit_canvas(art: Image.Image, size=(W, H)) -> Image.Image:
-    """等比放大/裁切到 1440×3200，再轻微锐化（688×1536 → ×2.09）。"""
-    art = art.convert("RGB")
+def fit_canvas(art: Image.Image, size=None, ax=0.5, ay=0.5) -> Image.Image:
+    """等比放大/裁切到 1440×3200，再轻微锐化（688×1536 → ×2.09）。
+
+    ax / ay = 裁切锚点（0=左/上，0.5=居中，1=右/下）。生图偶尔吐出偏宽的 848×1264，
+    按 9:20 要裁掉三成宽度时，用 spec 里每页的 "ax" 把主体留在画面里（见第 11 轮）。
+    """
+    size = size or (W, H)          # spec.canvas 可改画幅（9:16 的轮次就是 1440×2560）
+    is_mask = art.mode == "L"
+    art = art if is_mask else art.convert("RGB")
     aw, ah = art.size
     s = max(size[0] / aw, size[1] / ah)
     big = art.resize((round(aw * s), round(ah * s)), Image.LANCZOS)
-    x0 = (big.width - size[0]) // 2
-    y0 = (big.height - size[1]) // 2
+    x0 = round((big.width - size[0]) * min(max(ax, 0.0), 1.0))
+    y0 = round((big.height - size[1]) * min(max(ay, 0.0), 1.0))
     big = big.crop((x0, y0, x0 + size[0], y0 + size[1]))
+    if is_mask:
+        return big
     return big.filter(ImageFilter.UnsharpMask(radius=1.6, percent=55, threshold=2))
 
 
@@ -126,7 +134,8 @@ def camera_glyph(d, cx, cy, s=1.0, fill=(255, 255, 255, 255)):
     d.ellipse([P(-15, -9), P(15, 21)], fill=fill)                                   # 镜头
 
 
-def lock_overlay(base: Image.Image, date, time, clock_font):
+def lock_overlay(base: Image.Image, date, time, clock_font, subject_mask: Image.Image = None):
+    """iOS 锁屏叠层。subject_mask（L，同尺寸）不为空时模拟「景深效果」：把前景主体再贴回时钟上面。"""
     img = base.convert("RGBA")
     # 圆钮：模糊 + 压暗 的毛玻璃
     for cx in BTN_CX:
@@ -145,6 +154,11 @@ def lock_overlay(base: Image.Image, date, time, clock_font):
     # 日期 + 时钟
     draw_text_centered(img, date, font(clock_font, DATE_SIZE, DATE_WGHT), W / 2, DATE_CY)
     draw_text_centered(img, time, font(clock_font, TIME_SIZE, TIME_WGHT), W / 2, TIME_CY)
+    # 景深效果：主体压在时钟前面（iOS 16+ 锁屏「景深效果」的样子；只遮时钟，不遮按钮和 Home 条）
+    if subject_mask is not None:
+        fg = base.convert("RGBA")
+        fg.putalpha(subject_mask.convert("L"))
+        img.alpha_composite(fg)
     # Home 条
     bar = Image.new("RGBA", img.size, (0, 0, 0, 0))
     ImageDraw.Draw(bar).rounded_rectangle(BAR, radius=9, fill=(255, 255, 255, 235))
@@ -238,13 +252,21 @@ def cmd_build(a, spec):
         if not src.exists():
             print(f"[skip] {src} 不存在")
             continue
-        base = fit_canvas(Image.open(src))
+        ax, ay = float(pg.get("ax", 0.5)), float(pg.get("ay", 0.5))
+        base = fit_canvas(Image.open(src), ax=ax, ay=ay)
         name = page_name(spec, pg)
         save(base, out / f"{name}.{a.format}")                      # 干净壁纸 = 交付物
+        depth = ""
         if a.ui == "ios":
-            prev = lock_overlay(base, date, time, clock) if pg.get("overlay") == "lock" else home_overlay(base)
+            mask = None
+            if a.mask_dir and pg.get("overlay") == "lock" and pg.get("depth", True):
+                mp = Path(a.mask_dir) / f"{pg['n']:02d}.png"
+                if mp.exists():
+                    mask = fit_canvas(Image.open(mp).convert("L"), ax=ax, ay=ay)
+                    depth = " depth=on"
+            prev = lock_overlay(base, date, time, clock, mask) if pg.get("overlay") == "lock" else home_overlay(base)
             save(prev, out / "预览-iOS" / f"{name}.{a.format}")
-        print(f"[build] {name}" + (f"  ios-overlay={pg.get('overlay')}" if a.ui == "ios" else ""))
+        print(f"[build] {name}" + (f"  ios-overlay={pg.get('overlay')}{depth}" if a.ui == "ios" else ""))
 
 
 def save(im, path):
@@ -271,7 +293,7 @@ def previews_of(spec, out, ui="none"):
 def cmd_sheet(a, spec):
     cjk = find_font(a.cjk_font, "CJK_FONT", CJK_CANDS)
     if not cjk:
-        sys.exit("找不到中文字体：--cjk-font 或 CJK_FONT（霞鹜文楷：healing-comic/scripts/fetch_font.sh）")
+        sys.exit("找不到中文字体：--cjk-font 或 CJK_FONT（霞鹜文楷：skills/healing-comic/scripts/fetch_font.sh）")
     files = previews_of(spec, a.out, a.ui)
     if not files:
         sys.exit("sheet: 没找到壁纸文件，先跑 build")
@@ -302,8 +324,11 @@ def main():
     ap.add_argument("--cjk-font", default=None)
     ap.add_argument("--format", choices=["png", "jpg"], default="png", help="输出格式（交付用 png，仓库留档用 jpg）")
     ap.add_argument("--ui", choices=["none", "ios"], default="none", help="none=干净壁纸（默认）；ios=额外输出带锁屏/主屏覆盖层的效果预览")
+    ap.add_argument("--mask-dir", default=None, help="景深效果：depth_mask.py 输出的主体蒙版目录（NN.png），锁屏页会把主体贴回时钟前面；spec 每页可写 \"depth\": false 关掉")
     a = ap.parse_args()
     spec = json.loads(Path(a.spec).read_text(encoding="utf-8"))
+    global W, H                        # 画幅跟随 spec.canvas（缺省 1440×3200）
+    W, H = spec.get("canvas", [W, H])
     if a.cmd in ("build", "all"):
         if not a.art_dir:
             sys.exit("build 需要 --art-dir")

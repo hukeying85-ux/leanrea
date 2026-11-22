@@ -13,6 +13,7 @@
 | 第 3 轮 | 小红书视频下载测试（木可 · 吉隆坡机场 T2 过夜转机，64 s）：网页码流 + 封面进 git，262 MB 无水印原片由 runner 直传 Drive | `examples/video-test-6a4be129/` |
 | 文案 | 第 2 轮发布文案 + 第 1 轮原帖存档 | `references/copy-小新壁纸.md` |
 | 工具盘点 | GitHub 上的小红书原图下载工具 + token 取法 | `references/github-tools.md` |
+| 第 29 轮 | **和你一起奔夕阳 · 噜噜噜妹（重做第 12 轮 + 双版本交付）**：@等噜噜《和你一起奔夕阳 噜噜噜妹壁纸》（[分享链接](https://xhslink.cn/o/5thkO8Kd6jg)，笔记 `6ad212fc`）5 张 1080×1920 原片 → 01–05 逐张复刻 + 06–10 同风格新场景，交付 1440×2560（9:16 跟原帖）；噜噜 = 头顶小橘子 + 西瓜花短裤、噜妹 = 白荷叶边帽 + 草莓裙写成固定描述串，10 张一次全过。**本轮新增两件东西**：`scripts/ui_overlay.py`（任意画幅叠 iOS 锁屏/主屏，等比缩放 1440×3200 几何）与 `总预览图.jpg`（上排无 UI、下排有 UI）；`phone_mockup.py` 的 `fit_canvas` 改为可传 `size`、`main()` 读 `spec.canvas`，9:16 不再被裁成 9:20。Drive 分 `原片/` 与 `结果/`（`结果/无UI版/`、`结果/有UI版/` 各 10 张 PNG） | `xhs-wallpaper-replica/examples/lulu-sunset-6ad212fc/`（`01-原片/` 5 张原片+note，`02-复刻/` spec+art+ref+壁纸+壁纸-有UI版+总预览图+文案+说明） |
 
 Google Drive：`我的云端硬盘/一二和布布 - 原始素材/素材 05/` 下 `第1轮-原版7张（小红书下载）`、`第2轮-复刻10张`（10 张干净 PNG、总图、封面、文案 Doc、SKILL）、`第3轮-视频下载测试`（`原片/` 与 `结果/` 分开）。
 
