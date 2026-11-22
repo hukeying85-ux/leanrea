@@ -38,7 +38,9 @@ def allowed_url(url: str, domains: tuple[str, ...]) -> bool:
 def fetch(session: requests.Session, url: str, domains: tuple[str, ...], limit: int) -> tuple[bytes, str]:
     for _ in range(8):
         if not allowed_url(url, domains):
-            raise ValueError("Blocked redirect or URL outside the expected domains")
+            parts = urlsplit(url)
+            host = re.sub(r"[^a-zA-Z0-9.:-]", "?", parts.netloc)[:120]
+            raise ValueError(f"Blocked redirect or URL outside the expected domains ({parts.scheme}://{host})")
         with session.get(url, timeout=(15, 45), stream=True, allow_redirects=False) as response:
             if response.is_redirect:
                 url = urljoin(url, response.headers["Location"])
