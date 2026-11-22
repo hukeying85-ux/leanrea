@@ -22,7 +22,7 @@ from PIL import Image
 SOURCE = "https://xhslink.cn/o/5thkO8Kd6jg"
 EXPECTED_TITLE = "和你一起奔夕阳"
 DEST = Path("healing-comic/deliverables/xhs-sunset/originals")
-PAGE_DOMAINS = ("xhslink.cn", "xhslink.com", "xiaohongshu.com", "xiaohongshu.cn")
+PAGE_DOMAINS = ("xhslink.cn", "xhslink.com", "xiaohongshu.com", "xiaohongshu.cn", "rednote.com")
 IMAGE_DOMAINS = ("xhscdn.com", "xiaohongshu.com", "xiaohongshu.cn")
 MAX_IMAGE_BYTES = 20 * 1024 * 1024
 
@@ -39,7 +39,7 @@ def fetch(session: requests.Session, url: str, domains: tuple[str, ...], limit: 
     for _ in range(8):
         if not allowed_url(url, domains):
             parts = urlsplit(url)
-            host = re.sub(r"[^a-zA-Z0-9.:-]", "?", parts.netloc)[:120]
+            host = re.sub(r"[^a-zA-Z0-9.:-]", "?", parts.hostname or "")[:120]
             raise ValueError(f"Blocked redirect or URL outside the expected domains ({parts.scheme}://{host})")
         with session.get(url, timeout=(15, 45), stream=True, allow_redirects=False) as response:
             if response.is_redirect:
