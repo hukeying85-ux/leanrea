@@ -65,9 +65,16 @@ def parse_note(html: str) -> tuple[str, list[dict]]:
     raw = re.sub(r"\bundefined\b", "null", raw)
     try:
         state, _ = json.JSONDecoder().raw_decode(raw.lstrip())
-        notes = state["note"]["noteDetailMap"]
-    except (json.JSONDecodeError, KeyError, TypeError) as exc:
-        raise ValueError("Unable to parse note data safely") from exc
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Note state is not JSON ({exc.msg}, position {exc.pos})") from exc
+    if not isinstance(state, dict):
+        raise ValueError("Note state is not an object")
+    note_section = state.get("note")
+    if not isinstance(note_section, dict):
+        raise ValueError("Note state is missing note data")
+    notes = note_section.get("noteDetailMap")
+    if not isinstance(notes, dict):
+        raise ValueError("Note state is missing noteDetailMap")
     matches = []
     for entry in notes.values():
         note = entry.get("note", {}) if isinstance(entry, dict) else {}
