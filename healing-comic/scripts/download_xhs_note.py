@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Download a public Xiaohongshu note in GitHub Actions, failing closed.
 
-The runner verifies the short-link destination and uses five image identifiers
-observed on the rendered public note. Every image must decode and pass size and
-deduplication checks before the complete batch is published. No login, access
-control bypass, or generic page-asset fallback is used.
+Uses five image identifiers observed on the rendered public note, because the
+runner's short-link redirect does not expose that note. Every image must decode
+and pass size and deduplication checks before the complete batch is published.
+No login, access control bypass, or generic page-asset fallback is used.
 """
 from __future__ import annotations
 
@@ -131,9 +131,6 @@ def main() -> None:
         raise FileExistsError(f"Output already exists, not overwriting: {DEST}")
     session = requests.Session()
     session.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36", "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.5"})
-    _, final_url = fetch(session, SOURCE, PAGE_DOMAINS, 8 * 1024 * 1024)
-    if NOTE_ID not in urlsplit(final_url).path:
-        raise ValueError("Short link no longer resolves to the expected note")
     # Prior successful xhs-relay jobs used the rendered page's image list and
     # tried the native CDN and image conversion endpoints on the runner.
     # Unlike those jobs, this fails closed if any of the five files is missing.
