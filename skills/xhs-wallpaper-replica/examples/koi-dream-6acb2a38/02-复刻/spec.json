@@ -1,0 +1,21 @@
+{
+  "title": "锦鲤入梦｜锁屏壁纸 · 复刻 10 张",
+  "subtitle": "复刻自 Nihility《锦鲤入梦｜锁屏壁纸》(6acb2a38，原帖 3 张) · 01–02 逐张复刻 · 03–10 同风格新场景 · 1440×3200 · AI 生成",
+  "canvas": [1440, 3200],
+  "date": "Sunday, October 11",
+  "time": "09:41",
+  "prefix": "锦鲤",
+  "cover": {"left": 1, "right": 3},
+  "pages": [
+    {"n": 1,  "name": "双鲤绕环", "overlay": "lock", "from": "原图02 复刻（锁屏）", "line": "把「时来运转」藏进一圈水纹里"},
+    {"n": 2,  "name": "斜波双鲤", "overlay": "home", "from": "原图03 复刻（主屏）", "line": "两尾锦鲤游过青碧与淡金"},
+    {"n": 3,  "name": "月白单鲤", "overlay": "lock", "from": "新场景 · 锚 原图02", "line": "留一片月白，也给生活留一点从容"},
+    {"n": 4,  "name": "金线涡流", "overlay": "lock", "from": "新场景 · 锚 原图02", "line": "愿停滞的事有新的进展"},
+    {"n": 5,  "name": "祥云双影", "overlay": "home", "from": "新场景 · 锚 原图03", "line": "把好运藏进云纹里"},
+    {"n": 6,  "name": "并游清波", "overlay": "lock", "from": "新场景 · 锚 原图02", "line": "愿期待的事慢慢有回音"},
+    {"n": 7,  "name": "朱鲤星波", "overlay": "lock", "from": "新场景 · 锚 原图03", "line": "每次点亮屏幕，都有一点小欢喜"},
+    {"n": 8,  "name": "溯游向上", "overlay": "home", "from": "新场景 · 锚 原图02", "line": "好日子，正在往前游"},
+    {"n": 9,  "name": "三鲤逐金", "overlay": "lock", "from": "新场景 · 锚 原图02", "line": "流水生财，锦鲤结伴"},
+    {"n": 10, "name": "时来运转", "overlay": "lock", "from": "新场景 · 锚 原图02", "line": "愿日子渐入佳境"}
+  ]
+}
