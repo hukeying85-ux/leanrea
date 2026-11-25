@@ -1,0 +1,21 @@
+{
+  "title": "锦鲤入梦 · 锁屏壁纸 10 张",
+  "subtitle": "复刻自 Nihility《锦鲤入梦｜锁屏壁纸》(6acb2a38，原帖 3 张 853×1844) · 01–03 逐张复刻 · 04–10 同风格新场景 · 1440×2560 (9:16 跟原帖) · AI 生成",
+  "canvas": [1440, 2560],
+  "date": "Sunday, November 22",
+  "time": "9:41",
+  "prefix": "锦鲤",
+  "cover": { "left": 1, "right": 8 },
+  "pages": [
+    { "n": 1, "name": "金环双鲤", "anchor": "center", "overlay": "lock", "from": "原图02 复刻", "line": "两尾锦鲤，绕出一道圆" },
+    { "n": 2, "name": "碧波回流", "anchor": "center", "overlay": "lock", "from": "原图03 复刻", "line": "好日子，正在往前游" },
+    { "n": 3, "name": "双机联动", "anchor": "center", "overlay": "home", "from": "原图01 海报（锁+主屏）", "line": "时来运转，藏进一圈水纹" },
+    { "n": 4, "name": "月下同游", "anchor": "center", "overlay": "lock", "from": "新场景（风格锚 原图03）", "line": "月白留得下一点从容" },
+    { "n": 5, "name": "莲池浅戏", "anchor": "center", "overlay": "home", "from": "新场景（风格锚 原图02）", "line": "把停下的心，慢慢游回来" },
+    { "n": 6, "name": "金鳞望月", "anchor": "center", "overlay": "lock", "from": "新场景（风格锚 原图03）", "line": "愿期待的事，慢慢有回音" },
+    { "n": 7, "name": "鲤跃金波", "anchor": "center", "overlay": "home", "from": "新场景（风格锚 原图02）", "line": "一跃，把滞住的事推向前" },
+    { "n": 8, "name": "云门双鲤", "anchor": "center", "overlay": "lock", "from": "新场景（风格锚 原图01）", "line": "穿过云门，皆是清顺" },
+    { "n": 9, "name": "水纹生金", "anchor": "center", "overlay": "lock", "from": "新场景（风格锚 原图02）", "line": "一圈水纹，一圈生财" },
+    { "n": 10, "name": "青碧长游", "anchor": "center", "overlay": "home", "from": "新场景（风格锚 原图03）", "line": "青碧与淡金，各自安然" }
+  ]
+}
