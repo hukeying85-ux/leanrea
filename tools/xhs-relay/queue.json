@@ -1,16 +1,14 @@
 {
   "jobs": [
     {
-      "note_url": "https://www.xiaohongshu.com/discovery/item/6a6195240000000001030e32?xsec_token=CBuSQacgHuIXe027N1_ezdfMJn6SnxEZpqMWcopUg2O5g=&xsec_source=pc_share",
-      "out_dir": "xhs-wallpaper-replica/examples/lulu2-6a619524/01-原片",
+      "note_url": "https://www.xiaohongshu.com/discovery/item/6acb2a3800000000120390ba?xsec_token=CBpOsXhffczOfvOEM2JlWXiBvJ01GdenFR0kYTv4zixiE=&xsec_source=pc_share",
+      "out_dir": "xhs-wallpaper-replica/examples/koi-6acb2a38/01-原片",
       "max_total_mb": 90,
       "force": true,
       "image_urls": [
-        "https://sns-web-i10.rednotecdn.com/202611221937/7652d6ea79bc0611fcf4e2d2d91e3bd6/notes_pre_post/1040g3k0322uvkdvn02105o3tlc9g90i0tcndf0g!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611221937/ec3856eda0244ebfb8d4f2b313fad8e8/notes_pre_post/1040g3k0322uvkdvn026g5o3tlc9g90i0dr7ehfo!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611221937/195d7633b1e20bc5f4e77c5c904fcc47/notes_pre_post/1040g3k0322uvkdvn025g5o3tlc9g90i03t3i8jo!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611221937/9a0a18810cb6994b9203e0881d7a4e30/notes_pre_post/1040g3k0322uvkdvn023g5o3tlc9g90i0q7hvat0!nd_dft_wlteh_webp_3",
-        "https://sns-web-i10.rednotecdn.com/202611221937/cd3340db253e543bc0f5aab7261152be/notes_pre_post/1040g3k0322uvkdvn022g5o3tlc9g90i01d2jndg!nd_dft_wlteh_webp_3"
+        "https://sns-web-i10.rednotecdn.com/202611250853/ce5501ae2e52143b6140bfb35fe2b397/notes_pre_post/1040g3k0326633uqf4c1g5phtrkthou56du1qgu8!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611250853/3bd10a02c907044df614d2e3a72b3118/notes_pre_post/1040g3k0326633uqf4c005phtrkthou56m4b2200!nd_dft_wlteh_webp_3",
+        "https://sns-web-i10.rednotecdn.com/202611250853/5d51ece77f7b216c8772a873fc1fcbbb/notes_pre_post/1040g3k0326633uqf4c105phtrkthou56sntargg!nd_dft_wlteh_webp_3"
       ]
     }
   ]
