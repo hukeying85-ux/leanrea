@@ -158,12 +158,69 @@ def blob(size, color, r=0.44, seed=0):
     return lay
 
 
+def seal_stamp(img, cx, cy, size, ch=None, kind="square", color=(176, 38, 40)):
+    """朱红印章：方形（可带字）或圆印。"""
+    lay = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(lay)
+    if kind == "round":
+        r = size * 0.5
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=color + (210,), width=max(2, int(size * 0.06)))
+        d.ellipse((cx - r * 0.62, cy - r * 0.62, cx + r * 0.62, cy + r * 0.62), outline=color + (200,), width=max(1, int(size * 0.04)))
+    else:
+        d.rectangle((cx - size / 2, cy - size / 2, cx + size / 2, cy + size / 2), fill=color + (232,))
+        if ch:
+            f = ImageFont.truetype(str(Path(CJK["mashan"]).expanduser()), int(size * 0.46))
+            b = d.textbbox((0, 0), ch, font=f)
+            d.text((cx - (b[0] + b[2]) / 2, cy - (b[1] + b[3]) / 2), ch, font=f, fill=(252, 240, 232, 255))
+    out = Image.alpha_composite(img.convert("RGBA"), lay)
+    return out.convert("RGB")
+
+
+def draw_strip(img, st, W, H):
+    """一条宣纸上的竖排书法：st = {text, x, top, size, ink, paper, seal, seal_kind}"""
+    d = ImageDraw.Draw(img)
+    size = int(st.get("size", 118) * W / 1440)
+    f = F(st.get("font", "mashan"), size)
+    chars = [c for c in st.get("text", "") if c.strip()]
+    gap = size * float(st.get("gap", 0.14))
+    colh = len(chars) * size * (1 + float(st.get("gap", 0.14)))
+    cx = st.get("x", 0.5) * W
+    top = st.get("top", 0.3) * H
+    paper = st.get("paper")
+    if paper:
+        pad_x, pad_y = size * 0.42, size * 0.5
+        box = (cx - size / 2 - pad_x, top - pad_y, cx + size / 2 + pad_x, top + colh + pad_y)
+        lay = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        ImageDraw.Draw(lay).rectangle(box, fill=tuple(paper) + (int(st.get("paper_alpha", 236)),))
+        img.paste(Image.new("RGB", img.size, tuple(paper)), (0, 0), lay.split()[-1])
+        d = ImageDraw.Draw(img)
+    ink = tuple(st.get("ink", (38, 34, 32)))
+    y = top
+    for c in chars:
+        b = d.textbbox((0, 0), c, font=f)
+        d.text((cx - (b[0] + b[2]) / 2, y - b[1]), c, font=f, fill=ink)
+        y += size * (1 + float(st.get("gap", 0.14)))
+    if st.get("seal"):
+        seal_stamp(img, cx + size * 0.02, y + size * 0.32, size * 0.5, st["seal"],
+                   st.get("seal_kind", "square"))
+    return img
+
+
 def card(base: Image.Image, pg):
     W, H = base.size
     c = pg.get("card", {})
     img = base.convert("RGB")
     ink = tuple(c.get("ink", (168, 28, 44)))
     sub_ink = tuple(c.get("sub_ink", ink))
+    if c.get("strips"):
+        out = img
+        for st in c["strips"]:
+            out = draw_strip(out, st, W, H)
+        for sp in c.get("extra_seals", []):
+            out = seal_stamp(out, sp[0] * W, sp[1] * H, sp[2] * W / 1440,
+                             sp[3] if len(sp) > 3 else None, "round" if len(sp) > 4 and sp[4] == "round" else "square")
+        return out
+
     title_f = F(c.get("title_font", "kuaile"), int(c.get("title_size", 210) * W / 1440))
     lines = c.get("title", pg.get("name", "")).split("\n")
     cy = c.get("title_cy", 0.47) * H
