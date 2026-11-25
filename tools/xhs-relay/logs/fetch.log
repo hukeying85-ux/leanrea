@@ -1,28 +1,20 @@
 queue: 1 job(s); cookie: no
-== https://www.xiaohongshu.com/discovery/item/6a6195240000000001030e32?xsec_token=CBuSQacgHuIXe027N1_ezdfMJn6SnxEZpqMWcopUg2O5g=&xsec_source=pc_share
-   -> xhs-wallpaper-replica/examples/lulu2-6a619524/01-原片
-   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/discovery/item/6a6195240000000001030e32?xsec_token=CBuSQacgHuIXe027N1_ezdfMJn6SnxEZpqMWcopUg2O5g=&xsec_source=pc_share', 'html_bytes': 354814} parse=json title='今天是谁家的可爱噜啊' images=5
-  [01] original -> OK PNG (941, 1672) 1730000B 
-  [01] png      -> OK PNG (941, 1672) 1737904B 
-  [01] jpeg     -> OK JPEG (941, 1672) 123380B 
-  [01] display  -> OK WEBP (941, 1672) 95942B 
-  [02] original -> OK PNG (941, 1672) 1829762B 
-  [02] png      -> OK PNG (941, 1672) 1836848B 
-  [02] jpeg     -> OK JPEG (941, 1672) 131299B 
-  [02] display  -> OK WEBP (941, 1672) 105354B 
-  [03] original -> OK PNG (941, 1672) 1771874B 
-  [03] png      -> OK PNG (941, 1672) 1777440B 
-  [03] jpeg     -> OK JPEG (941, 1672) 130817B 
-  [03] display  -> OK WEBP (941, 1672) 110024B 
-  [04] original -> OK PNG (941, 1672) 1903354B 
-  [04] png      -> OK PNG (941, 1672) 1908683B 
-  [04] jpeg     -> OK JPEG (941, 1672) 151781B 
-  [04] display  -> OK WEBP (941, 1672) 117804B 
-  [05] original -> OK PNG (941, 1672) 2155704B 
-  [05] png      -> OK PNG (941, 1672) 2158291B 
-  [05] jpeg     -> OK JPEG (941, 1672) 191672B 
-  [05] display  -> OK WEBP (941, 1672) 177452B 
-   saved 5/5 images to xhs-wallpaper-replica/examples/lulu2-6a619524/01-原片
+== https://www.xiaohongshu.com/discovery/item/6acb2a3800000000120390ba?xsec_token=CBpOsXhffczOfvOEM2JlWXiBvJ01GdenFR0kYTv4zixiE=&xsec_source=pc_share
+   -> xhs-wallpaper-replica/examples/koi-6acb2a38/01-原片
+   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/discovery/item/6acb2a3800000000120390ba?xsec_token=CBpOsXhffczOfvOEM2JlWXiBvJ01GdenFR0kYTv4zixiE=&xsec_source=pc_share', 'html_bytes': 354731} parse=json title='锦鲤入梦｜锁屏壁纸' images=3
+  [01] original -> OK PNG (1086, 1448) 2604607B 
+  [01] png      -> OK PNG (1086, 1448) 2408662B 
+  [01] jpeg     -> OK JPEG (1086, 1448) 206375B 
+  [01] display  -> OK WEBP (1080, 1440) 178958B 
+  [02] original -> OK PNG (853, 1844) 2856183B 
+  [02] png      -> OK PNG (853, 1844) 2704887B 
+  [02] jpeg     -> OK JPEG (853, 1844) 248623B 
+  [02] display  -> OK WEBP (853, 1844) 298916B 
+  [03] original -> OK PNG (853, 1844) 2782601B 
+  [03] png      -> OK PNG (853, 1844) 2603888B 
+  [03] jpeg     -> OK JPEG (853, 1844) 232732B 
+  [03] display  -> OK WEBP (853, 1844) 253386B 
+   saved 3/3 images to xhs-wallpaper-replica/examples/koi-6acb2a38/01-原片
 
 == summary ==
-  5/5  https://www.xiaohongshu.com/discovery/item/6a6195240000000001030e32?xsec_token=CBuSQacgHuI
+  3/3  https://www.xiaohongshu.com/discovery/item/6acb2a3800000000120390ba?xsec_token=CBpOsXhffcz
