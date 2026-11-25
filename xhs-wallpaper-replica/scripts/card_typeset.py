@@ -52,25 +52,32 @@ def text_size(d, t, f):
     return b[2] - b[0], b[3] - b[1], b
 
 
-def draw_center(d, t, f, cx, cy, fill, spacing=0):
+def STK(stroke):
+    """halo：给字加描边，让字压在有纹理的墙上也读得清。stroke = (width, (r,g,b))"""
+    if not stroke or not stroke[0]:
+        return {}
+    return {"stroke_width": int(stroke[0]), "stroke_fill": tuple(stroke[1])}
+
+
+def draw_center(d, t, f, cx, cy, fill, spacing=0, stroke=None):
     if spacing:
         widths = [d.textlength(c, font=f) for c in t]
         total = sum(widths) + spacing * (len(t) - 1)
         x = cx - total / 2
         for c, w in zip(t, widths):
             b = d.textbbox((0, 0), c, font=f)
-            d.text((x - b[0], cy - (b[3] - b[1]) / 2 - b[1]), c, font=f, fill=fill)
+            d.text((x - b[0], cy - (b[3] - b[1]) / 2 - b[1]), c, font=f, fill=fill, **STK(stroke))
             x += w + spacing
     else:
         b = d.textbbox((0, 0), t, font=f)
-        d.text((cx - (b[0] + b[2]) / 2, cy - (b[1] + b[3]) / 2), t, font=f, fill=fill)
+        d.text((cx - (b[0] + b[2]) / 2, cy - (b[1] + b[3]) / 2), t, font=f, fill=fill, **STK(stroke))
 
 
-def draw_vtext(d, t, f, cx, top, fill, gap=6):
+def draw_vtext(d, t, f, cx, top, fill, gap=6, stroke=None):
     y = top
     for c in t:
         b = d.textbbox((0, 0), c, font=f)
-        d.text((cx - (b[0] + b[2]) / 2, y - b[1]), c, font=f, fill=fill)
+        d.text((cx - (b[0] + b[2]) / 2, y - b[1]), c, font=f, fill=fill, **STK(stroke))
         y += (b[3] - b[1]) + gap
 
 
@@ -175,10 +182,33 @@ def card(base: Image.Image, pg):
         canvas.alpha_composite(bl, (x, y))
         img = canvas.convert("RGB")
     d = ImageDraw.Draw(img)
-    ty = cy - total / 2 + lh / 2
     tcol = tuple(c.get("title_ink", (255, 255, 255) if c.get("blob", True) else ink))
+    halo = (c.get("halo") or {}).get("title") or None
+    if halo: halo = (halo[0], tuple(halo[1]))
+    if c.get("vertical"):
+        # 竖排：每行一列，从右往左排；列内自上而下
+        colw = title_f.size * 1.5
+        ncol = len(lines)
+        vx = c.get("vertical_x", 0.5) * W
+        x0 = vx + colw * (ncol - 1) / 2
+        start = cy - (max(len(t) for t in lines) * title_f.size * 1.06) / 2
+        for ci, line in enumerate(lines):
+            cx = x0 - ci * colw
+            for li, ch in enumerate(line):
+                yy = start + li * title_f.size * 1.06
+                b = d.textbbox((0, 0), ch, font=title_f)
+                d.text((cx - (b[0] + b[2]) / 2, yy - b[1]), ch, font=title_f, fill=tcol, **STK(halo))
+        if c.get("seal"):
+            fs = F("mashan", int(title_f.size * 0.52))
+            sx = x0 - (ncol - 1) * colw
+            sy = start + max(len(t) for t in lines) * title_f.size * 1.06 + fs.size * 0.6
+            d.rounded_rectangle((sx - fs.size * .7, sy, sx + fs.size * .7, sy + fs.size * 1.4), int(fs.size * .18), fill=ink)
+            draw_center(d, c["seal"], fs, sx, sy + fs.size * .7, (255, 246, 240))
+        return img
+
+    ty = cy - total / 2 + lh / 2
     for line in lines:
-        draw_center(d, line, title_f, W / 2, ty, tcol, spacing=title_f.size * 0.04)
+        draw_center(d, line, title_f, W / 2, ty, tcol, spacing=title_f.size * 0.04, stroke=halo)
         ty += lh
     if c.get("sub"):
         f2 = F(c.get("sub_font", "kuaile"), int(c.get("sub_size", 62) * W / 1440))
@@ -189,7 +219,7 @@ def card(base: Image.Image, pg):
     if c.get("side"):
         f4 = F(c.get("side_font", "mashan"), int(c.get("side_size", 84) * W / 1440))
         sx = W * (0.87 if c.get("side_pos", "right") == "right" else 0.13)
-        draw_vtext(d, c["side"], f4, sx, c.get("side_top", 0.1) * H, sub_ink)
+        draw_vtext(d, c["side"], f4, sx, c.get("side_top", 0.1) * H, sub_ink, stroke=halo)
         if c.get("seal"):
             fs = F("mashan", int(f4.size * 0.55))
             bx, by = sx - fs.size * 0.75, c.get("side_top", 0.1) * H + f4.size * (len(c["side"]) + 0.5)
@@ -217,6 +247,15 @@ def card(base: Image.Image, pg):
     return img
 
 
+def fit_cover(im, size):
+    """等比放大再居中裁切到目标画幅（不拉伸）。"""
+    W, H = size
+    sc = max(W / im.width, H / im.height)
+    im = im.resize((max(W, int(im.width * sc + 0.5)), max(H, int(im.height * sc + 0.5))), Image.LANCZOS)
+    x, y = (im.width - W) // 2, (im.height - H) // 2
+    return im.crop((x, y, x + W, y + H))
+
+
 def page_name(spec, pg):
     return f"{spec.get('prefix', '卡片')}{pg['n']:02d}-{pg.get('name', '')}"
 
@@ -233,7 +272,7 @@ def cmd_build(a, spec):
         src = Path(a.art_dir) / f"{pg['n']:02d}.png"
         if not src.exists():
             print(f"[skip] {src} 不存在"); continue
-        base = Image.open(src).convert("RGB").resize(size, Image.LANCZOS)
+        base = fit_cover(Image.open(src).convert("RGB"), size)
         im = card(base, pg)
         save(im, out / f"{page_name(spec, pg)}.{a.format}", a.format)
         print(f"[card] {page_name(spec, pg)} {im.size}")

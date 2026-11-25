@@ -1,0 +1,246 @@
+{
+  "title": "手机壁纸 · 白墙花影 10 张",
+  "subtitle": "复刻自 👒徐一个愿望💳《手机壁纸》(699c096a，原帖 9 张 1320×2868) · 01–09 同风格再创作（不照抄原图）· 10 新场景 · 画幅 1320×2868 与原帖一致 · 中文由脚本排版",
+  "canvas": [
+    1320,
+    2868
+  ],
+  "prefix": "花影",
+  "date": "Sunday, November 22",
+  "time": "9:41",
+  "cover": {
+    "left": 2,
+    "right": 8
+  },
+  "pages": [
+    {
+      "n": 1,
+      "name": "只生欢喜",
+      "from": "原图01 同风格（庭院白墙+壁灯+长椅）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 150,
+        "title": "只生欢喜\n不生愁",
+        "vertical": true,
+        "vertical_x": 0.3,
+        "title_cy": 0.63,
+        "blob": false,
+        "ink": [
+          46,
+          44,
+          42
+        ],
+        "side": "一念清净",
+        "side_pos": "left",
+        "side_top": 0.16,
+        "side_size": 74,
+        "deco": []
+      }
+    },
+    {
+      "n": 2,
+      "name": "诸事皆顺",
+      "from": "原图02 同风格（橙玫瑰花墙+铁艺灯）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 132,
+        "title": "诸事皆顺\n万般皆甜",
+        "vertical": true,
+        "vertical_x": 0.46,
+        "title_cy": 0.58,
+        "blob": false,
+        "ink": [
+          44,
+          42,
+          40
+        ],
+        "sub": "ZHU SHI JIE SHUN",
+        "sub_size": 30,
+        "seal": "顺",
+        "deco": []
+      }
+    },
+    {
+      "n": 3,
+      "name": "喜乐长安",
+      "from": "原图03 同风格（樱花枝+木窗）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 118,
+        "title": "喜乐长安\n四季温柔",
+        "vertical": true,
+        "vertical_x": 0.36,
+        "title_cy": 0.6,
+        "blob": false,
+        "ink": [
+          52,
+          50,
+          48
+        ],
+        "seal": "乐",
+        "deco": []
+      }
+    },
+    {
+      "n": 4,
+      "name": "一路生花",
+      "from": "原图04 同风格（蓝天+白墙面）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 128,
+        "title": "一路生花\n所遇皆甜",
+        "vertical": true,
+        "vertical_x": 0.5,
+        "title_cy": 0.68,
+        "blob": false,
+        "ink": [
+          50,
+          48,
+          46
+        ],
+        "sub": "WAN SHI SHUN SUI",
+        "sub_size": 30,
+        "seal": "花",
+        "deco": []
+      }
+    },
+    {
+      "n": 5,
+      "name": "万事胜意",
+      "from": "原图05 同风格（黄玫瑰花瀑）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 132,
+        "title": "万事胜意\n皆得所愿",
+        "vertical": true,
+        "vertical_x": 0.24,
+        "title_cy": 0.58,
+        "blob": false,
+        "ink": [
+          46,
+          44,
+          42
+        ],
+        "seal": "愿",
+        "deco": []
+      }
+    },
+    {
+      "n": 6,
+      "name": "好好生活",
+      "from": "原图06 同风格（壁灯+花篮）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 118,
+        "title": "好好生活\n慢慢相遇",
+        "vertical": true,
+        "vertical_x": 0.28,
+        "title_cy": 0.5,
+        "blob": false,
+        "ink": [
+          42,
+          40,
+          38
+        ],
+        "sub": "HAO HAO SHENG HUO",
+        "sub_size": 28,
+        "seal": "安",
+        "deco": []
+      }
+    },
+    {
+      "n": 7,
+      "name": "平安喜乐",
+      "from": "原图07 同风格（拱龛壁灯）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 146,
+        "title": "平安喜乐\n顺遂无忧",
+        "vertical": true,
+        "vertical_x": 0.19,
+        "title_cy": 0.55,
+        "blob": false,
+        "ink": [
+          40,
+          38,
+          36
+        ],
+        "seal": "喜",
+        "deco": []
+      }
+    },
+    {
+      "n": 8,
+      "name": "人间欢喜",
+      "from": "原图08 同风格（彩玫瑰花瀑+蝴蝶）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 112,
+        "title": "人间欢喜\n岁岁无忧",
+        "vertical": true,
+        "vertical_x": 0.13,
+        "title_cy": 0.55,
+        "blob": false,
+        "ink": [
+          40,
+          38,
+          36
+        ],
+        "seal": "欢",
+        "deco": [],
+        "halo": {
+          "title": [
+            11,
+            [
+              255,
+              253,
+              249
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "n": 9,
+      "name": "好运常伴",
+      "from": "原图09 同风格（暮色灯+花拱）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 130,
+        "title": "好运常伴\n心安即是归处",
+        "vertical": true,
+        "vertical_x": 0.5,
+        "title_cy": 0.52,
+        "blob": false,
+        "ink": [
+          58,
+          50,
+          46
+        ],
+        "seal": "运",
+        "deco": []
+      }
+    },
+    {
+      "n": 10,
+      "name": "向阳生花",
+      "from": "新场景（风格锚 原图03）",
+      "card": {
+        "title_font": "mashan",
+        "title_size": 126,
+        "title": "向阳而生\n随心而喜",
+        "vertical": true,
+        "vertical_x": 0.3,
+        "title_cy": 0.56,
+        "blob": false,
+        "ink": [
+          46,
+          46,
+          44
+        ],
+        "seal": "生",
+        "deco": []
+      }
+    }
+  ]
+}
