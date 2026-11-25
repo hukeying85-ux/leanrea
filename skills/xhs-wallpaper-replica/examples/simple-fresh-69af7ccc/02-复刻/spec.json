@@ -1,0 +1,21 @@
+{
+  "title": "简单清新 × 锦鲤入梦 · 复刻 10 张",
+  "subtitle": "齐齐《简单清新壁纸》(69af7ccc，原帖 9 张) 的留白与清新手绘 + Nihility 锦鲤水彩：01–10 同规格 884×1845 · AI 生成",
+  "canvas": [884, 1845],
+  "date": "Sunday, November 8",
+  "time": "09:41",
+  "prefix": "清新",
+  "cover": {"left": 10, "right": 1},
+  "pages": [
+    {"n": 1,  "name": "桃枝双鲤", "overlay": "lock", "ax": 0.65, "from": "锚 原图01 + 锦鲤01", "line": "桃枝在上，双鲤在下"},
+    {"n": 2,  "name": "桑叶金鲤", "overlay": "home", "ax": 0.65, "from": "锚 原图09 + 锦鲤03", "line": "一点桑红，一尾浅金"},
+    {"n": 3,  "name": "苹果小鲤", "overlay": "lock", "ax": 0.65, "from": "锚 原图06 + 锦鲤07", "line": "苹安喜乐，如常就好"},
+    {"n": 4,  "name": "石榴清波", "overlay": "lock", "ax": 0.8,  "from": "锚 原图08 + 锦鲤04", "line": "石榴多子，锦鲤多福"},
+    {"n": 5,  "name": "玫瑰花束", "overlay": "home", "ax": 0.8,  "from": "锚 原图03 + 锦鲤05", "line": "把喜欢留在角落"},
+    {"n": 6,  "name": "青梅游鱼", "overlay": "lock", "ax": 0.65, "from": "锚 原图01 + 锦鲤06", "line": "青梅时节，水也清甜"},
+    {"n": 7,  "name": "竹影双游", "overlay": "lock", "ax": 0.8,  "from": "锚 原图09 + 锦鲤08", "line": "竹影疏疏，锦鲤双双"},
+    {"n": 8,  "name": "淡紫花瓣", "overlay": "home", "ax": 0.65, "from": "锚 原图05 + 锦鲤03", "line": "淡紫色的一天，也很清新"},
+    {"n": 9,  "name": "柿子小鲤", "overlay": "lock", "ax": 0.8,  "from": "锚 原图04 + 锦鲤06", "line": "柿柿如意，年年有余"},
+    {"n": 10, "name": "樱下双鲤", "overlay": "lock", "ax": 0.65, "from": "锚 原图01 + 锦鲤01", "line": "樱花瓣落进水纹里"}
+  ]
+}
