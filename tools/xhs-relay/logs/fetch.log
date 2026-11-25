@@ -1,44 +1,44 @@
 queue: 1 job(s); cookie: no
-== https://www.rednote.com/discovery/item/69af7ccc000000001a02eba0?xsec_token=CBi2yy37BenNCTBlAqLgBDWNYTL7LCnr9ReShjvEXNv0A=&xsec_source=app_share
-   -> xhs-wallpaper-replica/examples/fresh-69af7ccc/01-原片
-   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/discovery/item/69af7ccc000000001a02eba0?xsec_token=CBi2yy37BenNCTBlAqLgBDWNYTL7LCnr9ReShjvEXNv0A=&xsec_source=app_share', 'html_bytes': 362086} parse=json title='简单清新壁纸' images=9
-  [01] original -> OK JPEG (884, 1845) 135580B 
-  [01] png      -> OK PNG (884, 1845) 488777B 
-  [01] jpeg     -> OK JPEG (884, 1845) 60197B 
-  [01] display  -> OK WEBP (884, 1845) 39208B 
-  [02] original -> OK JPEG (884, 1920) 248421B 
-  [02] png      -> OK PNG (884, 1920) 798082B 
-  [02] jpeg     -> OK JPEG (884, 1920) 112543B 
-  [02] display  -> OK WEBP (884, 1920) 80854B 
-  [03] original -> OK JPEG (884, 1842) 166389B 
-  [03] png      -> OK PNG (884, 1842) 508951B 
-  [03] jpeg     -> OK JPEG (884, 1842) 56781B 
-  [03] display  -> OK WEBP (884, 1842) 42894B 
-  [04] original -> OK JPEG (884, 1840) 151601B 
-  [04] png      -> OK PNG (884, 1840) 479505B 
-  [04] jpeg     -> OK JPEG (884, 1840) 67285B 
-  [04] display  -> OK WEBP (884, 1840) 49564B 
-  [05] original -> OK JPEG (884, 1837) 102995B 
-  [05] png      -> OK PNG (884, 1837) 295242B 
-  [05] jpeg     -> OK JPEG (884, 1837) 48168B 
-  [05] display  -> OK WEBP (884, 1837) 31764B 
-  [06] original -> OK JPEG (884, 1849) 87176B 
-  [06] png      -> OK PNG (884, 1849) 253688B 
-  [06] jpeg     -> OK JPEG (884, 1849) 42264B 
-  [06] display  -> OK WEBP (884, 1849) 28322B 
-  [07] original -> OK JPEG (884, 1857) 215197B 
-  [07] png      -> OK PNG (884, 1857) 744223B 
-  [07] jpeg     -> OK JPEG (884, 1857) 85794B 
-  [07] display  -> OK WEBP (884, 1857) 60798B 
-  [08] original -> OK JPEG (884, 1843) 143049B 
-  [08] png      -> OK PNG (884, 1843) 408116B 
-  [08] jpeg     -> OK JPEG (884, 1843) 64760B 
-  [08] display  -> OK WEBP (884, 1843) 40786B 
-  [09] original -> OK JPEG (884, 1851) 337143B 
-  [09] png      -> OK PNG (884, 1851) 1137217B 
-  [09] jpeg     -> OK JPEG (884, 1851) 105774B 
-  [09] display  -> OK WEBP (884, 1851) 75728B 
-   saved 9/9 images to xhs-wallpaper-replica/examples/fresh-69af7ccc/01-原片
+== https://www.rednote.com/discovery/item/699c096a000000000b009cb4?xsec_token=CBKBW5apEDE30OUSfXhP0qV-esplM_TjBSLuM_d5K38TY=&xsec_source=app_share
+   -> xhs-wallpaper-replica/examples/lucky-699c096a/01-原片
+   page: {'http_status': 200, 'final_url': 'https://www.rednote.com/discovery/item/699c096a000000000b009cb4?xsec_token=CBKBW5apEDE30OUSfXhP0qV-esplM_TjBSLuM_d5K38TY=&xsec_source=app_share', 'html_bytes': 362760} parse=json title='手机壁纸' images=9
+  [01] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e7617
+  [01] png      -> OK PNG (1320, 2868) 1493470B 
+  [01] jpeg     -> OK JPEG (1320, 2868) 196851B 
+  [01] display  -> OK WEBP (1080, 2347) 103396B 
+  [02] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e7617
+  [02] png      -> OK PNG (1320, 2868) 2577040B 
+  [02] jpeg     -> OK JPEG (1320, 2868) 283367B 
+  [02] display  -> OK WEBP (1080, 2347) 154640B 
+  [03] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e7772
+  [03] png      -> OK PNG (1320, 2868) 1690744B 
+  [03] jpeg     -> OK JPEG (1320, 2868) 216034B 
+  [03] display  -> OK WEBP (1080, 2347) 110722B 
+  [04] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e7619
+  [04] png      -> OK PNG (1320, 2868) 1483703B 
+  [04] jpeg     -> OK JPEG (1320, 2868) 185274B 
+  [04] display  -> OK WEBP (1080, 2347) 99146B 
+  [05] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e75d1
+  [05] png      -> OK PNG (1320, 2868) 2437252B 
+  [05] jpeg     -> OK JPEG (1320, 2868) 353118B 
+  [05] display  -> OK WEBP (1080, 2347) 211092B 
+  [06] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e7617
+  [06] png      -> OK PNG (1320, 2868) 1999119B 
+  [06] jpeg     -> OK JPEG (1320, 2868) 230685B 
+  [06] display  -> OK WEBP (1080, 2347) 122042B 
+  [07] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e7617
+  [07] png      -> OK PNG (1320, 2868) 1387548B 
+  [07] jpeg     -> OK JPEG (1320, 2868) 190794B 
+  [07] display  -> OK WEBP (1080, 2347) 98980B 
+  [08] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e75d1
+  [08] png      -> OK PNG (1320, 2868) 2562942B 
+  [08] jpeg     -> OK JPEG (1320, 2868) 286135B 
+  [08] display  -> OK WEBP (1080, 2347) 163666B 
+  [09] original -> x    0B UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x707e75d1
+  [09] png      -> OK PNG (1320, 2868) 2627470B 
+  [09] jpeg     -> OK JPEG (1320, 2868) 286172B 
+  [09] display  -> OK WEBP (1080, 2347) 159642B 
+   saved 9/9 images to xhs-wallpaper-replica/examples/lucky-699c096a/01-原片
 
 == summary ==
-  9/9  https://www.rednote.com/discovery/item/69af7ccc000000001a02eba0?xsec_token=CBi2yy37BenNCTB
+  9/9  https://www.rednote.com/discovery/item/699c096a000000000b009cb4?xsec_token=CBKBW5apEDE30OU
