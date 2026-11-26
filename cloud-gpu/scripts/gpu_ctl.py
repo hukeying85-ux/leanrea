@@ -246,7 +246,9 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
         out_sub = os.path.join(run_dir, "outputs")
         os.makedirs(out_sub, exist_ok=True)
         out = run_cmd(["kaggle", "kernels", "output", kernel_ref, "-p", out_sub, "-o"], env=kaggle_env, timeout=300)
-        has_mp4 = any(fn.endswith(".mp4") for fn in os.listdir(out_sub))
+        mp4_count = sum(1 for fn in os.listdir(out_sub) if fn.endswith(".mp4"))
+        need_mp4 = int(job.get("expected_mp4_count", 1))
+        has_mp4 = mp4_count >= need_mp4
         bundle_meta = _upload_bundle_if_requested(out_sub) if has_mp4 else None
         if has_mp4:
             os.environ["RELAY_HARVEST_DONE"] = "1"
@@ -366,7 +368,7 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
             "from kaggle.api.kaggle_api_extended import KaggleApi\n"
             "api = KaggleApi(); api.authenticate()\n"
             f"sdir = {repr(stage_dir)}\n"
-            f"tout = {repr(str(min(int(job.get('timeout_sec', 1080)), 1200)))}\n"
+            f"tout = {repr(str(min(int(job.get('timeout_sec', 1800)), 1200 if enable_gpu else 7200)))}\n"
             f"acc = {repr(acc if acc and acc.upper() not in ('CPU','NONE') else None)}\n"
             "def _try_push():\n"
             "    r = api.kernels_push(sdir, timeout=tout, acc=acc)\n"

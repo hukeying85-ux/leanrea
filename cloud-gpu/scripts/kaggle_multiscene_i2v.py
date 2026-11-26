@@ -323,7 +323,10 @@ def render_scenes_xla_or_cpu(
     pipe = StableVideoDiffusionPipeline.from_pretrained(
         model_dir, torch_dtype=torch.float16, variant="fp16", local_files_only=True
     )
-    pipe = pipe.to(device=dev, dtype=torch.bfloat16)
+    target_dtype = torch.bfloat16 if use_xla else torch.float32
+    if not use_xla:
+        backend_name = f"cpu_fp32_{os.cpu_count()}cores"
+    pipe = pipe.to(device=dev, dtype=target_dtype)
 
     d_chunk = 7 if num_frames == 14 else 5
     logs: list[dict[str, Any]] = []

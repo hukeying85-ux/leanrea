@@ -1,55 +1,41 @@
 {
   "jobs": [
     {
-      "id": "unblock-stuck-gpu",
-      "provider": "kaggle",
-      "mode": "delete",
-      "kernel_slug": "gpu-job-d4-bubu-dual-t4",
-      "status": "pending"
-    },
-    {
-      "id": "harvest-or-wait-tpu",
+      "id": "harvest-fast-bf16",
       "provider": "kaggle",
       "mode": "output",
-      "kernel_slug": "tpu-job-d4-bubu-v5e8",
+      "kernel_slug": "fast-job-d4-bubu-bf16",
+      "expected_mp4_count": 2,
       "wait": true,
-      "timeout_sec": 720,
-      "max_queue_sec": 100,
+      "timeout_sec": 300,
+      "max_queue_sec": 60,
       "status": "pending"
     },
     {
-      "id": "cleanup-stuck-tpu",
-      "provider": "kaggle",
-      "mode": "delete",
-      "kernel_slug": "tpu-job-d4-bubu-v5e8",
-      "skip_if_harvested": true,
-      "status": "pending"
-    },
-    {
-      "id": "run-fast-kaggle-bf16",
+      "id": "run-fast-fp32",
       "provider": "kaggle",
       "mode": "run",
       "accelerator": "CPU",
-      "kernel_slug": "fast-job-d4-bubu-bf16",
+      "kernel_slug": "fast-job-d4-bubu-fp32",
       "skip_if_harvested": true,
       "script_path": "cloud-gpu/scripts/kaggle_multiscene_i2v.py",
       "script_args": [
         "--scenes-json",
         "[{\"name\":\"shot_a_rub\",\"image\":\"/tmp/assets/pose_a_rub_768x448.webp\",\"motion\":50,\"noise\":0.012,\"seed\":20261126},{\"name\":\"shot_b_wave\",\"image\":\"/tmp/assets/pose_b_wave_768x448.webp\",\"motion\":52,\"noise\":0.012,\"seed\":20261127}]",
         "--width",
-        "576",
+        "512",
         "--height",
-        "320",
+        "288",
         "--num-frames",
         "14",
         "--steps",
-        "10",
+        "8",
         "--out-dir",
         "/kaggle/working"
       ],
       "extra_pip": [],
       "wait": true,
-      "timeout_sec": 1080,
+      "timeout_sec": 1500,
       "status": "pending"
     }
   ]
