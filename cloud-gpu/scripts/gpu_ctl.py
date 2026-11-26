@@ -190,16 +190,40 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
         return payload
 
     if mode == "output":
+        status_history: list[str] = []
+        final_st = "unknown"
+        if job.get("wait", False):
+            deadline = time.time() + int(job.get("timeout_sec", 600))
+            max_q_deadline = time.time() + int(job.get("max_queue_sec", 240))
+            while time.time() < deadline:
+                st = run_cmd(["kaggle", "kernels", "status", kernel_ref], env=kaggle_env, timeout=45)
+                raw_txt = (st.stdout or st.stderr).strip()
+                if not status_history or status_history[-1] != raw_txt:
+                    status_history.append(raw_txt)
+                    print(f"[kaggle output-wait] {utc_now()} -> {raw_txt}", flush=True)
+                low = raw_txt.lower()
+                if "complete" in low:
+                    final_st = "completed"
+                    break
+                if "error" in low or "cancel" in low:
+                    final_st = "failed"
+                    break
+                if "queued" in low and time.time() > max_q_deadline:
+                    final_st = "stuck_queued"
+                    break
+                time.sleep(20)
         out_sub = os.path.join(run_dir, "outputs")
         os.makedirs(out_sub, exist_ok=True)
         out = run_cmd(["kaggle", "kernels", "output", kernel_ref, "-p", out_sub, "-o"], env=kaggle_env, timeout=300)
-        bundle_meta = _upload_bundle_if_requested(out_sub)
+        bundle_meta = _upload_bundle_if_requested(out_sub) if os.listdir(out_sub) else None
         copied = _copy_small_outputs(out_sub, run_dir)
         payload = {
             "job_id": job["id"],
             "provider": "kaggle",
             "mode": "output",
             "kernel_ref": kernel_ref,
+            "final_status": final_st,
+            "status_history": status_history,
             "copied_files": copied,
             "all_output_files": sorted(os.listdir(out_sub)),
             "bundle_upload": bundle_meta,
