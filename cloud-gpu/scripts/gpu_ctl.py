@@ -236,7 +236,8 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
         return payload
 
     acc = job.get("accelerator", "NvidiaTeslaT4")
-    enable_gpu = acc.upper() not in ("CPU", "NONE") and not acc.lower().startswith("tpu")
+    enable_tpu = acc.lower().startswith("tpu")
+    enable_gpu = acc.upper() not in ("CPU", "NONE") and not enable_tpu
     script_path = job["script_path"]
     script_args = job.get("script_args", [])
     extra_pip = job.get("extra_pip", [])
@@ -315,6 +316,7 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
             "kernel_type": "script",
             "is_private": "true",
             "enable_gpu": "true" if enable_gpu else "false",
+            "enable_tpu": "true" if enable_tpu else "false",
             "enable_internet": "true",
             "machine_shape": acc if acc.upper() not in ("CPU", "NONE") else "",
             "dataset_sources": job.get("dataset_sources", []),

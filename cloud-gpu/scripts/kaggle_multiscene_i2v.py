@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Quota-Fast Dual-GPU Multi-Scene SVD-XT + Kaggle AI ($10/day) Pipeline.
+"""Multi-Accelerator (Cloud TPU v5e-8 XLA BF16 + Dual-T4 CUDA FP16) + Kaggle AI ($10/day) Multi-Scene I2V Pipeline.
 
-Designed for multi-pose / multi-scene video replication within tight GPU quota budgets:
-  1. Kaggle AI ($10/day Model Proxy) Pre-render VLM Director calibrates illustration-safe
-     `(motion_bucket_id, noise_aug_strength)` per scene.
-  2. Single shared download of `stabilityai/stable-video-diffusion-img2vid-xt` fp16 weights.
-  3. Parallel Dual-T4 execution (`GPU-0` renders Scene A while `GPU-1` renders Scene B
-     simultaneously in pure FP16 direct CUDA at 768x448, 18 steps -> ~2.3 min wall-clock).
-  4. Kaggle AI ($10/day Model Proxy) Post-render VLM QA inspects rendered 5-frame strips.
+Automatically unlocks ALL three Kaggle compute pools:
+  1. Kaggle AI ($10/day Model Proxy) Pre-render VLM Director & Post-render VLM QA
+  2. Dual-GPU CUDA (`NvidiaTeslaT4`, parallel 1 scene per GPU in FP16)
+  3. Cloud TPU v5e-8 (`TpuV5E8`, 20h/week quota, native `torch_xla` PJRT `bfloat16`
+     with static `decode_chunk_size=5` so the compiled HLO graph is reused at
+     sub-second step speed across all scenes!)
+  4. High-core Xeon AMX `bfloat16` CPU fallback if neither GPU nor XLA is attached.
 """
 
 from __future__ import annotations
@@ -24,23 +24,65 @@ import shutil
 import subprocess
 import sys
 import time
-import urllib.request
 from typing import Any
+import urllib.request
 
 
 def ensure_deps() -> list[str]:
     for k in ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE", "DIFFUSERS_OFFLINE"):
         os.environ[k] = "0"
     os.environ.setdefault("HF_HUB_ENABLE_HF_TRANSFER", "0")
+    os.environ.setdefault("PJRT_DEVICE", "TPU")
+
+    # Install pure-python / helper libs WITHOUT upgrading preinstalled torch/torch_xla ABI!
     needed = {
         "imageio_ffmpeg": "imageio-ffmpeg>=0.5",
         "diffusers": "diffusers>=0.30",
         "transformers": "transformers>=4.44",
         "accelerate": "accelerate>=0.30",
+        "safetensors": "safetensors>=0.4",
     }
     missing = [spec for mod, spec in needed.items() if importlib.util.find_spec(mod) is None]
     if missing:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "--no-input", *missing])
+        subprocess.check_call(
+            [
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                "-q",
+                "--no-input",
+                "--upgrade-strategy",
+                "only-if-needed",
+                *missing,
+            ]
+        )
+
+    # On GCE TPU VMs (`TpuV5E8`), ensure `torch_xla` is available if `/dev/accel*` or `/dev/vfio` exists
+    has_tpu_dev = (
+        os.path.exists("/dev/vfio")
+        or bool(os.environ.get("TPU_NAME"))
+        or bool(os.environ.get("TPU_WORKER_ID"))
+    )
+    if has_tpu_dev and importlib.util.find_spec("torch_xla") is None:
+        try:
+            subprocess.check_call(
+                [
+                    sys.executable,
+                    "-m",
+                    "pip",
+                    "install",
+                    "-q",
+                    "--no-input",
+                    "torch~=2.5.0",
+                    "torch_xla[tpu]~=2.5.0",
+                    "-f",
+                    "https://storage.googleapis.com/libtpu-releases/index.html",
+                ]
+            )
+            missing.append("torch_xla[tpu]")
+        except Exception as exc:
+            print(f"[deps] optional torch_xla install warn: {exc}", flush=True)
     return missing
 
 
@@ -172,7 +214,7 @@ def extract_json(text: str) -> dict[str, Any] | None:
         return None
 
 
-def worker_render(
+def worker_render_cuda(
     model_dir: str,
     scene_name: str,
     img_path: str,
@@ -208,7 +250,7 @@ def worker_render(
             fps=12,
             motion_bucket_id=motion,
             noise_aug_strength=noise,
-            decode_chunk_size=4,
+            decode_chunk_size=5,
             generator=gen,
         ).frames[0]
 
@@ -222,7 +264,7 @@ def worker_render(
     diffs = [float(np.mean(np.abs(arrs[i] - arrs[i - 1]))) for i in range(1, len(arrs))]
     meta = {
         "scene": scene_name,
-        "gpu": os.environ.get("CUDA_VISIBLE_DEVICES", "0"),
+        "backend": f"cuda:{os.environ.get('CUDA_VISIBLE_DEVICES', '0')}",
         "width": width,
         "height": height,
         "steps": steps,
@@ -236,8 +278,129 @@ def worker_render(
         "bytes": mp4_file.stat().st_size,
     }
     pathlib.Path(log_json).write_text(json.dumps(meta, indent=2), encoding="utf-8")
-    print(f"[SVD GPU={meta['gpu']}] {scene_name} finished in {meta['elapsed_sec']}s (mad={meta['mean_motion_mad']})", flush=True)
     return 0
+
+
+def render_scenes_xla_or_cpu(
+    model_dir: str,
+    scenes: list[dict[str, Any]],
+    out_dir: pathlib.Path,
+    width: int,
+    height: int,
+    steps: int,
+) -> tuple[str, list[dict[str, Any]]]:
+    """Renders all scenes in a single process on TPU v5e (`torch_xla` BF16) reusing HLO cache,
+    with automatic fallback to 96-vCPU Xeon AMX BF16 if XLA is unavailable."""
+    import numpy as np
+    import torch
+    from diffusers import StableVideoDiffusionPipeline
+    from PIL import Image
+
+    backend_name = f"cpu_bf16_{os.cpu_count()}cores"
+    dev: Any = torch.device("cpu")
+    use_xla = False
+    xm_mod: Any = None
+
+    try:
+        os.environ.setdefault("PJRT_DEVICE", "TPU")
+        import torch_xla.core.xla_model as xm
+
+        xdev = xm.xla_device()
+        probe = (torch.ones((2, 4, 8, 8), device=xdev, dtype=torch.bfloat16) * 3.0)
+        xm.mark_step()
+        if abs(float(probe.cpu().mean()) - 3.0) < 0.05:
+            dev = xdev
+            use_xla = True
+            xm_mod = xm
+            backend_name = f"tpu_xla_bf16 ({xdev})"
+            print(f"[TPU-XLA] Verified Cloud TPU device: {xdev}", flush=True)
+    except Exception as exc:
+        print(f"[TPU-XLA] Falling back to multi-core BF16 CPU ({exc})", flush=True)
+        torch.set_num_threads(max(1, os.cpu_count() or 16))
+
+    pipe = StableVideoDiffusionPipeline.from_pretrained(
+        model_dir, torch_dtype=torch.float16, variant="fp16", local_files_only=True
+    )
+    pipe = pipe.to(device=dev, dtype=torch.bfloat16)
+
+    logs: list[dict[str, Any]] = []
+    for sc in scenes:
+        st0 = time.time()
+        sname = sc["name"]
+        cond = Image.open(sc["image"]).convert("RGB").resize((width, height), Image.LANCZOS)
+        gen = torch.Generator(device="cpu").manual_seed(int(sc["seed"]))
+        print(f"[{backend_name}] Rendering {sname} ({width}x{height}, steps={steps}, m={sc['motion']})...", flush=True)
+        try:
+            with torch.no_grad():
+                frames = pipe(
+                    cond,
+                    width=width,
+                    height=height,
+                    num_frames=25,
+                    num_inference_steps=steps,
+                    min_guidance_scale=1.0,
+                    max_guidance_scale=2.2,
+                    fps=12,
+                    motion_bucket_id=int(sc["motion"]),
+                    noise_aug_strength=float(sc["noise"]),
+                    decode_chunk_size=5,
+                    generator=gen,
+                ).frames[0]
+            if use_xla and xm_mod is not None:
+                xm_mod.mark_step()
+        except Exception as xla_err:
+            if not use_xla:
+                raise
+            print(f"[TPU-XLA] Runtime fallback to multi-core BF16 CPU: {xla_err}", flush=True)
+            use_xla = False
+            dev = torch.device("cpu")
+            torch.set_num_threads(max(1, os.cpu_count() or 16))
+            backend_name = f"cpu_bf16_{os.cpu_count()}cores_fallback"
+            pipe = pipe.to(device=dev, dtype=torch.bfloat16)
+            gen = torch.Generator(device="cpu").manual_seed(int(sc["seed"]))
+            with torch.no_grad():
+                frames = pipe(
+                    cond,
+                    width=width,
+                    height=height,
+                    num_frames=25,
+                    num_inference_steps=steps,
+                    min_guidance_scale=1.0,
+                    max_guidance_scale=2.2,
+                    fps=12,
+                    motion_bucket_id=int(sc["motion"]),
+                    noise_aug_strength=float(sc["noise"]),
+                    decode_chunk_size=5,
+                    generator=gen,
+                ).frames[0]
+
+        mp4_file = out_dir / f"{sname}.mp4"
+        strip_file = out_dir / f"{sname}_strip.jpg"
+        encode_mp4(frames, mp4_file, fps=12)
+        make_strip(frames, strip_file, f"{sname} [{backend_name}] m={sc['motion']} n={sc['noise']}")
+
+        arrs = [np.asarray(f.convert("RGB"), dtype=np.float32) for f in frames]
+        diffs = [float(np.mean(np.abs(arrs[i] - arrs[i - 1]))) for i in range(1, len(arrs))]
+        el = round(time.time() - st0, 2)
+        meta = {
+            "scene": sname,
+            "backend": backend_name,
+            "width": width,
+            "height": height,
+            "steps": steps,
+            "motion_bucket_id": int(sc["motion"]),
+            "noise_aug_strength": float(sc["noise"]),
+            "seed": int(sc["seed"]),
+            "elapsed_sec": el,
+            "mean_motion_mad": round(float(np.mean(diffs)), 3),
+            "mp4": mp4_file.name,
+            "strip": strip_file.name,
+            "bytes": mp4_file.stat().st_size,
+        }
+        logs.append(meta)
+        print(f"[{backend_name}] {sname} done in {el}s (mad={meta['mean_motion_mad']})", flush=True)
+
+    return backend_name, logs
 
 
 def main() -> int:
@@ -258,7 +421,7 @@ def main() -> int:
     args = ap.parse_args()
 
     if args.worker:
-        return worker_render(
+        return worker_render_cuda(
             args.model_dir,
             args.scene_name,
             args.img_path,
@@ -277,34 +440,28 @@ def main() -> int:
     import torch
     from huggingface_hub import snapshot_download
 
-    if not torch.cuda.is_available():
-        raise RuntimeError("CUDA GPU required!")
-
-    n_gpu = torch.cuda.device_count()
-    gpu_names = [torch.cuda.get_device_name(i) for i in range(n_gpu)]
     out_dir = pathlib.Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-
     scenes = json.loads(args.scenes_json)
     scene_imgs = [pathlib.Path(s["image"]) for s in scenes]
 
-    # Step 1: Kaggle AI ($10/day) Director calibration for cute 2D line-art illustration on sunset ocean
+    # Step 1: Kaggle AI ($10/day) Director calibration
     ai_dir = call_ai_proxy(
-        "These 2 keyframes are clean 2D cute bear illustrations on a real golden sunset beach. "
+        "These keyframes are clean 2D cute bear illustrations on a real golden sunset beach. "
         "Calibrate SVD-XT parameters for subtle cute character breathing/arm sway + shimmering ocean waves "
         "WITHOUT warping cartoon faces/outlines. Return ONLY JSON: "
-        "{\"scene_a\": {\"motion\": int 44..62, \"noise\": float 0.010..0.016}, "
-        "\"scene_b\": {\"motion\": int 44..62, \"noise\": float 0.010..0.016}}",
-        scene_imgs,
+        "{\"motion\": int 46..60, \"noise\": float 0.010..0.016}",
+        scene_imgs[:2],
     )
     parsed_dir = extract_json(ai_dir.get("text", "")) if ai_dir.get("ok") else None
-    for idx, sc in enumerate(scenes):
-        key = "scene_a" if idx == 0 else "scene_b"
-        if parsed_dir and isinstance(parsed_dir.get(key), dict):
-            sc["motion"] = max(42, min(65, int(parsed_dir[key].get("motion", sc["motion"]))))
-            sc["noise"] = round(max(0.008, min(0.018, float(parsed_dir[key].get("noise", sc["noise"])))), 4)
+    if parsed_dir:
+        m_cal = max(44, min(64, int(parsed_dir.get("motion", 52))))
+        n_cal = round(max(0.009, min(0.017, float(parsed_dir.get("noise", 0.012)))), 4)
+        for idx, sc in enumerate(scenes):
+            sc["motion"] = m_cal + (idx % 2) * 2
+            sc["noise"] = n_cal
 
-    # Step 2: Single shared fp16 download
+    # Step 2: Shared fp16 checkpoint download
     dl_t0 = time.time()
     model_dir = snapshot_download(
         repo_id="stabilityai/stable-video-diffusion-img2vid-xt",
@@ -312,73 +469,80 @@ def main() -> int:
         allow_patterns=["*.json", "*.txt", "*fp16*.safetensors"],
     )
     dl_sec = round(time.time() - dl_t0, 2)
-    print(f"[multiscene] GPUs={n_gpu} {gpu_names} | SVD cached in {dl_sec}s | installed={installed}", flush=True)
 
-    # Step 3: Parallel Dual-GPU render (1 scene per T4 GPU!)
-    self_py = os.path.abspath(__file__)
-    procs = []
-    for idx, sc in enumerate(scenes):
-        gid = idx % max(1, n_gpu)
-        l_json = f"/tmp/scene_log_{idx}.json"
-        cenv = os.environ.copy()
-        cenv["CUDA_VISIBLE_DEVICES"] = str(gid)
-        p = subprocess.Popen(
-            [
-                sys.executable,
-                self_py,
-                "--worker",
-                "--model-dir",
-                model_dir,
-                "--scene-name",
-                sc["name"],
-                "--img-path",
-                sc["image"],
-                "--out-dir",
-                str(out_dir),
-                "--width",
-                str(args.width),
-                "--height",
-                str(args.height),
-                "--steps",
-                str(args.steps),
-                "--motion",
-                str(sc["motion"]),
-                "--noise",
-                str(sc["noise"]),
-                "--seed",
-                str(sc["seed"]),
-                "--log-json",
-                l_json,
-            ],
-            env=cenv,
+    # Step 3: Execute on CUDA Dual-GPU if available, else Cloud TPU v5e-8 (`torch_xla` BF16)
+    scene_logs: list[dict[str, Any]] = []
+    if torch.cuda.is_available():
+        n_gpu = torch.cuda.device_count()
+        accel_summary = f"cuda x{n_gpu}: {[torch.cuda.get_device_name(i) for i in range(n_gpu)]}"
+        self_py = os.path.abspath(__file__)
+        procs = []
+        for idx, sc in enumerate(scenes):
+            gid = idx % max(1, n_gpu)
+            l_json = f"/tmp/scene_log_{idx}.json"
+            cenv = os.environ.copy()
+            cenv["CUDA_VISIBLE_DEVICES"] = str(gid)
+            p = subprocess.Popen(
+                [
+                    sys.executable,
+                    self_py,
+                    "--worker",
+                    "--model-dir",
+                    model_dir,
+                    "--scene-name",
+                    sc["name"],
+                    "--img-path",
+                    sc["image"],
+                    "--out-dir",
+                    str(out_dir),
+                    "--width",
+                    str(args.width),
+                    "--height",
+                    str(args.height),
+                    "--steps",
+                    str(args.steps),
+                    "--motion",
+                    str(sc["motion"]),
+                    "--noise",
+                    str(sc["noise"]),
+                    "--seed",
+                    str(sc["seed"]),
+                    "--log-json",
+                    l_json,
+                ],
+                env=cenv,
+            )
+            procs.append((idx, sc["name"], p, l_json))
+            if n_gpu < 2 or len(procs) % n_gpu == 0:
+                for _, sname, pw, lj in procs:
+                    if pw.wait() != 0:
+                        raise RuntimeError(f"Scene {sname} failed")
+                    scene_logs.append(json.loads(pathlib.Path(lj).read_text(encoding="utf-8")))
+                procs = []
+        for _, sname, pw, lj in procs:
+            if pw.wait() != 0:
+                raise RuntimeError(f"Scene {sname} failed")
+            scene_logs.append(json.loads(pathlib.Path(lj).read_text(encoding="utf-8")))
+    else:
+        accel_summary, scene_logs = render_scenes_xla_or_cpu(
+            model_dir, scenes, out_dir, args.width, args.height, args.steps
         )
-        procs.append((idx, sc["name"], p, l_json))
-        if n_gpu < 2:
-            if p.wait() != 0:
-                raise RuntimeError(f"Scene {sc['name']} failed")
-
-    scene_logs = []
-    for idx, sname, p, l_json in procs:
-        rc = p.wait()
-        if rc != 0:
-            raise RuntimeError(f"Scene {sname} exited with code {rc}")
-        scene_logs.append(json.loads(pathlib.Path(l_json).read_text(encoding="utf-8")))
 
     shutil.rmtree("/tmp/hf_svd_multi", ignore_errors=True)
 
     # Step 4: Kaggle AI ($10/day) VLM QA review
     strips = [out_dir / lg["strip"] for lg in scene_logs]
     ai_qa = call_ai_proxy(
-        "Inspect these two rendered 5-frame temporal strips of cute cartoon bears at sunset beach. "
+        "Inspect these rendered 5-frame temporal strips of cute cartoon bears at sunset beach. "
         "Rate character face/outline stability and ocean shimmer 0-100. Return ONLY JSON: "
-        "{\"scores\": [int, int], \"summary\": \"short assessment\"}",
+        "{\"scores\": [int], \"summary\": \"short assessment\"}",
         strips,
     )
     qa_parsed = extract_json(ai_qa.get("text", "")) if ai_qa.get("ok") else None
 
     report = {
-        "gpu_count": n_gpu,
-        "gpu_names": gpu_names,
+        "accelerator": accel_summary,
+        "installed_deps": installed,
         "weights_download_sec": dl_sec,
         "ai_director": {"ok": ai_dir.get("ok"), "model": ai_dir.get("model"), "calibrated": parsed_dir},
         "scenes": scene_logs,

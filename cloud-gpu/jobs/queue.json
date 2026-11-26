@@ -1,19 +1,27 @@
 {
   "jobs": [
     {
-      "id": "harvest-d4-bubu",
+      "id": "d4-bubu-tpu-v5e8",
       "provider": "kaggle",
-      "mode": "output",
-      "kernel_slug": "gpu-job-d4-bubu-dual-t4",
-      "wait": true,
-      "timeout_sec": 420,
-      "max_queue_sec": 90,
-      "status": "pending"
-    },
-    {
-      "id": "probe-post-d4",
-      "provider": "probe",
       "mode": "run",
+      "accelerator": "TpuV5E8",
+      "kernel_slug": "tpu-job-d4-bubu-v5e8",
+      "script_path": "cloud-gpu/scripts/kaggle_multiscene_i2v.py",
+      "script_args": [
+        "--scenes-json",
+        "[{\"name\":\"shot_a_rub\",\"image\":\"/tmp/assets/pose_a_rub_768x448.webp\",\"motion\":50,\"noise\":0.012,\"seed\":20261126},{\"name\":\"shot_b_wave\",\"image\":\"/tmp/assets/pose_b_wave_768x448.webp\",\"motion\":52,\"noise\":0.012,\"seed\":20261127},{\"name\":\"shot_c_wink\",\"image\":\"/tmp/assets/pose_c_wink_768x448.webp\",\"motion\":50,\"noise\":0.012,\"seed\":20261128}]",
+        "--width",
+        "768",
+        "--height",
+        "448",
+        "--steps",
+        "18",
+        "--out-dir",
+        "/kaggle/working"
+      ],
+      "extra_pip": [],
+      "wait": true,
+      "timeout_sec": 1140,
       "status": "pending"
     }
   ]
