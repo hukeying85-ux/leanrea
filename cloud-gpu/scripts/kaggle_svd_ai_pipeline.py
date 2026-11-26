@@ -191,7 +191,7 @@ def call_kaggle_ai_proxy(
             {
                 "model": model,
                 "messages": [{"role": "user", "content": content}],
-                "max_tokens": 1024,
+                "max_tokens": 4096,
             }
         ).encode("utf-8")
         req = urllib.request.Request(

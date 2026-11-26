@@ -3,7 +3,9 @@ rea_tools.json
 .DS_Store
 __pycache__/
 
-# 工作用的临时下载目录与本地虚拟环境
+# 工作用的临时下载目录与本地虚拟环境/私有产物目录（严禁将私人媒体入 Git）
 google_drive/
 .venv/
+outputs/
+
 
