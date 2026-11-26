@@ -163,6 +163,12 @@ def execute_probe(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
 
 
 def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
+    if job.get("skip_if_harvested") and os.environ.get("RELAY_HARVEST_DONE") == "1":
+        payload = {"job_id": job["id"], "status": "skipped_already_harvested", "updated_at_utc": utc_now()}
+        with open(os.path.join(run_dir, "result.json"), "w", encoding="utf-8") as rf:
+            json.dump(payload, rf, ensure_ascii=False, indent=2)
+        return payload
+
     kaggle_env, kag_src = resolve_kaggle_env()
     if not kag_src:
         raise RuntimeError("Kaggle credentials not configured.")
@@ -173,6 +179,31 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
     username = get_kaggle_username(kaggle_env)
     slug = re.sub(r"[^a-z0-9-]", "-", job.get("kernel_slug") or f"gpu-job-{job['id']}".lower()).strip("-")
     kernel_ref = f"{username}/{slug}"
+
+    if mode == "delete":
+        del_py = (
+            "from kaggle.api.kaggle_api_extended import KaggleApi\n"
+            "from kagglesdk.kernels.types.kernels_api_service import ApiDeleteKernelRequest\n"
+            "api = KaggleApi(); api.authenticate()\n"
+            "with api.build_kaggle_client() as c:\n"
+            "    req = ApiDeleteKernelRequest()\n"
+            f"    req.user_name = {repr(username)}; req.kernel_slug = {repr(slug)}\n"
+            "    r = c.kernels.kernels_api_client.delete_kernel(req)\n"
+            "    print('DELETE_OK:', r)\n"
+        )
+        dr = run_cmd([sys.executable, "-c", del_py], env=kaggle_env, timeout=45)
+        payload = {
+            "job_id": job["id"],
+            "provider": "kaggle",
+            "mode": "delete",
+            "kernel_ref": kernel_ref,
+            "output": (dr.stdout or dr.stderr).strip()[:500],
+            "status": "completed",
+            "deleted_at_utc": utc_now(),
+        }
+        with open(os.path.join(run_dir, "result.json"), "w", encoding="utf-8") as rf:
+            json.dump(payload, rf, ensure_ascii=False, indent=2)
+        return payload
 
     if mode == "status":
         st = run_cmd(["kaggle", "kernels", "status", kernel_ref], env=kaggle_env, timeout=45)
@@ -215,7 +246,10 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
         out_sub = os.path.join(run_dir, "outputs")
         os.makedirs(out_sub, exist_ok=True)
         out = run_cmd(["kaggle", "kernels", "output", kernel_ref, "-p", out_sub, "-o"], env=kaggle_env, timeout=300)
-        bundle_meta = _upload_bundle_if_requested(out_sub) if os.listdir(out_sub) else None
+        has_mp4 = any(fn.endswith(".mp4") for fn in os.listdir(out_sub))
+        bundle_meta = _upload_bundle_if_requested(out_sub) if has_mp4 else None
+        if has_mp4:
+            os.environ["RELAY_HARVEST_DONE"] = "1"
         copied = _copy_small_outputs(out_sub, run_dir)
         payload = {
             "job_id": job["id"],

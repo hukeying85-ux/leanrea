@@ -241,9 +241,11 @@ def main() -> int:
     ap.add_argument("--source", required=True)
     ap.add_argument("--shot-a", required=True)
     ap.add_argument("--shot-b", required=True)
+    ap.add_argument("--shot-c", default="")
     ap.add_argument("--anchor-a", required=True)
     ap.add_argument("--anchor-b", required=True)
     ap.add_argument("--anchor-wink", required=True)
+    ap.add_argument("--accel-label", default="KAGGLE CLOUD + AI")
     ap.add_argument("--max-idx-a", type=int, default=18)
     ap.add_argument("--max-idx-b", type=int, default=18)
     ap.add_argument("--out-dir", default="outputs")
@@ -311,8 +313,8 @@ def main() -> int:
         dr = ImageDraw.Draw(im)
         dr.rectangle([12, 355, 395, 392], fill=(0, 0, 0))
         dr.text((20, 366), f"ORIGINAL SOURCE (f={i:03d}, ScreenRec+WM)", fill=(255, 190, 120))
-        dr.rectangle([596, 355, 1045, 392], fill=(0, 0, 0))
-        dr.text((604, 366), f"KAGGLE DUAL-T4 + AI REPLICA (f={i:03d}, Clean)", fill=(130, 255, 170))
+        dr.rectangle([596, 355, 1085, 392], fill=(0, 0, 0))
+        dr.text((604, 366), f"{args.accel_label} REPLICA (f={i:03d}, Clean)", fill=(130, 255, 170))
         comp_frames.append(np.asarray(im, dtype=np.uint8))
 
     compare_mp4 = out_dir / "d4a4b453_replica_compare.mp4"
@@ -330,7 +332,7 @@ def main() -> int:
     pad, top_h = 12, 42
     sheet = Image.new("RGB", (pad + 2 * (tw + pad), top_h + len(sample_idxs) * (th + 28 + pad)), (16, 16, 20))
     sdr = ImageDraw.Draw(sheet)
-    sdr.text((pad, 12), "ORIGINAL CROP (Screen Recording w/ Toast & Douyin WM)   vs   KAGGLE DUAL-T4 + AI REPLICA (Clean HD)", fill=(255, 230, 130))
+    sdr.text((pad, 12), f"ORIGINAL CROP (Screen Recording w/ Toast & Douyin WM)   vs   {args.accel_label} REPLICA (Clean HD)", fill=(255, 230, 130))
     for row_i, (fi, label) in enumerate(sample_idxs):
         y_base = top_h + row_i * (th + 28 + pad)
         sdr.text((pad, y_base), label, fill=(180, 225, 255))

@@ -139,9 +139,10 @@ def encode_mp4(frames: list[Any], mp4_path: pathlib.Path, fps: int = 12) -> None
 
 
 def make_strip(frames: list[Any], out_path: pathlib.Path, label: str) -> None:
+    import numpy as np
     from PIL import Image, ImageDraw
 
-    idxs = [0, 6, 12, 18, min(24, len(frames) - 1)]
+    idxs = [int(round(x)) for x in np.linspace(0, len(frames) - 1, 5)]
     thumbs = [frames[i].convert("RGB").resize((256, 150), Image.LANCZOS) for i in idxs]
     pad, head = 6, 26
     canvas = Image.new("RGB", (pad + 5 * (256 + pad), head + 150 + pad), (20, 20, 20))
@@ -288,6 +289,7 @@ def render_scenes_xla_or_cpu(
     width: int,
     height: int,
     steps: int,
+    num_frames: int = 25,
 ) -> tuple[str, list[dict[str, Any]]]:
     """Renders all scenes in a single process on TPU v5e (`torch_xla` BF16) reusing HLO cache,
     with automatic fallback to 96-vCPU Xeon AMX BF16 if XLA is unavailable."""
@@ -323,27 +325,28 @@ def render_scenes_xla_or_cpu(
     )
     pipe = pipe.to(device=dev, dtype=torch.bfloat16)
 
+    d_chunk = 7 if num_frames == 14 else 5
     logs: list[dict[str, Any]] = []
     for sc in scenes:
         st0 = time.time()
         sname = sc["name"]
         cond = Image.open(sc["image"]).convert("RGB").resize((width, height), Image.LANCZOS)
         gen = torch.Generator(device="cpu").manual_seed(int(sc["seed"]))
-        print(f"[{backend_name}] Rendering {sname} ({width}x{height}, steps={steps}, m={sc['motion']})...", flush=True)
+        print(f"[{backend_name}] Rendering {sname} ({width}x{height}, f={num_frames}, steps={steps}, m={sc['motion']})...", flush=True)
         try:
             with torch.no_grad():
                 frames = pipe(
                     cond,
                     width=width,
                     height=height,
-                    num_frames=25,
+                    num_frames=num_frames,
                     num_inference_steps=steps,
                     min_guidance_scale=1.0,
                     max_guidance_scale=2.2,
                     fps=12,
                     motion_bucket_id=int(sc["motion"]),
                     noise_aug_strength=float(sc["noise"]),
-                    decode_chunk_size=5,
+                    decode_chunk_size=d_chunk,
                     generator=gen,
                 ).frames[0]
             if use_xla and xm_mod is not None:
@@ -363,14 +366,14 @@ def render_scenes_xla_or_cpu(
                     cond,
                     width=width,
                     height=height,
-                    num_frames=25,
+                    num_frames=num_frames,
                     num_inference_steps=steps,
                     min_guidance_scale=1.0,
                     max_guidance_scale=2.2,
                     fps=12,
                     motion_bucket_id=int(sc["motion"]),
                     noise_aug_strength=float(sc["noise"]),
-                    decode_chunk_size=5,
+                    decode_chunk_size=d_chunk,
                     generator=gen,
                 ).frames[0]
 
@@ -409,6 +412,7 @@ def main() -> int:
     ap.add_argument("--out-dir", default="/kaggle/working")
     ap.add_argument("--width", type=int, default=768)
     ap.add_argument("--height", type=int, default=448)
+    ap.add_argument("--num-frames", type=int, default=25)
     ap.add_argument("--steps", type=int, default=18)
     ap.add_argument("--worker", action="store_true")
     ap.add_argument("--model-dir", default="")
@@ -525,7 +529,7 @@ def main() -> int:
             scene_logs.append(json.loads(pathlib.Path(lj).read_text(encoding="utf-8")))
     else:
         accel_summary, scene_logs = render_scenes_xla_or_cpu(
-            model_dir, scenes, out_dir, args.width, args.height, args.steps
+            model_dir, scenes, out_dir, args.width, args.height, args.steps, args.num_frames
         )
 
     shutil.rmtree("/tmp/hf_svd_multi", ignore_errors=True)
