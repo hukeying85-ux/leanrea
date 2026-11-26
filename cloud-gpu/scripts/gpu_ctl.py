@@ -246,11 +246,18 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
         out_sub = os.path.join(run_dir, "outputs")
         os.makedirs(out_sub, exist_ok=True)
         out = run_cmd(["kaggle", "kernels", "output", kernel_ref, "-p", out_sub, "-o"], env=kaggle_env, timeout=300)
-        mp4_count = sum(1 for fn in os.listdir(out_sub) if fn.endswith(".mp4"))
+        shared_out = "/tmp/shared_kaggle_outputs"
+        os.makedirs(shared_out, exist_ok=True)
+        for fn in os.listdir(out_sub):
+            sfull = os.path.join(out_sub, fn)
+            if os.path.isfile(sfull):
+                shutil.copy2(sfull, os.path.join(shared_out, fn))
+        mp4_count = sum(1 for fn in os.listdir(shared_out) if fn.endswith(".mp4"))
         need_mp4 = int(job.get("expected_mp4_count", 1))
         has_mp4 = mp4_count >= need_mp4
-        bundle_meta = _upload_bundle_if_requested(out_sub) if has_mp4 else None
-        if has_mp4:
+        do_upload = bool(job.get("upload_bundle", True)) and has_mp4
+        bundle_meta = _upload_bundle_if_requested(shared_out) if do_upload else None
+        if do_upload:
             os.environ["RELAY_HARVEST_DONE"] = "1"
         copied = _copy_small_outputs(out_sub, run_dir)
         payload = {

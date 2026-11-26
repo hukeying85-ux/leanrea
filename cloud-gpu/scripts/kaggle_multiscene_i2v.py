@@ -317,8 +317,7 @@ def render_scenes_xla_or_cpu(
             backend_name = f"tpu_xla_bf16 ({xdev})"
             print(f"[TPU-XLA] Verified Cloud TPU device: {xdev}", flush=True)
     except Exception as exc:
-        print(f"[TPU-XLA] Falling back to multi-core BF16 CPU ({exc})", flush=True)
-        torch.set_num_threads(max(1, os.cpu_count() or 16))
+        print(f"[TPU-XLA] Using native PyTorch CPU threads={torch.get_num_threads()} ({exc})", flush=True)
 
     pipe = StableVideoDiffusionPipeline.from_pretrained(
         model_dir, torch_dtype=torch.float16, variant="fp16", local_files_only=True
@@ -556,7 +555,10 @@ def main() -> int:
         "ai_qa": {"ok": ai_qa.get("ok"), "model": ai_qa.get("model"), "assessment": qa_parsed},
         "total_elapsed_sec": round(time.time() - t0, 2),
     }
-    (out_dir / "multiscene_ai_report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    rep_tag = scenes[0]["name"] if len(scenes) == 1 else "all"
+    (out_dir / f"multiscene_ai_report_{rep_tag}.json").write_text(
+        json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     print("MULTISCENE_REPORT=" + json.dumps(report, ensure_ascii=False), flush=True)
     return 0
 
