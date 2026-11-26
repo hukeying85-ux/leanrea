@@ -1,3 +1,17 @@
 {
-  "jobs": []
+  "jobs": [
+    {
+      "id": "probe-d4-quota",
+      "provider": "probe",
+      "mode": "probe",
+      "accelerator": "",
+      "script_path": "",
+      "script_args": [],
+      "extra_pip": [],
+      "wait": true,
+      "timeout_sec": 1200,
+      "status": "pending",
+      "created_at_utc": "2026-11-26T08:52:28Z"
+    }
+  ]
 }
