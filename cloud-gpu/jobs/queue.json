@@ -1,17 +1,28 @@
 {
   "jobs": [
     {
-      "id": "probe-d4-quota",
-      "provider": "probe",
-      "mode": "probe",
-      "accelerator": "",
-      "script_path": "",
-      "script_args": [],
+      "id": "d4-bubu-dual-t4",
+      "provider": "kaggle",
+      "mode": "run",
+      "accelerator": "NvidiaTeslaT4",
+      "kernel_slug": "gpu-job-d4-bubu-dual-t4",
+      "script_path": "cloud-gpu/scripts/kaggle_multiscene_i2v.py",
+      "script_args": [
+        "--scenes-json",
+        "[{\"name\":\"shot_a_rub\",\"image\":\"/tmp/assets/pose_a_rub_768x448.webp\",\"motion\":50,\"noise\":0.012,\"seed\":20261126},{\"name\":\"shot_b_wave\",\"image\":\"/tmp/assets/pose_b_wave_768x448.webp\",\"motion\":52,\"noise\":0.012,\"seed\":20261127}]",
+        "--width",
+        "768",
+        "--height",
+        "448",
+        "--steps",
+        "18",
+        "--out-dir",
+        "/kaggle/working"
+      ],
       "extra_pip": [],
       "wait": true,
-      "timeout_sec": 1200,
-      "status": "pending",
-      "created_at_utc": "2026-11-26T08:52:28Z"
+      "timeout_sec": 420,
+      "status": "pending"
     }
   ]
 }
