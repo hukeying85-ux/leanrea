@@ -1,14 +1,14 @@
 {
   "jobs": [
     {
-      "id": "dog-walk-dual-quota",
+      "id": "dog-walk-dual-v2",
       "provider": "kaggle",
       "mode": "run",
       "accelerator": "NvidiaTeslaT4",
       "script_path": "cloud-gpu/scripts/kaggle_svd_ai_pipeline.py",
       "script_args": [
         "--first-frame",
-        "/tmp/dog_first_544x960.png",
+        "/tmp/dog_first_544x960.webp",
         "--source-strip",
         "/tmp/source_5frames_strip.jpg",
         "--out-dir",
@@ -22,8 +22,8 @@
       "wait": true,
       "timeout_sec": 1080,
       "status": "pending",
-      "created_at_utc": "2026-11-26T02:59:08Z",
-      "kernel_slug": "dog-walk-replica-0yf"
+      "created_at_utc": "2026-11-26T03:05:01Z",
+      "kernel_slug": "dog-walk-0yf-dual-v2"
     }
   ]
 }

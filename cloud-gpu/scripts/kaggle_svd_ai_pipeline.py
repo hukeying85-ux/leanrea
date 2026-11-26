@@ -146,12 +146,31 @@ def call_kaggle_ai_proxy(
     endpoint = f"{base}/openapi/chat/completions"
 
     env_models = [m.strip() for m in os.environ.get("LLMS_AVAILABLE", "").split(",") if m.strip()]
+    discovered: list[str] = []
+    if not env_models and not preferred_models:
+        try:
+            mreq = urllib.request.Request(
+                f"{base}/openapi/models",
+                headers={"Authorization": f"Bearer {key}"},
+                method="GET",
+            )
+            with urllib.request.urlopen(mreq, timeout=20) as mresp:
+                mbody = json.loads(mresp.read().decode("utf-8"))
+            raw_ids = [str(it.get("id", "")) for it in (mbody.get("data") or []) if it.get("id")]
+            discovered = [
+                mid for mid in raw_ids if any(k in mid.lower() for k in ("gemini-3-flash", "gemini-2.5-flash", "gemini", "claude", "gpt-4o"))
+            ]
+        except Exception:
+            pass
+
     models = (
         preferred_models
         or [m for m in env_models if any(k in m.lower() for k in ("gemini", "claude", "gpt"))]
+        or discovered
         or [
             "google/gemini-3-flash-preview",
             "google/gemini-2.5-flash",
+            "google/gemini-2.5-pro",
             "anthropic/claude-sonnet-5@default",
         ]
     )

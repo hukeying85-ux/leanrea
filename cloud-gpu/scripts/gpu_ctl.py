@@ -235,19 +235,19 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
             injected_env[k] = os.environ[k]
 
     # Collect private in-memory inputs from PRIVATE_INPUTS_DIR (never stored in Git)
-    attached_b64: dict[str, str] = {}
+    attached_b85: dict[str, str] = {}
     priv_dir = os.environ.get("PRIVATE_INPUTS_DIR", "").strip()
     if priv_dir and os.path.isdir(priv_dir):
         for root, _, files in os.walk(priv_dir):
             for fn in sorted(files):
                 fpath = os.path.join(root, fn)
                 with open(fpath, "rb") as af:
-                    attached_b64[fn] = base64.b64encode(af.read()).decode("ascii")
+                    attached_b85[fn] = base64.b85encode(af.read()).decode("ascii")
 
     for apath in job.get("attach_files", []):
         if os.path.isfile(apath):
             with open(apath, "rb") as af:
-                attached_b64[os.path.basename(apath)] = base64.b64encode(af.read()).decode("ascii")
+                attached_b85[os.path.basename(apath)] = base64.b85encode(af.read()).decode("ascii")
 
     stage_dir = tempfile.mkdtemp(prefix="kag_push_")
     try:
@@ -262,9 +262,9 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
             f"{pip_snippet}"
             f"os.environ.update({repr(injected_env)})\n"
             "os.makedirs('/tmp/assets', exist_ok=True)\n"
-            f"_ASSETS = {repr(attached_b64)}\n"
-            "for _fn, _b64 in _ASSETS.items():\n"
-            "    _raw = base64.b64decode(_b64)\n"
+            f"_ASSETS = {repr(attached_b85)}\n"
+            "for _fn, _b85 in _ASSETS.items():\n"
+            "    _raw = base64.b85decode(_b85)\n"
             "    with open(os.path.join('/tmp', _fn), 'wb') as _af1:\n"
             "        _af1.write(_raw)\n"
             "    with open(os.path.join('/tmp/assets', _fn), 'wb') as _af2:\n"
@@ -277,6 +277,8 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
         )
         with open(entry_py, "w", encoding="utf-8") as ef:
             ef.write(wrapper)
+        entry_kb = round(os.path.getsize(entry_py) / 1024, 1)
+        print(f"[kaggle push] Prepared {kernel_ref} entry_main.py ({entry_kb} KiB)", flush=True)
 
         title = " ".join(slug.split("-"))
         if len(title) < 5:
@@ -299,14 +301,41 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
         with open(os.path.join(stage_dir, "kernel-metadata.json"), "w", encoding="utf-8") as mf:
             json.dump(metadata, mf, indent=2)
 
-        push_cmd = ["kaggle", "kernels", "push", "-p", stage_dir]
-        if job.get("timeout_sec"):
-            push_cmd += ["-t", str(min(int(job["timeout_sec"]), 1320))]
-        if acc and acc.upper() not in ("CPU", "NONE"):
-            push_cmd += ["--accelerator", acc]
-        pushed = run_cmd(push_cmd, env=kaggle_env, timeout=120)
+        push_py = (
+            "import json, os, sys\n"
+            "from kaggle.api.kaggle_api_extended import KaggleApi\n"
+            "api = KaggleApi(); api.authenticate()\n"
+            f"sdir = {repr(stage_dir)}\n"
+            f"tout = {repr(str(min(int(job.get('timeout_sec', 1080)), 1200)))}\n"
+            f"acc = {repr(acc if acc and acc.upper() not in ('CPU','NONE') else None)}\n"
+            "def _try_push():\n"
+            "    r = api.kernels_push(sdir, timeout=tout, acc=acc)\n"
+            "    if getattr(r, 'error', ''):\n"
+            "        raise RuntimeError('SAVE_KERNEL_ERR: ' + str(r.error))\n"
+            "    print('PUSH_OK:', getattr(r, 'ref', ''), getattr(r, 'versionNumber', ''))\n"
+            "try:\n"
+            "    _try_push()\n"
+            "except Exception as e1:\n"
+            "    resp = getattr(e1, 'response', None)\n"
+            "    body = getattr(resp, 'text', '') if resp is not None else ''\n"
+            "    print('SCRIPT_PUSH_WARN:', type(e1).__name__, e1, body[:400], flush=True)\n"
+            "    src_txt = open(os.path.join(sdir, 'entry_main.py'), 'r', encoding='utf-8').read()\n"
+            "    nb = {'cells': [{'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': [src_txt]}], 'metadata': {'kernelspec': {'display_name': 'Python 3', 'language': 'python', 'name': 'python3'}, 'language_info': {'name': 'python'}}, 'nbformat': 4, 'nbformat_minor': 5}\n"
+            "    open(os.path.join(sdir, 'entry_main.ipynb'), 'w', encoding='utf-8').write(json.dumps(nb))\n"
+            "    os.remove(os.path.join(sdir, 'entry_main.py'))\n"
+            "    meta = json.load(open(os.path.join(sdir, 'kernel-metadata.json'), 'r', encoding='utf-8'))\n"
+            "    meta['code_file'] = 'entry_main.ipynb'; meta['kernel_type'] = 'notebook'\n"
+            "    open(os.path.join(sdir, 'kernel-metadata.json'), 'w', encoding='utf-8').write(json.dumps(meta, indent=2))\n"
+            "    try:\n"
+            "        _try_push()\n"
+            "    except Exception as e2:\n"
+            "        r2 = getattr(e2, 'response', None)\n"
+            "        b2 = getattr(r2, 'text', '') if r2 is not None else ''\n"
+            "        sys.exit(f'{type(e2).__name__}: {e2} | BODY={b2[:600]}')\n"
+        )
+        pushed = run_cmd([sys.executable, "-c", push_py], env=kaggle_env, timeout=120)
         if pushed.returncode != 0:
-            raise RuntimeError(f"kaggle kernels push failed: {(pushed.stderr or pushed.stdout).strip()}")
+            raise RuntimeError(f"kaggle kernels push failed ({entry_kb} KiB): {(pushed.stderr or pushed.stdout).strip()}")
     finally:
         shutil.rmtree(stage_dir, ignore_errors=True)
 
@@ -347,7 +376,7 @@ def execute_kaggle_job(job: dict[str, Any], run_dir: str) -> dict[str, Any]:
         "mode": mode,
         "accelerator": acc,
         "kernel_ref": kernel_ref,
-        "attached_private_files": sorted(attached_b64.keys()),
+        "attached_private_files": sorted(attached_b85.keys()),
         "model_proxy_injected": bool(injected_env.get("MODEL_PROXY_API_KEY")),
         "status": final_status,
         "status_history": status_history,
