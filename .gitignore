@@ -3,5 +3,7 @@ rea_tools.json
 .DS_Store
 __pycache__/
 
-# 工作用的临时下载目录
+# 工作用的临时下载目录与本地虚拟环境
 google_drive/
+.venv/
+
