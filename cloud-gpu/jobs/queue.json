@@ -1,24 +1,17 @@
 {
   "jobs": [
     {
-      "id": "harvest-shot-a",
+      "id": "bubu-v5-multimethod-t4",
       "provider": "kaggle",
-      "mode": "output",
-      "kernel_slug": "d4-worker-shot-a",
-      "upload_bundle": false,
-      "wait": true,
-      "timeout_sec": 300,
-      "status": "pending"
-    },
-    {
-      "id": "harvest-shot-b",
-      "provider": "kaggle",
-      "mode": "output",
-      "kernel_slug": "d4-worker-shot-b",
-      "expected_mp4_count": 2,
+      "mode": "run",
+      "accelerator": "NvidiaTeslaT4",
+      "kernel_slug": "bubu-v5-multimethod-gpu",
+      "script_path": "cloud-gpu/scripts/kaggle_bubu_multimethod_v5.py",
+      "script_args": [],
+      "extra_pip": [],
       "upload_bundle": true,
       "wait": true,
-      "timeout_sec": 300,
+      "timeout_sec": 1200,
       "status": "pending"
     }
   ]
