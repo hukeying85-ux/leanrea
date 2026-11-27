@@ -1,0 +1,25 @@
+{
+  "jobs": [
+    {
+      "id": "harvest-shot-a",
+      "provider": "kaggle",
+      "mode": "output",
+      "kernel_slug": "d4-worker-shot-a",
+      "upload_bundle": false,
+      "wait": true,
+      "timeout_sec": 300,
+      "status": "pending"
+    },
+    {
+      "id": "harvest-shot-b",
+      "provider": "kaggle",
+      "mode": "output",
+      "kernel_slug": "d4-worker-shot-b",
+      "expected_mp4_count": 2,
+      "upload_bundle": true,
+      "wait": true,
+      "timeout_sec": 300,
+      "status": "pending"
+    }
+  ]
+}
