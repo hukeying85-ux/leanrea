@@ -1,17 +1,15 @@
 {
   "jobs": [
     {
-      "id": "bubu-v5-multimethod-t4",
-      "provider": "kaggle",
-      "mode": "run",
-      "accelerator": "NvidiaTeslaT4",
-      "kernel_slug": "bubu-v5-multimethod-gpu",
-      "script_path": "cloud-gpu/scripts/kaggle_bubu_multimethod_v5.py",
+      "id": "bubu-v5-probe-quota",
+      "provider": "probe",
+      "mode": "probe",
+      "accelerator": "",
+      "script_path": "",
       "script_args": [],
       "extra_pip": [],
-      "upload_bundle": true,
       "wait": true,
-      "timeout_sec": 1200,
+      "timeout_sec": 120,
       "status": "pending"
     }
   ]
